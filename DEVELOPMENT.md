@@ -142,7 +142,6 @@ src/main/resources/
 ## Best Practices
 
 ### Service Independence
-- Each service should have its own database
 - Use event-driven communication where possible
 - Implement circuit breakers for service calls
 - Use service discovery for inter-service communication
@@ -152,11 +151,17 @@ src/main/resources/
 - Externalize configurations
 - Use Spring Cloud Config for distributed configuration
 
-### Monitoring and Logging
+### Monitoring and Logging 
 - Implement health check endpoints
 - Use consistent logging format
 - Include trace IDs in logs
 - Monitor service metrics
+
+### [Future Implementation]
+- ELK Stack integration for centralized logging
+- Kibana dashboards for visualization
+- Log aggregation across services
+- Custom metrics and alerts
 
 ## Troubleshooting
 
