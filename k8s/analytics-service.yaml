@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: analytics-service
+  labels:
+    app: analytics-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: analytics-service
+  template:
+    metadata:
+      labels:
+        app: analytics-service
+    spec:
+      containers:
+        - name: analytics-service
+          image: your-docker-repo/analytics-service:latest
+          ports:
+            - containerPort: 8090
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: k8s
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: analytics-service
+spec:
+  selector:
+    app: analytics-service
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: ClusterIP
+
+
+  TFMS 
+    - service1 // https://tfms/service1/app/v1
+    - service2// / https://tfms/service2/app/v7
+  {
+  validate java version
+  validate .....
+    
+    if(microService!=alive){
+
+                             deploy all services
+  }
+  {
+    run maven command to clean and built my microService
+    redeploy my microservice
+    run my juit5 test cases
+    run service1
+    close service1
+  }
+  {
+    run maven command to clean and built my microService
+    deploy my microservice
+    run my juit5 test cases
+    run service2
+    close service2
+  }
+  }
