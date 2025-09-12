@@ -1,0 +1,13 @@
+version: "3.9"
+
+services:
+  analytics-service:
+    build:
+      context: ./analytics-service
+      dockerfile: Dockerfile
+    container_name: analytics-service
+    ports:
+      - "8090:8090"
+    environment:
+      - SPRING_PROFILES_ACTIVE=local
+    restart: unless-stopped
