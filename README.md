@@ -1,12 +1,20 @@
-# template
+# Spring Microservices Project
 
+A modular microservices architecture built with Spring Boot and Docker.
 
+## Project Overview
 
-## Getting started
+This project implements a microservices-based system using Spring Boot, with Docker containerization for easy deployment and development.
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+## Technology Stack
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+- Java 17
+- Spring Boot
+- Spring Cloud
+- Docker
+- Maven
+
+For detailed technical documentation and development guide, see [DEVELOPMENT.md](DEVELOPMENT.md)
 
 ## Add your files
 
