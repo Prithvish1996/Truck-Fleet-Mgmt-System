@@ -69,8 +69,17 @@ deploy:
       CONTAINER_ID=$(docker-compose ps -q $SERVICE_NAME)
       if [ ! -z "$CONTAINER_ID" ]; then
         echo "Container ID: $CONTAINER_ID"
+        
+        # Install curl in the container if not available
+        docker exec $CONTAINER_ID sh -c "command -v curl >/dev/null 2>&1 || (apt-get update && apt-get install -y curl)" || echo "curl installation skipped"
+        
         # Check if service is responding inside container
-        docker exec $CONTAINER_ID curl -f http://localhost:$SERVICE_PORT/actuator/health 2>/dev/null && echo "✅ Health check PASSED" || echo "❌ Health check FAILED"
+        docker exec $CONTAINER_ID curl -f http://localhost:$SERVICE_PORT/actuator/health 2>/dev/null && echo "✅ Health check PASSED" || echo "❌ Health check FAILED - trying alternative method"
+        
+        # Alternative health check using wget if curl fails
+        if ! docker exec $CONTAINER_ID curl -f http://localhost:$SERVICE_PORT/actuator/health 2>/dev/null; then
+          docker exec $CONTAINER_ID wget -q --spider http://localhost:$SERVICE_PORT/actuator/health 2>/dev/null && echo "✅ Health check PASSED (wget)" || echo "❌ Health check FAILED (both curl and wget)"
+        fi
         
         # Get detailed actuator info
         echo "=== Actuator Info ==="
@@ -78,7 +87,7 @@ deploy:
         
         # Get metrics summary
         echo "=== Service Metrics ==="
-        docker exec $CONTAINER_ID curl -s http://localhost:$SERVICE_PORT/actuator/metrics | head -50 2>/dev/null || echo "Metrics endpoint not available"
+        docker exec $CONTAINER_ID curl -s http://localhost:$SERVICE_PORT/actuator/metrics 2>/dev/null | head -20 || echo "Metrics endpoint not available"
         
         echo "=== Deployment Summary ==="
         echo "Service: $SERVICE_NAME"
