@@ -62,7 +62,7 @@ package:
 deploy:
   stage: deploy
   tags:
-    - shell
+    - TFMS-runner-1
   script:
     - docker compose down || true
     - docker compose up -d
