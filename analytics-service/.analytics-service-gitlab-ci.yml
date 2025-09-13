@@ -1,0 +1,36 @@
+# Analytics Service CI/CD - Skeleton Configuration
+
+variables:
+  SERVICE_NAME: "analytics-service"
+  SERVICE_PORT: "8090"
+
+# Build analytics service
+build_analytics:
+  stage: build
+  script:
+    - mvn clean compile -pl $SERVICE_NAME -am
+  rules:
+    - changes:
+        - "analytics-service/**/*"
+
+# Package analytics service
+package_analytics:
+  stage: package
+  script:
+    - mvn package -DskipTests -pl $SERVICE_NAME -am
+  rules:
+    - changes:
+        - "analytics-service/**/*"
+  artifacts:
+    paths:
+      - "analytics-service/target/*.jar"
+
+# Deploy analytics service
+deploy_analytics:
+  stage: deploy
+  script:
+    - echo "Deploy $SERVICE_NAME here"
+  rules:
+    - changes:
+        - "analytics-service/**/*"
+      when: manual
