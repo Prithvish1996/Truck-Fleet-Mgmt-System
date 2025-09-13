@@ -9,6 +9,7 @@ variables:
   MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version"
 
 cache:
+  key: "$CI_COMMIT_REF_SLUG"
   paths:
     - .m2/repository/
 
@@ -24,11 +25,14 @@ stages:
   - deploy
 
 # Validate project structure only
-validate:
+validate_project:
   stage: validate
   script:
-    - mvn validate
+    - echo "Validating Maven project structure..."
+    - mvn validate $MAVEN_CLI_OPTS
+    - echo "✅ Project validation completed"
   rules:
+    - if: '$CI_COMMIT_BRANCH == "TFMS_dev_v1.0.0"'
     - if: '$CI_COMMIT_BRANCH == "TFMS_v1.0.0_dev"'
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
 
@@ -36,8 +40,12 @@ check_dependencies:
   stage: validate
   script:
     - echo "Checking for shared dependency changes..."
-    - mvn dependency:tree -q
+    - mvn dependency:tree -q $MAVEN_CLI_OPTS
+    - echo "✅ Dependency check completed"
   rules:
+    - if: '$CI_COMMIT_BRANCH == "TFMS_dev_v1.0.0"'
+    - if: '$CI_COMMIT_BRANCH == "TFMS_v1.0.0_dev"'
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
     - changes:
         - "pom.xml"
         - "**/pom.xml"
