@@ -12,7 +12,7 @@ cache:
   paths:
     - .m2/repository/
 
-# Include child CI configurations 
+# Include child CI configurations
 include:
   - local: 'analytics-service/.analytics-service-gitlab-ci.yml'
 
