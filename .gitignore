@@ -8,7 +8,7 @@ target/
 .idea/
 *.iml
 .vscode/
-.settings/
+.settings/ 
 .project
 .classpath
 
