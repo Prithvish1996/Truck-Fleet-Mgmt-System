@@ -39,15 +39,14 @@ build:
 # Package application and create Docker image
 package:
   stage: package
-  image: maven:3.8-openjdk-17
+  image: docker:20.10.16
   services:
     - docker:20.10.16-dind
   variables:
     DOCKER_HOST: tcp://docker:2375
     DOCKER_TLS_CERTDIR: ""
   before_script:
-    - apt-get update
-    - apt-get install -y docker.io
+    - apk add --no-cache maven openjdk17
   script:
     - mvn package -DskipTests
     - docker build -t analytics-service:$CI_COMMIT_SHA ./analytics-service
