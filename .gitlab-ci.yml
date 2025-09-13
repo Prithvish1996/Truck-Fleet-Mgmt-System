@@ -44,7 +44,7 @@ check_dependencies:
   script:
     - echo "Checking for shared dependency changes..."
     - mvn dependency:tree -q $MAVEN_CLI_OPTS
-    - echo "✅ Dependency check completed"
+    - echo "✅ Dependency check completed"  
   rules:
     - if: '$CI_COMMIT_BRANCH == $TARGET_BRANCH_1'
     - if: '$CI_COMMIT_BRANCH == $TARGET_BRANCH_2'
