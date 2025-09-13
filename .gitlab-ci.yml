@@ -39,11 +39,12 @@ build:
 # Package application and create Docker image
 package:
   stage: package
-  image: docker:20.10.16
+  image: maven:3.8-openjdk-17  # Change image to Maven
   services:
     - docker:20.10.16-dind
   before_script:
-    - docker info
+    - apt-get update
+    - apt-get install -y docker.io
   script:
     - mvn package -DskipTests
     - docker build -t analytics-service:$CI_COMMIT_SHA ./analytics-service
