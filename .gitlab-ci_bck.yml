@@ -4,14 +4,15 @@ variables:
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
   DOCKER_DRIVER: overlay2
   SPRING_PROFILES_ACTIVE: "local"
-
 cache:
   paths:
     - .m2/repository/
+    # Remove target/ from cache as it's ignored
 
 stages:
   - validate
   - build
+  # - test
   - package
   - deploy
 
@@ -21,6 +22,7 @@ validate:
   script:
     - mvn validate
   only:
+    # - main
     - TFMS_v1.0.0_dev
     - merge_requests
 
@@ -30,6 +32,7 @@ build:
   script:
     - mvn clean compile
   only:
+    # - main
     - TFMS_v1.0.0_dev
     - merge_requests
 
@@ -55,41 +58,21 @@ package:
     paths:
       - analytics-service/target/*.jar
 
-# Modified deploy stage for portability
+# Deploy to development environment
 deploy:
   stage: deploy
-  image: docker:20.10.16
-  services:
-    - docker:20.10.16-dind
-  variables:
-    DOCKER_HOST: tcp://docker:2375
-    DOCKER_TLS_CERTDIR: ""
+  tags:
+    - TFMS-runner-1
   script:
     - docker compose down || true
-    - docker compose up -d --build
-    - echo "Application deployed! Access at http://localhost:8090"
-    - sleep 15
+    - docker compose up -d
+    - echo "Application deployment initiated. Check http://localhost:8090"
+    - docker compose logs analytics-service
+    - sleep 10
     - docker compose ps
+    - docker update --restart=unless-stopped analytics-service
   environment:
-    name: review/$CI_COMMIT_REF_SLUG
+    name: development
     url: http://localhost:8090
-    on_stop: stop_deploy
   only:
-    - merge_requests
     - TFMS_v1.0.0_dev
-  when: manual
-
-stop_deploy:
-  stage: deploy
-  image: docker:20.10.16
-  services:
-    - docker:20.10.16-dind
-  variables:
-    DOCKER_HOST: tcp://docker:2375
-    DOCKER_TLS_CERTDIR: ""
-  script:
-    - docker compose down
-  environment:
-    name: review/$CI_COMMIT_REF_SLUG
-    action: stop
-  when: manual
