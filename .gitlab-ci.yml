@@ -73,11 +73,18 @@ deploy:
   image: docker:20.10.16
   services:
     - docker:20.10.16-dind
+  variables:
+    # Prevent container cleanup
+    DOCKER_HOST: tcp://docker:2375
+    DOCKER_DRIVER: overlay2
+    DOCKER_TLS_CERTDIR: ""
   before_script:
     - docker info
   script:
     - docker-compose up -d
     - echo "Application deployment initiated. Check http://localhost:8090"
+    # Keep container running even after job completion
+    - docker update --restart=unless-stopped analytics-service
   environment:
     name: development
     url: http://localhost:8090
