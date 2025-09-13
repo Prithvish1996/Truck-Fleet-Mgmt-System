@@ -7,7 +7,7 @@ variables:
 cache:
   paths:
     - .m2/repository/
-    - target/
+    # Remove target/ from cache as it's ignored
 
 stages:
   - validate
@@ -36,19 +36,6 @@ build:
     - TFMS_v1.0.0_dev
     - merge_requests
 
-# Run all tests
-# test:
-#   stage: test
-#   script:
-#     - mvn test
-#   artifacts:
-#     reports:
-#       junit:
-#         - "**/target/surefire-reports/TEST-*.xml"
-#   only:
-#     - main
-#     - merge_requests
-
 # Package application and create Docker image
 package:
   stage: package
@@ -62,30 +49,24 @@ package:
     - docker build -t analytics-service:$CI_COMMIT_SHA ./analytics-service
     - docker tag analytics-service:$CI_COMMIT_SHA analytics-service:latest
   only:
-    - main
+    - TFMS_v1.0.0_dev
   artifacts:
+    expire_in: 1 week
     paths:
       - analytics-service/target/*.jar
 
 # Deploy to development environment
 deploy:
   stage: deploy
-  image: docker:20.10.16
-  services:
-    - docker:20.10.16-dind
-  variables:
-    DOCKER_HOST: tcp://docker:2375
-    DOCKER_DRIVER: overlay2
-    DOCKER_TLS_CERTDIR: ""
-  before_script:
-    - docker info
+  tags:
+    - shell
   script:
-    - docker-compose down || true  # Clean previous deployment
-    - docker-compose up -d
+    - docker compose down || true
+    - docker compose up -d
     - echo "Application deployment initiated. Check http://localhost:8090"
-    - docker-compose logs analytics-service  # Show initial logs
-    - sleep 10  # Wait for startup
-    - docker-compose ps  # Show container status
+    - docker compose logs analytics-service
+    - sleep 10
+    - docker compose ps
     - docker update --restart=unless-stopped analytics-service
   environment:
     name: development

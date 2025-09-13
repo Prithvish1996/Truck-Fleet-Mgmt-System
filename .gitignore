@@ -1,0 +1,19 @@
+# Maven
+target/
+**/target/
+.m2/
+*.jar
+
+# IDE files
+.idea/
+*.iml
+.vscode/
+.settings/
+.project
+.classpath
+
+# Logs
+*.log
+
+# Docker
+.env
