@@ -5,7 +5,7 @@ variables:
   SERVICE_PORT: "8090"
 
 # Build analytics service
-build_analytics:
+build:
   stage: build
   script:
     - mvn clean compile -pl $SERVICE_NAME -am
@@ -13,11 +13,14 @@ build_analytics:
     - changes:
         - "analytics-service/**/*"
 
-# Package analytics service
-package_analytics:
+# Package analytics service  
+package:
   stage: package
   script:
     - mvn package -DskipTests -pl $SERVICE_NAME -am
+    # Build Docker image
+    - cd analytics-service
+    - docker build -t $SERVICE_NAME:latest .
   rules:
     - changes:
         - "analytics-service/**/*"
@@ -25,11 +28,52 @@ package_analytics:
     paths:
       - "analytics-service/target/*.jar"
 
-# Deploy analytics service
-deploy_analytics:
+# Deploy analytics service with Docker Compose
+deploy:
   stage: deploy
   script:
-    - echo "Deploy $SERVICE_NAME here"
+    - echo "Deploying $SERVICE_NAME with Docker Compose"
+    # Use root docker-compose but only start this service
+    - docker-compose up -d $SERVICE_NAME
+    - echo "Waiting for service to start..."
+    - sleep 20
+    
+    # Get container info and logs
+    - echo "=== Container Status ==="
+    - docker-compose ps $SERVICE_NAME
+    
+    # Show recent logs
+    - echo "=== Recent Service Logs ==="
+    - docker-compose logs --tail=20 $SERVICE_NAME
+    
+    # Health check using container network
+    - echo "=== Health Check Report ==="
+    - |
+      CONTAINER_ID=$(docker-compose ps -q $SERVICE_NAME)
+      if [ ! -z "$CONTAINER_ID" ]; then
+        echo "Container ID: $CONTAINER_ID"
+        # Check if service is responding inside container
+        docker exec $CONTAINER_ID curl -f http://localhost:$SERVICE_PORT/actuator/health 2>/dev/null && echo "✅ Health check PASSED" || echo "❌ Health check FAILED"
+        
+        # Get detailed actuator info
+        echo "=== Actuator Info ==="
+        docker exec $CONTAINER_ID curl -s http://localhost:$SERVICE_PORT/actuator/info 2>/dev/null || echo "Info endpoint not available"
+        
+        # Get metrics summary
+        echo "=== Service Metrics ==="
+        docker exec $CONTAINER_ID curl -s http://localhost:$SERVICE_PORT/actuator/metrics | head -50 2>/dev/null || echo "Metrics endpoint not available"
+        
+        echo "=== Deployment Summary ==="
+        echo "Service: $SERVICE_NAME"
+        echo "Port: $SERVICE_PORT"
+        echo "Status: $(docker inspect --format='{{.State.Status}}' $CONTAINER_ID)"
+        echo "Started: $(docker inspect --format='{{.State.StartedAt}}' $CONTAINER_ID)"
+      else
+        echo "❌ Container not found - deployment failed"
+        exit 1
+      fi
+    
+    - echo "✅ $SERVICE_NAME deployment completed"
   rules:
     - changes:
         - "analytics-service/**/*"
