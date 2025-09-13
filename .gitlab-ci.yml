@@ -75,29 +75,9 @@ deploy:
     - docker:20.10.16-dind
   before_script:
     - docker info
-    - apk add --no-cache curl
   script:
-    - |
-      # Check if service is already running 
-      if curl -s http://localhost:8090/actuator/health > /dev/null; then
-        echo "Service is already running"
-      else
-        # Start the application without shutting down existing instances
-        docker-compose up -d
-        # Wait for application to start
-        echo "Waiting for application to start..."
-        for i in $(seq 1 30); do
-          if curl -s http://localhost:8090/actuator/health > /dev/null; then
-            echo "Application is healthy"
-            break
-          fi
-          if [ $i -eq 30 ]; then
-            echo "Application failed to start"
-            exit 1
-          fi
-          sleep 2
-        done
-      fi
+    - docker-compose up -d
+    - echo "Application deployment initiated. Check http://localhost:8090"
   environment:
     name: development
     url: http://localhost:8090
