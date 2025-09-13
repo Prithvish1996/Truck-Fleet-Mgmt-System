@@ -16,11 +16,20 @@ build:
 # Package analytics service  
 package:
   stage: package
+  image: docker:20.10.16
+  services:
+    - docker:20.10.16-dind
+  variables:
+    DOCKER_HOST: tcp://docker:2375
+    DOCKER_TLS_CERTDIR: ""
+  before_script:
+    - apk add --no-cache maven openjdk17
   script:
     - mvn package -DskipTests -pl $SERVICE_NAME -am
     # Build Docker image
     - cd analytics-service
     - docker build -t $SERVICE_NAME:latest .
+    - echo "✅ Successfully built $SERVICE_NAME Docker image"
   rules:
     - changes:
         - "analytics-service/**/*"
@@ -31,6 +40,14 @@ package:
 # Deploy analytics service with Docker Compose
 deploy:
   stage: deploy
+  image: docker:20.10.16
+  services:
+    - docker:20.10.16-dind
+  variables:
+    DOCKER_HOST: tcp://docker:2375
+    DOCKER_TLS_CERTDIR: ""
+  before_script:
+    - apk add --no-cache docker-compose curl
   script:
     - echo "Deploying $SERVICE_NAME with Docker Compose"
     # Use root docker-compose but only start this service
