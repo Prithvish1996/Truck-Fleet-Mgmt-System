@@ -1,1 +1,85 @@
-# This is the file needed to configure for CICD deployement
+image: maven:3.8-openjdk-17
+
+variables:
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+  DOCKER_DRIVER: overlay2
+
+cache:
+  paths:
+    - .m2/repository/
+    - target/
+
+stages:
+  - validate
+  - build
+  - test
+  - package
+  - deploy
+
+# Validate project structure and dependencies
+validate:
+  stage: validate
+  script:
+    - mvn validate
+  only:
+    # - main
+    - TFMS_v1.0.0_dev
+    - merge_requests
+
+# Build all modules
+build:
+  stage: build
+  script:
+    - mvn clean compile
+  only:
+    # - main
+    - TFMS_v1.0.0_dev
+    - merge_requests
+
+# Run all tests
+# test:
+#   stage: test
+#   script:
+#     - mvn test
+#   artifacts:
+#     reports:
+#       junit:
+#         - "**/target/surefire-reports/TEST-*.xml"
+#   only:
+#     - main
+#     - merge_requests
+
+# Package application and create Docker image
+package:
+  stage: package
+  image: docker:20.10.16
+  services:
+    - docker:20.10.16-dind
+  before_script:
+    - docker info
+  script:
+    - mvn package -DskipTests
+    - docker build -t analytics-service:$CI_COMMIT_SHA ./analytics-service
+    - docker tag analytics-service:$CI_COMMIT_SHA analytics-service:latest
+  only:
+    - main
+  artifacts:
+    paths:
+      - analytics-service/target/*.jar
+
+# Deploy to development environment
+deploy:
+  stage: deploy
+  image: docker:20.10.16
+  services:
+    - docker:20.10.16-dind
+  before_script:
+    - docker info
+  script:
+    - docker-compose down || true
+    - docker-compose up -d
+  environment:
+    name: development
+  only:
+    # - main
+    - TFMS_v1.0.0_dev
