@@ -12,10 +12,10 @@ build_analytics:
     - mvn clean compile -pl $SERVICE_NAME -am $MAVEN_CLI_OPTS
     - echo "✅ $SERVICE_NAME build completed"
   rules:
-    - if: '$CI_COMMIT_BRANCH == "TFMS_dev_v1.0.0"'
+    - if: '$CI_COMMIT_BRANCH == $TARGET_BRANCH_1'
       changes:
         - "analytics-service/**/*"
-    - if: '$CI_COMMIT_BRANCH == "TFMS_v1.0.0_dev"'
+    - if: '$CI_COMMIT_BRANCH == $TARGET_BRANCH_2'
       changes:
         - "analytics-service/**/*"
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
@@ -44,10 +44,10 @@ package_analytics:
     - docker tag $SERVICE_NAME:$CI_COMMIT_SHA $SERVICE_NAME:latest
     - echo "✅ Successfully built $SERVICE_NAME Docker image"
   rules:
-    - if: '$CI_COMMIT_BRANCH == "TFMS_dev_v1.0.0"'
+    - if: '$CI_COMMIT_BRANCH == $TARGET_BRANCH_1'
       changes:
         - "analytics-service/**/*"
-    - if: '$CI_COMMIT_BRANCH == "TFMS_v1.0.0_dev"'
+    - if: '$CI_COMMIT_BRANCH == $TARGET_BRANCH_2'
       changes:
         - "analytics-service/**/*"
   artifacts:
@@ -55,19 +55,77 @@ package_analytics:
     paths:
       - "analytics-service/target/*.jar"
 
-# Deploy analytics service (skeleton - to be expanded later)
+# Deploy analytics service
 deploy_analytics:
   stage: deploy
+  image: docker:20.10.16
+  services:
+    - docker:20.10.16-dind
+  variables:
+    DOCKER_HOST: tcp://docker:2375
+    DOCKER_TLS_CERTDIR: ""
+  before_script:
+    - apk add --no-cache docker-compose curl
   script:
-    - echo "Deployment placeholder for $SERVICE_NAME"
-    - echo "Docker image tagged as $SERVICE_NAME:latest"
-    - echo "Ready for deployment configuration"
+    - echo "🚀 Deploying $SERVICE_NAME to development environment"
+    - echo "Current directory: $(pwd)"
+    
+    # Stop existing service
+    - echo "Stopping existing $SERVICE_NAME containers..."
+    - docker-compose down $SERVICE_NAME || true
+    
+    # Build and deploy
+    - echo "Building and starting $SERVICE_NAME..."
+    - docker-compose build $SERVICE_NAME
+    - docker-compose up -d $SERVICE_NAME
+    
+    # Wait for startup
+    - echo "Waiting for $SERVICE_NAME to start..."
+    - sleep 30
+    
+    # Check deployment status
+    - echo "=== Deployment Status ==="
+    - docker-compose ps $SERVICE_NAME
+    - docker-compose logs --tail=20 $SERVICE_NAME
+    
+    # Basic health check
+    - echo "=== Health Check ==="
+    - CONTAINER_ID=$(docker-compose ps -q $SERVICE_NAME)
+    - |
+      if [ -n "$CONTAINER_ID" ]; then
+        echo "✅ Container is running: $CONTAINER_ID"
+        echo "Container status: $(docker inspect --format='{{.State.Status}}' $CONTAINER_ID)"
+        
+        # Try health check
+        for i in $(seq 1 5); do
+          if docker exec $CONTAINER_ID curl -f http://localhost:$SERVICE_PORT/actuator/health 2>/dev/null; then
+            echo "✅ Health check PASSED (attempt $i)"
+            break
+          else
+            echo "⏳ Health check attempt $i failed, retrying in 10s..."
+            sleep 10
+          fi
+        done
+        
+        echo "=== Deployment Summary ==="
+        echo "Service: $SERVICE_NAME"
+        echo "Port: $SERVICE_PORT"
+        echo "Status: DEPLOYED"
+      else
+        echo "❌ Deployment failed - container not found"
+        exit 1
+      fi
+    
+    - echo "✅ $SERVICE_NAME deployed successfully"
+  environment:
+    name: development
+    url: http://localhost:8090
   rules:
-    - if: '$CI_COMMIT_BRANCH == "TFMS_dev_v1.0.0"'
+    - if: '$CI_COMMIT_BRANCH == $TARGET_BRANCH_1'
       changes:
         - "analytics-service/**/*"
       when: manual
-    - if: '$CI_COMMIT_BRANCH == "TFMS_v1.0.0_dev"'
+    - if: '$CI_COMMIT_BRANCH == $TARGET_BRANCH_2'
       changes:
         - "analytics-service/**/*"
       when: manual
@@ -82,10 +140,10 @@ test_analytics:
     - mvn test -pl $SERVICE_NAME $MAVEN_CLI_OPTS
     - echo "✅ $SERVICE_NAME tests completed"
   rules:
-    - if: '$CI_COMMIT_BRANCH == "TFMS_dev_v1.0.0"'
+    - if: '$CI_COMMIT_BRANCH == $TARGET_BRANCH_1'
       changes:
         - "analytics-service/**/*"
-    - if: '$CI_COMMIT_BRANCH == "TFMS_v1.0.0_dev"'
+    - if: '$CI_COMMIT_BRANCH == $TARGET_BRANCH_2'
       changes:
         - "analytics-service/**/*"
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'

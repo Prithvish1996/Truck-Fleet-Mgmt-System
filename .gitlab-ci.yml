@@ -7,6 +7,9 @@ variables:
   SPRING_PROFILES_ACTIVE: "local"
   # Add common defaults that children can override
   MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version"
+  # Branch configuration
+  TARGET_BRANCH_1: "TFMS_dev_v1.0.0"
+  TARGET_BRANCH_2: "TFMS_v1.0.0_dev"
 
 cache:
   key: "$CI_COMMIT_REF_SLUG"
@@ -32,8 +35,8 @@ validate_project:
     - mvn validate $MAVEN_CLI_OPTS
     - echo "✅ Project validation completed"
   rules:
-    - if: '$CI_COMMIT_BRANCH == "TFMS_dev_v1.0.0"'
-    - if: '$CI_COMMIT_BRANCH == "TFMS_v1.0.0_dev"'
+    - if: '$CI_COMMIT_BRANCH == $TARGET_BRANCH_1'
+    - if: '$CI_COMMIT_BRANCH == $TARGET_BRANCH_2'
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
 
 check_dependencies:
@@ -43,8 +46,8 @@ check_dependencies:
     - mvn dependency:tree -q $MAVEN_CLI_OPTS
     - echo "✅ Dependency check completed"
   rules:
-    - if: '$CI_COMMIT_BRANCH == "TFMS_dev_v1.0.0"'
-    - if: '$CI_COMMIT_BRANCH == "TFMS_v1.0.0_dev"'
+    - if: '$CI_COMMIT_BRANCH == $TARGET_BRANCH_1'
+    - if: '$CI_COMMIT_BRANCH == $TARGET_BRANCH_2'
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
     - changes:
         - "pom.xml"
