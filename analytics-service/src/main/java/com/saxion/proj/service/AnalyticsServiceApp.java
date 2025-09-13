@@ -9,6 +9,9 @@ public class AnalyticsServiceApp {
 
     public static void main(String[] args) {
         SpringApplication.run(AnalyticsServiceApp.class, args);
+        int x=0;
+        x++;
+        System.out.println("Value of x: " + x);
     }
 
 }
