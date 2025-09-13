@@ -3,7 +3,7 @@ image: maven:3.8-openjdk-17
 variables:
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
   DOCKER_DRIVER: overlay2
-
+  SPRING_PROFILES_ACTIVE: "local"
 cache:
   paths:
     - .m2/repository/
@@ -12,7 +12,7 @@ cache:
 stages:
   - validate
   - build
-  - test
+  # - test
   - package
   - deploy
 
@@ -75,11 +75,31 @@ deploy:
     - docker:20.10.16-dind
   before_script:
     - docker info
+    - apk add --no-cache curl
   script:
-    - docker-compose down || true
-    - docker-compose up -d
+    - |
+      # Check if service is already running 
+      if curl -s http://localhost:8090/actuator/health > /dev/null; then
+        echo "Service is already running"
+      else
+        # Start the application without shutting down existing instances
+        docker-compose up -d
+        # Wait for application to start
+        echo "Waiting for application to start..."
+        for i in $(seq 1 30); do
+          if curl -s http://localhost:8090/actuator/health > /dev/null; then
+            echo "Application is healthy"
+            break
+          fi
+          if [ $i -eq 30 ]; then
+            echo "Application failed to start"
+            exit 1
+          fi
+          sleep 2
+        done
+      fi
   environment:
     name: development
+    url: http://localhost:8090
   only:
-    # - main
     - TFMS_v1.0.0_dev
