@@ -1,4 +1,4 @@
-# Parent CI/CD Configuration - defines common stages and includes child pipelines
+# Parent CI/CD Configurations
 image: maven:3.8-openjdk-17
 
 variables:

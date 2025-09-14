@@ -26,7 +26,6 @@ package_analytics:
   services:
     - docker:20.10.16-dind
   variables:
-    DOCKER_HOST: $DOCKER_HOST
     DOCKER_TLS_CERTDIR: $DOCKER_TLS_CERTDIR
   before_script:
     - apk add --no-cache maven openjdk17
@@ -52,7 +51,6 @@ deploy_analytics:
   services:
     - docker:20.10.16-dind
   variables:
-    DOCKER_HOST: $DOCKER_HOST
     DOCKER_TLS_CERTDIR: $DOCKER_TLS_CERTDIR
   before_script:
     - apk add --no-cache docker-compose curl

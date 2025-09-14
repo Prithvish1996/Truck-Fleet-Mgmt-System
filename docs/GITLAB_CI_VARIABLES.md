@@ -10,7 +10,7 @@
 ### Docker Configuration  
 # DOCKER_DRIVER: "overlay2"
 # DOCKER_IMAGE: "docker:20.10.16"
-# DOCKER_HOST: "tcp://docker:2375"
+# DOCKER_HOST: "tcp://docker:2375"  # Inherited globally - DO NOT override in child jobs
 # DOCKER_TLS_CERTDIR: ""
 
 ### Environment Configuration
@@ -94,3 +94,11 @@
 4. **Reusability**: YAML anchors reduce repetition
 5. **Scalability**: Easy to add new services with same pattern
 6. **Documentation**: Clear understanding of available variables
+
+## Common Issues and Solutions
+
+### DOCKER_HOST Variable Circular Reference
+**Problem**: Setting `DOCKER_HOST: $DOCKER_HOST` in job variables creates a circular reference
+**Error**: `dial tcp: lookup $DOCKER_HOST: no such host`
+**Solution**: Remove `DOCKER_HOST` from job-level variables - it's inherited from the global variables
+**Fixed in**: All service CI templates as of latest update
