@@ -2,23 +2,47 @@
 image: maven:3.8-openjdk-17
 
 variables:
+  # Maven Configuration
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
-  DOCKER_DRIVER: overlay2
-  SPRING_PROFILES_ACTIVE: "local"
-  # Add common defaults that children can override
   MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version"
-  # Branch configuration
+  
+  # Docker Configuration
+  DOCKER_DRIVER: overlay2
+  DOCKER_IMAGE: "docker:20.10.16"
+  DOCKER_HOST: "tcp://docker:2375"
+  DOCKER_TLS_CERTDIR: ""
+  
+  # Environment Configuration
+  SPRING_PROFILES_ACTIVE: "local"
+  
+  # Branch Configuration
   TARGET_BRANCH_1: "TFMS_dev_v1.0.0"
   TARGET_BRANCH_2: "TFMS_v1.0.0_dev"
+  
+  # Common Paths
+  DEPLOYMENT_PATH: "deployment/docker"
+  DOCKER_COMPOSE_FILE: "docker-compose.yml"
+  
+  # Project Structure Paths
+  PLATFORM_SERVICES_PATH: "platform"
+  MICROSERVICES_PATH: "microservices"
+  SHARED_MODULES_PATH: "shared"
+  
+  # Analytics Service Specific
+  ANALYTICS_SERVICE_PATH: "platform/monitoring/analytics-service"
+  ANALYTICS_SERVICE_NAME: "analytics-service"
+  ANALYTICS_SERVICE_PORT: "8090"
 
 cache:
   key: "$CI_COMMIT_REF_SLUG"
   paths:
     - .m2/repository/
 
-# Include child CI configurations
+# Include child CI configurations - updated path for analytics service
 include:
-  - local: 'analytics-service/.analytics-service-gitlab-ci.yml'
+  - local: 'platform/monitoring/analytics-service/.analytics-service-gitlab-ci.yml'
+    rules:
+      - exists: ['platform/monitoring/analytics-service/.analytics-service-gitlab-ci.yml']
 
 stages:
   - validate
@@ -33,7 +57,7 @@ validate_project:
   script:
     - echo "Validating Maven project structure..."
     - mvn validate $MAVEN_CLI_OPTS
-    - echo "✅ Project validation completed"
+    - echo "Project validation completed"
   rules:
     - if: '$CI_COMMIT_BRANCH == $TARGET_BRANCH_1'
     - if: '$CI_COMMIT_BRANCH == $TARGET_BRANCH_2'
@@ -44,7 +68,7 @@ check_dependencies:
   script:
     - echo "Checking for shared dependency changes..."
     - mvn dependency:tree -q $MAVEN_CLI_OPTS
-    - echo "✅ Dependency check completed"  
+    - echo "Dependency check completed"  
   rules:
     - if: '$CI_COMMIT_BRANCH == $TARGET_BRANCH_1'
     - if: '$CI_COMMIT_BRANCH == $TARGET_BRANCH_2'

@@ -20,43 +20,25 @@
         <relativePath/>
     </parent>
 
-
     <properties>
         <java.version>17</java.version>
     </properties>
 
 
-    <!-- Modules -->
     <modules>
-        <!-- CORE SERVICES -->
-        <module>gateway-service</module>
-        <module>driver-service</module>
-        <module>order-service</module>
-        <module>assignment-service</module>
-        <module>tracking-service</module>
-        <module>billing-service</module>
-        <module>truck-service</module>
-        <!-- SCALABILITY / INFRASTRUCTURE SERVICES -->
-        <module>auth-service</module>
-        <module>discovery-service</module>
-        <module>log-monitoring</module>
 
-        <!-- ADDITIONAL SERVICES -->
-        <module>chat-service</module>
-        <module>call-service</module>
-        <module>notification-service</module>
-        <module>payment-service</module>
-        <module>analytics-service</module>
-        <module>document-mgmt-service</module>
-        <module>maintenance-service</module>
-        <module>customer-service</module>
+        <!-- PLATFORM SERVICES -->
+        <module>platform/monitoring/analytics-service</module>
+
+        <!-- SHARED MODULES -->
+        <module>shared/utils/common-utilities</module>
+
     </modules>
 
-    <!-- Build plugins -->
+   
     <build>
         <pluginManagement>
             <plugins>
-                <!-- Spring Boot Maven plugin -->
                 <plugin>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>
@@ -70,7 +52,6 @@
                     </executions>
                 </plugin>
 
-                <!-- Maven Compiler plugin -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
