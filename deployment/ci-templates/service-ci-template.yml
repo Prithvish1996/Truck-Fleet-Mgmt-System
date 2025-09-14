@@ -1,6 +1,8 @@
+#Author : neel.k.meheta@quest.com 
+
 # Service CI Template
 
-# Service Configuration - CUSTOMIZE THESE
+# Service Configuration 
 variables:
   # Update these for your service
   SERVICE_PATH: "platform/monitoring/your-service"  # Path to your service
@@ -49,24 +51,33 @@ package_your_service:
   stage: package
   image: $DOCKER_IMAGE
   services:
-    - docker:20.10.16-dind
+    - name: docker:20.10.16-dind
+      alias: docker
+      command: ["--tls=false"]
   variables:
-    DOCKER_TLS_CERTDIR: $DOCKER_TLS_CERTDIR
+    DOCKER_HOST: tcp://docker:2375
+    DOCKER_TLS_CERTDIR: ""
+    DOCKER_DRIVER: overlay2
   before_script:
     - apk add --no-cache maven openjdk17
     - echo "Preparing to package $SERVICE_NAME..."
     - echo "Waiting for Docker daemon to start..."
-    - timeout=30
+    - echo "Docker configuration - Host: $DOCKER_HOST, TLS: $DOCKER_TLS_CERTDIR"
+    - timeout=60
     - while ! docker info >/dev/null 2>&1; do
         if [ $timeout -eq 0 ]; then
-          echo "Docker daemon failed to start within 30 seconds";
+          echo "Docker daemon failed to start within 60 seconds";
+          echo "Debug info:";
+          docker version || echo "Docker version command failed";
+          docker info || echo "Docker info command failed";
           exit 1;
         fi;
         echo "Waiting for Docker daemon... ($timeout seconds remaining)";
-        sleep 2;
-        timeout=$((timeout-2));
+        sleep 3;
+        timeout=$((timeout-3));
       done
     - echo "Docker daemon is ready"
+    - docker info
   script:
     - echo "Packaging $SERVICE_NAME with Maven..."
     - mvn package -DskipTests -pl $SERVICE_PATH -am $MAVEN_CLI_OPTS
@@ -86,23 +97,32 @@ deploy_your_service:
   stage: deploy
   image: $DOCKER_IMAGE
   services:
-    - docker:20.10.16-dind
+    - name: docker:20.10.16-dind
+      alias: docker
+      command: ["--tls=false"]
   variables:
-    DOCKER_TLS_CERTDIR: $DOCKER_TLS_CERTDIR
+    DOCKER_HOST: tcp://docker:2375
+    DOCKER_TLS_CERTDIR: ""
+    DOCKER_DRIVER: overlay2
   before_script:
     - apk add --no-cache docker-compose curl
     - echo "Waiting for Docker daemon to start..."
-    - timeout=30
+    - echo "Docker configuration - Host: $DOCKER_HOST, TLS: $DOCKER_TLS_CERTDIR"
+    - timeout=60
     - while ! docker info >/dev/null 2>&1; do
         if [ $timeout -eq 0 ]; then
-          echo "Docker daemon failed to start within 30 seconds";
+          echo "Docker daemon failed to start within 60 seconds";
+          echo "Debug info:";
+          docker version || echo "Docker version command failed";
+          docker info || echo "Docker info command failed";
           exit 1;
         fi;
         echo "Waiting for Docker daemon... ($timeout seconds remaining)";
-        sleep 2;
-        timeout=$((timeout-2));
+        sleep 3;
+        timeout=$((timeout-3));
       done
     - echo "Docker daemon is ready"
+    - docker info
   script:
     - echo "🚀 Deploying $SERVICE_NAME to development environment"
     - cd $DEPLOYMENT_PATH

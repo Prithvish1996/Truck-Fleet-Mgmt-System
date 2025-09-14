@@ -106,5 +106,10 @@
 ### Docker Daemon Not Ready
 **Problem**: Docker daemon not available when trying to build images
 **Error**: `Cannot connect to the Docker daemon at tcp://docker:2375. Is the docker daemon running?`
-**Solution**: Added Docker daemon readiness check with timeout in before_script
+**Solutions Applied**:
+- Disabled TLS by setting `DOCKER_TLS_CERTDIR: ""` and using `--tls=false` command
+- Explicitly set `DOCKER_HOST: tcp://docker:2375` at job level
+- Added service alias for better connectivity
+- Extended timeout to 60 seconds with better debugging
+- Added Docker info output for troubleshooting
 **Fixed in**: All service CI templates as of latest update
