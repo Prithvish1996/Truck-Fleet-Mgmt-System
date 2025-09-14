@@ -102,3 +102,9 @@
 **Error**: `dial tcp: lookup $DOCKER_HOST: no such host`
 **Solution**: Remove `DOCKER_HOST` from job-level variables - it's inherited from the global variables
 **Fixed in**: All service CI templates as of latest update
+
+### Docker Daemon Not Ready
+**Problem**: Docker daemon not available when trying to build images
+**Error**: `Cannot connect to the Docker daemon at tcp://docker:2375. Is the docker daemon running?`
+**Solution**: Added Docker daemon readiness check with timeout in before_script
+**Fixed in**: All service CI templates as of latest update

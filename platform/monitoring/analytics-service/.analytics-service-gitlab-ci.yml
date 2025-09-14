@@ -30,6 +30,18 @@ package_analytics:
   before_script:
     - apk add --no-cache maven openjdk17
     - echo "Preparing to package $ANALYTICS_SERVICE_NAME..."
+    - echo "Waiting for Docker daemon to start..."
+    - timeout=30
+    - while ! docker info >/dev/null 2>&1; do
+        if [ $timeout -eq 0 ]; then
+          echo "Docker daemon failed to start within 30 seconds";
+          exit 1;
+        fi;
+        echo "Waiting for Docker daemon... ($timeout seconds remaining)";
+        sleep 2;
+        timeout=$((timeout-2));
+      done
+    - echo "Docker daemon is ready"
   script:
     - echo "Packaging $ANALYTICS_SERVICE_NAME with Maven..."
     - mvn package -DskipTests -pl $ANALYTICS_SERVICE_PATH -am $MAVEN_CLI_OPTS
@@ -54,6 +66,18 @@ deploy_analytics:
     DOCKER_TLS_CERTDIR: $DOCKER_TLS_CERTDIR
   before_script:
     - apk add --no-cache docker-compose curl
+    - echo "Waiting for Docker daemon to start..."
+    - timeout=30
+    - while ! docker info >/dev/null 2>&1; do
+        if [ $timeout -eq 0 ]; then
+          echo "Docker daemon failed to start within 30 seconds";
+          exit 1;
+        fi;
+        echo "Waiting for Docker daemon... ($timeout seconds remaining)";
+        sleep 2;
+        timeout=$((timeout-2));
+      done
+    - echo "Docker daemon is ready"
   script:
     - echo "🚀 Deploying $ANALYTICS_SERVICE_NAME to development environment"
     - echo "Current directory $(pwd)"
