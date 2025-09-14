@@ -61,23 +61,7 @@ package_your_service:
   before_script:
     - apk add --no-cache maven openjdk17
     - echo "Preparing to package $SERVICE_NAME..."
-    - echo "Waiting for Docker daemon to start..."
-    - echo "Docker configuration - Host: $DOCKER_HOST, TLS: $DOCKER_TLS_CERTDIR"
-    - timeout=60
-    - |
-      while ! docker info >/dev/null 2>&1; do
-        if [ $timeout -eq 0 ]; then
-          echo "Docker daemon failed to start within 60 seconds"
-          echo "Debug info:"
-          docker version || echo "Docker version command failed"
-          docker info || echo "Docker info command failed"
-          exit 1
-        fi
-        echo "Waiting for Docker daemon... ($timeout seconds remaining)"
-        sleep 3
-        timeout=$((timeout-3))
-      done
-    - echo "Docker daemon is ready"
+    - sleep 10
     - docker info
   script:
     - echo "Packaging $SERVICE_NAME with Maven..."
@@ -108,22 +92,7 @@ deploy_your_service:
   before_script:
     - apk add --no-cache docker-compose curl
     - echo "Waiting for Docker daemon to start..."
-    - echo "Docker configuration - Host: $DOCKER_HOST, TLS: $DOCKER_TLS_CERTDIR"
-    - timeout=60
-    - |
-      while ! docker info >/dev/null 2>&1; do
-        if [ $timeout -eq 0 ]; then
-          echo "Docker daemon failed to start within 60 seconds"
-          echo "Debug info:"
-          docker version || echo "Docker version command failed"
-          docker info || echo "Docker info command failed"
-          exit 1
-        fi
-        echo "Waiting for Docker daemon... ($timeout seconds remaining)"
-        sleep 3
-        timeout=$((timeout-3))
-      done
-    - echo "Docker daemon is ready"
+    - sleep 10
     - docker info
   script:
     - echo "🚀 Deploying $SERVICE_NAME to development environment"
