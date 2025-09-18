@@ -1,5 +1,9 @@
+# Docker image configuration - using stable Maven with OpenJDK 21
+# Alternative images if needed:
+# - maven:3-openjdk-21 (latest Maven 3)
+# - openjdk:21-jdk (base Java + manual Maven install)
 default:
-  image: maven:3.9.4-openjdk-21-slim
+  image: maven:3.9-openjdk-21
   before_script:
     - apt-get update -qq && apt-get install -y -qq curl procps
 
