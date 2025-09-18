@@ -1,79 +1,137 @@
-# Parent CI/CD Configurations
-image: maven:3.8-openjdk-17
-
 variables:
-  # Maven Configuration
-  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+  TARGET_BRANCH: "TFMS_v1.0.0_dev"
+  MAVEN_OPTS: "-Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository"
   MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version"
-  
-  # Docker Configuration
-  DOCKER_DRIVER: overlay2
-  DOCKER_IMAGE: "docker:20.10.16"
-  DOCKER_HOST: "tcp://docker:2375"
-  DOCKER_TLS_CERTDIR: ""
-  
-  # Environment Configuration
-  SPRING_PROFILES_ACTIVE: "local"
-  
-  # Branch Configuration
-  TARGET_BRANCH_1: "TFMS_dev_v1.0.0"
-  TARGET_BRANCH_2: "TFMS_v1.0.0_dev"
-  
-  # Common Paths
-  DEPLOYMENT_PATH: "deployment/docker"
-  DOCKER_COMPOSE_FILE: "docker-compose.yml"
-  
-  # Project Structure Paths
-  PLATFORM_SERVICES_PATH: "platform"
-  MICROSERVICES_PATH: "microservices"
-  SHARED_MODULES_PATH: "shared"
-  
-  # Analytics Service Specific
-  ANALYTICS_SERVICE_PATH: "platform/monitoring/analytics-service"
-  ANALYTICS_SERVICE_NAME: "analytics-service"
-  ANALYTICS_SERVICE_PORT: "8090"
 
 cache:
-  key: "$CI_COMMIT_REF_SLUG"
   paths:
     - .m2/repository/
 
-# Include child CI configurations - updated path for analytics service
-include:
-  - local: 'platform/monitoring/analytics-service/.analytics-service-gitlab-ci.yml'
-    rules:
-      - exists: ['platform/monitoring/analytics-service/.analytics-service-gitlab-ci.yml']
-
 stages:
-  - validate
   - build
-  - package
   - test
+  - package
   - deploy
+  - health-check
 
-# Validate project structure only
-validate_project:
-  stage: validate
+include:
+  # Core modules
+  - local: 'modules/core-modules/customer-service/.gitlab-ci.yml'
+    rules:
+      - if: '$CI_COMMIT_BRANCH == $TARGET_BRANCH'
+  - local: 'modules/core-modules/driver-service/.gitlab-ci.yml'
+    rules:
+      - if: '$CI_COMMIT_BRANCH == $TARGET_BRANCH'
+  - local: 'modules/core-modules/order-service/.gitlab-ci.yml'
+    rules:
+      - if: '$CI_COMMIT_BRANCH == $TARGET_BRANCH'
+  - local: 'modules/core-modules/tracking-service/.gitlab-ci.yml'
+    rules:
+      - if: '$CI_COMMIT_BRANCH == $TARGET_BRANCH'
+  - local: 'modules/core-modules/truck-service/.gitlab-ci.yml'  
+    rules:
+      - if: '$CI_COMMIT_BRANCH == $TARGET_BRANCH'
+  
+  # Business modules
+  - local: 'modules/business-modules/assignment-module/.gitlab-ci.yml'
+    rules:
+      - if: '$CI_COMMIT_BRANCH == $TARGET_BRANCH'
+  - local: 'modules/business-modules/document-management-service/.gitlab-ci.yml'
+    rules:
+      - if: '$CI_COMMIT_BRANCH == $TARGET_BRANCH'
+  
+  # Communication modules
+  - local: 'modules/communication-modules/notification-service/.gitlab-ci.yml'
+    rules:
+      - if: '$CI_COMMIT_BRANCH == $TARGET_BRANCH'
+  
+  # Auth modules
+  - local: 'modules/auth-modules/auth-service/.gitlab-ci.yml'
+    rules:
+      - if: '$CI_COMMIT_BRANCH == $TARGET_BRANCH'
+  
+  # Shared modules
+  - local: 'modules/shared-modules/common-utils/.gitlab-ci.yml'
+    rules:
+      - if: '$CI_COMMIT_BRANCH == $TARGET_BRANCH'
+
+# Main package job for the entire application
+main_package:
+  stage: package
   script:
-    - echo "Validating Maven project structure..."
-    - mvn validate $MAVEN_CLI_OPTS
-    - echo "Project validation completed"
+    - echo "Packaging entire application..."
+    - ./mvnw clean package -DskipTests $MAVEN_CLI_OPTS
+  artifacts:
+    paths:
+      - "tfms-starter/target/tfms-*.jar"
+    expire_in: 1 week
   rules:
-    - if: '$CI_COMMIT_BRANCH == $TARGET_BRANCH_1'
-    - if: '$CI_COMMIT_BRANCH == $TARGET_BRANCH_2'
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_COMMIT_BRANCH == $TARGET_BRANCH'
 
-check_dependencies:
-  stage: validate
+# Deploy and start application
+deploy_app:
+  stage: deploy
   script:
-    - echo "Checking for shared dependency changes..."
-    - mvn dependency:tree -q $MAVEN_CLI_OPTS
-    - echo "Dependency check completed"  
+    - echo "Deploying TFMS application..."
+    - echo "Killing any existing Java processes..."
+    - pkill -f java || echo "No existing Java processes found"
+    - sleep 3
+    - echo "Starting TFMS application in background..."
+    - nohup java -jar tfms-starter/target/tfms-*.jar --spring.profiles.active=development > app.log 2>&1 &
+    - echo $! > app.pid
+    - echo "Application started with PID: $(cat app.pid)"
+    - echo "Waiting for application to start..."
+    - sleep 30
+  artifacts:
+    paths:
+      - app.pid
+      - app.log
+    expire_in: 1 day
   rules:
-    - if: '$CI_COMMIT_BRANCH == $TARGET_BRANCH_1'
-    - if: '$CI_COMMIT_BRANCH == $TARGET_BRANCH_2'
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-    - changes:
-        - "pom.xml"
-        - "**/pom.xml"
+    - if: '$CI_COMMIT_BRANCH == $TARGET_BRANCH'
 
+# Health check for the deployed application
+health_check:
+  stage: health-check
+  script:
+    - echo "Performing health checks on TFMS application..."
+    - echo "Application PID: $(cat app.pid 2>/dev/null || echo 'PID file not found')"
+    - echo "Checking if application is running..."
+    - ps aux | grep java | grep -v grep || echo "No Java processes found"
+    - echo "Testing health endpoint..."
+    - for i in {1..10}; do
+    -   echo "Health check attempt $i/10..."
+    -   if curl -f http://localhost:8080/actuator/health; then
+    -     echo "✅ Health check passed!"
+    -     break
+    -   else
+    -     echo "❌ Health check failed, retrying in 10 seconds..."
+    -     sleep 10
+    -   fi
+    - done
+    - echo "Testing main application endpoint..."
+    - curl -f http://localhost:8080/api/customers || echo "⚠️  Customer endpoint not ready yet"
+    - echo "Application logs (last 20 lines):"
+    - tail -20 app.log || echo "No log file found"
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $TARGET_BRANCH'
+
+# Manual job to stop the application
+stop_app:
+  stage: health-check
+  script:
+    - echo "Stopping TFMS application..."
+    - if [ -f app.pid ]; then
+    -   PID=$(cat app.pid)
+    -   echo "Killing application with PID: $PID"
+    -   kill $PID || echo "Process may have already stopped"
+    -   sleep 5
+    - fi
+    - echo "Killing any remaining Java processes..."
+    - pkill -f java || echo "No Java processes found"
+    - echo "Application stopped successfully"
+    - rm -f app.pid
+  when: manual
+  allow_failure: true
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $TARGET_BRANCH'

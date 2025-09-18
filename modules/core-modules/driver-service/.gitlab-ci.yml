@@ -1,0 +1,40 @@
+variables:
+  SERVICE_NAME: "driver-service"
+  SERVICE_PATH: "modules/core-modules/driver-service"
+
+driver_build:
+  stage: build
+  script:
+    - echo "Building $SERVICE_NAME..."
+    - cd $SERVICE_PATH
+    - mvn clean compile $MAVEN_CLI_OPTS
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $TARGET_BRANCH'
+      changes:
+        - "modules/core-modules/driver-service/**/*"
+
+driver_test:
+  stage: test
+  script:
+    - echo "Testing $SERVICE_NAME..."
+    - cd $SERVICE_PATH
+    - mvn test $MAVEN_CLI_OPTS
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $TARGET_BRANCH'
+      changes:
+        - "modules/core-modules/driver-service/**/*"
+
+driver_package:
+  stage: package
+  script:
+    - echo "Packaging $SERVICE_NAME..."
+    - cd $SERVICE_PATH
+    - mvn clean package -DskipTests $MAVEN_CLI_OPTS
+  artifacts:
+    paths:
+      - $SERVICE_PATH/target/*.jar
+    expire_in: 1 week
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $TARGET_BRANCH'
+      changes:
+        - "modules/core-modules/driver-service/**/*"

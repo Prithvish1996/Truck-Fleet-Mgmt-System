@@ -7,8 +7,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.saxion.proj</groupId>
-    <artifactId>truck-management-monolith</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <artifactId>truck-fleet-management-structure</artifactId>
+    <version>1.0.0-dev</version>
     <name>Truck Fleet Management System</name>
     <description>Modular Monolithic Truck Fleet Management System</description>
     <packaging>pom</packaging>  <!-- Parent for modular monolith -->

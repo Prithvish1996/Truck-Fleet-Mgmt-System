@@ -90,7 +90,7 @@ Create `modules/core-modules/inventory-service/pom.xml`:
 
     <parent>
         <groupId>com.saxion.proj</groupId>
-        <artifactId>truck-management-monolith</artifactId>
+        <artifactId>truck-fleet-management-structure</artifactId>
         <version>1.0.0-SNAPSHOT</version>
         <relativePath>../../../pom.xml</relativePath>
     </parent>
