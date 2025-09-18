@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+                             https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.saxion.proj</groupId>
+        <artifactId>truck-management-monolith</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>tfms-starter</artifactId>
+    <name>TFMS Starter Application</name>
+    <description>Main Spring Boot application for TFMS</description>
+    <packaging>jar</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- Shared Module Dependencies -->
+        <dependency>
+            <groupId>com.saxion.proj</groupId>
+            <artifactId>common-utils</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        
+        <!-- Core Module Dependencies -->
+        <dependency>
+            <groupId>com.saxion.proj</groupId>
+            <artifactId>customer-service</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.saxion.proj</groupId>
+            <artifactId>driver-service</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.saxion.proj</groupId>
+            <artifactId>order-service</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.saxion.proj</groupId>
+            <artifactId>truck-service</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.saxion.proj</groupId>
+            <artifactId>tracking-service</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        
+        <!-- Business Module Dependencies -->
+        <dependency>
+            <groupId>com.saxion.proj</groupId>
+            <artifactId>assignment-module</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.saxion.proj</groupId>
+            <artifactId>document-management-service</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        
+        <!-- Communication Module Dependencies -->
+        <dependency>
+            <groupId>com.saxion.proj</groupId>
+            <artifactId>notification-service</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        
+        <!-- Platform Module Dependencies -->
+        <dependency>
+            <groupId>com.saxion.proj</groupId>
+            <artifactId>analytics-service</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- Database -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <!-- Exclude this plugin from m2e lifecycle mapping -->
+                <plugin>
+                    <groupId>org.eclipse.m2e</groupId>
+                    <artifactId>lifecycle-mapping</artifactId>
+                    <version>1.0.0</version>
+                    <configuration>
+                        <lifecycleMappingMetadata>
+                            <pluginExecutions>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>org.apache.maven.plugins</groupId>
+                                        <artifactId>maven-dependency-plugin</artifactId>
+                                        <versionRange>[3.8.1,]</versionRange>
+                                        <goals>
+                                            <goal>unpack-dependencies</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore/>
+                                    </action>
+                                </pluginExecution>
+                            </pluginExecutions>
+                        </lifecycleMappingMetadata>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>unpack-all-modules</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>unpack-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <!-- Auto-discover and unpack ALL project modules -->
+                            <includeGroupIds>com.saxion.proj</includeGroupIds>
+                            <excludeArtifactIds>tfms-starter</excludeArtifactIds>
+                            <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                            <excludes>META-INF/**,**/*Application.class</excludes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <includeSystemScope>true</includeSystemScope>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

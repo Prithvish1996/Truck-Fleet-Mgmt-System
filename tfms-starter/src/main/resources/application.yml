@@ -1,0 +1,69 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: truck-fleet-management-system
+  profiles:
+    active: development
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    com.saxion.proj: DEBUG
+    org.springframework: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+---
+spring:
+  config:
+    activate:
+      on-profile: development
+
+server:
+  port: 8080
+
+logging:
+  level:
+    root: INFO
+    com.saxion.proj.tfms: DEBUG
+
+---
+spring:
+  config:
+    activate:
+      on-profile: production
+
+server:
+  port: 8080
+
+logging:
+  level:
+    root: WARN
+    com.saxion.proj.tfms: INFO
+  file:
+    name: /app/logs/tfms.log
+
+---
+spring:
+  config:
+    activate:
+      on-profile: docker
+
+server:
+  port: 8080
+
+logging:
+  level:
+    root: INFO
+    com.saxion.proj.tfms: DEBUG
