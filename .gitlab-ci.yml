@@ -77,9 +77,11 @@ deploy_app:
     - pkill -f java || echo "No existing Java processes found"
     - sleep 3
     - echo "Starting TFMS application in background..."
-    - nohup java -jar tfms-starter/target/tfms-*.jar --spring.profiles.active=development > app.log 2>&1 &
-    - echo $! > app.pid
-    - echo "Application started with PID: $(cat app.pid)"
+    - |
+      nohup java -jar tfms-starter/target/tfms-*.jar \
+        --spring.profiles.active=development > app.log 2>&1 &
+      echo $! > app.pid
+    - echo "Application started with PID:$(cat app.pid)"
     - echo "Waiting for application to start..."
     - sleep 30
   artifacts:
