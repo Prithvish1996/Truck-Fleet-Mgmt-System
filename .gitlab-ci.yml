@@ -95,22 +95,25 @@ health_check:
   stage: health-check
   script:
     - echo "Performing health checks on TFMS application..."
-    - echo "Application PID: $(cat app.pid 2>/dev/null || echo 'PID file not found')"
+    - echo "Application PID:$(cat app.pid 2>/dev/null || echo 'PID file not found')"
     - echo "Checking if application is running..."
     - ps aux | grep java | grep -v grep || echo "No Java processes found"
-    - echo "Testing health endpoint..."
-    - for i in {1..10}; do
-    -   echo "Health check attempt $i/10..."
-    -   if curl -f http://localhost:8080/actuator/health; then
-    -     echo "✅ Health check passed!"
-    -     break
-    -   else
-    -     echo "❌ Health check failed, retrying in 10 seconds..."
-    -     sleep 10
-    -   fi
-    - done
+    - echo "Testing health endpoint with retry logic..."
+    - |
+      for i in {1..10}; do
+        echo "Health check attempt $i/10..."
+        if curl -f -s http://localhost:8080/actuator/health | grep -q '"status":"UP"'; then
+          echo "✅ Health check passed!"
+          exit 0
+        else
+          echo "❌ Health check failed, retrying in 10 seconds..."
+          sleep 10
+        fi
+      done
+      echo "💥 Health check failed after 10 attempts"
+      exit 1
     - echo "Testing main application endpoint..."
-    - curl -f http://localhost:8080/api/customers || echo "⚠️  Customer endpoint not ready yet"
+    - curl -f http://localhost:8080/api/customers || echo "⚠️ Customer endpoint not ready yet"
     - echo "Application logs (last 20 lines):"
     - tail -20 app.log || echo "No log file found"
   rules:
@@ -121,12 +124,13 @@ stop_app:
   stage: health-check
   script:
     - echo "Stopping TFMS application..."
-    - if [ -f app.pid ]; then
-    -   PID=$(cat app.pid)
-    -   echo "Killing application with PID: $PID"
-    -   kill $PID || echo "Process may have already stopped"
-    -   sleep 5
-    - fi
+    - |
+      if [ -f app.pid ]; then
+        PID=$(cat app.pid)
+        echo "Killing application with PID: $PID"
+        kill $PID || echo "Process may have already stopped"
+        sleep 5
+      fi
     - echo "Killing any remaining Java processes..."
     - pkill -f java || echo "No Java processes found"
     - echo "Application stopped successfully"
