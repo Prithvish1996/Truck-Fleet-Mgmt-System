@@ -15,45 +15,46 @@ stages:
   - health-check
 
 include:
-  # Core modules
+  # Core modules - Always include these files when on target branch
   - local: 'modules/core-modules/customer-service/.gitlab-ci.yml'
-    rules:
-      - if: '$CI_COMMIT_BRANCH == $TARGET_BRANCH'
   - local: 'modules/core-modules/driver-service/.gitlab-ci.yml'
-    rules:
-      - if: '$CI_COMMIT_BRANCH == $TARGET_BRANCH'
   - local: 'modules/core-modules/order-service/.gitlab-ci.yml'
-    rules:
-      - if: '$CI_COMMIT_BRANCH == $TARGET_BRANCH'
   - local: 'modules/core-modules/tracking-service/.gitlab-ci.yml'
-    rules:
-      - if: '$CI_COMMIT_BRANCH == $TARGET_BRANCH'
-  - local: 'modules/core-modules/truck-service/.gitlab-ci.yml'  
-    rules:
-      - if: '$CI_COMMIT_BRANCH == $TARGET_BRANCH'
+  - local: 'modules/core-modules/truck-service/.gitlab-ci.yml'
   
   # Business modules
   - local: 'modules/business-modules/assignment-module/.gitlab-ci.yml'
-    rules:
-      - if: '$CI_COMMIT_BRANCH == $TARGET_BRANCH'
   - local: 'modules/business-modules/document-management-service/.gitlab-ci.yml'
-    rules:
-      - if: '$CI_COMMIT_BRANCH == $TARGET_BRANCH'
   
   # Communication modules
   - local: 'modules/communication-modules/notification-service/.gitlab-ci.yml'
-    rules:
-      - if: '$CI_COMMIT_BRANCH == $TARGET_BRANCH'
   
   # Auth modules
   - local: 'modules/auth-modules/auth-service/.gitlab-ci.yml'
-    rules:
-      - if: '$CI_COMMIT_BRANCH == $TARGET_BRANCH'
   
   # Shared modules
   - local: 'modules/shared-modules/common-utils/.gitlab-ci.yml'
-    rules:
-      - if: '$CI_COMMIT_BRANCH == $TARGET_BRANCH'
+  
+  # Platform modules
+  - local: 'modules/platform-modules/log-modules/monitoring-module/analytics-service/.gitlab-ci.yml'
+
+# Main build job for the entire application
+main_build:
+  stage: build
+  script:
+    - echo "Building entire TFMS application..."
+    - ./mvnw clean compile $MAVEN_CLI_OPTS
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $TARGET_BRANCH'
+
+# Main test job for the entire application
+main_test:
+  stage: test
+  script:
+    - echo "Running tests for entire TFMS application..."
+    - ./mvnw test $MAVEN_CLI_OPTS
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $TARGET_BRANCH'
 
 # Main package job for the entire application
 main_package:
