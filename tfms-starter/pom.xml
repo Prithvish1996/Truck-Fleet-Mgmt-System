@@ -30,61 +30,10 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
-        <!-- Shared Module Dependencies -->
+        <!-- Auth Module Dependencies -->
         <dependency>
             <groupId>com.saxion.proj</groupId>
-            <artifactId>common-utils</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        
-        <!-- Core Module Dependencies -->
-        <dependency>
-            <groupId>com.saxion.proj</groupId>
-            <artifactId>customer-service</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        
-        <dependency>
-            <groupId>com.saxion.proj</groupId>
-            <artifactId>driver-service</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        
-        <dependency>
-            <groupId>com.saxion.proj</groupId>
-            <artifactId>order-service</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        
-        <dependency>
-            <groupId>com.saxion.proj</groupId>
-            <artifactId>truck-service</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        
-        <dependency>
-            <groupId>com.saxion.proj</groupId>
-            <artifactId>tracking-service</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        
-        <!-- Business Module Dependencies -->
-        <dependency>
-            <groupId>com.saxion.proj</groupId>
-            <artifactId>assignment-module</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        
-        <dependency>
-            <groupId>com.saxion.proj</groupId>
-            <artifactId>document-management-service</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        
-        <!-- Communication Module Dependencies -->
-        <dependency>
-            <groupId>com.saxion.proj</groupId>
-            <artifactId>notification-service</artifactId>
+            <artifactId>auth-service</artifactId>
             <version>${project.version}</version>
         </dependency>
         

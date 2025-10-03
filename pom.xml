@@ -28,28 +28,8 @@
 
     <!-- Modules for Modular Monolithic Architecture -->
     <modules>
-        <!-- Shared Modules (Built First) -->
-        <module>modules/shared-modules/common-utils</module>
-        
-        <!-- Core Business Modules -->
-        <module>modules/core-modules/customer-service</module>
-        <module>modules/core-modules/driver-service</module>
-        <module>modules/core-modules/order-service</module>
-        <module>modules/core-modules/truck-service</module>
-        <module>modules/core-modules/tracking-service</module>
-        
-        <!-- Business Logic Modules -->
-        <module>modules/business-modules/assignment-module</module>
-        <module>modules/business-modules/document-management-service</module>
-        
-        <!-- Communication Modules -->
-        <module>modules/communication-modules/notification-service</module>
-        
         <!-- Authentication & Security Modules -->
         <module>modules/auth-modules/auth-service</module>
-        
-        <!-- Platform & Monitoring Modules -->
-        <module>modules/platform-modules/log-modules/monitoring-module/analytics-service</module>
         
         <!-- Main Application (Built Last) -->
         <module>tfms-starter</module>
