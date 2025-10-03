@@ -1,2 +1,0 @@
-#User Role Docker compose Linux Debian
-                sudo usermod -aG docker $USER
