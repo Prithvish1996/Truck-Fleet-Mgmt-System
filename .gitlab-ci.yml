@@ -1,0 +1,47 @@
+stages:
+  - build
+  - test
+  - deploy
+
+variables:
+  MAVEN_OPTS: "-Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository"
+  MAVEN_CLI_OPTS: "-B -V -ntp" # batch mode, verbose, no transfer progress
+
+before_script:
+  - apt-get update && apt-get install -y maven openjdk-17 git
+  - echo "Using Java version:" && java -version
+  - echo "Using Maven version:" && mvn -version
+
+# -----------------------------
+# Build all Java modules (skip frontend)
+# -----------------------------
+build-modules:
+  stage: build
+  script:
+    - echo "Finding all Maven modules..."
+    - MODULES=$(find . -name "pom.xml" -not -path "./frontend/*" -not -path "./node_modules/*")
+    - echo "Found modules:"
+    - echo "$MODULES"
+    - |
+      for pom in $MODULES; do
+        dir=$(dirname "$pom")
+        echo "Building module in $dir"
+        mvn $MAVEN_CLI_OPTS -f "$pom" clean install
+      done
+  artifacts:
+    paths:
+      - target/*.jar
+    expire_in: 1 hour
+
+# -----------------------------
+# Unit tests (currently skipped)
+# -----------------------------
+unit-tests:
+  stage: test
+  rules:
+    - when: never
+  script:
+    - echo "Unit tests are skipped for now"
+
+# -----------------------------
+# Deploy job (currentl
