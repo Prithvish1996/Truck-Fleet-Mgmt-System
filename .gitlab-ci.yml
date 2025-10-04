@@ -1,3 +1,5 @@
+image: maven:3.9.5-eclipse-temurin-17
+
 stages:
   - build
   - test
@@ -5,16 +7,12 @@ stages:
 
 variables:
   MAVEN_OPTS: "-Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository"
-  MAVEN_CLI_OPTS: "-B -V -ntp" # batch mode, verbose, no transfer progress
+  MAVEN_CLI_OPTS: "-B -V -ntp"
 
 before_script:
-  - apt-get update && apt-get install -y maven openjdk-17 git
   - echo "Using Java version:" && java -version
   - echo "Using Maven version:" && mvn -version
 
-# -----------------------------
-# Build all Java modules (skip frontend)
-# -----------------------------
 build-modules:
   stage: build
   script:
@@ -33,9 +31,6 @@ build-modules:
       - target/*.jar
     expire_in: 1 hour
 
-# -----------------------------
-# Unit tests (currently skipped)
-# -----------------------------
 unit-tests:
   stage: test
   rules:
@@ -43,5 +38,10 @@ unit-tests:
   script:
     - echo "Unit tests are skipped for now"
 
-# -----------------------------
-# Deploy job (currentl
+deploy-job:       # This job runs in the deploy stage.
+  stage: deploy
+  rules:
+    - when: never
+  environment: production
+  script:
+    - echo "Deploy is skipped for now"
