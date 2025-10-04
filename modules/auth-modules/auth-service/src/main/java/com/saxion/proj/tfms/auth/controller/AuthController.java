@@ -13,7 +13,7 @@ public class AuthController {
     private Map<String, String> activeSessions = new HashMap<>();
 
     public AuthController() {
-        // Initialize with sample users
+        // Initialize with sample / dummy static users
         Map<String, Object> admin = new HashMap<>();
         admin.put("username", "admin");
         admin.put("email", "admin@tfms.com");
