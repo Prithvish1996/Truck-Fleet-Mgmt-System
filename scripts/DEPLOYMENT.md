@@ -1,15 +1,15 @@
-# 🚀 TFMS Deployment Guide
+# TFMS Deployment Guide
 
 **Truck Fleet Management System - Complete Deployment & Testing Guide**
 
-## 📋 Quick Start
+## Quick Start
 
 ### Prerequisites
-- ✅ Java 17+ installed
-- ✅ Node.js 16+ installed (optional - will be auto-downloaded in production)
-- ✅ Maven (optional - uses included wrapper)
+- Java 17+ installed
+- Node.js 16+ installed (optional - will be auto-downloaded in production)
+- Maven (optional - uses included wrapper)
 
-### 🚀 One-Command Start
+### One-Command Start
 
 **Development Mode (Separate Frontend & Backend):**
 ```bash
@@ -23,7 +23,7 @@
 
 ---
 
-## 🏗️ Architecture Overview
+## Architecture Overview
 
 ### Development Mode
 ```
@@ -53,7 +53,7 @@
 
 ---
 
-## 🔧 Development Mode
+## Development Mode
 
 ### How to Start
 ```bash
@@ -70,27 +70,27 @@ npm start
 ```
 
 ### What Happens
-- ✅ **Backend** starts on port 8080 with development profile
-- ✅ **Frontend** starts on port 3000 with hot reloading
-- ✅ **CORS** enabled for cross-origin requests
-- ✅ **H2 Console** available for database inspection
-- ✅ **Fast startup** - no frontend build overhead
+- **Backend** starts on port 8080 with development profile
+- **Frontend** starts on port 3000 with hot reloading
+- **CORS** enabled for cross-origin requests
+- **H2 Console** available for database inspection
+- **Fast startup** - no frontend build overhead
 
 ### Access URLs
-- 🔗 **Backend API**: http://localhost:8080/api
-- 📱 **Frontend**: http://localhost:3000  
-- 🗄️ **H2 Console**: http://localhost:8080/h2-console
-- 📊 **Health Check**: http://localhost:8080/api/test/health
+- **Backend API**: http://localhost:8080/api
+- **Frontend**: http://localhost:3000  
+- **H2 Console**: http://localhost:8080/h2-console
+- **Health Check**: http://localhost:8080/api/test/health
 
 ### Development Features
-- 🔄 **Hot Reload**: Frontend changes reload instantly
-- 🐛 **Debug Mode**: Detailed logging enabled
-- 💾 **H2 Database**: In-memory database with web console
-- 🌐 **CORS**: Cross-origin requests allowed from localhost:3000
+- **Hot Reload**: Frontend changes reload instantly
+- **Debug Mode**: Detailed logging enabled
+- **H2 Database**: In-memory database with web console
+- **CORS**: Cross-origin requests allowed from localhost:3000
 
 ---
 
-## 🏭 Production Mode
+## Production Mode
 
 ### How to Start
 ```bash
@@ -104,29 +104,29 @@ java -jar target/tfms-1.0.0-dev.jar --spring.profiles.active=prod
 ```
 
 ### What Happens
-1. 📦 **Downloads** Node.js and npm automatically
-2. 🏗️ **Installs** frontend dependencies (`npm install`)
-3. ⚡ **Builds** React production bundle (`npm run build`)
-4. 📁 **Copies** React files to Spring Boot `/static` folder
-5. 📦 **Creates** single executable JAR file
-6. 🚀 **Starts** integrated application
+1. **Downloads** Node.js and npm automatically
+2. **Installs** frontend dependencies (`npm install`)
+3. **Builds** React production bundle (`npm run build`)
+4. **Copies** React files to Spring Boot `/static` folder
+5. **Creates** single executable JAR file
+6. **Starts** integrated application
 
 ### Access URLs
-- 🌐 **Application**: http://localhost:8080 (Frontend + Backend)
-- 🔗 **API Endpoints**: http://localhost:8080/api
-- 📊 **Health Check**: http://localhost:8080/api/test/health
-- 🔍 **Actuator**: http://localhost:8080/actuator
+- **Application**: http://localhost:8080 (Frontend + Backend)
+- **API Endpoints**: http://localhost:8080/api
+- **Health Check**: http://localhost:8080/api/test/health
+- **Actuator**: http://localhost:8080/actuator
 
 ### Production Features
-- 📦 **Single JAR**: Easy deployment artifact
-- ⚡ **Optimized**: Minified React build
-- 🚫 **No CORS**: Same origin, no cross-origin issues
-- 📝 **Production Logging**: Structured logs to file
-- 🔒 **Security**: H2 console disabled
+- **Single JAR**: Easy deployment artifact
+- **Optimized**: Minified React build
+- **No CORS**: Same origin, no cross-origin issues
+- **Production Logging**: Structured logs to file
+- **Security**: H2 console disabled
 
 ---
 
-## 🧪 Testing & Validation
+## Testing & Validation
 
 ### Quick Health Check
 ```bash
@@ -134,10 +134,10 @@ java -jar target/tfms-1.0.0-dev.jar --spring.profiles.active=prod
 ```
 
 **This script automatically:**
-- 🔍 Detects running mode (dev/prod)
-- ✅ Tests all service endpoints
-- 📊 Shows service status
-- 🔗 Lists available URLs
+- Detects running mode (dev/prod)
+- Tests all service endpoints
+- Shows service status
+- Lists available URLs
 
 ### Manual Testing
 
@@ -175,7 +175,7 @@ curl http://localhost:8080/api/notifications/health
 
 ---
 
-## 🛑 Stopping Services
+## Stopping Services
 
 ### Stop All Services
 ```bash
@@ -194,27 +194,27 @@ pkill -f "tfms-1.0.0-dev.jar"
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 TFMS/
-├── scripts/                    # 🚀 Deployment scripts
+├── scripts/                    # Deployment scripts
 │   ├── start-dev.sh           # Development mode starter
 │   ├── start-prod.sh          # Production mode starter  
 │   ├── test-services.sh       # Health check script
 │   └── stop-all.sh            # Stop all services
-├── tfms-starter/              # 🏗️ Main Spring Boot app
+├── tfms-starter/              # Main Spring Boot app
 │   ├── src/main/resources/
 │   │   ├── application.properties        # Base config
 │   │   ├── application-dev.properties    # Dev config
 │   │   └── application-prod.properties   # Prod config
 │   └── target/
 │       └── tfms-1.0.0-dev.jar          # Production JAR
-├── frontend/                  # 📱 React application
+├── frontend/                  # React application
 │   ├── src/
 │   ├── build/                 # Production build output
 │   └── package.json
-└── modules/                   # 🧩 Business modules
+└── modules/                   # Business modules
     ├── core-modules/
     ├── business-modules/
     └── shared-modules/
@@ -222,7 +222,7 @@ TFMS/
 
 ---
 
-## 🔧 Configuration Profiles
+## Configuration Profiles
 
 ### application.properties (Base)
 ```properties
@@ -248,7 +248,7 @@ logging.file.name=/app/logs/tfms.log
 
 ---
 
-## 🚨 Troubleshooting
+## Troubleshooting
 
 ### Port Already in Use
 ```bash
@@ -290,7 +290,7 @@ rm -rf target/
 
 ---
 
-## 🎯 Common Use Cases
+## Common Use Cases
 
 ### 1. **Developer Workflow**
 ```bash
@@ -331,23 +331,23 @@ rm -rf target/
 
 ---
 
-## 📊 Performance Notes
+## Performance Notes
 
 ### Development Mode
-- ⚡ **Fast startup**: ~10-15 seconds
-- 🔄 **Hot reload**: Instant frontend changes
-- 💾 **Memory usage**: ~200-300MB
-- 🐛 **Debug info**: Full logging enabled
+- **Fast startup**: ~10-15 seconds
+- **Hot reload**: Instant frontend changes
+- **Memory usage**: ~200-300MB
+- **Debug info**: Full logging enabled
 
 ### Production Mode  
-- 🏗️ **Build time**: ~30-60 seconds (first time)
-- 🚀 **Startup**: ~15-20 seconds
-- 💾 **Memory usage**: ~150-250MB
-- ⚡ **Performance**: Optimized React bundle
+- **Build time**: ~30-60 seconds (first time)
+- **Startup**: ~15-20 seconds
+- **Memory usage**: ~150-250MB
+- **Performance**: Optimized React bundle
 
 ---
 
-## 📝 Logs Location
+## Logs Location
 
 ### Development Mode
 - **Backend**: `tfms-starter/backend.log`
@@ -359,37 +359,37 @@ rm -rf target/
 
 ---
 
-## 🎉 Success Indicators
+## Success Indicators
 
 **Development Mode Started Successfully:**
 ```
-✅ Backend started successfully!
-✅ Frontend started successfully!
-🔗 Backend API: http://localhost:8080/api
-📱 Frontend:   http://localhost:3000
+Backend started successfully!
+Frontend started successfully!
+Backend API: http://localhost:8080/api
+Frontend:   http://localhost:3000
 ```
 
 **Production Mode Started Successfully:**
 ```
-✅ Production build completed successfully!
-✅ Production application started successfully!
-✅ Backend API working
-✅ Frontend React app working
-🌐 Application URL: http://localhost:8080
+Production build completed successfully!
+Production application started successfully!
+Backend API working
+Frontend React app working
+Application URL: http://localhost:8080
 ```
 
 ---
 
-## 🤝 Support
+## Support
 
 If you encounter issues:
 
-1. 🧪 **Run health check**: `./scripts/test-services.sh`
-2. 🛑 **Stop all services**: `./scripts/stop-all.sh`  
-3. 🔄 **Try again**: `./scripts/start-dev.sh` or `./scripts/start-prod.sh`
-4. 📝 **Check logs** in the locations mentioned above
-5. 🔍 **Check this guide** for troubleshooting steps
+1. **Run health check**: `./scripts/test-services.sh`
+2. **Stop all services**: `./scripts/stop-all.sh`  
+3. **Try again**: `./scripts/start-dev.sh` or `./scripts/start-prod.sh`
+4. **Check logs** in the locations mentioned above
+5. **Check this guide** for troubleshooting steps
 
 ---
 
-*Happy coding! 🚛✨*
+*Happy coding!*

@@ -6,8 +6,8 @@
 # This script stops all TFMS services safely
 # ===========================================
 
-echo "🛑 Stopping All TFMS Services..."
-echo "================================"
+echo "Stopping All TFMS Services..."
+echo "============================="
 
 # Colors for output
 RED='\033[0;31m'
@@ -24,19 +24,19 @@ stop_process() {
     local pids=$(pgrep -f "$pattern" 2>/dev/null || true)
     
     if [ -n "$pids" ]; then
-        echo -e "${BLUE}🛑 Stopping ${description}...${NC}"
+        echo -e "${BLUE}Stopping ${description}...${NC}"
         pkill -f "$pattern" 2>/dev/null || true
         sleep 2
         
         # Check if still running
         local remaining=$(pgrep -f "$pattern" 2>/dev/null || true)
         if [ -n "$remaining" ]; then
-            echo -e "${YELLOW}⚠️  Force killing ${description}...${NC}"
+            echo -e "${YELLOW}Force killing ${description}...${NC}"
             pkill -9 -f "$pattern" 2>/dev/null || true
         fi
-        echo -e "${GREEN}✅ ${description} stopped${NC}"
+        echo -e "${GREEN}${description} stopped${NC}"
     else
-        echo -e "${YELLOW}ℹ️  No ${description} processes found${NC}"
+        echo -e "${YELLOW}No ${description} processes found${NC}"
     fi
 }
 
@@ -48,17 +48,17 @@ stop_process "npm.*start" "NPM Start Process"
 
 # Check final status
 echo ""
-echo -e "${BLUE}🔍 Final Status Check:${NC}"
+echo -e "${BLUE}Final Status Check:${NC}"
 
 BACKEND_8080=$(lsof -i :8080 2>/dev/null | grep -v COMMAND | wc -l)
 FRONTEND_3000=$(lsof -i :3000 2>/dev/null | grep -v COMMAND | wc -l)
 
 if [ $BACKEND_8080 -eq 0 ] && [ $FRONTEND_3000 -eq 0 ]; then
-    echo -e "${GREEN}✅ All TFMS services stopped successfully${NC}"
+    echo -e "${GREEN}All TFMS services stopped successfully${NC}"
     echo -e "Port 8080: Available"
     echo -e "Port 3000: Available"
 else
-    echo -e "${YELLOW}⚠️  Some services may still be running:${NC}"
+    echo -e "${YELLOW}Some services may still be running:${NC}"
     if [ $BACKEND_8080 -gt 0 ]; then
         echo -e "Port 8080: $BACKEND_8080 process(es) still running"
         lsof -i :8080 2>/dev/null | grep -v COMMAND || true
@@ -70,4 +70,4 @@ else
 fi
 
 echo ""
-echo -e "${GREEN}🎉 Cleanup completed!${NC}"
+echo -e "${GREEN}Cleanup completed!${NC}"
