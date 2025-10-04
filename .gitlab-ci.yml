@@ -1,0 +1,47 @@
+image: maven:3.9.5-eclipse-temurin-17
+
+stages:
+  - build
+  - test
+  - deploy
+
+variables:
+  MAVEN_OPTS: "-Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository"
+  MAVEN_CLI_OPTS: "-B -V -ntp"
+
+before_script:
+  - echo "Using Java version:" && java -version
+  - echo "Using Maven version:" && mvn -version
+
+build-modules:
+  stage: build
+  script:
+    - echo "Finding all Maven modules..."
+    - MODULES=$(find . -name "pom.xml" -not -path "./frontend/*" -not -path "./node_modules/*")
+    - echo "Found modules:"
+    - echo "$MODULES"
+    - |
+      for pom in $MODULES; do
+        dir=$(dirname "$pom")
+        echo "Building module in $dir"
+        mvn $MAVEN_CLI_OPTS -f "$pom" clean install
+      done
+  artifacts:
+    paths:
+      - target/*.jar
+    expire_in: 1 hour
+
+unit-tests:
+  stage: test
+  rules:
+    - when: never
+  script:
+    - echo "Unit tests are skipped for now"
+
+deploy-job:       # This job runs in the deploy stage.
+  stage: deploy
+  rules:
+    - when: never
+  environment: production
+  script:
+    - echo "Deploy is skipped for now"

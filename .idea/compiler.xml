@@ -26,6 +26,7 @@
         <module name="document-mgmt-service" />
         <module name="assignment-module" />
         <module name="tfms-order" />
+        <module name="tfms" />
         <module name="document-management-service" />
         <module name="gateway-service" />
         <module name="order-service" />
@@ -46,6 +47,7 @@
       <module name="common-utils" options="-parameters" />
       <module name="document-management-service" options="-parameters" />
       <module name="notification-service" options="-parameters" />
+      <module name="tfms" options="-parameters" />
       <module name="tfms-analytics" options="-parameters" />
       <module name="tfms-customer" options="-parameters" />
       <module name="tfms-driver" options="-parameters" />
