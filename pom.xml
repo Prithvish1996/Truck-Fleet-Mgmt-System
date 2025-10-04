@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+<!--    Project Structure Manager POM -->
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.saxion.proj</groupId>
+    <artifactId>truck-fleet-management-structure</artifactId>
+    <version>1.0.0-dev</version>
+    <name>Truck Fleet Management System</name>
+    <description>Modular Monolithic Truck Fleet Management System</description>
+    <packaging>pom</packaging>  <!-- Parent for modular monolith -->
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.5.5</version>
+        <relativePath/>
+    </parent>
+
+    <properties>
+        <java.version>17</java.version>
+    </properties>
+
+    <!-- Modules for Modular Monolithic Architecture -->
+    <modules>
+        <!-- Authentication & Security Modules -->
+        <module>modules/auth-modules/auth-service</module>
+        
+        <!-- Main Application (Built Last) -->
+        <module>tfms-starter</module>
+    </modules>
+
+    <!-- Dependency Management for all modules -->
+    <dependencyManagement>
+        <dependencies>
+            <!-- Spring Boot BOM will manage versions -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>3.5.5</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <!-- Distribution Management for Deployment -->
+    <distributionManagement>
+        <repository>
+            <id>releases</id>
+            <name>Internal Releases Repository</name>
+            <url>file://${project.build.directory}/repo</url>
+        </repository>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <name>Internal Snapshots Repository</name>
+            <url>file://${project.build.directory}/repo</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>3.1.4</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+</project>

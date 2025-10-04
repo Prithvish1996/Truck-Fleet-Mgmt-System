@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="tfms-analytics" />
+        <module name="log-monitoring" />
+        <module name="maintenance-service" />
+        <module name="chat-service" />
+        <module name="common-utils" />
+        <module name="call-service" />
+        <module name="discovery-service" />
+        <module name="notification-service" />
+        <module name="billing-service" />
+        <module name="auth-service" />
+        <module name="payment-service" />
+        <module name="truck-service" />
+        <module name="assignment-service" />
+        <module name="driver-service" />
+        <module name="tfms-customer" />
+        <module name="tracking-service" />
+        <module name="customer-service" />
+        <module name="document-mgmt-service" />
+        <module name="assignment-module" />
+        <module name="tfms-order" />
+        <module name="document-management-service" />
+        <module name="gateway-service" />
+        <module name="order-service" />
+        <module name="tfms-starter" />
+        <module name="tfms-driver" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="analytics-service" target="17" />
+      <module name="common-utilities" target="17" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="analytics-service" options="-parameters" />
+      <module name="assignment-module" options="-parameters" />
+      <module name="auth-service" options="-parameters" />
+      <module name="common-utils" options="-parameters" />
+      <module name="document-management-service" options="-parameters" />
+      <module name="notification-service" options="-parameters" />
+      <module name="tfms-analytics" options="-parameters" />
+      <module name="tfms-customer" options="-parameters" />
+      <module name="tfms-driver" options="-parameters" />
+      <module name="tfms-order" options="-parameters" />
+      <module name="tfms-starter" options="-parameters" />
+      <module name="tracking-service" options="-parameters" />
+      <module name="truck-service" options="-parameters" />
+    </option>
+  </component>
+</project>
