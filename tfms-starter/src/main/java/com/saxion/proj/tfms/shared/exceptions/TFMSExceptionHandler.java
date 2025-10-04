@@ -30,7 +30,7 @@ import java.util.Map;
  */
 
 @Slf4j
-@ControllerAdvice
+@ControllerAdvice(basePackages = "com.saxion.proj.tfms.controller")
 public class TFMSExceptionHandler {
 
    

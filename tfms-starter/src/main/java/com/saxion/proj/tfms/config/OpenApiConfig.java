@@ -5,9 +5,6 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.servers.Server;
-import io.swagger.v3.oas.models.security.SecurityScheme;
-import io.swagger.v3.oas.models.security.SecurityRequirement;
-import io.swagger.v3.oas.models.Components;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -22,24 +19,23 @@ public class OpenApiConfig {
                 .info(new Info()
                         .title("TFMS - Truck Fleet Management System API")
                         .version("1.0.0-dev")
-                        .description("REST API documentation for the Truck Fleet Management System")
+                        .description("REST API documentation for the Truck Fleet Management System. " +
+                                   "This API provides endpoints for managing truck fleet operations, " +
+                                   "including system monitoring, configuration management, and metrics.")
                         .contact(new Contact()
-                                .name("TFMS Team")
-                                .email("support@tfms.com")
-                                .url("https://tfms.com"))
+                                .name("TFMS Development Team")
+                                .email("dev@tfms.com")
+                                .url("https://github.com/your-org/tfms"))
                         .license(new License()
                                 .name("MIT License")
                                 .url("https://opensource.org/licenses/MIT")))
                 .servers(List.of(
-                        new Server().url("http://localhost:8080").description("Development server"),
-                        new Server().url("https://tfms-prod.com").description("Production server")
-                ))
-                .components(new Components()
-                        .addSecuritySchemes("bearerAuth", new SecurityScheme()
-                                .type(SecurityScheme.Type.HTTP)
-                                .scheme("bearer")
-                                .bearerFormat("JWT")
-                                .description("JWT token for API authentication")))
-                .addSecurityItem(new SecurityRequirement().addList("bearerAuth"));
+                        new Server()
+                                .url("http://localhost:8080")
+                                .description("Development Server"),
+                        new Server()
+                                .url("https://api.tfms.com")
+                                .description("Production Server")
+                ));
     }
 }

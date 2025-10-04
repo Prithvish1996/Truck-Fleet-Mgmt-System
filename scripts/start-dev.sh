@@ -1,9 +1,7 @@
 #!/bin/bash
 
 # ===========================================
-# T# Start Backend in Development Mode
-echo -e "\n${BLUE}Building and Starting Backend...${NC}"
-cd "$PROJECT_ROOT/tfms-starter" Development Mode Startup Script
+# TFMS Development Mode Startup Script
 # ===========================================
 # This script starts the application in development mode:
 # - Backend: http://localhost:8080/api
