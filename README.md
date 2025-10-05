@@ -9,7 +9,7 @@ This project implements a microservices-based system using Spring Boot, with Doc
 ## Technology Stack
 
 - Java 17
-- Spring Boot
+- Spring Boot 
 - Spring Cloud
 - Docker
 - Maven
