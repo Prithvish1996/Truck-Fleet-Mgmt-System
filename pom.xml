@@ -28,6 +28,9 @@
 
     <!-- Modules for Modular Monolithic Architecture -->
     <modules>
+        <!-- Commons - Shared components (Built First) -->
+        <module>tfms-commons</module>
+        
         <!-- Authentication & Security Modules -->
         <module>modules/auth-modules/auth-service</module>
         

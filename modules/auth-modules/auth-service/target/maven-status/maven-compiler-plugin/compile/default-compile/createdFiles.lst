@@ -1,0 +1,8 @@
+com/saxion/proj/tfms/auth/dto/LoginRequestDto$LoginRequestDtoBuilder.class
+com/saxion/proj/tfms/auth/service/AuthService.class
+com/saxion/proj/tfms/auth/dto/LoginResponseDto$LoginResponseDtoBuilder.class
+com/saxion/proj/tfms/auth/config/DefaultUserDataInitializer.class
+com/saxion/proj/tfms/auth/controller/AuthController.class
+com/saxion/proj/tfms/auth/repository/AuthUserRepository.class
+com/saxion/proj/tfms/auth/dto/LoginResponseDto.class
+com/saxion/proj/tfms/auth/dto/LoginRequestDto.class

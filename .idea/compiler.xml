@@ -8,16 +8,17 @@
         <outputRelativeToContentRoot value="true" />
         <module name="log-monitoring" />
         <module name="maintenance-service" />
+        <module name="document-mgmt-service" />
         <module name="chat-service" />
         <module name="call-service" />
         <module name="discovery-service" />
         <module name="billing-service" />
+        <module name="tfms-commons" />
         <module name="auth-service" />
         <module name="payment-service" />
-        <module name="assignment-service" />
-        <module name="document-mgmt-service" />
         <module name="gateway-service" />
         <module name="tfms-starter" />
+        <module name="assignment-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -50,6 +51,7 @@
       <module name="notification-service" options="-parameters" />
       <module name="order-service" options="-parameters" />
       <module name="tfms-analytics" options="-parameters" />
+      <module name="tfms-commons" options="-parameters" />
       <module name="tfms-customer" options="-parameters" />
       <module name="tfms-driver" options="-parameters" />
       <module name="tfms-order" options="-parameters" />

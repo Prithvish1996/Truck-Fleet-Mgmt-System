@@ -29,12 +29,12 @@
 ```
 ┌─────────────────┐    ┌──────────────────┐
 │   Frontend      │    │    Backend       │
-│ localhost:3000  │◄──►│ localhost:8080   │
+│ localhost:3000  │◄──►│ localhost:8443   │
 │ (React Dev)     │    │ (Spring Boot)    │
 └─────────────────┘    └──────────────────┘
         │                       │
         ▼                       ▼
-   React HMR            API + H2 Console
+   React HMR            HTTPS + H2 Console
    Fast Reload         CORS Enabled
 ```
 
@@ -42,7 +42,7 @@
 ```
 ┌─────────────────────────────────────┐
 │        Single Application           │
-│         localhost:8080              │
+│         localhost:8443              │
 │  ┌─────────────┐ ┌─────────────────┐│
 │  │  Frontend   │ │    Backend      ││
 │  │ (React SPA) │ │ (Spring Boot)   ││
@@ -77,16 +77,19 @@ npm start
 - **Fast startup** - no frontend build overhead
 
 ### Access URLs
-- **Backend API**: http://localhost:8080/api
+- **Backend API**: https://localhost:8443/api
 - **Frontend**: http://localhost:3000  
-- **H2 Console**: http://localhost:8080/h2-console
-- **Health Check**: http://localhost:8080/api/test/health
+- **H2 Console**: https://localhost:8443/h2-console
+- **Health Check**: https://localhost:8443/actuator/health
+- **Swagger UI**: https://localhost:8443/swagger-ui/index.html
 
 ### Development Features
 - **Hot Reload**: Frontend changes reload instantly
 - **Debug Mode**: Detailed logging enabled
 - **H2 Database**: In-memory database with web console
 - **CORS**: Cross-origin requests allowed from localhost:3000
+- **HTTPS**: Self-signed certificate for secure development
+- **SSL Certificate**: Located at `classpath:keystore.p12` (password: changeit)
 
 ---
 
@@ -112,10 +115,11 @@ java -jar target/tfms-1.0.0-dev.jar --spring.profiles.active=prod
 6. **Starts** integrated application
 
 ### Access URLs
-- **Application**: http://localhost:8080 (Frontend + Backend)
-- **API Endpoints**: http://localhost:8080/api
-- **Health Check**: http://localhost:8080/api/test/health
-- **Actuator**: http://localhost:8080/actuator
+- **Application**: https://localhost:8443 (Frontend + Backend)
+- **API Endpoints**: https://localhost:8443/api
+- **Health Check**: https://localhost:8443/actuator/health
+- **Actuator**: https://localhost:8443/actuator
+- **Swagger UI**: https://localhost:8443/swagger-ui/index.html
 
 ### Production Features
 - **Single JAR**: Easy deployment artifact
@@ -123,6 +127,8 @@ java -jar target/tfms-1.0.0-dev.jar --spring.profiles.active=prod
 - **No CORS**: Same origin, no cross-origin issues
 - **Production Logging**: Structured logs to file
 - **Security**: H2 console disabled
+- **HTTPS**: SSL/TLS encryption enabled
+- **SSL Certificate**: Configurable via environment variables
 
 ---
 
@@ -143,7 +149,10 @@ java -jar target/tfms-1.0.0-dev.jar --spring.profiles.active=prod
 
 **Test Backend API:**
 ```bash
-curl http://localhost:8080/api/test/health
+curl -k https://localhost:8443/actuator/health
+# Expected: {"status":"UP","components":{...}}
+
+curl -k https://localhost:8443/api/test/health
 # Expected: {"service":"tfms-starter","status":"UP",...}
 ```
 
@@ -155,22 +164,25 @@ curl http://localhost:3000
 
 **Test Frontend (Prod Mode):**
 ```bash
-curl http://localhost:8080
+curl -k https://localhost:8443
 # Expected: HTML with React app served from /static
 ```
 
 ### API Endpoints to Test
 ```bash
-# Core Services
-curl http://localhost:8080/api/customers/health
-curl http://localhost:8080/api/drivers/health  
-curl http://localhost:8080/api/orders/health
-curl http://localhost:8080/api/trucks/health
+# Health and Monitoring
+curl -k https://localhost:8443/actuator/health
+curl -k https://localhost:8443/actuator/info
+curl -k https://localhost:8443/health
 
-# Business Services
-curl http://localhost:8080/api/assignments/health
-curl http://localhost:8080/api/tracking/health
-curl http://localhost:8080/api/notifications/health
+# Available API Services
+curl -k https://localhost:8443/api/test/health
+curl -k https://localhost:8443/api/simple/test
+
+# Authentication (when implemented)
+curl -k -X POST https://localhost:8443/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"test@example.com","password":"password"}'
 ```
 
 ---
@@ -222,6 +234,31 @@ TFMS/
 
 ---
 
+## SSL/HTTPS Configuration
+
+### Development SSL Certificate
+- **Location**: `src/main/resources/keystore.p12`
+- **Password**: `changeit`
+- **Alias**: `tfms-dev`
+- **Type**: PKCS12
+
+### Production SSL Certificate
+- **Location**: Configurable via `SSL_KEYSTORE_PATH` environment variable
+- **Password**: Configurable via `SSL_KEYSTORE_PASSWORD` environment variable
+- **Default**: `/app/ssl/keystore.p12`
+- **Alias**: `tfms-prod`
+
+### Browser Security Warning
+When accessing HTTPS URLs in development, you'll see a security warning about the self-signed certificate. This is normal - click "Advanced" and "Proceed to localhost" to continue.
+
+### Using curl with Self-Signed Certificates
+Always use the `-k` flag with curl when testing HTTPS endpoints:
+```bash
+curl -k https://localhost:8443/actuator/health
+```
+
+---
+
 ## Configuration Profiles
 
 ### application.properties (Base)
@@ -253,7 +290,7 @@ logging.file.name=/app/logs/tfms.log
 ### Port Already in Use
 ```bash
 # Check what's using the port
-lsof -i :8080
+lsof -i :8443
 lsof -i :3000
 
 # Kill specific processes
@@ -282,10 +319,11 @@ rm -rf target/
 ### Database Issues
 ```bash
 # Access H2 console (dev mode only)
-# URL: http://localhost:8080/h2-console
+# URL: https://localhost:8443/h2-console
 # JDBC URL: jdbc:h2:mem:tfmsdb
 # Username: sa
 # Password: password
+# Note: Accept the security warning for self-signed certificate
 ```
 
 ---
@@ -365,7 +403,7 @@ rm -rf target/
 ```
 Backend started successfully!
 Frontend started successfully!
-Backend API: http://localhost:8080/api
+Backend API: https://localhost:8443/api
 Frontend:   http://localhost:3000
 ```
 
@@ -375,7 +413,7 @@ Production build completed successfully!
 Production application started successfully!
 Backend API working
 Frontend React app working
-Application URL: http://localhost:8080
+Application URL: https://localhost:8443
 ```
 
 ---

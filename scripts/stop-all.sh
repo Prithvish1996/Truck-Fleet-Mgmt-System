@@ -50,18 +50,18 @@ stop_process "npm.*start" "NPM Start Process"
 echo ""
 echo -e "${BLUE}Final Status Check:${NC}"
 
-BACKEND_8080=$(lsof -i :8080 2>/dev/null | grep -v COMMAND | wc -l)
+BACKEND_8443=$(lsof -i :8443 2>/dev/null | grep -v COMMAND | wc -l)
 FRONTEND_3000=$(lsof -i :3000 2>/dev/null | grep -v COMMAND | wc -l)
 
-if [ $BACKEND_8080 -eq 0 ] && [ $FRONTEND_3000 -eq 0 ]; then
+if [ $BACKEND_8443 -eq 0 ] && [ $FRONTEND_3000 -eq 0 ]; then
     echo -e "${GREEN}All TFMS services stopped successfully${NC}"
-    echo -e "Port 8080: Available"
+    echo -e "Port 8443: Available"
     echo -e "Port 3000: Available"
 else
     echo -e "${YELLOW}Some services may still be running:${NC}"
-    if [ $BACKEND_8080 -gt 0 ]; then
-        echo -e "Port 8080: $BACKEND_8080 process(es) still running"
-        lsof -i :8080 2>/dev/null | grep -v COMMAND || true
+    if [ $BACKEND_8443 -gt 0 ]; then
+        echo -e "Port 8443: $BACKEND_8443 process(es) still running"
+        lsof -i :8443 2>/dev/null | grep -v COMMAND || true
     fi
     if [ $FRONTEND_3000 -gt 0 ]; then
         echo -e "Port 3000: $FRONTEND_3000 process(es) still running"

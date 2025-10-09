@@ -57,7 +57,7 @@ check_port() {
 }
 
 echo -e "${BLUE}Checking port availability...${NC}"
-check_port 8080 "Backend"
+check_port 8443 "Backend (HTTPS)"
 check_port 3000 "Frontend"
 
 # Build and Start Backend in Development Mode
@@ -72,7 +72,7 @@ BACKEND_PID=$!
 # Wait for backend to start
 echo -e "${YELLOW}Waiting for backend to start...${NC}"
 for i in {1..60}; do  # Increased timeout for build time
-    if curl -s http://localhost:8080/health >/dev/null 2>&1; then
+    if curl -k -s https://localhost:8443/actuator/health >/dev/null 2>&1; then
         echo -e "${GREEN}Backend started successfully!${NC}"
         break
     fi
@@ -134,10 +134,14 @@ done
 # Success message
 echo -e "\n${GREEN}TFMS Development Mode Started Successfully!${NC}"
 echo -e "=========================================="
-echo -e "${BLUE}Backend API:${NC} http://localhost:8080/api"
+echo -e "${BLUE}Backend API:${NC} https://localhost:8443/api"
 echo -e "${BLUE}Frontend:${NC}   http://localhost:3000"
-echo -e "${BLUE}H2 Console:${NC} http://localhost:8080/h2-console"
-echo -e "${BLUE}Health Check:${NC} http://localhost:8080/health"
+echo -e "${BLUE}Database:${NC} PostgreSQL on localhost:5432/tfmsdb"
+echo -e "${BLUE}Health Check:${NC} https://localhost:8443/actuator/health"
+echo -e "${BLUE}Swagger UI:${NC} https://localhost:8443/swagger-ui/index.html"
+echo -e "${BLUE}API Docs:${NC} https://localhost:8443/v3/api-docs"
+echo -e "${BLUE}Actuator Info:${NC} https://localhost:8443/actuator/info"
+echo -e "${BLUE}Actuator Metrics:${NC} https://localhost:8443/actuator/metrics"
 echo -e "${YELLOW}Logs:${NC}"
 echo -e "   Backend: $PROJECT_ROOT/tfms-starter/backend.log"
 echo -e "   Frontend: $PROJECT_ROOT/frontend/frontend.log"

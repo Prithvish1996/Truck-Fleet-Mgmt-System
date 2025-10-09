@@ -1,0 +1,33 @@
+nohup: ignoring input
+Starting TFMS in Development Mode...
+==========================================
+[0;34mProject Root: /home/prithvish/Documents/GitHub/02[0m
+[0;34mChecking port availability...[0m
+
+[0;34m� Building Backend...[0m
+[1;33mBuilding and starting backend...[0m
+[1;33mWaiting for backend to start...[0m
+............[0;32mBackend started successfully![0m
+
+[0;34mStarting Frontend (React Dev Server)...[0m
+[1;33mStarting React development server...[0m
+[1;33mWaiting for frontend to start...[0m
+.....[0;32mFrontend started successfully![0m
+
+[0;32mTFMS Development Mode Started Successfully![0m
+==========================================
+[0;34mBackend API:[0m http://localhost:8080/api
+[0;34mFrontend:[0m   http://localhost:3000
+[0;34mH2 Console:[0m http://localhost:8080/h2-console
+[0;34mHealth Check:[0m http://localhost:8080/health
+[1;33mLogs:[0m
+   Backend: /home/prithvish/Documents/GitHub/02/tfms-starter/backend.log
+   Frontend: /home/prithvish/Documents/GitHub/02/frontend/frontend.log
+   Build: /home/prithvish/Documents/GitHub/02/tfms-starter/build.log
+
+[1;33mTip: Check logs if services don't respond[0m
+[1;33mPress Ctrl+C to stop all services[0m
+Terminated
+
+[1;33mShutting down services...[0m
+[0;32mServices stopped[0m

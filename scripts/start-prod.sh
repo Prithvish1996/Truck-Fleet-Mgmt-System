@@ -49,7 +49,7 @@ check_port() {
 }
 
 echo -e "${BLUE}Checking port availability...${NC}"
-check_port 8080
+check_port 8443
 
 # Build Production Package
 echo -e "\n${BLUE}Building Production Package...${NC}"
@@ -90,7 +90,7 @@ echo -e "${BLUE}Production PID: ${PROD_PID}${NC}"
 # Wait for application to start
 echo -e "${YELLOW}Waiting for application to start...${NC}"
 for i in {1..60}; do
-    if curl -s http://localhost:8080/health >/dev/null 2>&1; then
+    if curl -k -s https://localhost:8443/actuator/health >/dev/null 2>&1; then
         echo -e "${GREEN}Production application started successfully!${NC}"
         break
     fi
@@ -110,7 +110,7 @@ done
 echo -e "\n${BLUE}Testing Production Deployment...${NC}"
 
 # Test API
-API_RESPONSE=$(curl -s http://localhost:8080/health)
+API_RESPONSE=$(curl -k -s https://localhost:8443/actuator/health)
 if [[ $API_RESPONSE == *"UP"* ]]; then
     echo -e "${GREEN}Backend API working${NC}"
 else
@@ -118,7 +118,7 @@ else
 fi
 
 # Test Frontend
-FRONTEND_RESPONSE=$(curl -s http://localhost:8080 | grep -o "<title>.*</title>")
+FRONTEND_RESPONSE=$(curl -k -s https://localhost:8443 | grep -o "<title>.*</title>")
 if [[ $FRONTEND_RESPONSE == *"React App"* ]]; then
     echo -e "${GREEN}Frontend React app working${NC}"
 else
@@ -128,11 +128,11 @@ fi
 # Success message
 echo -e "\n${GREEN}TFMS Production Mode Started Successfully!${NC}"
 echo -e "=========================================="
-echo -e "${BLUE}Application URL:${NC} http://localhost:8080"
-echo -e "${BLUE}API Endpoints:${NC}  http://localhost:8080/api"
-echo -e "${BLUE}Health Check:${NC}   http://localhost:8080/health"
-echo -e "${BLUE}Actuator:${NC}      http://localhost:8080/actuator"
-echo -e "${BLUE}H2 Console:${NC}     http://localhost:8080/h2-console"
+echo -e "${BLUE}Application URL:${NC} https://localhost:8443"
+echo -e "${BLUE}API Endpoints:${NC}  https://localhost:8443/api"
+echo -e "${BLUE}Health Check:${NC}   https://localhost:8443/actuator/health"
+echo -e "${BLUE}Actuator:${NC}      https://localhost:8443/actuator"
+echo -e "${BLUE}Database:${NC}      PostgreSQL on localhost:5432/tfmsdb"
 echo -e "${YELLOW}Logs:${NC}"
 echo -e "   Application: $PROJECT_ROOT/logs/tfms.log"
 echo -e "   Startup: $PROJECT_ROOT/logs/startup.log"
