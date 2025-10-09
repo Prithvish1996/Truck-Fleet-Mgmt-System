@@ -47,28 +47,28 @@
 
  :: Spring Boot ::                (v3.5.5)
 
-2025-10-08 11:30:08 [DEV] - Starting TfmsApplication using Java 21.0.8 with PID 12893 (/home/prithvish/Documents/GitHub/02/tfms-starter/target/classes started by prithvish in /home/prithvish/Documents/GitHub/02/tfms-starter)
-2025-10-08 11:30:08 [DEV] - Running with Spring Boot v3.5.5, Spring v6.2.10
-2025-10-08 11:30:08 [DEV] - The following 1 profile is active: "dev"
-2025-10-08 11:30:09 [DEV] - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-10-08 11:30:09 [DEV] - Finished Spring Data repository scanning in 58 ms. Found 1 JPA repository interface.
-2025-10-08 11:30:10 [DEV] - Tomcat initialized with port 8443 (https)
-2025-10-08 11:30:10 [DEV] - Starting service [Tomcat]
-2025-10-08 11:30:10 [DEV] - Starting Servlet engine: [Apache Tomcat/10.1.44]
-2025-10-08 11:30:10 [DEV] - Initializing Spring embedded WebApplicationContext
-2025-10-08 11:30:10 [DEV] - Root WebApplicationContext: initialization completed in 2428 ms
-2025-10-08 11:30:10 [DEV] - Rate limiting filter initialized with limit: 60 requests per minute
-2025-10-08 11:30:11 [DEV] - Filter 'jwtAuthenticationFilter' configured for use
-2025-10-08 11:30:11 [DEV] - Filter 'rateLimitingFilter' configured for use
-2025-10-08 11:30:11 [DEV] - HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-10-08 11:30:11 [DEV] - HHH000412: Hibernate ORM core version 6.6.26.Final
-2025-10-08 11:30:11 [DEV] - HHH000026: Second-level cache disabled
-2025-10-08 11:30:11 [DEV] - No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-10-08 11:30:11 [DEV] - HikariPool-1 - Starting...
-2025-10-08 11:30:12 [DEV] - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@28db2afb
-2025-10-08 11:30:12 [DEV] - HikariPool-1 - Start completed.
-2025-10-08 11:30:12 [DEV] - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2025-10-08 11:30:12 [DEV] - HHH10001005: Database info:
+2025-10-09 12:23:30 [DEV] - Starting TfmsApplication using Java 21.0.8 with PID 40482 (/home/prithvish/Documents/GitHub/02/tfms-starter/target/classes started by prithvish in /home/prithvish/Documents/GitHub/02/tfms-starter)
+2025-10-09 12:23:30 [DEV] - Running with Spring Boot v3.5.5, Spring v6.2.10
+2025-10-09 12:23:30 [DEV] - The following 1 profile is active: "dev"
+2025-10-09 12:23:32 [DEV] - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-10-09 12:23:32 [DEV] - Finished Spring Data repository scanning in 64 ms. Found 1 JPA repository interface.
+2025-10-09 12:23:33 [DEV] - Tomcat initialized with port 8443 (https)
+2025-10-09 12:23:33 [DEV] - Starting service [Tomcat]
+2025-10-09 12:23:33 [DEV] - Starting Servlet engine: [Apache Tomcat/10.1.44]
+2025-10-09 12:23:33 [DEV] - Initializing Spring embedded WebApplicationContext
+2025-10-09 12:23:33 [DEV] - Root WebApplicationContext: initialization completed in 2440 ms
+2025-10-09 12:23:33 [DEV] - Rate limiting filter initialized with limit: 60 requests per minute
+2025-10-09 12:23:33 [DEV] - Filter 'jwtAuthenticationFilter' configured for use
+2025-10-09 12:23:33 [DEV] - Filter 'rateLimitingFilter' configured for use
+2025-10-09 12:23:33 [DEV] - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-10-09 12:23:33 [DEV] - HHH000412: Hibernate ORM core version 6.6.26.Final
+2025-10-09 12:23:33 [DEV] - HHH000026: Second-level cache disabled
+2025-10-09 12:23:34 [DEV] - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-10-09 12:23:34 [DEV] - HikariPool-1 - Starting...
+2025-10-09 12:23:34 [DEV] - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@3acc3ee
+2025-10-09 12:23:34 [DEV] - HikariPool-1 - Start completed.
+2025-10-09 12:23:34 [DEV] - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-10-09 12:23:34 [DEV] - HHH10001005: Database info:
 	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
 	Database driver: undefined/unknown
 	Database version: 16.10
@@ -76,7 +76,7 @@
 	Isolation level: undefined/unknown
 	Minimum pool size: undefined/unknown
 	Maximum pool size: undefined/unknown
-2025-10-08 11:30:13 [DEV] - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-10-09 12:23:35 [DEV] - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 Hibernate: 
     set client_min_messages = WARNING
 Hibernate: 
@@ -94,20 +94,24 @@ Hibernate:
         username varchar(255) not null unique,
         primary key (id)
     )
-2025-10-08 11:30:13 [DEV] - Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-10-08 11:30:13 [DEV] - Hibernate is in classpath; If applicable, HQL parser will be used.
-2025-10-08 11:30:14 [DEV] - Exposing 3 endpoints beneath base path '/actuator'
-2025-10-08 11:30:14 [DEV] - Adding welcome page: class path resource [static/index.html]
-2025-10-08 11:30:15 [DEV] - 
+2025-10-09 12:23:36 [DEV] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-10-09 12:23:36 [DEV] - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-10-09 12:23:37 [DEV] - Exposing 3 endpoints beneath base path '/actuator'
+2025-10-09 12:23:37 [DEV] - Adding welcome page: class path resource [static/index.html]
+2025-10-09 12:23:37 [DEV] - 
 
-Using generated security password: 7a02c547-5e52-4e9f-9f1e-6dea4bb9883b
+Using generated security password: 60daf10f-36a6-4a18-8248-13548cd57fae
 
 This generated password is for development use only. Your security configuration must be updated before running your application in production.
 
-2025-10-08 11:30:15 [DEV] - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
-2025-10-08 11:30:16 [DEV] - Connector [https-jsse-nio-8443], TLS virtual host [_default_], certificate type [UNDEFINED] configured from keystore [/home/prithvish/.keystore] using alias [tfms-dev] with trust store [null]
-2025-10-08 11:30:16 [DEV] - Tomcat started on port 8443 (https) with context path '/'
-2025-10-08 11:30:16 [DEV] - Started TfmsApplication in 8.259 seconds (process running for 8.645)
+2025-10-09 12:23:37 [DEV] - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-10-09 12:23:38 [DEV] - Connector [https-jsse-nio-8443], TLS virtual host [_default_], certificate type [UNDEFINED] configured from keystore [/home/prithvish/.keystore] using alias [tfms-dev] with trust store [null]
+2025-10-09 12:23:38 [DEV] - Tomcat started on port 8443 (https) with context path '/'
+2025-10-09 12:23:38 [DEV] - Started TfmsApplication in 8.306 seconds (process running for 8.698)
+2025-10-09 12:23:38 [DEV] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-10-09 12:23:38 [DEV] - Initializing Servlet 'dispatcherServlet'
+2025-10-09 12:23:38 [DEV] - Completed initialization in 2 ms
+2025-10-09 12:23:38 [DEV] - Rate limit check: IP=0:0:0:0:0:0:0:1, Count=1, Limit=60
 Hibernate: 
     select
         ud1_0.id 
@@ -134,9 +138,6 @@ Hibernate:
         ud1_0.email=? 
     fetch
         first ? rows only
-2025-10-08 11:30:16 [DEV] - Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-10-08 11:30:16 [DEV] - Initializing Servlet 'dispatcherServlet'
-2025-10-08 11:30:16 [DEV] - Completed initialization in 2 ms
 Hibernate: 
     insert 
     into
@@ -154,7 +155,6 @@ Hibernate:
         ud1_0.email=? 
     fetch
         first ? rows only
-2025-10-08 11:30:16 [DEV] - Rate limit check: IP=0:0:0:0:0:0:0:1, Count=1, Limit=60
 Hibernate: 
     insert 
     into
@@ -196,21 +196,22 @@ H2 Console: http://localhost:8443/h2-console
 Application started successfully!
 ============================================================
 
-2025-10-08 11:30:59 [DEV] - Rate limit check: IP=0:0:0:0:0:0:0:1, Count=2, Limit=60
-2025-10-08 11:30:59 [DEV] - Rate limit check: IP=0:0:0:0:0:0:0:1, Count=3, Limit=60
-2025-10-08 11:30:59 [DEV] - Rate limit check: IP=0:0:0:0:0:0:0:1, Count=4, Limit=60
-2025-10-08 11:30:59 [DEV] - Rate limit check: IP=0:0:0:0:0:0:0:1, Count=5, Limit=60
-2025-10-08 11:30:59 [DEV] - Rate limit check: IP=0:0:0:0:0:0:0:1, Count=6, Limit=60
-2025-10-08 11:30:59 [DEV] - Rate limit check: IP=0:0:0:0:0:0:0:1, Count=7, Limit=60
-2025-10-08 11:31:00 [DEV] - Rate limit check: IP=0:0:0:0:0:0:0:1, Count=8, Limit=60
-2025-10-08 11:31:00 [DEV] - Rate limit check: IP=0:0:0:0:0:0:0:1, Count=9, Limit=60
-2025-10-08 11:31:00 [DEV] - Init duration for springdoc-openapi is: 353 ms
-2025-10-08 19:13:06 [DEV] - Commencing graceful shutdown. Waiting for active requests to complete
-2025-10-08 19:13:06 [DEV] - Graceful shutdown complete
-2025-10-08 19:13:06 [DEV] - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-10-09 12:23:51 [DEV] - Rate limit check: IP=0:0:0:0:0:0:0:1, Count=2, Limit=60
+2025-10-09 12:24:00 [DEV] - Rate limit check: IP=0:0:0:0:0:0:0:1, Count=3, Limit=60
+2025-10-09 12:24:00 [DEV] - Rate limit check: IP=0:0:0:0:0:0:0:1, Count=4, Limit=60
+2025-10-09 12:24:00 [DEV] - Rate limit check: IP=0:0:0:0:0:0:0:1, Count=5, Limit=60
+2025-10-09 12:24:01 [DEV] - Rate limit check: IP=0:0:0:0:0:0:0:1, Count=6, Limit=60
+2025-10-09 12:24:01 [DEV] - Rate limit check: IP=0:0:0:0:0:0:0:1, Count=7, Limit=60
+2025-10-09 12:24:01 [DEV] - Rate limit check: IP=0:0:0:0:0:0:0:1, Count=8, Limit=60
+2025-10-09 12:24:01 [DEV] - Rate limit check: IP=0:0:0:0:0:0:0:1, Count=9, Limit=60
+2025-10-09 12:24:01 [DEV] - Rate limit check: IP=0:0:0:0:0:0:0:1, Count=10, Limit=60
+2025-10-09 12:24:01 [DEV] - Init duration for springdoc-openapi is: 516 ms
+2025-10-09 12:24:53 [DEV] - Commencing graceful shutdown. Waiting for active requests to complete
+2025-10-09 12:24:53 [DEV] - Graceful shutdown complete
+2025-10-09 12:24:53 [DEV] - Closing JPA EntityManagerFactory for persistence unit 'default'
 Hibernate: 
     set client_min_messages = WARNING
 Hibernate: 
     drop table if exists users cascade
-2025-10-08 19:13:06 [DEV] - HikariPool-1 - Shutdown initiated...
-2025-10-08 19:13:06 [DEV] - HikariPool-1 - Shutdown completed.
+2025-10-09 12:24:53 [DEV] - HikariPool-1 - Shutdown initiated...
+2025-10-09 12:24:53 [DEV] - HikariPool-1 - Shutdown completed.

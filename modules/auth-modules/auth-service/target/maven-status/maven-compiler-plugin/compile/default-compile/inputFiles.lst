@@ -1,6 +1,0 @@
-/home/prithvish/Documents/GitHub/02/modules/auth-modules/auth-service/src/main/java/com/saxion/proj/tfms/auth/config/DefaultUserDataInitializer.java
-/home/prithvish/Documents/GitHub/02/modules/auth-modules/auth-service/src/main/java/com/saxion/proj/tfms/auth/controller/AuthController.java
-/home/prithvish/Documents/GitHub/02/modules/auth-modules/auth-service/src/main/java/com/saxion/proj/tfms/auth/dto/LoginRequestDto.java
-/home/prithvish/Documents/GitHub/02/modules/auth-modules/auth-service/src/main/java/com/saxion/proj/tfms/auth/dto/LoginResponseDto.java
-/home/prithvish/Documents/GitHub/02/modules/auth-modules/auth-service/src/main/java/com/saxion/proj/tfms/auth/repository/AuthUserRepository.java
-/home/prithvish/Documents/GitHub/02/modules/auth-modules/auth-service/src/main/java/com/saxion/proj/tfms/auth/service/AuthService.java

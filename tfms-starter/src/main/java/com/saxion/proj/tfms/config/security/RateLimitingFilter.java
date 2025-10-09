@@ -42,7 +42,7 @@ public class RateLimitingFilter extends OncePerRequestFilter {
         
         if (currentCount > MAX_REQUESTS_PER_MINUTE) {
             logger.warn("Rate limit exceeded for IP: {} (Count: {})", clientIp, currentCount);
-            response.setStatus(429); // Too Many Requests
+            response.setStatus(429);
             response.setContentType("application/json");
             // Generic error message - don't reveal specifics to attackers
             response.getWriter().write("{\"error\":\"Too many requests\",\"message\":\"Please try again later\"}");

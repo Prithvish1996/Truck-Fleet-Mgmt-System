@@ -2,6 +2,7 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
@@ -13,9 +14,9 @@
         <module name="call-service" />
         <module name="discovery-service" />
         <module name="billing-service" />
-        <module name="tfms-commons" />
         <module name="auth-service" />
         <module name="payment-service" />
+        <module name="common-modules" />
         <module name="gateway-service" />
         <module name="tfms-starter" />
         <module name="assignment-service" />
@@ -44,6 +45,7 @@
       <module name="analytics-service" options="-parameters" />
       <module name="assignment-module" options="-parameters" />
       <module name="auth-service" options="-parameters" />
+      <module name="common-modules" options="-parameters" />
       <module name="common-utils" options="-parameters" />
       <module name="customer-service" options="-parameters" />
       <module name="document-management-service" options="-parameters" />
@@ -51,7 +53,6 @@
       <module name="notification-service" options="-parameters" />
       <module name="order-service" options="-parameters" />
       <module name="tfms-analytics" options="-parameters" />
-      <module name="tfms-commons" options="-parameters" />
       <module name="tfms-customer" options="-parameters" />
       <module name="tfms-driver" options="-parameters" />
       <module name="tfms-order" options="-parameters" />

@@ -29,10 +29,10 @@
     <!-- Modules for Modular Monolithic Architecture -->
     <modules>
         <!-- Commons - Shared components (Built First) -->
-        <module>tfms-commons</module>
+        <module>tfms-modules/common-modules</module>
         
         <!-- Authentication & Security Modules -->
-        <module>modules/auth-modules/auth-service</module>
+        <module>tfms-modules/auth-modules/auth-service</module>
         
         <!-- Main Application (Built Last) -->
         <module>tfms-starter</module>

@@ -26,21 +26,6 @@
     <file url="file://$PROJECT_DIR$/log-monitoring/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/maintenance-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/maintenance-service/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/modules/auth-modules/auth-service/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/modules/business-modules/assignment-module/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/modules/business-modules/document-management-service/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/modules/communication-modules/notification-service/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/modules/core-modules/customer-service/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/modules/core-modules/driver-service/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/modules/core-modules/order-service/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/modules/core-modules/tracking-service/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/modules/core-modules/truck-service/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/modules/platform-modules/log-modules/monitoring-module/analytics-service/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/modules/shared-modules/common-utils/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/modules/tfms-analytics/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/modules/tfms-customer/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/modules/tfms-driver/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/modules/tfms-order/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/notification-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/notification-service/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/order-service/src/main/java" charset="UTF-8" />
@@ -49,7 +34,22 @@
     <file url="file://$PROJECT_DIR$/payment-service/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/tfms-commons/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tfms-modules/auth-modules/auth-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tfms-modules/business-modules/assignment-module/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tfms-modules/business-modules/document-management-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tfms-modules/common-modules/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tfms-modules/communication-modules/notification-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tfms-modules/core-modules/customer-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tfms-modules/core-modules/driver-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tfms-modules/core-modules/order-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tfms-modules/core-modules/tracking-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tfms-modules/core-modules/truck-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tfms-modules/platform-modules/log-modules/monitoring-module/analytics-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tfms-modules/shared-modules/common-utils/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tfms-modules/tfms-analytics/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tfms-modules/tfms-customer/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tfms-modules/tfms-driver/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tfms-modules/tfms-order/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/tfms-starter/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/tracking-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/tracking-service/src/main/resources" charset="UTF-8" />

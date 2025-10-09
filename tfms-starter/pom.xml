@@ -33,7 +33,7 @@
         <!-- Commons Module -->
         <dependency>
             <groupId>com.saxion.proj</groupId>
-            <artifactId>tfms-commons</artifactId>
+            <artifactId>common-modules</artifactId>
             <version>${project.version}</version>
         </dependency>
 
