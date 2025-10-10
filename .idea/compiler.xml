@@ -2,41 +2,42 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="tfms-analytics" />
         <module name="log-monitoring" />
         <module name="maintenance-service" />
+        <module name="document-mgmt-service" />
         <module name="chat-service" />
-        <module name="common-utils" />
         <module name="call-service" />
         <module name="discovery-service" />
-        <module name="notification-service" />
         <module name="billing-service" />
         <module name="auth-service" />
         <module name="payment-service" />
-        <module name="truck-service" />
-        <module name="assignment-service" />
-        <module name="driver-service" />
-        <module name="tfms-customer" />
-        <module name="tracking-service" />
-        <module name="customer-service" />
-        <module name="document-mgmt-service" />
-        <module name="assignment-module" />
-        <module name="tfms-order" />
-        <module name="tfms" />
-        <module name="document-management-service" />
+        <module name="common-modules" />
         <module name="gateway-service" />
-        <module name="order-service" />
         <module name="tfms-starter" />
-        <module name="tfms-driver" />
+        <module name="assignment-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="analytics-service" target="17" />
+      <module name="assignment-module" target="17" />
       <module name="common-utilities" target="17" />
+      <module name="common-utils" target="17" />
+      <module name="customer-service" target="17" />
+      <module name="document-management-service" target="17" />
+      <module name="driver-service" target="17" />
+      <module name="notification-service" target="17" />
+      <module name="order-service" target="17" />
+      <module name="tfms-analytics" target="17" />
+      <module name="tfms-customer" target="17" />
+      <module name="tfms-driver" target="17" />
+      <module name="tfms-order" target="17" />
+      <module name="tracking-service" target="17" />
+      <module name="truck-service" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -44,10 +45,13 @@
       <module name="analytics-service" options="-parameters" />
       <module name="assignment-module" options="-parameters" />
       <module name="auth-service" options="-parameters" />
+      <module name="common-modules" options="-parameters" />
       <module name="common-utils" options="-parameters" />
+      <module name="customer-service" options="-parameters" />
       <module name="document-management-service" options="-parameters" />
+      <module name="driver-service" options="-parameters" />
       <module name="notification-service" options="-parameters" />
-      <module name="tfms" options="-parameters" />
+      <module name="order-service" options="-parameters" />
       <module name="tfms-analytics" options="-parameters" />
       <module name="tfms-customer" options="-parameters" />
       <module name="tfms-driver" options="-parameters" />
