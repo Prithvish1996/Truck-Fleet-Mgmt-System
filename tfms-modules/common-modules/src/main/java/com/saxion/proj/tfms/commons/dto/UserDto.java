@@ -21,4 +21,15 @@ public class UserDto {
     private boolean active;
     private ZonedDateTime createdAt;
     private ZonedDateTime updatedAt;
+
+    //Converters
+    public static UserDto fromEntity(UserDao user) {
+        UserDto dto = new UserDto();
+        dto.setId(user.getId());
+        dto.setUsername(user.getUsername());
+        dto.setEmail(user.getEmail());
+        dto.setUserType(user.getUserType());
+        dto.setActive(user.isActive());
+        return dto;
+    }
 }
