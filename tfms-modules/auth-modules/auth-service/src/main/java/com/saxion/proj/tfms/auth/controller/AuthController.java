@@ -1,5 +1,6 @@
 package com.saxion.proj.tfms.auth.controller;
 
+import com.saxion.proj.tfms.auth.dto.UserProfileDto;
 import com.saxion.proj.tfms.commons.service.TokenBlacklistService;
 import com.saxion.proj.tfms.commons.swagger.SwaggerAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,13 @@ public class AuthController {
         String token = authHeader.replace("Bearer ", "");
         tokenBlacklistService.blackListToken(token);
         return ResponseEntity.ok(ApiResponse.success("Logout successful"));
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<ApiResponse<UserProfileDto>> getCurrentUserProfile() {
+        var response = new ApiResponse<UserProfileDto>();
+        return ResponseEntity.ok(response);
+        //return ResponseEntity.ok(authService.getCurrentUserProfile());
     }
 
 }
