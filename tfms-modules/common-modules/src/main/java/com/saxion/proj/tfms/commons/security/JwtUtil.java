@@ -29,6 +29,14 @@ public class JwtUtil {
         claims.put("userType", userType);
         return createToken(claims, email);
     }
+
+    // Generate token with email, userType as role, userId
+    public String generateTokenWithId(String email, String userType, Long userId) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("userType", userType);
+        claims.put("userID", userId);
+        return createToken(claims, email);
+    }
     
     private String createToken(Map<String, Object> claims, String subject) {
         SecretKey key = getSigningKey();
@@ -59,6 +67,11 @@ public class JwtUtil {
     // Extract userType from token
     public String getUserTypeFromToken(String token) {
         return getClaimFromToken(token, claims -> (String) claims.get("userType"));
+    }
+
+    // Extract userId from token
+    public Long getUserIdFromToken(String token) {
+        return getClaimFromToken(token, claims -> (Long) claims.get("userID"));
     }
     
     // Get expiration date

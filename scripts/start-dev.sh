@@ -66,8 +66,20 @@ cd "$PROJECT_ROOT/tfms-starter"
 
 # Start backend in background (spring-boot:run will handle compilation)
 echo -e "${YELLOW}Building and starting backend...${NC}"
-../mvnw spring-boot:run -Dspring-boot.run.profiles=dev > backend.log 2>&1 &
+# ----- START HERE TO UNCOMMENT IF YOU WANT TO RUN ON DIRECT MODE -----
+#../mvnw spring-boot:run -Dspring-boot.run.profiles=dev > backend.log 2>&1 &
+#BACKEND_PID=$!
+# ----- STOP HERE -----
+
+# ----- START HERE TO COMMENT IF YOU DON"T WANT TO RUN ON DEBUG MODE -----
+../mvnw spring-boot:run \
+    -Dspring-boot.run.profiles=dev \
+    -Dspring-boot.run.jvmArguments="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005" \
+    > backend.log 2>&1 &
 BACKEND_PID=$!
+echo "Backend started with PID $BACKEND_PID and remote debugging on port 5005"
+# ----- STOP HERE -----
+
 
 # Wait for backend to start
 echo -e "${YELLOW}Waiting for backend to start...${NC}"

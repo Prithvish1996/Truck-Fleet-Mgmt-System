@@ -1,0 +1,12 @@
+D:\Saxion School Work\Project\tfms-modules\auth-modules\auth-service\src\main\java\com\saxion\proj\tfms\auth\abstraction\IUserService.java
+D:\Saxion School Work\Project\tfms-modules\auth-modules\auth-service\src\main\java\com\saxion\proj\tfms\auth\controller\AdminController.java
+D:\Saxion School Work\Project\tfms-modules\auth-modules\auth-service\src\main\java\com\saxion\proj\tfms\auth\controller\AuthController.java
+D:\Saxion School Work\Project\tfms-modules\auth-modules\auth-service\src\main\java\com\saxion\proj\tfms\auth\controller\UserController.java
+D:\Saxion School Work\Project\tfms-modules\auth-modules\auth-service\src\main\java\com\saxion\proj\tfms\auth\dto\CreateUserDto.java
+D:\Saxion School Work\Project\tfms-modules\auth-modules\auth-service\src\main\java\com\saxion\proj\tfms\auth\dto\LoginRequestDto.java
+D:\Saxion School Work\Project\tfms-modules\auth-modules\auth-service\src\main\java\com\saxion\proj\tfms\auth\dto\LoginResponseDto.java
+D:\Saxion School Work\Project\tfms-modules\auth-modules\auth-service\src\main\java\com\saxion\proj\tfms\auth\dto\UpdateUserDto.java
+D:\Saxion School Work\Project\tfms-modules\auth-modules\auth-service\src\main\java\com\saxion\proj\tfms\auth\dto\UserProfileDto.java
+D:\Saxion School Work\Project\tfms-modules\auth-modules\auth-service\src\main\java\com\saxion\proj\tfms\auth\repository\AuthUserRepository.java
+D:\Saxion School Work\Project\tfms-modules\auth-modules\auth-service\src\main\java\com\saxion\proj\tfms\auth\service\AuthService.java
+D:\Saxion School Work\Project\tfms-modules\auth-modules\auth-service\src\main\java\com\saxion\proj\tfms\auth\service\UserService.java
