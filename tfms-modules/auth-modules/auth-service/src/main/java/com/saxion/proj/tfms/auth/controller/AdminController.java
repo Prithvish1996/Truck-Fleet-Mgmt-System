@@ -21,7 +21,7 @@ public class AdminController {
     private IUserService userService;
 
     // List all users
-    @SwaggerAnnotations.StandardApiOperation(
+    @SwaggerAnnotations.PublicApiOperation(
             summary = "Get all users",
             description = "Get all available users")
     @GetMapping("/users")

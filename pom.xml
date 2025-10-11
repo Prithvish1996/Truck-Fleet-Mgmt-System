@@ -33,6 +33,8 @@
         
         <!-- Authentication & Security Modules -->
         <module>tfms-modules/auth-modules/auth-service</module>
+
+        <!-- Driver Module -->
         
         <!-- Main Application (Built Last) -->
         <module>tfms-starter</module>
