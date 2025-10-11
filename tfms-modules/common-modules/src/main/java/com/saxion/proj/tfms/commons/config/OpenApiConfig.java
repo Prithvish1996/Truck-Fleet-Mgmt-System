@@ -64,6 +64,14 @@ public class OpenApiConfig {
     }
 
     @Bean
+    public GroupedOpenApi plannerApi() {
+        return GroupedOpenApi.builder()
+                .group("planner")
+                .pathsToMatch("/api/planner/**")
+                .build();
+    }
+
+    @Bean
     public GroupedOpenApi userApi() {
         return GroupedOpenApi.builder()
                 .group("public")

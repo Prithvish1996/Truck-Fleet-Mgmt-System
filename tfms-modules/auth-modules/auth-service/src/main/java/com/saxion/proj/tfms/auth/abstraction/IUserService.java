@@ -4,8 +4,10 @@ import com.saxion.proj.tfms.auth.dto.CreateUserDto;
 import com.saxion.proj.tfms.auth.dto.UpdateUserDto;
 import com.saxion.proj.tfms.commons.dto.ApiResponse;
 import com.saxion.proj.tfms.commons.dto.UserDto;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
+
 
 public interface IUserService {
     ApiResponse<UserDto> getUserById(Long userId);

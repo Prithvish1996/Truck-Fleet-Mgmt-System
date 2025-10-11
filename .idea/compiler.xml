@@ -33,6 +33,7 @@
       <module name="driver-service" target="17" />
       <module name="notification-service" target="17" />
       <module name="order-service" target="17" />
+      <module name="planner-modules" target="17" />
       <module name="tfms-analytics" target="17" />
       <module name="tfms-customer" target="17" />
       <module name="tfms-driver" target="17" />
@@ -53,6 +54,7 @@
       <module name="driver-service" options="-parameters" />
       <module name="notification-service" options="-parameters" />
       <module name="order-service" options="-parameters" />
+      <module name="planner-modules" options="-parameters" />
       <module name="tfms" options="-parameters" />
       <module name="tfms-analytics" options="-parameters" />
       <module name="tfms-customer" options="-parameters" />
