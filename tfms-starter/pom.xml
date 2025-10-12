@@ -44,6 +44,13 @@
             <version>${project.version}</version>
         </dependency>
 
+        <!-- Delivery Optimization Module Dependencies -->
+        <dependency>
+            <groupId>com.saxion.proj</groupId>
+            <artifactId>delivery-optimization-service</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
         <!-- Lombok for boilerplate code reduction -->
         <dependency>
             <groupId>org.projectlombok</groupId>

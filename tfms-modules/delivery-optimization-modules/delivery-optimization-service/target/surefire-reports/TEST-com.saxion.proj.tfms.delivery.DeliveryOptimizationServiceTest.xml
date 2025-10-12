@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="com.saxion.proj.tfms.delivery.DeliveryOptimizationServiceTest" time="3.918" tests="5" errors="0" skipped="0" failures="0">
+  <properties>
+    <property name="java.specification.version" value="23"/>
+    <property name="sun.jnu.encoding" value="UTF-8"/>
+    <property name="java.class.path" value="/Users/duncanbraakhekke/Documents/School/02/tfms-modules/delivery-optimization-modules/delivery-optimization-service/target/test-classes:/Users/duncanbraakhekke/Documents/School/02/tfms-modules/delivery-optimization-modules/delivery-optimization-service/target/classes:/Users/duncanbraakhekke/.m2/repository/org/springframework/boot/spring-boot-starter-web/3.5.5/spring-boot-starter-web-3.5.5.jar:/Users/duncanbraakhekke/.m2/repository/org/springframework/boot/spring-boot-starter/3.5.5/spring-boot-starter-3.5.5.jar:/Users/duncanbraakhekke/.m2/repository/org/springframework/boot/spring-boot/3.5.5/spring-boot-3.5.5.jar:/Users/duncanbraakhekke/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/3.5.5/spring-boot-autoconfigure-3.5.5.jar:/Users/duncanbraakhekke/.m2/repository/org/springframework/boot/spring-boot-starter-logging/3.5.5/spring-boot-starter-logging-3.5.5.jar:/Users/duncanbraakhekke/.m2/repository/ch/qos/logback/logback-classic/1.5.18/logback-classic-1.5.18.jar:/Users/duncanbraakhekke/.m2/repository/ch/qos/logback/logback-core/1.5.18/logback-core-1.5.18.jar:/Users/duncanbraakhekke/.m2/repository/org/apache/logging/log4j/log4j-to-slf4j/2.24.3/log4j-to-slf4j-2.24.3.jar:/Users/duncanbraakhekke/.m2/repository/org/apache/logging/log4j/log4j-api/2.24.3/log4j-api-2.24.3.jar:/Users/duncanbraakhekke/.m2/repository/org/slf4j/jul-to-slf4j/2.0.17/jul-to-slf4j-2.0.17.jar:/Users/duncanbraakhekke/.m2/repository/jakarta/annotation/jakarta.annotation-api/2.1.1/jakarta.annotation-api-2.1.1.jar:/Users/duncanbraakhekke/.m2/repository/org/yaml/snakeyaml/2.4/snakeyaml-2.4.jar:/Users/duncanbraakhekke/.m2/repository/org/springframework/boot/spring-boot-starter-json/3.5.5/spring-boot-starter-json-3.5.5.jar:/Users/duncanbraakhekke/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/2.19.2/jackson-datatype-jdk8-2.19.2.jar:/Users/duncanbraakhekke/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.19.2/jackson-datatype-jsr310-2.19.2.jar:/Users/duncanbraakhekke/.m2/repository/com/fasterxml/jackson/module/jackson-module-parameter-names/2.19.2/jackson-module-parameter-names-2.19.2.jar:/Users/duncanbraakhekke/.m2/repository/org/springframework/boot/spring-boot-starter-tomcat/3.5.5/spring-boot-starter-tomcat-3.5.5.jar:/Users/duncanbraakhekke/.m2/repository/org/apache/tomcat/embed/tomcat-embed-core/10.1.44/tomcat-embed-core-10.1.44.jar:/Users/duncanbraakhekke/.m2/repository/org/apache/tomcat/embed/tomcat-embed-websocket/10.1.44/tomcat-embed-websocket-10.1.44.jar:/Users/duncanbraakhekke/.m2/repository/org/springframework/spring-web/6.2.10/spring-web-6.2.10.jar:/Users/duncanbraakhekke/.m2/repository/org/springframework/spring-beans/6.2.10/spring-beans-6.2.10.jar:/Users/duncanbraakhekke/.m2/repository/io/micrometer/micrometer-observation/1.15.3/micrometer-observation-1.15.3.jar:/Users/duncanbraakhekke/.m2/repository/io/micrometer/micrometer-commons/1.15.3/micrometer-commons-1.15.3.jar:/Users/duncanbraakhekke/.m2/repository/org/springframework/spring-webmvc/6.2.10/spring-webmvc-6.2.10.jar:/Users/duncanbraakhekke/.m2/repository/org/springframework/spring-aop/6.2.10/spring-aop-6.2.10.jar:/Users/duncanbraakhekke/.m2/repository/org/springframework/spring-context/6.2.10/spring-context-6.2.10.jar:/Users/duncanbraakhekke/.m2/repository/org/springframework/spring-expression/6.2.10/spring-expression-6.2.10.jar:/Users/duncanbraakhekke/.m2/repository/org/springframework/boot/spring-boot-starter-data-jpa/3.5.5/spring-boot-starter-data-jpa-3.5.5.jar:/Users/duncanbraakhekke/.m2/repository/org/springframework/boot/spring-boot-starter-jdbc/3.5.5/spring-boot-starter-jdbc-3.5.5.jar:/Users/duncanbraakhekke/.m2/repository/com/zaxxer/HikariCP/6.3.2/HikariCP-6.3.2.jar:/Users/duncanbraakhekke/.m2/repository/org/springframework/spring-jdbc/6.2.10/spring-jdbc-6.2.10.jar:/Users/duncanbraakhekke/.m2/repository/org/hibernate/orm/hibernate-core/6.6.26.Final/hibernate-core-6.6.26.Final.jar:/Users/duncanbraakhekke/.m2/repository/jakarta/persistence/jakarta.persistence-api/3.1.0/jakarta.persistence-api-3.1.0.jar:/Users/duncanbraakhekke/.m2/repository/jakarta/transaction/jakarta.transaction-api/2.0.1/jakarta.transaction-api-2.0.1.jar:/Users/duncanbraakhekke/.m2/repository/org/jboss/logging/jboss-logging/3.6.1.Final/jboss-logging-3.6.1.Final.jar:/Users/duncanbraakhekke/.m2/repository/org/hibernate/common/hibernate-commons-annotations/7.0.3.Final/hibernate-commons-annotations-7.0.3.Final.jar:/Users/duncanbraakhekke/.m2/repository/io/smallrye/jandex/3.2.0/jandex-3.2.0.jar:/Users/duncanbraakhekke/.m2/repository/com/fasterxml/classmate/1.7.0/classmate-1.7.0.jar:/Users/duncanbraakhekke/.m2/repository/net/bytebuddy/byte-buddy/1.17.7/byte-buddy-1.17.7.jar:/Users/duncanbraakhekke/.m2/repository/org/glassfish/jaxb/jaxb-runtime/4.0.5/jaxb-runtime-4.0.5.jar:/Users/duncanbraakhekke/.m2/repository/org/glassfish/jaxb/jaxb-core/4.0.5/jaxb-core-4.0.5.jar:/Users/duncanbraakhekke/.m2/repository/org/eclipse/angus/angus-activation/2.0.2/angus-activation-2.0.2.jar:/Users/duncanbraakhekke/.m2/repository/org/glassfish/jaxb/txw2/4.0.5/txw2-4.0.5.jar:/Users/duncanbraakhekke/.m2/repository/com/sun/istack/istack-commons-runtime/4.1.2/istack-commons-runtime-4.1.2.jar:/Users/duncanbraakhekke/.m2/repository/jakarta/inject/jakarta.inject-api/2.0.1/jakarta.inject-api-2.0.1.jar:/Users/duncanbraakhekke/.m2/repository/org/antlr/antlr4-runtime/4.13.0/antlr4-runtime-4.13.0.jar:/Users/duncanbraakhekke/.m2/repository/org/springframework/data/spring-data-jpa/3.5.3/spring-data-jpa-3.5.3.jar:/Users/duncanbraakhekke/.m2/repository/org/springframework/data/spring-data-commons/3.5.3/spring-data-commons-3.5.3.jar:/Users/duncanbraakhekke/.m2/repository/org/springframework/spring-orm/6.2.10/spring-orm-6.2.10.jar:/Users/duncanbraakhekke/.m2/repository/org/springframework/spring-tx/6.2.10/spring-tx-6.2.10.jar:/Users/duncanbraakhekke/.m2/repository/org/slf4j/slf4j-api/2.0.17/slf4j-api-2.0.17.jar:/Users/duncanbraakhekke/.m2/repository/org/springframework/spring-aspects/6.2.10/spring-aspects-6.2.10.jar:/Users/duncanbraakhekke/.m2/repository/org/aspectj/aspectjweaver/1.9.24/aspectjweaver-1.9.24.jar:/Users/duncanbraakhekke/.m2/repository/com/opencsv/opencsv/5.9/opencsv-5.9.jar:/Users/duncanbraakhekke/.m2/repository/org/apache/commons/commons-lang3/3.17.0/commons-lang3-3.17.0.jar:/Users/duncanbraakhekke/.m2/repository/org/apache/commons/commons-text/1.11.0/commons-text-1.11.0.jar:/Users/duncanbraakhekke/.m2/repository/commons-beanutils/commons-beanutils/1.9.4/commons-beanutils-1.9.4.jar:/Users/duncanbraakhekke/.m2/repository/commons-logging/commons-logging/1.2/commons-logging-1.2.jar:/Users/duncanbraakhekke/.m2/repository/commons-collections/commons-collections/3.2.2/commons-collections-3.2.2.jar:/Users/duncanbraakhekke/.m2/repository/org/apache/commons/commons-collections4/4.4/commons-collections4-4.4.jar:/Users/duncanbraakhekke/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.19.2/jackson-databind-2.19.2.jar:/Users/duncanbraakhekke/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.19.2/jackson-annotations-2.19.2.jar:/Users/duncanbraakhekke/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.19.2/jackson-core-2.19.2.jar:/Users/duncanbraakhekke/.m2/repository/org/springframework/boot/spring-boot-starter-validation/3.5.5/spring-boot-starter-validation-3.5.5.jar:/Users/duncanbraakhekke/.m2/repository/org/apache/tomcat/embed/tomcat-embed-el/10.1.44/tomcat-embed-el-10.1.44.jar:/Users/duncanbraakhekke/.m2/repository/org/hibernate/validator/hibernate-validator/8.0.3.Final/hibernate-validator-8.0.3.Final.jar:/Users/duncanbraakhekke/.m2/repository/jakarta/validation/jakarta.validation-api/3.0.2/jakarta.validation-api-3.0.2.jar:/Users/duncanbraakhekke/.m2/repository/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar:/Users/duncanbraakhekke/.m2/repository/org/springframework/boot/spring-boot-starter-test/3.5.5/spring-boot-starter-test-3.5.5.jar:/Users/duncanbraakhekke/.m2/repository/org/springframework/boot/spring-boot-test/3.5.5/spring-boot-test-3.5.5.jar:/Users/duncanbraakhekke/.m2/repository/org/springframework/boot/spring-boot-test-autoconfigure/3.5.5/spring-boot-test-autoconfigure-3.5.5.jar:/Users/duncanbraakhekke/.m2/repository/com/jayway/jsonpath/json-path/2.9.0/json-path-2.9.0.jar:/Users/duncanbraakhekke/.m2/repository/jakarta/xml/bind/jakarta.xml.bind-api/4.0.2/jakarta.xml.bind-api-4.0.2.jar:/Users/duncanbraakhekke/.m2/repository/jakarta/activation/jakarta.activation-api/2.1.3/jakarta.activation-api-2.1.3.jar:/Users/duncanbraakhekke/.m2/repository/net/minidev/json-smart/2.5.2/json-smart-2.5.2.jar:/Users/duncanbraakhekke/.m2/repository/net/minidev/accessors-smart/2.5.2/accessors-smart-2.5.2.jar:/Users/duncanbraakhekke/.m2/repository/org/ow2/asm/asm/9.7.1/asm-9.7.1.jar:/Users/duncanbraakhekke/.m2/repository/org/assertj/assertj-core/3.27.4/assertj-core-3.27.4.jar:/Users/duncanbraakhekke/.m2/repository/org/awaitility/awaitility/4.2.2/awaitility-4.2.2.jar:/Users/duncanbraakhekke/.m2/repository/org/hamcrest/hamcrest/3.0/hamcrest-3.0.jar:/Users/duncanbraakhekke/.m2/repository/org/junit/jupiter/junit-jupiter/5.12.2/junit-jupiter-5.12.2.jar:/Users/duncanbraakhekke/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.12.2/junit-jupiter-api-5.12.2.jar:/Users/duncanbraakhekke/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/Users/duncanbraakhekke/.m2/repository/org/junit/platform/junit-platform-commons/1.12.2/junit-platform-commons-1.12.2.jar:/Users/duncanbraakhekke/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/duncanbraakhekke/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.12.2/junit-jupiter-params-5.12.2.jar:/Users/duncanbraakhekke/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.12.2/junit-jupiter-engine-5.12.2.jar:/Users/duncanbraakhekke/.m2/repository/org/junit/platform/junit-platform-engine/1.12.2/junit-platform-engine-1.12.2.jar:/Users/duncanbraakhekke/.m2/repository/org/mockito/mockito-core/5.17.0/mockito-core-5.17.0.jar:/Users/duncanbraakhekke/.m2/repository/net/bytebuddy/byte-buddy-agent/1.17.7/byte-buddy-agent-1.17.7.jar:/Users/duncanbraakhekke/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar:/Users/duncanbraakhekke/.m2/repository/org/mockito/mockito-junit-jupiter/5.17.0/mockito-junit-jupiter-5.17.0.jar:/Users/duncanbraakhekke/.m2/repository/org/skyscreamer/jsonassert/1.5.3/jsonassert-1.5.3.jar:/Users/duncanbraakhekke/.m2/repository/com/vaadin/external/google/android-json/0.0.20131108.vaadin1/android-json-0.0.20131108.vaadin1.jar:/Users/duncanbraakhekke/.m2/repository/org/springframework/spring-core/6.2.10/spring-core-6.2.10.jar:/Users/duncanbraakhekke/.m2/repository/org/springframework/spring-jcl/6.2.10/spring-jcl-6.2.10.jar:/Users/duncanbraakhekke/.m2/repository/org/springframework/spring-test/6.2.10/spring-test-6.2.10.jar:/Users/duncanbraakhekke/.m2/repository/org/xmlunit/xmlunit-core/2.10.3/xmlunit-core-2.10.3.jar:/Users/duncanbraakhekke/.m2/repository/com/h2database/h2/2.3.232/h2-2.3.232.jar:"/>
+    <property name="java.vm.vendor" value="Homebrew"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="java.vendor.url" value="https://github.com/Homebrew/homebrew-core/issues"/>
+    <property name="user.timezone" value="Europe/Amsterdam"/>
+    <property name="org.jboss.logging.provider" value="slf4j"/>
+    <property name="os.name" value="Mac OS X"/>
+    <property name="java.vm.specification.version" value="23"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="user.country" value="NL"/>
+    <property name="sun.boot.library.path" value="/opt/homebrew/Cellar/openjdk/23/libexec/openjdk.jdk/Contents/Home/lib"/>
+    <property name="sun.java.command" value="/Users/duncanbraakhekke/Documents/School/02/tfms-modules/delivery-optimization-modules/delivery-optimization-service/target/surefire/surefirebooter-20251012160934591_3.jar /Users/duncanbraakhekke/Documents/School/02/tfms-modules/delivery-optimization-modules/delivery-optimization-service/target/surefire 2025-10-12T16-09-34_518-jvmRun1 surefire-20251012160934591_1tmp surefire_0-20251012160934591_2tmp"/>
+    <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="surefire.test.class.path" value="/Users/duncanbraakhekke/Documents/School/02/tfms-modules/delivery-optimization-modules/delivery-optimization-service/target/test-classes:/Users/duncanbraakhekke/Documents/School/02/tfms-modules/delivery-optimization-modules/delivery-optimization-service/target/classes:/Users/duncanbraakhekke/.m2/repository/org/springframework/boot/spring-boot-starter-web/3.5.5/spring-boot-starter-web-3.5.5.jar:/Users/duncanbraakhekke/.m2/repository/org/springframework/boot/spring-boot-starter/3.5.5/spring-boot-starter-3.5.5.jar:/Users/duncanbraakhekke/.m2/repository/org/springframework/boot/spring-boot/3.5.5/spring-boot-3.5.5.jar:/Users/duncanbraakhekke/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/3.5.5/spring-boot-autoconfigure-3.5.5.jar:/Users/duncanbraakhekke/.m2/repository/org/springframework/boot/spring-boot-starter-logging/3.5.5/spring-boot-starter-logging-3.5.5.jar:/Users/duncanbraakhekke/.m2/repository/ch/qos/logback/logback-classic/1.5.18/logback-classic-1.5.18.jar:/Users/duncanbraakhekke/.m2/repository/ch/qos/logback/logback-core/1.5.18/logback-core-1.5.18.jar:/Users/duncanbraakhekke/.m2/repository/org/apache/logging/log4j/log4j-to-slf4j/2.24.3/log4j-to-slf4j-2.24.3.jar:/Users/duncanbraakhekke/.m2/repository/org/apache/logging/log4j/log4j-api/2.24.3/log4j-api-2.24.3.jar:/Users/duncanbraakhekke/.m2/repository/org/slf4j/jul-to-slf4j/2.0.17/jul-to-slf4j-2.0.17.jar:/Users/duncanbraakhekke/.m2/repository/jakarta/annotation/jakarta.annotation-api/2.1.1/jakarta.annotation-api-2.1.1.jar:/Users/duncanbraakhekke/.m2/repository/org/yaml/snakeyaml/2.4/snakeyaml-2.4.jar:/Users/duncanbraakhekke/.m2/repository/org/springframework/boot/spring-boot-starter-json/3.5.5/spring-boot-starter-json-3.5.5.jar:/Users/duncanbraakhekke/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/2.19.2/jackson-datatype-jdk8-2.19.2.jar:/Users/duncanbraakhekke/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.19.2/jackson-datatype-jsr310-2.19.2.jar:/Users/duncanbraakhekke/.m2/repository/com/fasterxml/jackson/module/jackson-module-parameter-names/2.19.2/jackson-module-parameter-names-2.19.2.jar:/Users/duncanbraakhekke/.m2/repository/org/springframework/boot/spring-boot-starter-tomcat/3.5.5/spring-boot-starter-tomcat-3.5.5.jar:/Users/duncanbraakhekke/.m2/repository/org/apache/tomcat/embed/tomcat-embed-core/10.1.44/tomcat-embed-core-10.1.44.jar:/Users/duncanbraakhekke/.m2/repository/org/apache/tomcat/embed/tomcat-embed-websocket/10.1.44/tomcat-embed-websocket-10.1.44.jar:/Users/duncanbraakhekke/.m2/repository/org/springframework/spring-web/6.2.10/spring-web-6.2.10.jar:/Users/duncanbraakhekke/.m2/repository/org/springframework/spring-beans/6.2.10/spring-beans-6.2.10.jar:/Users/duncanbraakhekke/.m2/repository/io/micrometer/micrometer-observation/1.15.3/micrometer-observation-1.15.3.jar:/Users/duncanbraakhekke/.m2/repository/io/micrometer/micrometer-commons/1.15.3/micrometer-commons-1.15.3.jar:/Users/duncanbraakhekke/.m2/repository/org/springframework/spring-webmvc/6.2.10/spring-webmvc-6.2.10.jar:/Users/duncanbraakhekke/.m2/repository/org/springframework/spring-aop/6.2.10/spring-aop-6.2.10.jar:/Users/duncanbraakhekke/.m2/repository/org/springframework/spring-context/6.2.10/spring-context-6.2.10.jar:/Users/duncanbraakhekke/.m2/repository/org/springframework/spring-expression/6.2.10/spring-expression-6.2.10.jar:/Users/duncanbraakhekke/.m2/repository/org/springframework/boot/spring-boot-starter-data-jpa/3.5.5/spring-boot-starter-data-jpa-3.5.5.jar:/Users/duncanbraakhekke/.m2/repository/org/springframework/boot/spring-boot-starter-jdbc/3.5.5/spring-boot-starter-jdbc-3.5.5.jar:/Users/duncanbraakhekke/.m2/repository/com/zaxxer/HikariCP/6.3.2/HikariCP-6.3.2.jar:/Users/duncanbraakhekke/.m2/repository/org/springframework/spring-jdbc/6.2.10/spring-jdbc-6.2.10.jar:/Users/duncanbraakhekke/.m2/repository/org/hibernate/orm/hibernate-core/6.6.26.Final/hibernate-core-6.6.26.Final.jar:/Users/duncanbraakhekke/.m2/repository/jakarta/persistence/jakarta.persistence-api/3.1.0/jakarta.persistence-api-3.1.0.jar:/Users/duncanbraakhekke/.m2/repository/jakarta/transaction/jakarta.transaction-api/2.0.1/jakarta.transaction-api-2.0.1.jar:/Users/duncanbraakhekke/.m2/repository/org/jboss/logging/jboss-logging/3.6.1.Final/jboss-logging-3.6.1.Final.jar:/Users/duncanbraakhekke/.m2/repository/org/hibernate/common/hibernate-commons-annotations/7.0.3.Final/hibernate-commons-annotations-7.0.3.Final.jar:/Users/duncanbraakhekke/.m2/repository/io/smallrye/jandex/3.2.0/jandex-3.2.0.jar:/Users/duncanbraakhekke/.m2/repository/com/fasterxml/classmate/1.7.0/classmate-1.7.0.jar:/Users/duncanbraakhekke/.m2/repository/net/bytebuddy/byte-buddy/1.17.7/byte-buddy-1.17.7.jar:/Users/duncanbraakhekke/.m2/repository/org/glassfish/jaxb/jaxb-runtime/4.0.5/jaxb-runtime-4.0.5.jar:/Users/duncanbraakhekke/.m2/repository/org/glassfish/jaxb/jaxb-core/4.0.5/jaxb-core-4.0.5.jar:/Users/duncanbraakhekke/.m2/repository/org/eclipse/angus/angus-activation/2.0.2/angus-activation-2.0.2.jar:/Users/duncanbraakhekke/.m2/repository/org/glassfish/jaxb/txw2/4.0.5/txw2-4.0.5.jar:/Users/duncanbraakhekke/.m2/repository/com/sun/istack/istack-commons-runtime/4.1.2/istack-commons-runtime-4.1.2.jar:/Users/duncanbraakhekke/.m2/repository/jakarta/inject/jakarta.inject-api/2.0.1/jakarta.inject-api-2.0.1.jar:/Users/duncanbraakhekke/.m2/repository/org/antlr/antlr4-runtime/4.13.0/antlr4-runtime-4.13.0.jar:/Users/duncanbraakhekke/.m2/repository/org/springframework/data/spring-data-jpa/3.5.3/spring-data-jpa-3.5.3.jar:/Users/duncanbraakhekke/.m2/repository/org/springframework/data/spring-data-commons/3.5.3/spring-data-commons-3.5.3.jar:/Users/duncanbraakhekke/.m2/repository/org/springframework/spring-orm/6.2.10/spring-orm-6.2.10.jar:/Users/duncanbraakhekke/.m2/repository/org/springframework/spring-tx/6.2.10/spring-tx-6.2.10.jar:/Users/duncanbraakhekke/.m2/repository/org/slf4j/slf4j-api/2.0.17/slf4j-api-2.0.17.jar:/Users/duncanbraakhekke/.m2/repository/org/springframework/spring-aspects/6.2.10/spring-aspects-6.2.10.jar:/Users/duncanbraakhekke/.m2/repository/org/aspectj/aspectjweaver/1.9.24/aspectjweaver-1.9.24.jar:/Users/duncanbraakhekke/.m2/repository/com/opencsv/opencsv/5.9/opencsv-5.9.jar:/Users/duncanbraakhekke/.m2/repository/org/apache/commons/commons-lang3/3.17.0/commons-lang3-3.17.0.jar:/Users/duncanbraakhekke/.m2/repository/org/apache/commons/commons-text/1.11.0/commons-text-1.11.0.jar:/Users/duncanbraakhekke/.m2/repository/commons-beanutils/commons-beanutils/1.9.4/commons-beanutils-1.9.4.jar:/Users/duncanbraakhekke/.m2/repository/commons-logging/commons-logging/1.2/commons-logging-1.2.jar:/Users/duncanbraakhekke/.m2/repository/commons-collections/commons-collections/3.2.2/commons-collections-3.2.2.jar:/Users/duncanbraakhekke/.m2/repository/org/apache/commons/commons-collections4/4.4/commons-collections4-4.4.jar:/Users/duncanbraakhekke/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.19.2/jackson-databind-2.19.2.jar:/Users/duncanbraakhekke/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.19.2/jackson-annotations-2.19.2.jar:/Users/duncanbraakhekke/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.19.2/jackson-core-2.19.2.jar:/Users/duncanbraakhekke/.m2/repository/org/springframework/boot/spring-boot-starter-validation/3.5.5/spring-boot-starter-validation-3.5.5.jar:/Users/duncanbraakhekke/.m2/repository/org/apache/tomcat/embed/tomcat-embed-el/10.1.44/tomcat-embed-el-10.1.44.jar:/Users/duncanbraakhekke/.m2/repository/org/hibernate/validator/hibernate-validator/8.0.3.Final/hibernate-validator-8.0.3.Final.jar:/Users/duncanbraakhekke/.m2/repository/jakarta/validation/jakarta.validation-api/3.0.2/jakarta.validation-api-3.0.2.jar:/Users/duncanbraakhekke/.m2/repository/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar:/Users/duncanbraakhekke/.m2/repository/org/springframework/boot/spring-boot-starter-test/3.5.5/spring-boot-starter-test-3.5.5.jar:/Users/duncanbraakhekke/.m2/repository/org/springframework/boot/spring-boot-test/3.5.5/spring-boot-test-3.5.5.jar:/Users/duncanbraakhekke/.m2/repository/org/springframework/boot/spring-boot-test-autoconfigure/3.5.5/spring-boot-test-autoconfigure-3.5.5.jar:/Users/duncanbraakhekke/.m2/repository/com/jayway/jsonpath/json-path/2.9.0/json-path-2.9.0.jar:/Users/duncanbraakhekke/.m2/repository/jakarta/xml/bind/jakarta.xml.bind-api/4.0.2/jakarta.xml.bind-api-4.0.2.jar:/Users/duncanbraakhekke/.m2/repository/jakarta/activation/jakarta.activation-api/2.1.3/jakarta.activation-api-2.1.3.jar:/Users/duncanbraakhekke/.m2/repository/net/minidev/json-smart/2.5.2/json-smart-2.5.2.jar:/Users/duncanbraakhekke/.m2/repository/net/minidev/accessors-smart/2.5.2/accessors-smart-2.5.2.jar:/Users/duncanbraakhekke/.m2/repository/org/ow2/asm/asm/9.7.1/asm-9.7.1.jar:/Users/duncanbraakhekke/.m2/repository/org/assertj/assertj-core/3.27.4/assertj-core-3.27.4.jar:/Users/duncanbraakhekke/.m2/repository/org/awaitility/awaitility/4.2.2/awaitility-4.2.2.jar:/Users/duncanbraakhekke/.m2/repository/org/hamcrest/hamcrest/3.0/hamcrest-3.0.jar:/Users/duncanbraakhekke/.m2/repository/org/junit/jupiter/junit-jupiter/5.12.2/junit-jupiter-5.12.2.jar:/Users/duncanbraakhekke/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.12.2/junit-jupiter-api-5.12.2.jar:/Users/duncanbraakhekke/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/Users/duncanbraakhekke/.m2/repository/org/junit/platform/junit-platform-commons/1.12.2/junit-platform-commons-1.12.2.jar:/Users/duncanbraakhekke/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/duncanbraakhekke/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.12.2/junit-jupiter-params-5.12.2.jar:/Users/duncanbraakhekke/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.12.2/junit-jupiter-engine-5.12.2.jar:/Users/duncanbraakhekke/.m2/repository/org/junit/platform/junit-platform-engine/1.12.2/junit-platform-engine-1.12.2.jar:/Users/duncanbraakhekke/.m2/repository/org/mockito/mockito-core/5.17.0/mockito-core-5.17.0.jar:/Users/duncanbraakhekke/.m2/repository/net/bytebuddy/byte-buddy-agent/1.17.7/byte-buddy-agent-1.17.7.jar:/Users/duncanbraakhekke/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar:/Users/duncanbraakhekke/.m2/repository/org/mockito/mockito-junit-jupiter/5.17.0/mockito-junit-jupiter-5.17.0.jar:/Users/duncanbraakhekke/.m2/repository/org/skyscreamer/jsonassert/1.5.3/jsonassert-1.5.3.jar:/Users/duncanbraakhekke/.m2/repository/com/vaadin/external/google/android-json/0.0.20131108.vaadin1/android-json-0.0.20131108.vaadin1.jar:/Users/duncanbraakhekke/.m2/repository/org/springframework/spring-core/6.2.10/spring-core-6.2.10.jar:/Users/duncanbraakhekke/.m2/repository/org/springframework/spring-jcl/6.2.10/spring-jcl-6.2.10.jar:/Users/duncanbraakhekke/.m2/repository/org/springframework/spring-test/6.2.10/spring-test-6.2.10.jar:/Users/duncanbraakhekke/.m2/repository/org/xmlunit/xmlunit-core/2.10.3/xmlunit-core-2.10.3.jar:/Users/duncanbraakhekke/.m2/repository/com/h2database/h2/2.3.232/h2-2.3.232.jar:"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="/Users/duncanbraakhekke"/>
+    <property name="user.language" value="en"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2024-09-17"/>
+    <property name="java.home" value="/opt/homebrew/Cellar/openjdk/23/libexec/openjdk.jdk/Contents/Home"/>
+    <property name="file.separator" value="/"/>
+    <property name="basedir" value="/Users/duncanbraakhekke/Documents/School/02/tfms-modules/delivery-optimization-modules/delivery-optimization-service"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="FILE_LOG_CHARSET" value="UTF-8"/>
+    <property name="java.awt.headless" value="true"/>
+    <property name="apple.awt.application.name" value="ForkedBooter"/>
+    <property name="surefire.real.class.path" value="/Users/duncanbraakhekke/Documents/School/02/tfms-modules/delivery-optimization-modules/delivery-optimization-service/target/surefire/surefirebooter-20251012160934591_3.jar"/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="java.runtime.version" value="23"/>
+    <property name="user.name" value="duncanbraakhekke"/>
+    <property name="stdout.encoding" value="UTF-8"/>
+    <property name="path.separator" value=":"/>
+    <property name="os.version" value="15.6.1"/>
+    <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
+    <property name="java.vendor.version" value="Homebrew"/>
+    <property name="localRepository" value="/Users/duncanbraakhekke/.m2/repository"/>
+    <property name="java.vendor.url.bug" value="https://github.com/Homebrew/homebrew-core/issues"/>
+    <property name="java.io.tmpdir" value="/var/folders/qm/r6918q9j2ml6v3xst5mmp3tw0000gn/T/"/>
+    <property name="com.zaxxer.hikari.pool_number" value="1"/>
+    <property name="java.version" value="23"/>
+    <property name="user.dir" value="/Users/duncanbraakhekke/Documents/School/02/tfms-modules/delivery-optimization-modules/delivery-optimization-service"/>
+    <property name="os.arch" value="aarch64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="PID" value="94820"/>
+    <property name="CONSOLE_LOG_CHARSET" value="UTF-8"/>
+    <property name="native.encoding" value="UTF-8"/>
+    <property name="java.library.path" value="/Users/duncanbraakhekke/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:."/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="stderr.encoding" value="UTF-8"/>
+    <property name="java.vendor" value="Homebrew"/>
+    <property name="java.vm.version" value="23"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeBig"/>
+    <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="java.class.version" value="67.0"/>
+  </properties>
+  <testcase name="testWeightLimitValidation" classname="com.saxion.proj.tfms.delivery.DeliveryOptimizationServiceTest" time="0.332">
+    <system-out><![CDATA[Standard Commons Logging discovery in action with spring-jcl: please remove commons-logging.jar from classpath in order to avoid potential conflicts
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.5)
+
+2025-10-12T16:09:35.433+02:00  INFO 94820 --- [           main] .s.p.t.d.DeliveryOptimizationServiceTest : Starting DeliveryOptimizationServiceTest using Java 23 with PID 94820 (started by duncanbraakhekke in /Users/duncanbraakhekke/Documents/School/02/tfms-modules/delivery-optimization-modules/delivery-optimization-service)
+2025-10-12T16:09:35.435+02:00 DEBUG 94820 --- [           main] .s.p.t.d.DeliveryOptimizationServiceTest : Running with Spring Boot v3.5.5, Spring v6.2.10
+2025-10-12T16:09:35.436+02:00  INFO 94820 --- [           main] .s.p.t.d.DeliveryOptimizationServiceTest : The following 1 profile is active: "test"
+2025-10-12T16:09:35.923+02:00  INFO 94820 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-10-12T16:09:35.965+02:00  INFO 94820 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 34 ms. Found 4 JPA repository interfaces.
+2025-10-12T16:09:36.241+02:00  INFO 94820 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-10-12T16:09:36.268+02:00  INFO 94820 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.26.Final
+2025-10-12T16:09:36.286+02:00  INFO 94820 --- [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-10-12T16:09:36.502+02:00  INFO 94820 --- [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-10-12T16:09:36.525+02:00  INFO 94820 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-10-12T16:09:36.674+02:00  INFO 94820 --- [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:testdb user=SA
+2025-10-12T16:09:36.676+02:00  INFO 94820 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-10-12T16:09:36.693+02:00  WARN 94820 --- [           main] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-10-12T16:09:36.714+02:00  INFO 94820 --- [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 2.3.232
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-10-12T16:09:37.365+02:00  INFO 94820 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-10-12T16:09:37.398+02:00  INFO 94820 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-10-12T16:09:37.529+02:00  WARN 94820 --- [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-10-12T16:09:37.927+02:00  INFO 94820 --- [           main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-10-12T16:09:38.524+02:00  INFO 94820 --- [           main] .s.p.t.d.DeliveryOptimizationServiceTest : Started DeliveryOptimizationServiceTest in 3.29 seconds (process running for 3.873)
+2025-10-12T16:09:38.529+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 0, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.529+02:00 DEBUG 94820 --- [           main] o.s.t.c.w.ServletTestExecutionListener   : Setting up MockHttpServletRequest, MockHttpServletResponse, ServletWebRequest, and RequestContextHolder for test class com.saxion.proj.tfms.delivery.DeliveryOptimizationServiceTest
+2025-10-12T16:09:38.534+02:00 DEBUG 94820 --- [           main] DependencyInjectionTestExecutionListener : Performing dependency injection for test class com.saxion.proj.tfms.delivery.DeliveryOptimizationServiceTest
+2025-10-12T16:09:38.535+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 1, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.535+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 2, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.539+02:00 DEBUG 94820 --- [           main] sContextBeforeModesTestExecutionListener : Before test method: class [DeliveryOptimizationServiceTest], method [testWeightLimitValidation], class annotated with @DirtiesContext [false] with mode [null], method annotated with @DirtiesContext [false] with mode [null]
+2025-10-12T16:09:38.539+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 3, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.540+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 4, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.845+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 5, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.847+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 6, missCount = 1, failureCount = 0]
+
+=== Testing Weight Limit Validation ===
+📦 Creating weight limit test dataset...
+  - Created 1 warehouse with 8 heavy packages (350-700kg each)
+  - Created 3 trucks with limited capacities (500, 1000, 2000kg)
+✓ Created weight limit test with packages that exceed truck capacity
+🔄 Starting weight limit validation...
+2025-10-12T16:09:38.851+02:00  INFO 94820 --- [           main] c.s.p.t.d.s.DeliveryOptimizationService  : Starting delivery optimization from JSON data
+2025-10-12T16:09:38.851+02:00  INFO 94820 --- [           main] c.s.p.t.d.service.DataParsingService     : Parsing JSON data with 1 warehouses and 3 trucks
+2025-10-12T16:09:38.852+02:00  INFO 94820 --- [           main] c.s.p.t.d.service.DataParsingService     : Successfully parsed 1 warehouses with 8 total packages and 3 trucks
+2025-10-12T16:09:38.852+02:00  INFO 94820 --- [           main] c.s.p.t.d.s.RouteOptimizationService     : Starting route optimization for 8 packages and 3 trucks
+2025-10-12T16:09:38.854+02:00  INFO 94820 --- [           main] c.s.p.t.d.s.RouteOptimizationService     : Created route for truck TRUCK-LARGE-003 with 4 packages
+2025-10-12T16:09:38.855+02:00  INFO 94820 --- [           main] c.s.p.t.d.s.RouteOptimizationService     : Created route for truck TRUCK-MEDIUM-002 with 1 packages
+2025-10-12T16:09:38.855+02:00  INFO 94820 --- [           main] c.s.p.t.d.s.RouteOptimizationService     : Route optimization completed. Created 2 routes, 3 packages unassigned
+2025-10-12T16:09:38.856+02:00  INFO 94820 --- [           main] c.s.p.t.d.s.DeliveryOptimizationService  : Optimization completed: 2 routes, 8 total packages, 0 unassigned
+✓ Weight limit validation completed!
+📊 Results:
+  - Optimization ID: 20076f08-1c24-44ed-8821-9f99529ec30f
+  - Total Routes: 2
+  - Total Packages: 8
+  - Unassigned Packages: 0
+🔍 Validating weight limits...
+  - Route TRUCK-LARGE-003: 1700.0/2000.0 ✓
+  - Route TRUCK-MEDIUM-002: 550.0/1000.0 ✓
+  ✓ All routes respect weight limits
+  - Route 1: Truck TRUCK-LARGE-003, Weight: 1700.0, Packages: 4
+  - Route 2: Truck TRUCK-MEDIUM-002, Weight: 550.0, Packages: 1
+🔍 Validating weight limit test results...
+  ✓ Response object created successfully
+  ✓ Optimization ID generated: 20076f08-1c24-44ed-8821-9f99529ec30f
+  ✓ Total routes created: 2
+  🔍 Validating heavy package handling...
+  ✓ Packages assigned to routes: 5
+  🔍 Validating unassigned packages handling...
+  ✓ Unassigned packages: 0
+  🔍 Validating no capacity violations...
+    ✓ Route TRUCK-LARGE-003 validated
+    ✓ Route TRUCK-MEDIUM-002 validated
+  ✓ All routes respect weight limits
+✅ Weight limit validation test PASSED - All validations successful!
+
+2025-10-12T16:09:38.861+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 7, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.862+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 8, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.863+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 9, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.863+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 10, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.863+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 11, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.864+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 12, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.865+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 13, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.865+02:00 DEBUG 94820 --- [           main] .c.s.DirtiesContextTestExecutionListener : After test method: class [DeliveryOptimizationServiceTest], method [testWeightLimitValidation], class annotated with @DirtiesContext [false] with mode [null], method annotated with @DirtiesContext [false] with mode [null]
+2025-10-12T16:09:38.865+02:00 DEBUG 94820 --- [           main] o.s.t.c.w.ServletTestExecutionListener   : Resetting RequestContextHolder for test class com.saxion.proj.tfms.delivery.DeliveryOptimizationServiceTest
+]]></system-out>
+    <system-err><![CDATA[Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+WARNING: A Java agent has been loaded dynamically (/Users/duncanbraakhekke/.m2/repository/net/bytebuddy/byte-buddy-agent/1.17.7/byte-buddy-agent-1.17.7.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+]]></system-err>
+  </testcase>
+  <testcase name="testOptimizeFromJson" classname="com.saxion.proj.tfms.delivery.DeliveryOptimizationServiceTest" time="0.005">
+    <system-out><![CDATA[2025-10-12T16:09:38.869+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 14, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.869+02:00 DEBUG 94820 --- [           main] o.s.t.c.w.ServletTestExecutionListener   : Setting up MockHttpServletRequest, MockHttpServletResponse, ServletWebRequest, and RequestContextHolder for test class com.saxion.proj.tfms.delivery.DeliveryOptimizationServiceTest
+2025-10-12T16:09:38.869+02:00 DEBUG 94820 --- [           main] DependencyInjectionTestExecutionListener : Performing dependency injection for test class com.saxion.proj.tfms.delivery.DeliveryOptimizationServiceTest
+2025-10-12T16:09:38.869+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 15, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.869+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 16, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.870+02:00 DEBUG 94820 --- [           main] sContextBeforeModesTestExecutionListener : Before test method: class [DeliveryOptimizationServiceTest], method [testOptimizeFromJson], class annotated with @DirtiesContext [false] with mode [null], method annotated with @DirtiesContext [false] with mode [null]
+2025-10-12T16:09:38.870+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 17, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.870+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 18, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.870+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 19, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.871+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 20, missCount = 1, failureCount = 0]
+
+=== Testing JSON Optimization ===
+📦 Creating test data...
+  - Created 1 warehouse with 5 packages
+  - Created 1 truck with 1000kg capacity
+✓ Created test request with 1 warehouses and 1 trucks
+🔄 Starting optimization...
+2025-10-12T16:09:38.871+02:00  INFO 94820 --- [           main] c.s.p.t.d.s.DeliveryOptimizationService  : Starting delivery optimization from JSON data
+2025-10-12T16:09:38.871+02:00  INFO 94820 --- [           main] c.s.p.t.d.service.DataParsingService     : Parsing JSON data with 1 warehouses and 1 trucks
+2025-10-12T16:09:38.871+02:00  INFO 94820 --- [           main] c.s.p.t.d.service.DataParsingService     : Successfully parsed 1 warehouses with 5 total packages and 1 trucks
+2025-10-12T16:09:38.871+02:00  INFO 94820 --- [           main] c.s.p.t.d.s.RouteOptimizationService     : Starting route optimization for 5 packages and 1 trucks
+2025-10-12T16:09:38.872+02:00  INFO 94820 --- [           main] c.s.p.t.d.s.RouteOptimizationService     : Created route for truck TRUCK-001 with 5 packages
+2025-10-12T16:09:38.872+02:00  INFO 94820 --- [           main] c.s.p.t.d.s.RouteOptimizationService     : Route optimization completed. Created 1 routes, 0 packages unassigned
+2025-10-12T16:09:38.872+02:00  INFO 94820 --- [           main] c.s.p.t.d.s.DeliveryOptimizationService  : Optimization completed: 1 routes, 5 total packages, 0 unassigned
+✓ Optimization completed!
+📊 Results:
+  - Optimization ID: 19d01dd6-9cb7-42ed-944d-9b2b4a4040c6
+  - Total Routes: 1
+  - Total Packages: 5
+  - Unassigned Packages: 0
+  - Route 1: Truck TRUCK-001, Weight: 650.0, Packages: 5
+🔍 Validating JSON optimization results...
+  ✓ Response object created successfully
+  ✓ Optimization ID generated: 19d01dd6-9cb7-42ed-944d-9b2b4a4040c6
+  ✓ Total routes created: 1
+  ✓ Total packages processed: 5
+  ✓ Routes list is valid
+  ✓ Unassigned packages list is valid
+  🔍 Checking weight limits...
+    ✓ Route TRUCK-001 weight: 650.0kg (within limit)
+✅ JSON optimization test PASSED - All validations successful!
+
+2025-10-12T16:09:38.873+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 21, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.873+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 22, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.874+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 23, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.874+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 24, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.874+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 25, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.874+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 26, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.875+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 27, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.875+02:00 DEBUG 94820 --- [           main] .c.s.DirtiesContextTestExecutionListener : After test method: class [DeliveryOptimizationServiceTest], method [testOptimizeFromJson], class annotated with @DirtiesContext [false] with mode [null], method annotated with @DirtiesContext [false] with mode [null]
+2025-10-12T16:09:38.875+02:00 DEBUG 94820 --- [           main] o.s.t.c.w.ServletTestExecutionListener   : Resetting RequestContextHolder for test class com.saxion.proj.tfms.delivery.DeliveryOptimizationServiceTest
+]]></system-out>
+  </testcase>
+  <testcase name="testLargeDatasetOptimization" classname="com.saxion.proj.tfms.delivery.DeliveryOptimizationServiceTest" time="0.02">
+    <system-out><![CDATA[2025-10-12T16:09:38.876+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 28, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.876+02:00 DEBUG 94820 --- [           main] o.s.t.c.w.ServletTestExecutionListener   : Setting up MockHttpServletRequest, MockHttpServletResponse, ServletWebRequest, and RequestContextHolder for test class com.saxion.proj.tfms.delivery.DeliveryOptimizationServiceTest
+2025-10-12T16:09:38.876+02:00 DEBUG 94820 --- [           main] DependencyInjectionTestExecutionListener : Performing dependency injection for test class com.saxion.proj.tfms.delivery.DeliveryOptimizationServiceTest
+2025-10-12T16:09:38.877+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 29, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.878+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 30, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.878+02:00 DEBUG 94820 --- [           main] sContextBeforeModesTestExecutionListener : Before test method: class [DeliveryOptimizationServiceTest], method [testLargeDatasetOptimization], class annotated with @DirtiesContext [false] with mode [null], method annotated with @DirtiesContext [false] with mode [null]
+2025-10-12T16:09:38.878+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 31, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.878+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 32, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.879+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 33, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.879+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 34, missCount = 1, failureCount = 0]
+
+=== Testing Large Dataset Optimization ===
+📦 Creating large test dataset...
+  - Created 3 warehouses with 45 total packages
+  - Created 4 trucks with varying capacities (1000-2500kg)
+✓ Created large test request with 3 warehouses and 4 trucks
+  - Total packages across all warehouses: 45
+🔄 Starting large dataset optimization...
+2025-10-12T16:09:38.880+02:00  INFO 94820 --- [           main] c.s.p.t.d.s.DeliveryOptimizationService  : Starting delivery optimization from JSON data
+2025-10-12T16:09:38.880+02:00  INFO 94820 --- [           main] c.s.p.t.d.service.DataParsingService     : Parsing JSON data with 3 warehouses and 4 trucks
+2025-10-12T16:09:38.880+02:00  INFO 94820 --- [           main] c.s.p.t.d.service.DataParsingService     : Successfully parsed 3 warehouses with 45 total packages and 4 trucks
+2025-10-12T16:09:38.880+02:00  INFO 94820 --- [           main] c.s.p.t.d.s.RouteOptimizationService     : Starting route optimization for 45 packages and 4 trucks
+2025-10-12T16:09:38.893+02:00  INFO 94820 --- [           main] c.s.p.t.d.s.RouteOptimizationService     : Created route for truck TRUCK-LARGE-004 with 23 packages
+2025-10-12T16:09:38.894+02:00  INFO 94820 --- [           main] c.s.p.t.d.s.RouteOptimizationService     : Created route for truck TRUCK-LARGE-001 with 15 packages
+2025-10-12T16:09:38.894+02:00  INFO 94820 --- [           main] c.s.p.t.d.s.RouteOptimizationService     : Created route for truck TRUCK-MEDIUM-002 with 7 packages
+2025-10-12T16:09:38.894+02:00  INFO 94820 --- [           main] c.s.p.t.d.s.RouteOptimizationService     : Route optimization completed. Created 3 routes, 0 packages unassigned
+2025-10-12T16:09:38.894+02:00  INFO 94820 --- [           main] c.s.p.t.d.s.DeliveryOptimizationService  : Optimization completed: 3 routes, 45 total packages, 0 unassigned
+✓ Large dataset optimization completed in 14ms!
+📊 Results:
+  - Optimization ID: 33803151-982a-4de1-991f-5471fc063003
+  - Total Routes: 3
+  - Total Packages: 45
+  - Unassigned Packages: 0
+🔍 Validating routes...
+  ✓ Route TRUCK-LARGE-004 respects weight limit: 2500.0 <= 2500.0
+  ✓ Route TRUCK-LARGE-001 respects weight limit: 1965.0 <= 2000.0
+  ✓ Route TRUCK-MEDIUM-002 respects weight limit: 1500.0 <= 1500.0
+  ✓ All routes respect weight limits
+🔍 Validating large dataset optimization results...
+  ✓ Response object created successfully
+  ✓ Optimization ID generated: 33803151-982a-4de1-991f-5471fc063003
+  ✓ Total routes created: 3
+  ✓ All 45 packages processed correctly
+  🔍 Validating performance metrics...
+  ✓ Performance acceptable: 14ms
+  🔍 Validating route efficiency...
+  ✓ Route efficiency: 3 routes for 4 trucks
+✅ Large dataset optimization test PASSED - All validations successful!
+
+2025-10-12T16:09:38.896+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 35, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.896+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 36, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.897+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 37, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.897+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 38, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.897+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 39, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.897+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 40, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.897+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 41, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.897+02:00 DEBUG 94820 --- [           main] .c.s.DirtiesContextTestExecutionListener : After test method: class [DeliveryOptimizationServiceTest], method [testLargeDatasetOptimization], class annotated with @DirtiesContext [false] with mode [null], method annotated with @DirtiesContext [false] with mode [null]
+2025-10-12T16:09:38.897+02:00 DEBUG 94820 --- [           main] o.s.t.c.w.ServletTestExecutionListener   : Resetting RequestContextHolder for test class com.saxion.proj.tfms.delivery.DeliveryOptimizationServiceTest
+]]></system-out>
+  </testcase>
+  <testcase name="testGeographicOptimization" classname="com.saxion.proj.tfms.delivery.DeliveryOptimizationServiceTest" time="0.006">
+    <system-out><![CDATA[2025-10-12T16:09:38.898+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 42, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.898+02:00 DEBUG 94820 --- [           main] o.s.t.c.w.ServletTestExecutionListener   : Setting up MockHttpServletRequest, MockHttpServletResponse, ServletWebRequest, and RequestContextHolder for test class com.saxion.proj.tfms.delivery.DeliveryOptimizationServiceTest
+2025-10-12T16:09:38.898+02:00 DEBUG 94820 --- [           main] DependencyInjectionTestExecutionListener : Performing dependency injection for test class com.saxion.proj.tfms.delivery.DeliveryOptimizationServiceTest
+2025-10-12T16:09:38.898+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 43, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.899+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 44, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.900+02:00 DEBUG 94820 --- [           main] sContextBeforeModesTestExecutionListener : Before test method: class [DeliveryOptimizationServiceTest], method [testGeographicOptimization], class annotated with @DirtiesContext [false] with mode [null], method annotated with @DirtiesContext [false] with mode [null]
+2025-10-12T16:09:38.900+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 45, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.900+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 46, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.900+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 47, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.901+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 48, missCount = 1, failureCount = 0]
+
+=== Testing Geographic Route Optimization ===
+📦 Creating geographic test dataset...
+  - Created 1 warehouse with 10 packages in different geographic areas
+  - Created 3 trucks for different regions
+✓ Created geographic test with packages in different locations
+🔄 Starting geographic optimization...
+2025-10-12T16:09:38.901+02:00  INFO 94820 --- [           main] c.s.p.t.d.s.DeliveryOptimizationService  : Starting delivery optimization from JSON data
+2025-10-12T16:09:38.901+02:00  INFO 94820 --- [           main] c.s.p.t.d.service.DataParsingService     : Parsing JSON data with 1 warehouses and 3 trucks
+2025-10-12T16:09:38.901+02:00  INFO 94820 --- [           main] c.s.p.t.d.service.DataParsingService     : Successfully parsed 1 warehouses with 10 total packages and 3 trucks
+2025-10-12T16:09:38.901+02:00  INFO 94820 --- [           main] c.s.p.t.d.s.RouteOptimizationService     : Starting route optimization for 10 packages and 3 trucks
+2025-10-12T16:09:38.902+02:00  INFO 94820 --- [           main] c.s.p.t.d.s.RouteOptimizationService     : Created route for truck TRUCK-NORTH-001 with 5 packages
+2025-10-12T16:09:38.902+02:00  INFO 94820 --- [           main] c.s.p.t.d.s.RouteOptimizationService     : Created route for truck TRUCK-SOUTH-002 with 4 packages
+2025-10-12T16:09:38.902+02:00  INFO 94820 --- [           main] c.s.p.t.d.s.RouteOptimizationService     : Created route for truck TRUCK-EAST-003 with 1 packages
+2025-10-12T16:09:38.902+02:00  INFO 94820 --- [           main] c.s.p.t.d.s.RouteOptimizationService     : Route optimization completed. Created 3 routes, 0 packages unassigned
+2025-10-12T16:09:38.902+02:00  INFO 94820 --- [           main] c.s.p.t.d.s.DeliveryOptimizationService  : Optimization completed: 3 routes, 10 total packages, 0 unassigned
+✓ Geographic optimization completed!
+📊 Results:
+  - Optimization ID: 99123ea7-45e6-4765-a0d9-36d18f7376ec
+  - Total Routes: 3
+  - Total Packages: 10
+  - Unassigned Packages: 0
+🔍 Validating geographic route logic...
+  - Route TRUCK-NORTH-001 total distance: 0,1930 units
+  - Route TRUCK-SOUTH-002 total distance: 0,1818 units
+  ✓ Geographic route validation completed
+  - Route 1: Truck TRUCK-NORTH-001, Weight: 460.0, Packages: 5
+    * North Package 1 at (52.11, 4.005)
+    * North Package 2 at (52.120000000000005, 4.01)
+    * North Package 3 at (52.13, 4.015)
+    * ... and 2 more packages
+  - Route 2: Truck TRUCK-SOUTH-002, Weight: 450.0, Packages: 4
+    * South Package 1 at (51.89, 3.995)
+    * South Package 2 at (51.879999999999995, 3.99)
+    * South Package 3 at (51.87, 3.985)
+    * ... and 1 more packages
+  - Route 3: Truck TRUCK-EAST-003, Weight: 90.0, Packages: 1
+    * West Package 1 at (51.995, 3.89)
+🔍 Validating geographic optimization results...
+  ✓ Response object created successfully
+  ✓ Optimization ID generated: 99123ea7-45e6-4765-a0d9-36d18f7376ec
+  ✓ Total routes created: 3
+  🔍 Validating geographic clustering...
+  ✓ Geographic clustering: 3 routes for different areas
+  🔍 Validating package distribution...
+  ✓ All 10 geographic packages distributed correctly
+  🔍 Validating route balance...
+    ✓ Route TRUCK-NORTH-001 has 5 packages
+    ✓ Route TRUCK-SOUTH-002 has 4 packages
+    ✓ Route TRUCK-EAST-003 has 1 packages
+  🔍 Validating no unassigned packages...
+  ✓ No unassigned packages - all geographic packages assigned
+✅ Geographic optimization test PASSED - All validations successful!
+
+2025-10-12T16:09:38.903+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 49, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.903+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 50, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.904+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 51, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.904+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 52, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.904+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 53, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.904+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 54, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.904+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 55, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.905+02:00 DEBUG 94820 --- [           main] .c.s.DirtiesContextTestExecutionListener : After test method: class [DeliveryOptimizationServiceTest], method [testGeographicOptimization], class annotated with @DirtiesContext [false] with mode [null], method annotated with @DirtiesContext [false] with mode [null]
+2025-10-12T16:09:38.905+02:00 DEBUG 94820 --- [           main] o.s.t.c.w.ServletTestExecutionListener   : Resetting RequestContextHolder for test class com.saxion.proj.tfms.delivery.DeliveryOptimizationServiceTest
+]]></system-out>
+  </testcase>
+  <testcase name="testOptimizeFromCsv" classname="com.saxion.proj.tfms.delivery.DeliveryOptimizationServiceTest" time="0.014">
+    <system-out><![CDATA[2025-10-12T16:09:38.905+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 56, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.905+02:00 DEBUG 94820 --- [           main] o.s.t.c.w.ServletTestExecutionListener   : Setting up MockHttpServletRequest, MockHttpServletResponse, ServletWebRequest, and RequestContextHolder for test class com.saxion.proj.tfms.delivery.DeliveryOptimizationServiceTest
+2025-10-12T16:09:38.905+02:00 DEBUG 94820 --- [           main] DependencyInjectionTestExecutionListener : Performing dependency injection for test class com.saxion.proj.tfms.delivery.DeliveryOptimizationServiceTest
+2025-10-12T16:09:38.905+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 57, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.905+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 58, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.906+02:00 DEBUG 94820 --- [           main] sContextBeforeModesTestExecutionListener : Before test method: class [DeliveryOptimizationServiceTest], method [testOptimizeFromCsv], class annotated with @DirtiesContext [false] with mode [null], method annotated with @DirtiesContext [false] with mode [null]
+2025-10-12T16:09:38.906+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 59, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.906+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 60, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.906+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 61, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.907+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 62, missCount = 1, failureCount = 0]
+
+=== Testing CSV Optimization ===
+✓ Created test CSV content with 4 lines
+🚛 Creating test trucks...
+  - TRUCK-001: 1000kg capacity
+  - TRUCK-002: 1500kg capacity
+✓ Created 2 test trucks
+🔄 Starting CSV optimization...
+2025-10-12T16:09:38.907+02:00  INFO 94820 --- [           main] c.s.p.t.d.s.DeliveryOptimizationService  : Starting delivery optimization from CSV data
+2025-10-12T16:09:38.907+02:00  INFO 94820 --- [           main] c.s.p.t.d.service.DataParsingService     : Parsing CSV data
+2025-10-12T16:09:38.915+02:00  INFO 94820 --- [           main] c.s.p.t.d.service.DataParsingService     : Successfully parsed 2 warehouses with 3 total packages from CSV
+2025-10-12T16:09:38.915+02:00  INFO 94820 --- [           main] c.s.p.t.d.s.RouteOptimizationService     : Starting route optimization for 3 packages and 2 trucks
+2025-10-12T16:09:38.915+02:00  INFO 94820 --- [           main] c.s.p.t.d.s.RouteOptimizationService     : Created route for truck TRUCK-002 with 3 packages
+2025-10-12T16:09:38.915+02:00  INFO 94820 --- [           main] c.s.p.t.d.s.RouteOptimizationService     : Route optimization completed. Created 1 routes, 0 packages unassigned
+2025-10-12T16:09:38.915+02:00  INFO 94820 --- [           main] c.s.p.t.d.s.DeliveryOptimizationService  : Optimization completed: 1 routes, 3 total packages, 0 unassigned
+✓ CSV optimization completed!
+📊 Results:
+  - Optimization ID: b0d530be-d734-4e95-9049-08aa026bd1b3
+  - Total Routes: 1
+  - Total Packages: 3
+  - Unassigned Packages: 0
+  - Route 1: Truck TRUCK-002, Weight: 450.0, Packages: 3
+🔍 Validating CSV optimization results...
+  ✓ Response object created successfully
+  ✓ Optimization ID generated: b0d530be-d734-4e95-9049-08aa026bd1b3
+  ✓ Total routes created: 1
+  ✓ Total packages processed: 3
+  🔍 Validating CSV-specific data...
+  ✓ Routes list is valid
+  ✓ All 3 CSV packages processed correctly
+✅ CSV optimization test PASSED - All validations successful!
+
+2025-10-12T16:09:38.916+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 63, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.916+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 64, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.917+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 65, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.917+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 66, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.917+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 67, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.918+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 68, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.918+02:00 DEBUG 94820 --- [           main] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@33bd86fe size = 1, maxSize = 32, parentContextCount = 0, hitCount = 69, missCount = 1, failureCount = 0]
+2025-10-12T16:09:38.919+02:00 DEBUG 94820 --- [           main] .c.s.DirtiesContextTestExecutionListener : After test method: class [DeliveryOptimizationServiceTest], method [testOptimizeFromCsv], class annotated with @DirtiesContext [false] with mode [null], method annotated with @DirtiesContext [false] with mode [null]
+2025-10-12T16:09:38.919+02:00 DEBUG 94820 --- [           main] o.s.t.c.w.ServletTestExecutionListener   : Resetting RequestContextHolder for test class com.saxion.proj.tfms.delivery.DeliveryOptimizationServiceTest
+]]></system-out>
+  </testcase>
+</testsuite>

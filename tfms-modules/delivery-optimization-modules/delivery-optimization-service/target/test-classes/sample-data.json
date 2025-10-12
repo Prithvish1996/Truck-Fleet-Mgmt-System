@@ -1,0 +1,76 @@
+{
+  "warehouses": [
+    {
+      "name": "Central Warehouse",
+      "latitude": 52.3676,
+      "longitude": 4.9041,
+      "delivery_date": "2024-01-15",
+      "packages": [
+        {
+          "name": "Electronics Package 1",
+          "weight": 25.5,
+          "size": 0.8,
+          "latitude": 52.3700,
+          "longitude": 4.9100
+        },
+        {
+          "name": "Furniture Package 1",
+          "weight": 150.0,
+          "size": 2.5,
+          "latitude": 52.3650,
+          "longitude": 4.9000
+        },
+        {
+          "name": "Clothing Package 1",
+          "weight": 5.2,
+          "size": 0.3,
+          "latitude": 52.3680,
+          "longitude": 4.9050
+        }
+      ]
+    },
+    {
+      "name": "North Warehouse",
+      "latitude": 52.4000,
+      "longitude": 4.9000,
+      "delivery_date": "2024-01-16",
+      "packages": [
+        {
+          "name": "Electronics Package 2",
+          "weight": 30.0,
+          "size": 1.0,
+          "latitude": 52.4010,
+          "longitude": 4.9010
+        },
+        {
+          "name": "Furniture Package 2",
+          "weight": 200.0,
+          "size": 3.0,
+          "latitude": 52.3990,
+          "longitude": 4.8990
+        },
+        {
+          "name": "Clothing Package 2",
+          "weight": 8.5,
+          "size": 0.4,
+          "latitude": 52.4005,
+          "longitude": 4.9005
+        }
+      ]
+    }
+  ],
+  "trucks": [
+    {
+      "truck_id": "TRUCK-001",
+      "weight_limit": 1000.0
+    },
+    {
+      "truck_id": "TRUCK-002",
+      "weight_limit": 1500.0
+    },
+    {
+      "truck_id": "TRUCK-003",
+      "weight_limit": 2000.0
+    }
+  ]
+}

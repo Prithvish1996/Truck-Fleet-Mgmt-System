@@ -34,6 +34,9 @@
         <!-- Authentication & Security Modules -->
         <module>tfms-modules/auth-modules/auth-service</module>
 
+        <!-- Delivery Optimization Modules -->
+        <module>tfms-modules/delivery-optimization-modules/delivery-optimization-service</module>
+
         <!-- Driver Module -->
         
         <!-- Main Application (Built Last) -->

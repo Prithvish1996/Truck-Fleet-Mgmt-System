@@ -1,0 +1,13 @@
+warehouse_name,warehouse_lat,warehouse_lng,delivery_date,package_name,package_weight,package_size,package_lat,package_lng
+Central Warehouse,52.3676,4.9041,2024-01-15,Electronics Package 1,25.5,0.8,52.3700,4.9100
+Central Warehouse,52.3676,4.9041,2024-01-15,Furniture Package 1,150.0,2.5,52.3650,4.9000
+Central Warehouse,52.3676,4.9041,2024-01-15,Clothing Package 1,5.2,0.3,52.3680,4.9050
+North Warehouse,52.4000,4.9000,2024-01-16,Electronics Package 2,30.0,1.0,52.4010,4.9010
+North Warehouse,52.4000,4.9000,2024-01-16,Furniture Package 2,200.0,3.0,52.3990,4.8990
+North Warehouse,52.4000,4.9000,2024-01-16,Clothing Package 2,8.5,0.4,52.4005,4.9005
+South Warehouse,52.3500,4.9000,2024-01-17,Electronics Package 3,35.0,1.2,52.3510,4.9010
+South Warehouse,52.3500,4.9000,2024-01-17,Furniture Package 3,180.0,2.8,52.3490,4.8990
+South Warehouse,52.3500,4.9000,2024-01-17,Clothing Package 3,12.0,0.5,52.3505,4.9005
+East Warehouse,52.3676,4.9500,2024-01-18,Electronics Package 4,28.0,0.9,52.3680,4.9510
+East Warehouse,52.3676,4.9500,2024-01-18,Furniture Package 4,220.0,3.2,52.3670,4.9490
+East Warehouse,52.3676,4.9500,2024-01-18,Clothing Package 4,6.8,0.3,52.3678,4.9505

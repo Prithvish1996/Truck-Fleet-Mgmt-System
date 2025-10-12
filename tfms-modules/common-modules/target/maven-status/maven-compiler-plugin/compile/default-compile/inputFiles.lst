@@ -1,18 +1,18 @@
-D:\Saxion School Work\Project\tfms-modules\common-modules\src\main\java\com\saxion\proj\tfms\commons\config\DataInitializer.java
-D:\Saxion School Work\Project\tfms-modules\common-modules\src\main\java\com\saxion\proj\tfms\commons\config\OpenApiConfig.java
-D:\Saxion School Work\Project\tfms-modules\common-modules\src\main\java\com\saxion\proj\tfms\commons\config\WebConfig.java
-D:\Saxion School Work\Project\tfms-modules\common-modules\src\main\java\com\saxion\proj\tfms\commons\dto\ApiResponse.java
-D:\Saxion School Work\Project\tfms-modules\common-modules\src\main\java\com\saxion\proj\tfms\commons\dto\PagedResponse.java
-D:\Saxion School Work\Project\tfms-modules\common-modules\src\main\java\com\saxion\proj\tfms\commons\dto\UserDto.java
-D:\Saxion School Work\Project\tfms-modules\common-modules\src\main\java\com\saxion\proj\tfms\commons\exception\auth\AccountLockedException.java
-D:\Saxion School Work\Project\tfms-modules\common-modules\src\main\java\com\saxion\proj\tfms\commons\exception\auth\AuthenticationException.java
-D:\Saxion School Work\Project\tfms-modules\common-modules\src\main\java\com\saxion\proj\tfms\commons\exception\auth\InvalidCredentialsException.java
-D:\Saxion School Work\Project\tfms-modules\common-modules\src\main\java\com\saxion\proj\tfms\commons\exception\auth\UserNotFoundException.java
-D:\Saxion School Work\Project\tfms-modules\common-modules\src\main\java\com\saxion\proj\tfms\commons\exception\TFMSExceptionHandler.java
-D:\Saxion School Work\Project\tfms-modules\common-modules\src\main\java\com\saxion\proj\tfms\commons\model\UserDao.java
-D:\Saxion School Work\Project\tfms-modules\common-modules\src\main\java\com\saxion\proj\tfms\commons\security\annotations\CurrentUser.java
-D:\Saxion School Work\Project\tfms-modules\common-modules\src\main\java\com\saxion\proj\tfms\commons\security\JwtUtil.java
-D:\Saxion School Work\Project\tfms-modules\common-modules\src\main\java\com\saxion\proj\tfms\commons\security\resolvers\CurrentUserResolver.java
-D:\Saxion School Work\Project\tfms-modules\common-modules\src\main\java\com\saxion\proj\tfms\commons\security\UserContext.java
-D:\Saxion School Work\Project\tfms-modules\common-modules\src\main\java\com\saxion\proj\tfms\commons\service\TokenBlacklistService.java
-D:\Saxion School Work\Project\tfms-modules\common-modules\src\main\java\com\saxion\proj\tfms\commons\swagger\SwaggerAnnotations.java
+/Users/duncanbraakhekke/Documents/School/02/tfms-modules/common-modules/src/main/java/com/saxion/proj/tfms/commons/config/DataInitializer.java
+/Users/duncanbraakhekke/Documents/School/02/tfms-modules/common-modules/src/main/java/com/saxion/proj/tfms/commons/config/OpenApiConfig.java
+/Users/duncanbraakhekke/Documents/School/02/tfms-modules/common-modules/src/main/java/com/saxion/proj/tfms/commons/config/WebConfig.java
+/Users/duncanbraakhekke/Documents/School/02/tfms-modules/common-modules/src/main/java/com/saxion/proj/tfms/commons/dto/ApiResponse.java
+/Users/duncanbraakhekke/Documents/School/02/tfms-modules/common-modules/src/main/java/com/saxion/proj/tfms/commons/dto/PagedResponse.java
+/Users/duncanbraakhekke/Documents/School/02/tfms-modules/common-modules/src/main/java/com/saxion/proj/tfms/commons/dto/UserDto.java
+/Users/duncanbraakhekke/Documents/School/02/tfms-modules/common-modules/src/main/java/com/saxion/proj/tfms/commons/exception/TFMSExceptionHandler.java
+/Users/duncanbraakhekke/Documents/School/02/tfms-modules/common-modules/src/main/java/com/saxion/proj/tfms/commons/exception/auth/AccountLockedException.java
+/Users/duncanbraakhekke/Documents/School/02/tfms-modules/common-modules/src/main/java/com/saxion/proj/tfms/commons/exception/auth/AuthenticationException.java
+/Users/duncanbraakhekke/Documents/School/02/tfms-modules/common-modules/src/main/java/com/saxion/proj/tfms/commons/exception/auth/InvalidCredentialsException.java
+/Users/duncanbraakhekke/Documents/School/02/tfms-modules/common-modules/src/main/java/com/saxion/proj/tfms/commons/exception/auth/UserNotFoundException.java
+/Users/duncanbraakhekke/Documents/School/02/tfms-modules/common-modules/src/main/java/com/saxion/proj/tfms/commons/model/UserDao.java
+/Users/duncanbraakhekke/Documents/School/02/tfms-modules/common-modules/src/main/java/com/saxion/proj/tfms/commons/security/JwtUtil.java
+/Users/duncanbraakhekke/Documents/School/02/tfms-modules/common-modules/src/main/java/com/saxion/proj/tfms/commons/security/UserContext.java
+/Users/duncanbraakhekke/Documents/School/02/tfms-modules/common-modules/src/main/java/com/saxion/proj/tfms/commons/security/annotations/CurrentUser.java
+/Users/duncanbraakhekke/Documents/School/02/tfms-modules/common-modules/src/main/java/com/saxion/proj/tfms/commons/security/resolvers/CurrentUserResolver.java
+/Users/duncanbraakhekke/Documents/School/02/tfms-modules/common-modules/src/main/java/com/saxion/proj/tfms/commons/service/TokenBlacklistService.java
+/Users/duncanbraakhekke/Documents/School/02/tfms-modules/common-modules/src/main/java/com/saxion/proj/tfms/commons/swagger/SwaggerAnnotations.java
