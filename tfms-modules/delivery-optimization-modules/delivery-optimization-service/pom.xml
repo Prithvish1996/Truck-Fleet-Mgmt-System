@@ -22,14 +22,19 @@
     </properties>
 
     <dependencies>
-        <!-- Common modules dependency - temporarily commented out for testing -->
-        <!--
+        <!-- Common modules dependency -->
         <dependency>
             <groupId>com.saxion.proj</groupId>
             <artifactId>common-modules</artifactId>
             <version>1.0.0-dev</version>
         </dependency>
-        -->
+
+        <!-- Truck service dependency -->
+        <dependency>
+            <groupId>com.saxion.proj</groupId>
+            <artifactId>truck-service</artifactId>
+            <version>1.0.0-dev</version>
+        </dependency>
 
         <!-- Spring Boot Web for REST APIs -->
         <dependency>

@@ -1,6 +1,6 @@
-package com.saxion.proj.tfms.delivery.repository;
+package com.saxion.proj.tfms.truck.repository;
 
-import com.saxion.proj.tfms.delivery.model.Truck;
+import com.saxion.proj.tfms.truck.model.Truck;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

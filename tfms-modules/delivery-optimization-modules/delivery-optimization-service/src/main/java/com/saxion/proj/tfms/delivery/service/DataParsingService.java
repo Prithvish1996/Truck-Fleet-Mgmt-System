@@ -4,7 +4,7 @@ import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
 import com.saxion.proj.tfms.delivery.dto.DeliveryOptimizationRequest;
 import com.saxion.proj.tfms.delivery.model.DeliveryPackage;
-import com.saxion.proj.tfms.delivery.model.Truck;
+import com.saxion.proj.tfms.truck.model.Truck;
 import com.saxion.proj.tfms.delivery.model.Warehouse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

@@ -24,10 +24,9 @@ public class DeliveryRoute {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @NotNull(message = "Truck is required")
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "truck_id", nullable = false)
-    private Truck truck;
+    @NotNull(message = "Truck ID is required")
+    @Column(name = "truck_id", nullable = false)
+    private String truckId;
     
     @OneToMany(mappedBy = "deliveryRoute", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<DeliveryPackage> packages = new ArrayList<>();
@@ -45,8 +44,8 @@ public class DeliveryRoute {
     private Boolean isOptimized = false;
     
     // Constructor for creating routes
-    public DeliveryRoute(Truck truck) {
-        this.truck = truck;
+    public DeliveryRoute(String truckId) {
+        this.truckId = truckId;
         this.packages = new ArrayList<>();
         this.isOptimized = false;
     }
@@ -59,8 +58,8 @@ public class DeliveryRoute {
     }
     
     // Helper method to check if route exceeds truck capacity
-    public boolean exceedsCapacity() {
-        return getTotalWeight().compareTo(truck.getWeightLimit()) > 0;
+    public boolean exceedsCapacity(BigDecimal truckWeightLimit) {
+        return getTotalWeight().compareTo(truckWeightLimit) > 0;
     }
     
     // Helper method to get package count

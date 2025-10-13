@@ -31,6 +31,9 @@
         <!-- Commons - Shared components (Built First) -->
         <module>tfms-modules/common-modules</module>
         
+        <!-- Truck Management Modules -->
+        <module>tfms-modules/truck-modules/truck-service</module>
+        
         <!-- Authentication & Security Modules -->
         <module>tfms-modules/auth-modules/auth-service</module>
 

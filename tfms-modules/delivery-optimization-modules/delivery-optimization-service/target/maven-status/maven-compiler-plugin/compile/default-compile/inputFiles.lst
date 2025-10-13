@@ -3,11 +3,9 @@
 /Users/duncanbraakhekke/Documents/School/02/tfms-modules/delivery-optimization-modules/delivery-optimization-service/src/main/java/com/saxion/proj/tfms/delivery/dto/DeliveryOptimizationResponse.java
 /Users/duncanbraakhekke/Documents/School/02/tfms-modules/delivery-optimization-modules/delivery-optimization-service/src/main/java/com/saxion/proj/tfms/delivery/model/DeliveryPackage.java
 /Users/duncanbraakhekke/Documents/School/02/tfms-modules/delivery-optimization-modules/delivery-optimization-service/src/main/java/com/saxion/proj/tfms/delivery/model/DeliveryRoute.java
-/Users/duncanbraakhekke/Documents/School/02/tfms-modules/delivery-optimization-modules/delivery-optimization-service/src/main/java/com/saxion/proj/tfms/delivery/model/Truck.java
 /Users/duncanbraakhekke/Documents/School/02/tfms-modules/delivery-optimization-modules/delivery-optimization-service/src/main/java/com/saxion/proj/tfms/delivery/model/Warehouse.java
 /Users/duncanbraakhekke/Documents/School/02/tfms-modules/delivery-optimization-modules/delivery-optimization-service/src/main/java/com/saxion/proj/tfms/delivery/repository/DeliveryRouteRepository.java
 /Users/duncanbraakhekke/Documents/School/02/tfms-modules/delivery-optimization-modules/delivery-optimization-service/src/main/java/com/saxion/proj/tfms/delivery/repository/PackageRepository.java
-/Users/duncanbraakhekke/Documents/School/02/tfms-modules/delivery-optimization-modules/delivery-optimization-service/src/main/java/com/saxion/proj/tfms/delivery/repository/TruckRepository.java
 /Users/duncanbraakhekke/Documents/School/02/tfms-modules/delivery-optimization-modules/delivery-optimization-service/src/main/java/com/saxion/proj/tfms/delivery/repository/WarehouseRepository.java
 /Users/duncanbraakhekke/Documents/School/02/tfms-modules/delivery-optimization-modules/delivery-optimization-service/src/main/java/com/saxion/proj/tfms/delivery/service/DataParsingService.java
 /Users/duncanbraakhekke/Documents/School/02/tfms-modules/delivery-optimization-modules/delivery-optimization-service/src/main/java/com/saxion/proj/tfms/delivery/service/DeliveryOptimizationService.java

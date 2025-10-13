@@ -1,5 +1,4 @@
 com/saxion/proj/tfms/delivery/dto/DeliveryOptimizationRequest$WarehouseData.class
-com/saxion/proj/tfms/delivery/model/Truck.class
 com/saxion/proj/tfms/delivery/service/DataParsingService.class
 com/saxion/proj/tfms/delivery/dto/DeliveryOptimizationResponse$Coordinate.class
 com/saxion/proj/tfms/delivery/dto/DeliveryOptimizationResponse.class
@@ -10,7 +9,6 @@ com/saxion/proj/tfms/delivery/dto/DeliveryOptimizationResponse$PackageInfo.class
 com/saxion/proj/tfms/delivery/model/Warehouse.class
 com/saxion/proj/tfms/delivery/dto/DeliveryOptimizationRequest$TruckData.class
 com/saxion/proj/tfms/delivery/repository/PackageRepository.class
-com/saxion/proj/tfms/delivery/repository/TruckRepository.class
 com/saxion/proj/tfms/delivery/model/DeliveryPackage.class
 com/saxion/proj/tfms/delivery/repository/DeliveryRouteRepository.class
 com/saxion/proj/tfms/delivery/service/DeliveryOptimizationService.class

@@ -2,9 +2,7 @@ package com.saxion.proj.tfms.delivery;
 
 import com.saxion.proj.tfms.delivery.dto.DeliveryOptimizationRequest;
 import com.saxion.proj.tfms.delivery.dto.DeliveryOptimizationResponse;
-import com.saxion.proj.tfms.delivery.model.DeliveryPackage;
-import com.saxion.proj.tfms.delivery.model.Truck;
-import com.saxion.proj.tfms.delivery.model.Warehouse;
+import com.saxion.proj.tfms.truck.model.Truck;
 import com.saxion.proj.tfms.delivery.service.DeliveryOptimizationService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -263,7 +261,6 @@ class DeliveryOptimizationServiceTest {
         
         // Validate that no route exceeds its truck's capacity
         System.out.println("  🔍 Validating no capacity violations...");
-        boolean allRoutesValid = true;
         for (DeliveryOptimizationResponse.RouteInfo route : response.getRoutes()) {
             // This validation is already done in validateWeightLimits, but let's confirm
             System.out.println("    ✓ Route " + route.getTruckId() + " validated");

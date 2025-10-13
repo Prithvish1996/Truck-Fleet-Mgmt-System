@@ -1,5 +1,6 @@
 package com.saxion.proj.tfms.delivery.service;
 
+import com.saxion.proj.tfms.truck.model.Truck;
 import com.saxion.proj.tfms.delivery.dto.DeliveryOptimizationRequest;
 import com.saxion.proj.tfms.delivery.dto.DeliveryOptimizationResponse;
 import com.saxion.proj.tfms.delivery.model.*;
@@ -133,7 +134,7 @@ public class DeliveryOptimizationService {
     private DeliveryOptimizationResponse.RouteInfo buildRouteInfo(DeliveryRoute route) {
         DeliveryOptimizationResponse.RouteInfo routeInfo = new DeliveryOptimizationResponse.RouteInfo();
         routeInfo.setRouteId(route.getId());
-        routeInfo.setTruckId(route.getTruck().getTruckId());
+        routeInfo.setTruckId(route.getTruckId());
         routeInfo.setTotalWeight(route.getTotalWeight());
         routeInfo.setPackageCount(route.getPackageCount());
         routeInfo.setEstimatedDistance(route.getTotalDistance());
@@ -177,12 +178,23 @@ public class DeliveryOptimizationService {
     /**
      * Validate optimization constraints
      */
-    public boolean validateConstraints(List<DeliveryRoute> routes) {
+    public boolean validateConstraints(List<DeliveryRoute> routes, List<Truck> trucks) {
         for (DeliveryRoute route : routes) {
+            // Find the truck for this route
+            Truck truck = trucks.stream()
+                    .filter(t -> t.getTruckId().equals(route.getTruckId()))
+                    .findFirst()
+                    .orElse(null);
+            
+            if (truck == null) {
+                log.warn("Truck not found for route {}: {}", route.getId(), route.getTruckId());
+                return false;
+            }
+            
             // Check weight constraints
-            if (route.exceedsCapacity()) {
+            if (route.exceedsCapacity(truck.getWeightLimit())) {
                 log.warn("Route {} exceeds truck capacity: {} > {}", 
-                        route.getId(), route.getTotalWeight(), route.getTruck().getWeightLimit());
+                        route.getId(), route.getTotalWeight(), truck.getWeightLimit());
                 return false;
             }
             

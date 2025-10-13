@@ -2,7 +2,7 @@ package com.saxion.proj.tfms.delivery.controller;
 
 import com.saxion.proj.tfms.delivery.dto.DeliveryOptimizationRequest;
 import com.saxion.proj.tfms.delivery.dto.DeliveryOptimizationResponse;
-import com.saxion.proj.tfms.delivery.model.Truck;
+import com.saxion.proj.tfms.truck.model.Truck;
 import com.saxion.proj.tfms.delivery.service.DeliveryOptimizationService;
 // Swagger annotations removed for simplicity
 import jakarta.validation.Valid;

@@ -1,0 +1,5 @@
+com/saxion/proj/tfms/truck/controller/TruckController.class
+com/saxion/proj/tfms/truck/repository/TruckRepository.class
+com/saxion/proj/tfms/truck/service/TruckService.class
+com/saxion/proj/tfms/truck/dto/TruckDTO.class
+com/saxion/proj/tfms/truck/model/Truck.class

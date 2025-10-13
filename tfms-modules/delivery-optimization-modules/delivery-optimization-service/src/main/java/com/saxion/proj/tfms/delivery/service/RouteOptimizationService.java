@@ -1,5 +1,6 @@
 package com.saxion.proj.tfms.delivery.service;
 
+import com.saxion.proj.tfms.truck.model.Truck;
 import com.saxion.proj.tfms.delivery.model.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -44,7 +45,7 @@ public class RouteOptimizationService {
                 break;
             }
             
-            DeliveryRoute route = createOptimizedRoute(truck, remainingPackages);
+            DeliveryRoute route = createOptimizedRoute(truck.getTruckId(), truck, remainingPackages);
             if (!route.getPackages().isEmpty()) {
                 optimizedRoutes.add(route);
                 // Remove assigned packages from remaining list
@@ -63,8 +64,8 @@ public class RouteOptimizationService {
     /**
      * Create an optimized route for a single truck using nearest neighbor with capacity constraints
      */
-    private DeliveryRoute createOptimizedRoute(Truck truck, List<DeliveryPackage> availablePackages) {
-        DeliveryRoute route = new DeliveryRoute(truck);
+    private DeliveryRoute createOptimizedRoute(String truckId, Truck truck, List<DeliveryPackage> availablePackages) {
+        DeliveryRoute route = new DeliveryRoute(truckId);
         List<DeliveryPackage> routePackages = new ArrayList<>();
         BigDecimal currentWeight = BigDecimal.ZERO;
         

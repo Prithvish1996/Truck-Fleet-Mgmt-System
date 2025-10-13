@@ -18,7 +18,7 @@ public interface DeliveryRouteRepository extends JpaRepository<DeliveryRoute, Lo
     /**
      * Find routes by truck ID
      */
-    List<DeliveryRoute> findByTruckId(Long truckId);
+    List<DeliveryRoute> findByTruckId(String truckId);
     
     /**
      * Find optimized routes
@@ -35,8 +35,8 @@ public interface DeliveryRouteRepository extends JpaRepository<DeliveryRoute, Lo
     /**
      * Find routes by truck
      */
-    @Query("SELECT r FROM DeliveryRoute r WHERE r.truck.id = :truckId")
-    List<DeliveryRoute> findByTruck(@Param("truckId") Long truckId);
+    @Query("SELECT r FROM DeliveryRoute r WHERE r.truckId = :truckId")
+    List<DeliveryRoute> findByTruck(@Param("truckId") String truckId);
     
     /**
      * Find routes with package count
