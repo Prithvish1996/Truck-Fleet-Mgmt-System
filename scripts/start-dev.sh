@@ -57,7 +57,7 @@ check_port() {
 }
 
 echo -e "${BLUE}Checking port availability...${NC}"
-check_port 8443 "Backend (HTTPS)"
+check_port 8080 "Backend (HTTP)"
 check_port 3000 "Frontend"
 
 # Build and Start Backend in Development Mode
@@ -84,7 +84,7 @@ echo "Backend started with PID $BACKEND_PID and remote debugging on port 5005"
 # Wait for backend to start
 echo -e "${YELLOW}Waiting for backend to start...${NC}"
 for i in {1..60}; do  # Increased timeout for build time
-    if curl -k -s https://localhost:8443/actuator/health >/dev/null 2>&1; then
+    if curl -s http://localhost:8080/actuator/health >/dev/null 2>&1; then
         echo -e "${GREEN}Backend started successfully!${NC}"
         break
     fi
@@ -100,63 +100,64 @@ for i in {1..60}; do  # Increased timeout for build time
     sleep 1
 done
 
-# Start Frontend
-echo -e "\n${BLUE}Starting Frontend (React Dev Server)...${NC}"
+# # Start Frontend
+# echo -e "\n${BLUE}Starting Frontend (React Dev Server)...${NC}"
 
-# Check if frontend directory exists
-if [ ! -d "$PROJECT_ROOT/frontend" ]; then
-    echo -e "${YELLOW}Frontend directory not found. Creating basic React app...${NC}"
-    cd "$PROJECT_ROOT"
-    npx create-react-app frontend --template typescript
-fi
+# # Check if frontend directory exists
+# if [ ! -d "$PROJECT_ROOT/frontend/my-app" ]; then
+#     echo -e "${YELLOW}Frontend directory not found. Creating basic React app...${NC}"
+#     cd "$PROJECT_ROOT"
+#     npx create-react-app frontend --template typescript
+# fi
 
-cd "$PROJECT_ROOT/frontend"
+# cd "$PROJECT_ROOT/frontend/my-app"
 
-# Check if node_modules exists
-if [ ! -d "node_modules" ]; then
-    echo -e "${YELLOW}Installing frontend dependencies...${NC}"
-    npm install
-fi
+# # Check if node_modules exists
+# if [ ! -d "node_modules" ]; then
+#     echo -e "${YELLOW}Installing frontend dependencies...${NC}"
+#     npm install
+# fi
 
-# Start frontend in background
-echo -e "${YELLOW}Starting React development server...${NC}"
-BROWSER=none npm start > frontend.log 2>&1 &
-FRONTEND_PID=$!
+# # Start frontend in background
+# echo -e "${YELLOW}Starting React development server...${NC}"
+# BROWSER=none npm start > frontend.log 2>&1 &
+# FRONTEND_PID=$!
 
-# Wait for frontend to start
-echo -e "${YELLOW}Waiting for frontend to start...${NC}"
-for i in {1..45}; do  # Increased timeout for React startup
-    if curl -s http://localhost:3000 >/dev/null 2>&1; then
-        echo -e "${GREEN}Frontend started successfully!${NC}"
-        break
-    fi
-    if [ $i -eq 45 ]; then
-        echo -e "${RED}Frontend failed to start within 45 seconds${NC}"
-        echo -e "${YELLOW}Check frontend.log for details${NC}"
-        echo -e "${YELLOW}Last few lines of frontend.log:${NC}"
-        tail -10 frontend.log
-        kill $FRONTEND_PID 2>/dev/null || true
-        kill $BACKEND_PID 2>/dev/null || true
-        exit 1
-    fi
-    echo -n "."
-    sleep 1
-done
+# # Wait for frontend to start
+# echo -e "${YELLOW}Waiting for frontend to start...${NC}"
+# for i in {1..45}; do  # Increased timeout for React startup
+#     if curl -s http://localhost:3000 >/dev/null 2>&1; then
+#         echo -e "${GREEN}Frontend started successfully!${NC}"
+#         break
+#     fi
+#     if [ $i -eq 45 ]; then
+#         echo -e "${RED}Frontend failed to start within 45 seconds${NC}"
+#         echo -e "${YELLOW}Check frontend.log for details${NC}"
+#         echo -e "${YELLOW}Last few lines of frontend.log:${NC}"
+#         tail -10 frontend.log
+#         kill $FRONTEND_PID 2>/dev/null || true
+#         kill $BACKEND_PID 2>/dev/null || true
+#         exit 1
+#     fi
+#     echo -n "."
+#     sleep 1
+# done
 
 # Success message
 echo -e "\n${GREEN}TFMS Development Mode Started Successfully!${NC}"
 echo -e "=========================================="
-echo -e "${BLUE}Backend API:${NC} https://localhost:8443/api"
+echo -e "${BLUE}Backend API:${NC} http://localhost:8080/api"
 echo -e "${BLUE}Frontend:${NC}   http://localhost:3000"
-echo -e "${BLUE}Database:${NC} PostgreSQL on localhost:5432/tfmsdb"
-echo -e "${BLUE}Health Check:${NC} https://localhost:8443/actuator/health"
-echo -e "${BLUE}Swagger UI:${NC} https://localhost:8443/swagger-ui/index.html"
-echo -e "${BLUE}API Docs:${NC} https://localhost:8443/v3/api-docs"
-echo -e "${BLUE}Actuator Info:${NC} https://localhost:8443/actuator/info"
-echo -e "${BLUE}Actuator Metrics:${NC} https://localhost:8443/actuator/metrics"
+echo -e "${BLUE}Database:${NC} H2 in-memory database"
+echo -e "${BLUE}Health Check:${NC} http://localhost:8080/actuator/health"
+echo -e "${BLUE}H2 Console:${NC} http://localhost:8080/h2-console"
+echo -e "${BLUE}Swagger UI:${NC} http://localhost:8080/swagger-ui/index.html"
+echo -e "${BLUE}API Docs:${NC} http://localhost:8080/v3/api-docs"
+echo -e "${BLUE}Actuator Info:${NC} http://localhost:8080/actuator/info"
+echo -e "${BLUE}Actuator Metrics:${NC} http://localhost:8080/actuator/metrics"
 echo -e "${YELLOW}Logs:${NC}"
 echo -e "   Backend: $PROJECT_ROOT/tfms-starter/backend.log"
-echo -e "   Frontend: $PROJECT_ROOT/frontend/frontend.log"
+echo -e "   Frontend: $PROJECT_ROOT/frontend/my-app/frontend.log"
 echo -e "   Build: $PROJECT_ROOT/tfms-starter/build.log"
 echo -e "\n${YELLOW}Tip: Check logs if services don't respond${NC}"
 echo -e "${YELLOW}Press Ctrl+C to stop all services${NC}"
