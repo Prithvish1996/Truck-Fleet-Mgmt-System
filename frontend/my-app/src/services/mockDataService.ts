@@ -1,5 +1,6 @@
 import { Route, Truck, Driver, Package, RouteResponse, TruckResponse, RouteBreak } from '../types';
 import { authService } from './authService';
+import { IoHome } from "react-icons/io5";
 
 // Mock data for drivers - using backend default users
 const mockDrivers: Driver[] = [
@@ -210,6 +211,10 @@ const mockBreaks: RouteBreak[] = [
       address: 'Kalverstraat 92',
       city: 'Amsterdam',
       postalCode: '1012 PH'
+    },
+    packagesBetween: {
+      beforePackage: 'P002', // After delivering P002 (Furniture Package)
+      afterPackage: 'P003'  // Before delivering P003 (Clothing Package)
     }
   },
   {
@@ -224,6 +229,10 @@ const mockBreaks: RouteBreak[] = [
       address: 'Nieuwendijk 123',
       city: 'Amsterdam',
       postalCode: '1012 MD'
+    },
+    packagesBetween: {
+      beforePackage: 'P003', // After delivering P003 (Clothing Package)
+      afterPackage: 'P004'  // Before delivering P004 (Books Package)
     }
   },
   {
@@ -238,6 +247,10 @@ const mockBreaks: RouteBreak[] = [
       address: 'Spui 25',
       city: 'Amsterdam',
       postalCode: '1012 WX'
+    },
+    packagesBetween: {
+      beforePackage: 'P007', // After delivering P007 (Medical Supplies)
+      afterPackage: 'P008'  // Before delivering P008 (Food Package)
     }
   }
 ];

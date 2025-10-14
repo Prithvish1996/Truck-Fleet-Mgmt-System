@@ -13,6 +13,10 @@ interface RouteStop {
     city: string;
     postalCode: string;
     duration?: string; // for breaks
+    packagesBetween?: {
+        beforePackage: string;
+        afterPackage: string;
+    };
 }
 
 function RouteOverview() {
@@ -44,32 +48,58 @@ function RouteOverview() {
     const generateRouteStops = (route: Route): RouteStop[] => {
         const stops: RouteStop[] = [];
         
-        // Add shipping stops for each package
+        // Create a map of package IDs to their index for quick lookup
+        const packageIndexMap = new Map<string, number>();
+        route.packages.forEach((pkg, index) => {
+            packageIndexMap.set(pkg.id, index);
+        });
+        
+        // Create all stops (packages and breaks) with their positions
+        const allStops: (RouteStop & { position: number })[] = [];
+        
+        // Add package stops
         route.packages.forEach((pkg) => {
-            stops.push({
+            allStops.push({
                 id: pkg.id,
                 type: 'shipping',
                 name: pkg.recipientName,
                 address: pkg.address,
                 city: pkg.city,
-                postalCode: pkg.postalCode
+                postalCode: pkg.postalCode,
+                position: packageIndexMap.get(pkg.id) || 0
             });
         });
         
-        // Add breaks provided by the backend
+        // Add breaks with their calculated positions
         route.breaks.forEach((breakItem) => {
-            stops.push({
-                id: breakItem.id,
-                type: 'break',
-                name: breakItem.name,
-                address: breakItem.location?.address || '',
-                city: breakItem.location?.city || '',
-                postalCode: breakItem.location?.postalCode || '',
-                duration: breakItem.duration
-            });
+            if (breakItem.packagesBetween) {
+                const beforeIndex = packageIndexMap.get(breakItem.packagesBetween.beforePackage);
+                const afterIndex = packageIndexMap.get(breakItem.packagesBetween.afterPackage);
+                
+                if (beforeIndex !== undefined && afterIndex !== undefined) {
+                    // Position the break between the packages
+                    const breakPosition = beforeIndex + 0.5; // Place break between packages
+                    
+                    allStops.push({
+                        id: breakItem.id,
+                        type: 'break',
+                        name: breakItem.name,
+                        address: breakItem.location?.address || '',
+                        city: breakItem.location?.city || '',
+                        postalCode: breakItem.location?.postalCode || '',
+                        duration: breakItem.duration,
+                        packagesBetween: breakItem.packagesBetween,
+                        position: breakPosition
+                    });
+                }
+            }
         });
         
-        return stops;
+        // Sort stops by position
+        allStops.sort((a, b) => a.position - b.position);
+        
+        // Remove position property and return the ordered stops
+        return allStops.map(({ position, ...stop }) => stop);
     };
 
     const handleStartRoute = () => {
@@ -105,7 +135,13 @@ function RouteOverview() {
                                             <div className="stop-location">{stop.city} {stop.postalCode}</div>
                                         </>
                                     ) : (
-                                        <div className="stop-name">{stop.name}</div>
+                                        <>
+                                            <div className="stop-type">Break</div>
+                                            <div className="stop-name">{stop.name}</div>
+                                            {stop.duration && (
+                                                <div className="break-duration">Duration: {stop.duration}</div>
+                                            )}
+                                        </>
                                     )}
                                 </div>
                                 {stop.type === 'shipping' && (

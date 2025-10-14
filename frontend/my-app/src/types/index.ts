@@ -28,6 +28,10 @@ export interface RouteBreak {
     city?: string;
     postalCode?: string;
   };
+  packagesBetween?: {
+    beforePackage: string; // ID of the package before the break
+    afterPackage: string; // ID of the package after the break
+  };
 }
 
 export interface Route {
