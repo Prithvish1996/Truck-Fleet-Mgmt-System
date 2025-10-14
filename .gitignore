@@ -1,0 +1,5 @@
+# Ignore Maven and build output directories
+**/target/
+/tfms-modules/auth-modules/auth-service/target/
+/tfms-modules/common-modules/target/
+/tfms-starter/target/

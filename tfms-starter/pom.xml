@@ -33,7 +33,7 @@
         <!-- Commons Module -->
         <dependency>
             <groupId>com.saxion.proj</groupId>
-            <artifactId>common-modules</artifactId>
+            <artifactId>tfms-commons</artifactId>
             <version>${project.version}</version>
         </dependency>
 
@@ -56,11 +56,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
-
+        
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>42.6.0</version> <!-- Compatible with PostgreSQL 15 -->
+            <scope>runtime</scope>
         </dependency>
 
         <dependency>
@@ -78,6 +78,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+        <!-- Spring Modulith Core Dependency -->
+        <dependency>
+            <groupId>org.springframework.modulith</groupId>
+            <artifactId>spring-modulith-starter-core</artifactId>
+            <version>1.4.3</version>
         </dependency>
     </dependencies>
 
