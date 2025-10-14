@@ -1,10 +1,10 @@
 import React from 'react';
 import { Navigate, Routes, Route, useLocation } from 'react-router-dom';
 import { authService } from '../services/authService';
-import AdminDashboard from './AdminDashboard';
+import AdminDashboard from '../pages/Admin/AdminDashboard';
 import DriverDashboard from '../pages/Driver/DriverDashboard/DriverDashboard';
 import RouteOverview from '../pages/Driver/routeOverview/RouteOverview';
-import PlannerDashboard from './PlannerDashboard';
+import PlannerDashboard from '../pages/Planner/PlannerDashboard';
 
 export const RoleBasedRouter: React.FC = () => {
   const userRole = authService.getUserRole();

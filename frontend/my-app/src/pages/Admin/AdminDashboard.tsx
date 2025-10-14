@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { authService } from '../services/authService';
-import './PlannerDashboard.css';
+import { authService } from '../../services/authService';
+import './AdminDashboard.css';
 
-export default function PlannerDashboard() {
+export default function AdminDashboard() {
   const navigate = useNavigate();
   const [expandedSections, setExpandedSections] = useState<{ [key: string]: boolean }>({});
   const [isLoggingOut, setIsLoggingOut] = useState(false);
@@ -31,16 +31,16 @@ export default function PlannerDashboard() {
   };
 
   useEffect(() => {
-    // Check if user is authenticated and is planner
-    if (!authService.isAuthenticated() || authService.getUserRole() !== 'PLANNER') {
+    // Check if user is authenticated and is admin
+    if (!authService.isAuthenticated() || authService.getUserRole() !== 'ADMIN') {
       navigate('/');
     }
   }, [navigate]);
 
   return (
-    <div className="planner-dashboard">
+    <div className="admin-dashboard">
       <header className="dashboard-header">
-        <h1 className="dashboard-title">📋 Planner Dashboard</h1>
+        <h1 className="dashboard-title">🔧 Admin Dashboard</h1>
         <button 
           className="logout-button" 
           onClick={handleLogout}
@@ -52,37 +52,21 @@ export default function PlannerDashboard() {
       
       <div className="dashboard-content">
         <p className="dashboard-description">
-          Welcome to the Planner Dashboard. Optimize routes, schedule deliveries, and coordinate the fleet.
+          Welcome to the Admin Dashboard. Manage users, system settings, and monitor the fleet.
         </p>
         
         <div className="collapsible-section">
           <button 
             className="collapsible-header"
-            onClick={() => toggleSection('routes')}
+            onClick={() => toggleSection('users')}
           >
-            🗺️ Route Planning
+            👥 User Management
           </button>
-          {expandedSections.routes && (
+          {expandedSections.users && (
             <div className="collapsible-content">
-              <p>Plan and optimize delivery routes for maximum efficiency.</p>
-              <p>Consider traffic patterns, delivery windows, and vehicle capacity.</p>
-              <p>Assign routes to drivers and track progress.</p>
-            </div>
-          )}
-        </div>
-
-        <div className="collapsible-section">
-          <button 
-            className="collapsible-header"
-            onClick={() => toggleSection('schedule')}
-          >
-            📅 Delivery Scheduling
-          </button>
-          {expandedSections.schedule && (
-            <div className="collapsible-content">
-              <p>Schedule deliveries and manage time slots.</p>
-              <p>Coordinate with customers for delivery windows.</p>
-              <p>Handle rescheduling and priority deliveries.</p>
+              <p>Create, update, and delete user accounts.</p>
+              <p>Manage user roles and permissions.</p>
+              <p>View user activity and login history.</p>
             </div>
           )}
         </div>
@@ -92,13 +76,13 @@ export default function PlannerDashboard() {
             className="collapsible-header"
             onClick={() => toggleSection('fleet')}
           >
-            🚛 Fleet Coordination
+            🚛 Fleet Management
           </button>
           {expandedSections.fleet && (
             <div className="collapsible-content">
-              <p>Monitor fleet status and vehicle availability.</p>
-              <p>Assign vehicles to drivers and routes.</p>
-              <p>Track maintenance schedules and vehicle capacity.</p>
+              <p>Manage truck fleet and vehicle assignments.</p>
+              <p>Monitor vehicle status and maintenance schedules.</p>
+              <p>Track fuel consumption and costs.</p>
             </div>
           )}
         </div>
@@ -108,13 +92,29 @@ export default function PlannerDashboard() {
             className="collapsible-header"
             onClick={() => toggleSection('analytics')}
           >
-            📊 Planning Analytics
+            📊 System Analytics
           </button>
           {expandedSections.analytics && (
             <div className="collapsible-content">
-              <p>Analyze delivery patterns and optimization opportunities.</p>
-              <p>Generate reports on route efficiency and performance.</p>
-              <p>Identify areas for improvement in planning processes.</p>
+              <p>View comprehensive system reports and metrics.</p>
+              <p>Monitor delivery performance and efficiency.</p>
+              <p>Generate custom reports and exports.</p>
+            </div>
+          )}
+        </div>
+
+        <div className="collapsible-section">
+          <button 
+            className="collapsible-header"
+            onClick={() => toggleSection('settings')}
+          >
+            ⚙️ System Settings
+          </button>
+          {expandedSections.settings && (
+            <div className="collapsible-content">
+              <p>Configure system-wide settings and preferences.</p>
+              <p>Manage API keys and integrations.</p>
+              <p>Set up notifications and alerts.</p>
             </div>
           )}
         </div>
