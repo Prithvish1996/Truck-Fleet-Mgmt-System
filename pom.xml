@@ -35,7 +35,8 @@
         <module>tfms-modules/auth-modules/auth-service</module>
 
         <!-- Driver Module -->
-        
+        <module>tfms-modules/planner-modules/planner-service</module>
+
         <!-- Main Application (Built Last) -->
         <module>tfms-starter</module>
     </modules>

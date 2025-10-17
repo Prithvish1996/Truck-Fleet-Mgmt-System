@@ -37,6 +37,13 @@
             <version>${project.version}</version>
         </dependency>
 
+        <!-- Planner Module Dependencies -->
+        <dependency>
+            <groupId>com.saxion.proj</groupId>
+            <artifactId>planner-service</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
         <!-- Auth Module Dependencies -->
         <dependency>
             <groupId>com.saxion.proj</groupId>
