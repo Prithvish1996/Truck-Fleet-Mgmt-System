@@ -38,40 +38,27 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         final String requestTokenHeader = request.getHeader("Authorization");
         String email = null;
         String jwtToken = null;
-        // JWT Token is in the form "Bearer token". Remove Bearer word and get only the Token
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =null;
         if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
             jwtToken = requestTokenHeader.substring(7);
-            // Blacklist check
-            if (tokenBlacklistService.isTokenBlacklisted(jwtToken)) {
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                response.getWriter().write("Token is blacklisted");
-                return;
-            }
-            try {
-                email = jwtUtil.getEmailFromToken(jwtToken);
-            } catch (Exception e) {
-                logger.warn("Unable to get JWT Token: " + e.getMessage());
-            }
+            if (isABoolean(response, jwtToken)) return;
+            email = getEmail(email, jwtToken);
         }
-        
-        // Once we get the token validate it.
+
         if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             
             // Validate token
             if (jwtUtil.validateToken(jwtToken, email)) {
-                
                 // Get user type from token
                 String userType = jwtUtil.getUserTypeFromToken(jwtToken);
-                
                 // Create authorities based on user type
                 List<SimpleGrantedAuthority> authorities = List.of(
                     new SimpleGrantedAuthority("ROLE_" + userType)
                 );
-                
                 // Create authentication token
-                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = 
+                 usernamePasswordAuthenticationToken =
                     new UsernamePasswordAuthenticationToken(email, null, authorities);
-                    
+
                 usernamePasswordAuthenticationToken.setDetails(
                     new WebAuthenticationDetailsSource().buildDetails(request)
                 );
@@ -80,9 +67,32 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
                 
             } else {
+                logger.warn("Invalid JWT Token");
             }
         }
         
         chain.doFilter(request, response);
+    }
+
+    private boolean isABoolean(HttpServletResponse response, String jwtToken) throws IOException {
+        return blackListCheck(response, jwtToken);
+    }
+
+    private String getEmail(String email, String jwtToken) {
+        try {
+            email = jwtUtil.getEmailFromToken(jwtToken);
+        } catch (Exception e) {
+            logger.warn("Unable to get JWT Token: " + e.getMessage());
+        }
+        return email;
+    }
+
+    private boolean blackListCheck(HttpServletResponse response, String jwtToken) throws IOException {
+        if (tokenBlacklistService.isTokenBlacklisted(jwtToken)) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.getWriter().write("Token is blacklisted");
+            return true;
+        }
+        return false;
     }
 }

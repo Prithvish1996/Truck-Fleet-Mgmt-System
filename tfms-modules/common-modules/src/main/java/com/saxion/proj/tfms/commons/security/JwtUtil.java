@@ -9,19 +9,19 @@ import javax.crypto.SecretKey;
 import java.util.*;
 import java.util.function.Function;
 
+
+
 @Component
 public class JwtUtil {
-    
+
+
     @Value("${jwt.secret:myTFMSSecretKeyThatIsAtLeast256BitsLongForSecureSigning}")
     private String secret;
     
     @Value("${jwt.expiration:86400000}") // 24 hours in milliseconds
     private Long expiration;
-    
-    private SecretKey getSigningKey() {
-        byte[] keyBytes = secret.getBytes();
-        return Keys.hmacShaKeyFor(keyBytes);
-    }
+
+
     
     // Generate token with userType as role
     public String generateToken(String email, String userType) {
@@ -98,6 +98,11 @@ public class JwtUtil {
     private Boolean isTokenExpired(String token) {
         final Date expiration = getExpirationDateFromToken(token);
         return expiration.before(new Date());
+    }
+
+    private SecretKey getSigningKey() {
+        byte[] keyBytes = secret.getBytes();
+        return Keys.hmacShaKeyFor(keyBytes);
     }
     
     // Get remaining time in milliseconds

@@ -1,4 +1,4 @@
-package com.saxion.proj.tfms.config.security;
+package com.saxion.proj.tfms.commons.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
