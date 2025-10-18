@@ -1,5 +1,7 @@
 package com.saxion.proj.tfms.commons.model;
 
+import java.util.List;
+import java.util.ArrayList;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -42,4 +44,9 @@ public class WareHouseDao {
     protected void onUpdate() {
         updatedAt = ZonedDateTime.now();
     }
+
+
+    // Optional one-to-many for reverse lookup
+    @OneToMany(mappedBy = "warehouse", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ParcelDao> parcels = new ArrayList<>();
 }

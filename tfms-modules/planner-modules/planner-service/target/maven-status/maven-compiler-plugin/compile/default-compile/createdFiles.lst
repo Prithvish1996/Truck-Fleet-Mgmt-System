@@ -1,2 +1,14 @@
+com/saxion/proj/tfms/planner/services/ParcelServices/ParcelMapperHandler.class
+com/saxion/proj/tfms/planner/repository/WarehouseRepository.class
+com/saxion/proj/tfms/planner/services/ParcelServices/GetParcelByIdHandler.class
+com/saxion/proj/tfms/planner/dto/ParcelRequestDto$ParcelRequestDtoBuilder.class
+com/saxion/proj/tfms/planner/services/ParcelServices/GetAllParcelHandler.class
+com/saxion/proj/tfms/planner/dto/ParcelResponseDto.class
+com/saxion/proj/tfms/planner/abstractions/ParcelServices/IGetAllParcels.class
 com/saxion/proj/tfms/planner/controller/ParcelController.class
+com/saxion/proj/tfms/planner/services/ParcelServices/CreateParcelHandler.class
+com/saxion/proj/tfms/planner/abstractions/ParcelServices/IGetParcelById.class
+com/saxion/proj/tfms/planner/abstractions/ParcelServices/ICreateParcel.class
+com/saxion/proj/tfms/planner/repository/ParcelRepository.class
 com/saxion/proj/tfms/planner/dto/CreateParcelRequestDto.class
+com/saxion/proj/tfms/planner/dto/ParcelRequestDto.class

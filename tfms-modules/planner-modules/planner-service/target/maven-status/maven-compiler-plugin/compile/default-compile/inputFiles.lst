@@ -1,2 +1,13 @@
+/Users/abuchi/IdeaProjects/SaxionProject/02/tfms-modules/planner-modules/planner-service/src/main/java/com/saxion/proj/tfms/planner/abstractions/ParcelServices/ICreateParcel.java
+/Users/abuchi/IdeaProjects/SaxionProject/02/tfms-modules/planner-modules/planner-service/src/main/java/com/saxion/proj/tfms/planner/abstractions/ParcelServices/IGetAllParcels.java
+/Users/abuchi/IdeaProjects/SaxionProject/02/tfms-modules/planner-modules/planner-service/src/main/java/com/saxion/proj/tfms/planner/abstractions/ParcelServices/IGetParcelById.java
 /Users/abuchi/IdeaProjects/SaxionProject/02/tfms-modules/planner-modules/planner-service/src/main/java/com/saxion/proj/tfms/planner/controller/ParcelController.java
 /Users/abuchi/IdeaProjects/SaxionProject/02/tfms-modules/planner-modules/planner-service/src/main/java/com/saxion/proj/tfms/planner/dto/CreateParcelRequestDto.java
+/Users/abuchi/IdeaProjects/SaxionProject/02/tfms-modules/planner-modules/planner-service/src/main/java/com/saxion/proj/tfms/planner/dto/ParcelRequestDto.java
+/Users/abuchi/IdeaProjects/SaxionProject/02/tfms-modules/planner-modules/planner-service/src/main/java/com/saxion/proj/tfms/planner/dto/ParcelResponseDto.java
+/Users/abuchi/IdeaProjects/SaxionProject/02/tfms-modules/planner-modules/planner-service/src/main/java/com/saxion/proj/tfms/planner/repository/ParcelRepository.java
+/Users/abuchi/IdeaProjects/SaxionProject/02/tfms-modules/planner-modules/planner-service/src/main/java/com/saxion/proj/tfms/planner/repository/WarehouseRepository.java
+/Users/abuchi/IdeaProjects/SaxionProject/02/tfms-modules/planner-modules/planner-service/src/main/java/com/saxion/proj/tfms/planner/services/ParcelServices/CreateParcelHandler.java
+/Users/abuchi/IdeaProjects/SaxionProject/02/tfms-modules/planner-modules/planner-service/src/main/java/com/saxion/proj/tfms/planner/services/ParcelServices/GetAllParcelHandler.java
+/Users/abuchi/IdeaProjects/SaxionProject/02/tfms-modules/planner-modules/planner-service/src/main/java/com/saxion/proj/tfms/planner/services/ParcelServices/GetParcelByIdHandler.java
+/Users/abuchi/IdeaProjects/SaxionProject/02/tfms-modules/planner-modules/planner-service/src/main/java/com/saxion/proj/tfms/planner/services/ParcelServices/ParcelMapperHandler.java

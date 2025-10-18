@@ -1,5 +1,7 @@
 package com.saxion.proj.tfms.config;
 
+import com.saxion.proj.tfms.commons.model.WareHouseDao;
+import com.saxion.proj.tfms.planner.repository.WarehouseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
@@ -23,6 +25,8 @@ public class DefaultUserDataInitializer {
     private AuthUserRepository userRepository;
 
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    @Autowired
+    private WarehouseRepository warehouseRepository;
 
     /**
      * Initialize default users after the application context is fully loaded
@@ -42,7 +46,10 @@ public class DefaultUserDataInitializer {
         
         // Create default test user
         createUserIfNotExists("test@example.com", "testuser", "password123", UserType.DRIVER);
-        
+
+        // Create default warehouse
+        createWareHouseIfNotExists("Warehouse 1", "Netherlands");
+
         System.out.println("Default users initialization completed.");
     }
 
@@ -62,6 +69,21 @@ public class DefaultUserDataInitializer {
             
             userRepository.save(user);
             System.out.println("Default user created: " + email + " (" + userType + ")");
+        }
+    }
+
+    //Create default warehouse
+    private void createWareHouseIfNotExists(String name, String location) {
+        if (!warehouseRepository.existsByName(name)) {
+            WareHouseDao warehouse = new WareHouseDao();
+            warehouse.setName(name);
+            warehouse.setLocation(location);
+            warehouse.setActive(true);
+            warehouse.setCreatedAt(ZonedDateTime.now());
+            warehouse.setUpdatedAt(ZonedDateTime.now());
+
+            warehouseRepository.save(warehouse);
+            System.out.println("Default warehouse created: " + name + " (" + location + ")");
         }
     }
 }

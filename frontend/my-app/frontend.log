@@ -2,43 +2,21 @@
 > my-app@0.1.0 start
 > react-scripts start
 
-(node:98577) [DEP_WEBPACK_DEV_SERVER_ON_AFTER_SETUP_MIDDLEWARE] DeprecationWarning: 'onAfterSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
+(node:27075) [DEP_WEBPACK_DEV_SERVER_ON_AFTER_SETUP_MIDDLEWARE] DeprecationWarning: 'onAfterSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:98577) [DEP_WEBPACK_DEV_SERVER_ON_BEFORE_SETUP_MIDDLEWARE] DeprecationWarning: 'onBeforeSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
+(node:27075) [DEP_WEBPACK_DEV_SERVER_ON_BEFORE_SETUP_MIDDLEWARE] DeprecationWarning: 'onBeforeSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
 Starting the development server...
 
-Compiled with warnings.
+Compiled successfully!
 
-[eslint] 
-src/components/RoleBasedRouter.tsx
-  Line 2:20:  'Routes' is defined but never used  @typescript-eslint/no-unused-vars
-  Line 2:28:  'Route' is defined but never used   @typescript-eslint/no-unused-vars
+You can now view my-app in the browser.
 
-src/pages/Driver/routeOverview/RouteOverview.tsx
-  Line 5:17:  'RouteBreak' is defined but never used  @typescript-eslint/no-unused-vars
+  http://localhost:3000
 
-src/pages/Login/login.tsx
-  Line 53:9:  img elements must have an alt prop, either with meaningful text, or an empty string for decorative images  jsx-a11y/alt-text
+Note that the development build is not optimized.
+To create a production build, use npm run build.
 
-src/services/routeService.ts
-  Line 2:17:  'RouteResponse' is defined but never used  @typescript-eslint/no-unused-vars
-
-Search for the keywords to learn more about each warning.
-To ignore, add // eslint-disable-next-line to the line before.
-
-WARNING in [eslint] 
-src/components/RoleBasedRouter.tsx
-  Line 2:20:  'Routes' is defined but never used  @typescript-eslint/no-unused-vars
-  Line 2:28:  'Route' is defined but never used   @typescript-eslint/no-unused-vars
-
-src/pages/Driver/routeOverview/RouteOverview.tsx
-  Line 5:17:  'RouteBreak' is defined but never used  @typescript-eslint/no-unused-vars
-
-src/pages/Login/login.tsx
-  Line 53:9:  img elements must have an alt prop, either with meaningful text, or an empty string for decorative images  jsx-a11y/alt-text
-
-src/services/routeService.ts
-  Line 2:17:  'RouteResponse' is defined but never used  @typescript-eslint/no-unused-vars
-
-webpack compiled with 1 warning
+webpack compiled successfully
+Files successfully emitted, waiting for typecheck results...
+Issues checking in progress...
 No issues found.

@@ -1,5 +1,6 @@
 package com.saxion.proj.tfms.commons.model;
 
+import com.saxion.proj.tfms.commons.dto.UserDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,14 +19,42 @@ public class ParcelDao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
-    private String destination;
-
-    @Column(unique = true, nullable = false)
-    private String zone;
+    @Column(nullable = false)
+    private String name;
 
     @Column(nullable = false)
-    private Long warehouseId;
+    private String latitude;
+
+    @Column(nullable = false)
+    private String longitude;
+
+    @Column(nullable = false)
+    private String address;
+
+    @Column(nullable = false)
+    private String postalcode;
+
+    @Column(nullable = false)
+    private String city;
+
+    @Column(nullable = false)
+    private Double weight;
+
+    @Column(nullable = false)
+    private String status;
+
+    @Column(nullable = true)
+    private String deliveryInstructions;
+
+    @Column(nullable = true)
+    private String recipientName;
+
+    @Column(nullable = false)
+    private String recipientPhone;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "warehouse_id", nullable = false)
+    private WareHouseDao warehouse;  // Replaces warehouseId
 
     private boolean active = true;
 

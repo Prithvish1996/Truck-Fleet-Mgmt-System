@@ -48,28 +48,28 @@ Listening for transport dt_socket at address: 5005
 
  :: Spring Boot ::                (v3.5.5)
 
-2025-10-17 11:47:40 [DEV] - Starting TfmsApplication using Java 17.0.16 with PID 98531 (/Users/abuchi/IdeaProjects/SaxionProject/02/tfms-starter/target/classes started by abuchi in /Users/abuchi/IdeaProjects/SaxionProject/02/tfms-starter)
-2025-10-17 11:47:40 [DEV] - Running with Spring Boot v3.5.5, Spring v6.2.10
-2025-10-17 11:47:40 [DEV] - The following 1 profile is active: "dev"
-2025-10-17 11:47:41 [DEV] - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-10-17 11:47:41 [DEV] - Finished Spring Data repository scanning in 53 ms. Found 1 JPA repository interface.
-2025-10-17 11:47:42 [DEV] - Tomcat initialized with port 8443 (https)
-2025-10-17 11:47:42 [DEV] - Starting service [Tomcat]
-2025-10-17 11:47:42 [DEV] - Starting Servlet engine: [Apache Tomcat/10.1.44]
-2025-10-17 11:47:42 [DEV] - Initializing Spring embedded WebApplicationContext
-2025-10-17 11:47:42 [DEV] - Root WebApplicationContext: initialization completed in 1926 ms
-2025-10-17 11:47:42 [DEV] - Rate limiting filter initialized with limit: 60 requests per minute
-2025-10-17 11:47:42 [DEV] - Filter 'jwtAuthenticationFilter' configured for use
-2025-10-17 11:47:42 [DEV] - Filter 'rateLimitingFilter' configured for use
-2025-10-17 11:47:42 [DEV] - HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-10-17 11:47:42 [DEV] - HHH000412: Hibernate ORM core version 6.6.26.Final
-2025-10-17 11:47:42 [DEV] - HHH000026: Second-level cache disabled
-2025-10-17 11:47:43 [DEV] - No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-10-17 11:47:43 [DEV] - HikariPool-1 - Starting...
-2025-10-17 11:47:43 [DEV] - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@10d49900
-2025-10-17 11:47:43 [DEV] - HikariPool-1 - Start completed.
-2025-10-17 11:47:43 [DEV] - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2025-10-17 11:47:43 [DEV] - HHH10001005: Database info:
+2025-10-18 22:25:59 [DEV] - Starting TfmsApplication using Java 17.0.16 with PID 27034 (/Users/abuchi/IdeaProjects/SaxionProject/02/tfms-starter/target/classes started by abuchi in /Users/abuchi/IdeaProjects/SaxionProject/02/tfms-starter)
+2025-10-18 22:25:59 [DEV] - Running with Spring Boot v3.5.5, Spring v6.2.10
+2025-10-18 22:25:59 [DEV] - The following 1 profile is active: "dev"
+2025-10-18 22:26:01 [DEV] - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-10-18 22:26:01 [DEV] - Finished Spring Data repository scanning in 57 ms. Found 3 JPA repository interfaces.
+2025-10-18 22:26:01 [DEV] - Tomcat initialized with port 8443 (https)
+2025-10-18 22:26:01 [DEV] - Starting service [Tomcat]
+2025-10-18 22:26:01 [DEV] - Starting Servlet engine: [Apache Tomcat/10.1.44]
+2025-10-18 22:26:01 [DEV] - Initializing Spring embedded WebApplicationContext
+2025-10-18 22:26:01 [DEV] - Root WebApplicationContext: initialization completed in 2093 ms
+2025-10-18 22:26:02 [DEV] - Rate limiting filter initialized with limit: 60 requests per minute
+2025-10-18 22:26:02 [DEV] - Filter 'jwtAuthenticationFilter' configured for use
+2025-10-18 22:26:02 [DEV] - Filter 'rateLimitingFilter' configured for use
+2025-10-18 22:26:02 [DEV] - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-10-18 22:26:02 [DEV] - HHH000412: Hibernate ORM core version 6.6.26.Final
+2025-10-18 22:26:02 [DEV] - HHH000026: Second-level cache disabled
+2025-10-18 22:26:02 [DEV] - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-10-18 22:26:02 [DEV] - HikariPool-1 - Starting...
+2025-10-18 22:26:03 [DEV] - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@3b8b5b40
+2025-10-18 22:26:03 [DEV] - HikariPool-1 - Start completed.
+2025-10-18 22:26:03 [DEV] - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-10-18 22:26:03 [DEV] - HHH10001005: Database info:
 	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
 	Database driver: undefined/unknown
 	Database version: 17.6
@@ -77,21 +77,101 @@ Listening for transport dt_socket at address: 5005
 	Isolation level: undefined/unknown
 	Minimum pool size: undefined/unknown
 	Maximum pool size: undefined/unknown
-2025-10-17 11:47:44 [DEV] - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-10-17 11:47:45 [DEV] - Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-10-17 11:47:45 [DEV] - Hibernate is in classpath; If applicable, HQL parser will be used.
-2025-10-17 11:47:46 [DEV] - Exposing 3 endpoints beneath base path '/actuator'
-2025-10-17 11:47:46 [DEV] - Adding welcome page: class path resource [static/index.html]
-2025-10-17 11:47:46 [DEV] - 
+2025-10-18 22:26:04 [DEV] - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+Hibernate: 
+    set client_min_messages = WARNING
+Hibernate: 
+    alter table if exists parcel 
+       drop constraint if exists FKwkhnhe26vrfytvn1i6bdst4q
+Hibernate: 
+    drop table if exists parcel cascade
+Hibernate: 
+    drop table if exists users cascade
+Hibernate: 
+    drop table if exists warehouse cascade
+Hibernate: 
+    create table parcel (
+        active boolean not null,
+        weight float(53) not null,
+        created_at timestamp(6) with time zone,
+        id bigint generated by default as identity,
+        updated_at timestamp(6) with time zone,
+        warehouse_id bigint not null,
+        address varchar(255) not null,
+        city varchar(255) not null,
+        delivery_instructions varchar(255),
+        latitude varchar(255) not null,
+        longitude varchar(255) not null,
+        name varchar(255) not null,
+        postalcode varchar(255) not null,
+        recipient_name varchar(255),
+        recipient_phone varchar(255) not null,
+        status varchar(255) not null,
+        primary key (id)
+    )
+Hibernate: 
+    create table users (
+        active boolean not null,
+        created_at timestamp(6) with time zone,
+        id bigint generated by default as identity,
+        updated_at timestamp(6) with time zone,
+        api_key varchar(255) unique,
+        email varchar(255) not null unique,
+        password varchar(255) not null,
+        user_type varchar(255) not null check (user_type in ('ADMIN','DRIVER','PLANNER','GLOBAL_API')),
+        username varchar(255) not null unique,
+        primary key (id)
+    )
+Hibernate: 
+    create table warehouse (
+        active boolean not null,
+        created_at timestamp(6) with time zone,
+        id bigint generated by default as identity,
+        updated_at timestamp(6) with time zone,
+        location varchar(255) not null,
+        name varchar(255) not null unique,
+        primary key (id)
+    )
+Hibernate: 
+    alter table if exists parcel 
+       add constraint FKwkhnhe26vrfytvn1i6bdst4q 
+       foreign key (warehouse_id) 
+       references warehouse
+2025-10-18 22:26:04 [DEV] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-10-18 22:26:04 [DEV] - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-10-18 22:26:05 [DEV] - Exposing 3 endpoints beneath base path '/actuator'
+2025-10-18 22:26:05 [DEV] - Adding welcome page: class path resource [static/index.html]
+2025-10-18 22:26:05 [DEV] - 
 
-Using generated security password: 692c9e80-8b4c-4db2-8e42-b2a77ba63910
+Using generated security password: 02835d49-4494-4e6b-9eae-eb49938e2c51
 
 This generated password is for development use only. Your security configuration must be updated before running your application in production.
 
-2025-10-17 11:47:46 [DEV] - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
-2025-10-17 11:47:47 [DEV] - Connector [https-jsse-nio-8443], TLS virtual host [_default_], certificate type [UNDEFINED] configured from keystore [/Users/abuchi/.keystore] using alias [tfms-dev] with trust store [null]
-2025-10-17 11:47:47 [DEV] - Tomcat started on port 8443 (https) with context path '/'
-2025-10-17 11:47:47 [DEV] - Started TfmsApplication in 7.188 seconds (process running for 7.609)
+2025-10-18 22:26:05 [DEV] - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-10-18 22:26:06 [DEV] - Connector [https-jsse-nio-8443], TLS virtual host [_default_], certificate type [UNDEFINED] configured from keystore [/Users/abuchi/.keystore] using alias [tfms-dev] with trust store [null]
+2025-10-18 22:26:06 [DEV] - Tomcat started on port 8443 (https) with context path '/'
+2025-10-18 22:26:06 [DEV] - Started TfmsApplication in 7.401 seconds (process running for 7.813)
+Hibernate: 
+    select
+        ud1_0.id 
+    from
+        users ud1_0 
+    where
+        ud1_0.email=? 
+    fetch
+        first ? rows only
+2025-10-18 22:26:06 [DEV] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-10-18 22:26:06 [DEV] - Initializing Servlet 'dispatcherServlet'
+2025-10-18 22:26:06 [DEV] - Completed initialization in 1 ms
+2025-10-18 22:26:06 [DEV] - Rate limit check: IP=127.0.0.1, Count=1, Limit=60
+Hibernate: 
+    insert 
+    into
+        users
+        (active, api_key, created_at, email, password, updated_at, user_type, username) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+Default user created: admin@tfms.com (ADMIN)
 Hibernate: 
     select
         ud1_0.id 
@@ -102,14 +182,13 @@ Hibernate:
     fetch
         first ? rows only
 Hibernate: 
-    select
-        ud1_0.id 
-    from
-        users ud1_0 
-    where
-        ud1_0.email=? 
-    fetch
-        first ? rows only
+    insert 
+    into
+        users
+        (active, api_key, created_at, email, password, updated_at, user_type, username) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+Default user created: driver@tfms.com (DRIVER)
 Hibernate: 
     select
         ud1_0.id 
@@ -120,6 +199,14 @@ Hibernate:
     fetch
         first ? rows only
 Hibernate: 
+    insert 
+    into
+        users
+        (active, api_key, created_at, email, password, updated_at, user_type, username) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+Default user created: planner@tfms.com (PLANNER)
+Hibernate: 
     select
         ud1_0.id 
     from
@@ -128,6 +215,31 @@ Hibernate:
         ud1_0.email=? 
     fetch
         first ? rows only
+Hibernate: 
+    insert 
+    into
+        users
+        (active, api_key, created_at, email, password, updated_at, user_type, username) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+Default user created: test@example.com (DRIVER)
+Hibernate: 
+    select
+        whd1_0.id 
+    from
+        warehouse whd1_0 
+    where
+        whd1_0.name=? 
+    fetch
+        first ? rows only
+Hibernate: 
+    insert 
+    into
+        warehouse
+        (active, created_at, location, name, updated_at) 
+    values
+        (?, ?, ?, ?, ?)
+Default warehouse created: Warehouse 1 (Netherlands)
 Default users initialization completed.
 
 ============================================================
@@ -144,24 +256,63 @@ H2 Console: http://localhost:8443/h2-console
 Application started successfully!
 ============================================================
 
-2025-10-17 11:47:47 [DEV] - Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-10-17 11:47:47 [DEV] - Initializing Servlet 'dispatcherServlet'
-2025-10-17 11:47:47 [DEV] - Completed initialization in 1 ms
-2025-10-17 11:47:47 [DEV] - Rate limit check: IP=127.0.0.1, Count=1, Limit=60
-2025-10-17 11:48:23 [DEV] - Rate limit check: IP=0:0:0:0:0:0:0:1, Count=1, Limit=60
-2025-10-17 11:48:23 [DEV] - Rate limit check: IP=0:0:0:0:0:0:0:1, Count=2, Limit=60
-2025-10-17 11:48:23 [DEV] - Rate limit check: IP=0:0:0:0:0:0:0:1, Count=3, Limit=60
-2025-10-17 11:48:23 [DEV] - Rate limit check: IP=0:0:0:0:0:0:0:1, Count=4, Limit=60
-2025-10-17 11:48:23 [DEV] - Rate limit check: IP=0:0:0:0:0:0:0:1, Count=5, Limit=60
-2025-10-17 11:48:23 [DEV] - Rate limit check: IP=0:0:0:0:0:0:0:1, Count=6, Limit=60
-2025-10-17 11:48:25 [DEV] - Rate limit check: IP=0:0:0:0:0:0:0:1, Count=7, Limit=60
-2025-10-17 11:48:25 [DEV] - Rate limit check: IP=0:0:0:0:0:0:0:1, Count=8, Limit=60
-2025-10-17 11:48:25 [DEV] - Rate limit check: IP=0:0:0:0:0:0:0:1, Count=9, Limit=60
-2025-10-17 11:48:26 [DEV] - Init duration for springdoc-openapi is: 705 ms
-2025-10-17 11:48:34 [DEV] - Rate limit check: IP=0:0:0:0:0:0:0:1, Count=10, Limit=60
-2025-10-17 11:48:34 [DEV] - Init duration for springdoc-openapi is: 65 ms
-2025-10-17 11:48:44 [DEV] - Commencing graceful shutdown. Waiting for active requests to complete
-2025-10-17 11:48:44 [DEV] - Graceful shutdown complete
-2025-10-17 11:48:44 [DEV] - Closing JPA EntityManagerFactory for persistence unit 'default'
-2025-10-17 11:48:44 [DEV] - HikariPool-1 - Shutdown initiated...
-2025-10-17 11:48:44 [DEV] - HikariPool-1 - Shutdown completed.
+2025-10-18 22:26:23 [DEV] - Rate limit check: IP=0:0:0:0:0:0:0:1, Count=1, Limit=60
+2025-10-18 22:26:24 [DEV] - Rate limit check: IP=0:0:0:0:0:0:0:1, Count=2, Limit=60
+2025-10-18 22:26:24 [DEV] - Rate limit check: IP=0:0:0:0:0:0:0:1, Count=3, Limit=60
+2025-10-18 22:26:24 [DEV] - Rate limit check: IP=0:0:0:0:0:0:0:1, Count=4, Limit=60
+2025-10-18 22:26:24 [DEV] - Rate limit check: IP=0:0:0:0:0:0:0:1, Count=5, Limit=60
+2025-10-18 22:26:24 [DEV] - Rate limit check: IP=0:0:0:0:0:0:0:1, Count=6, Limit=60
+2025-10-18 22:26:26 [DEV] - Rate limit check: IP=0:0:0:0:0:0:0:1, Count=7, Limit=60
+2025-10-18 22:26:26 [DEV] - Rate limit check: IP=0:0:0:0:0:0:0:1, Count=8, Limit=60
+2025-10-18 22:26:27 [DEV] - Init duration for springdoc-openapi is: 1054 ms
+2025-10-18 22:26:45 [DEV] - Rate limit check: IP=0:0:0:0:0:0:0:1, Count=9, Limit=60
+Hibernate: 
+    select
+        ud1_0.id,
+        ud1_0.active,
+        ud1_0.api_key,
+        ud1_0.created_at,
+        ud1_0.email,
+        ud1_0.password,
+        ud1_0.updated_at,
+        ud1_0.user_type,
+        ud1_0.username 
+    from
+        users ud1_0 
+    where
+        ud1_0.email=? 
+        and ud1_0.active=true
+2025-10-18 22:27:12 [DEV] - Rate limit check: IP=0:0:0:0:0:0:0:1, Count=1, Limit=60
+Hibernate: 
+    select
+        pd1_0.id 
+    from
+        parcel pd1_0 
+    where
+        pd1_0.name=? 
+    fetch
+        first ? rows only
+Hibernate: 
+    select
+        whd1_0.id,
+        whd1_0.active,
+        whd1_0.created_at,
+        whd1_0.location,
+        whd1_0.name,
+        whd1_0.updated_at 
+    from
+        warehouse whd1_0 
+    where
+        whd1_0.id=?
+Hibernate: 
+    insert 
+    into
+        parcel
+        (active, address, city, created_at, delivery_instructions, latitude, longitude, name, postalcode, recipient_name, recipient_phone, status, updated_at, warehouse_id, weight) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-10-18 22:27:48 [DEV] - Commencing graceful shutdown. Waiting for active requests to complete
+2025-10-18 22:27:48 [DEV] - Graceful shutdown complete
+2025-10-18 22:27:48 [DEV] - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-10-18 22:27:48 [DEV] - HikariPool-1 - Shutdown initiated...
+2025-10-18 22:27:48 [DEV] - HikariPool-1 - Shutdown completed.
