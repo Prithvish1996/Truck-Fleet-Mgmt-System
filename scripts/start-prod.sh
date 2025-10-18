@@ -51,6 +51,11 @@ check_port() {
 echo -e "${BLUE}Checking port availability...${NC}"
 check_port 8443
 
+# Create logs directory for production
+echo -e "${BLUE}Setting up logging directory...${NC}"
+mkdir -p "$PROJECT_ROOT/logs"
+echo -e "${GREEN}Logs directory ready: $PROJECT_ROOT/logs${NC}"
+
 # Build Production Package
 echo -e "\n${BLUE}Building Production Package...${NC}"
 echo -e "${YELLOW}This will:${NC}"
@@ -71,9 +76,6 @@ if [ $? -ne 0 ]; then
 fi
 
 echo -e "${GREEN}Production build completed successfully!${NC}"
-
-# Create logs directory for production
-mkdir -p "$PROJECT_ROOT/logs"
 
 # Start Production Application
 echo -e "\n${BLUE}Starting Production Application...${NC}"
@@ -133,7 +135,11 @@ echo -e "${BLUE}API Endpoints:${NC}  https://localhost:8443/api"
 echo -e "${BLUE}Health Check:${NC}   https://localhost:8443/actuator/health"
 echo -e "${BLUE}Actuator:${NC}      https://localhost:8443/actuator"
 echo -e "${BLUE}Database:${NC}      PostgreSQL on localhost:5432/tfmsdb"
-echo -e "${YELLOW}Logs:${NC}"
+echo -e "${YELLOW}Application Logs (Log4j2 JSON):${NC}"
+echo -e "   Main: $PROJECT_ROOT/logs/tfms-application.json"
+echo -e "   Errors: $PROJECT_ROOT/logs/error.json"
+echo -e "   Service-specific: $PROJECT_ROOT/logs/[service-name].json"
+echo -e "${YELLOW}Startup Logs:${NC}"
 echo -e "   Application: $PROJECT_ROOT/logs/tfms.log"
 echo -e "   Startup: $PROJECT_ROOT/logs/startup.log"
 echo -e "\n${GREEN}Frontend and Backend served from single port (8080)${NC}"
