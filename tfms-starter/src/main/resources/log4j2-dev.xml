@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Properties>
+        <Property name="LOG_PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level [%X{service}] [%X{operation}] %logger{36} - %msg%n</Property>
+        <Property name="APP_LOG_ROOT">${sys:LOG_PATH:-${sys:user.dir}/logs}</Property>
+    </Properties>
+
+    <Appenders>
+        <!-- Console Appender -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+        </Console>
+
+        <!-- Main Application Log -->
+        <RollingFile name="AppFileAppender" 
+                     fileName="${APP_LOG_ROOT}/tfms-application.log"
+                     filePattern="${APP_LOG_ROOT}/tfms-application-%d{yyyy-MM-dd}-%i.log">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="10MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+
+        <!-- Service-based Routing (Automatic module/service separation) -->
+        <Routing name="ServiceRoutingAppender">
+            <Routes pattern="$${ctx:service:-unspecified}">
+                <Route key="unspecified">
+                    <!-- If no service context is set, log to main app log -->
+                    <Null/>
+                </Route>
+                <Route>
+                    <RollingFile name="Rolling-${ctx:service}" 
+                                 fileName="${APP_LOG_ROOT}/${ctx:service}.log"
+                                 filePattern="${APP_LOG_ROOT}/${ctx:service}-%d{yyyy-MM-dd}-%i.log">
+                        <PatternLayout pattern="${LOG_PATTERN}"/>
+                        <Policies>
+                            <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                            <SizeBasedTriggeringPolicy size="10MB"/>
+                        </Policies>
+                        <DefaultRolloverStrategy max="10"/>
+                    </RollingFile>
+                </Route>
+            </Routes>
+        </Routing>
+
+        <!-- Error Log (All services) -->
+        <RollingFile name="ErrorFileAppender" 
+                     fileName="${APP_LOG_ROOT}/error.log"
+                     filePattern="${APP_LOG_ROOT}/error-%d{yyyy-MM-dd}-%i.log">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+            <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="10MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="30"/>
+        </RollingFile>
+
+        <!-- Performance/Metrics Log -->
+        <RollingFile name="PerformanceFileAppender" 
+                     fileName="${APP_LOG_ROOT}/performance.log"
+                     filePattern="${APP_LOG_ROOT}/performance-%d{yyyy-MM-dd}-%i.log">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="10MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="7"/>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <!-- Root Logger -->
+        <Root level="info">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="AppFileAppender"/>
+            <AppenderRef ref="ServiceRoutingAppender"/>
+            <AppenderRef ref="ErrorFileAppender"/>
+        </Root>
+
+        <!-- TFMS Application Loggers -->
+        <Logger name="com.saxion.proj.tfms" level="debug" additivity="false">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="AppFileAppender"/>
+            <AppenderRef ref="ServiceRoutingAppender"/>
+            <AppenderRef ref="ErrorFileAppender"/>
+        </Logger>
+
+        <!-- Spring Framework (reduce noise) -->
+        <Logger name="org.springframework" level="info" additivity="false">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="AppFileAppender"/>
+        </Logger>
+
+        <!-- Hibernate/JPA (SQL logging) -->
+        <Logger name="org.hibernate" level="info" additivity="false">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="AppFileAppender"/>
+        </Logger>
+        
+        <Logger name="org.hibernate.SQL" level="debug" additivity="false">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="AppFileAppender"/>
+        </Logger>
+
+        <!-- Performance Logger -->
+        <Logger name="performance" level="info" additivity="false">
+            <AppenderRef ref="PerformanceFileAppender"/>
+        </Logger>
+    </Loggers>
+</Configuration>

@@ -3,3 +3,10 @@
 /tfms-modules/auth-modules/auth-service/target/
 /tfms-modules/common-modules/target/
 /tfms-starter/target/
+
+# Log files
+logs/
+*.log
+*.log.*
+*.json
+!**/src/**/*.json

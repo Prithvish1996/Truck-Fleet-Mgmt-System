@@ -112,4 +112,3 @@ Example:
 - `user.setPassword(passwordEncoder.encode(password));`
 
 ---
-_Last updated: October 14, 2025_

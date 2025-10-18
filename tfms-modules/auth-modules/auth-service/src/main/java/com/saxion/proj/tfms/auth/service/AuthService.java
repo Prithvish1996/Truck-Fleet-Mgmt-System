@@ -12,12 +12,16 @@ import com.saxion.proj.tfms.commons.security.JwtUtil;
 import com.saxion.proj.tfms.commons.model.UserDao;
 import com.saxion.proj.tfms.commons.exception.auth.UserNotFoundException;
 import com.saxion.proj.tfms.commons.exception.auth.InvalidCredentialsException;
+import com.saxion.proj.tfms.commons.logging.ServiceLogger;
+import com.saxion.proj.tfms.commons.logging.ServiceName;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 @Service
 public class AuthService implements IAuthService {
+
+    private static final ServiceLogger logger = ServiceLogger.getLogger(AuthService.class);
 
     @Autowired
     private AuthUserRepository userRepository;
@@ -31,15 +35,20 @@ public class AuthService implements IAuthService {
 
     public ApiResponse<LoginResponseDto> authenticate(LoginRequestDto request) {
         try {
+            logger.infoOp(ServiceName.SECURITY_SERVICE, "LOGIN", "Authentication attempt for user: {}", request.getEmail());
 
             UserDao user = getUser(request);
             String token = jwtUtil.generateToken(user.getEmail(), user.getUserType().name());
             LoginResponseDto responseData = getLoginResponseDto(token, user);
+            
+            logger.infoOp(ServiceName.SECURITY_SERVICE, "LOGIN", "Authentication successful for user: {}", request.getEmail());
             return getApiResponse(responseData);
             
         } catch (UserNotFoundException | InvalidCredentialsException e) {
+            logger.warnOp(ServiceName.SECURITY_SERVICE, "LOGIN", "Authentication failed for user: {} - {}", request.getEmail(), e.getMessage());
             return ApiResponse.error(e.getMessage());
         } catch (Exception e) {
+            logger.errorOp(ServiceName.SECURITY_SERVICE, "LOGIN", "Authentication error for user: {}", e, request.getEmail());
             return ApiResponse.error("Authentication failed: " + e.getMessage());
         }
     }
