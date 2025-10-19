@@ -1,6 +1,7 @@
 com/saxion/proj/tfms/commons/dto/ApiResponse$ApiResponseBuilder.class
 com/saxion/proj/tfms/commons/swagger/SwaggerAnnotations$PublicApiOperation.class
 com/saxion/proj/tfms/commons/model/WareHouseDao.class
+com/saxion/proj/tfms/commons/model/ParcelDao$StatusEnum.class
 com/saxion/proj/tfms/commons/swagger/SwaggerAnnotations$StandardApiOperation.class
 com/saxion/proj/tfms/commons/swagger/SwaggerAnnotations.class
 com/saxion/proj/tfms/commons/security/annotations/CurrentUser.class

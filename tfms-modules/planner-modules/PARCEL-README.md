@@ -1,136 +1,152 @@
-# 🧭 TFMS Parcel Service
+# TFMS Parcel Service
 
-## 📘 Overview
-The **Parcel Service** is a Spring Boot module responsible for managing parcel operations, including creation, retrieval, update, deletion, and scheduling.  
-It adheres strictly to the **Single Responsibility Principle (SRP)** — each handler performs exactly one well-defined operation, ensuring high maintainability and testability.
+## 📦 Overview
+The **Parcel Service** is a Spring Boot module service responsible for managing parcel operations such as **creation**, **retrieval**, **update**, **deletion**, and **next-day scheduling**.  
+
+The system is designed with **Single Responsibility Principle (SRP)** in mind — each handler performs a single, well-defined task to ensure modularity and maintainability.
 
 ---
 
-## ⚙️ Key Design Principles
+## 🧩 Key Design Principles
+
 | Principle | Description |
-|------------|--------------|
-| **Handlers** | Each operation (create, update, delete, retrieve, schedule) is encapsulated in its own class. |
-| **SRP Compliance** | Each handler focuses on a single task, avoiding cross-responsibility logic. |
-| **DTO Mapping** | `ParcelMapperHandler` maps `ParcelDao` entities to `ParcelResponseDto` objects for clean API responses. |
-| **Validation** | Input validation ensures IDs, names, and warehouse references are valid before any operation. |
-| **Standardized Response** | All operations return a unified `ApiResponse<T>` object. |
-| **MC/DC Testing** | Unit tests follow the **Modified Condition/Decision Coverage** approach, ensuring all logical branches are independently tested. |
+|------------|-------------|
+| **Handlers** | Each operation (Create, Get, Update, Delete, Schedule) is encapsulated in its own handler class implementing an interface. |
+| **SRP (Single Responsibility Principle)** | Each handler focuses on one business operation to reduce complexity. |
+| **DTO Mapping** | The `ParcelMapperHandler` maps between `ParcelDao` entities and `ParcelResponseDto` objects, isolating persistence from API representation. |
+| **Validation** | Input parameters such as `parcelId`, `warehouseId`, and request DTOs are validated with appropriate error responses using `ApiResponse`. |
+| **MC/DC Testing** | Unit tests follow **Modified Condition/Decision Coverage (MC/DC)** principles to ensure full branch and condition coverage. |
+| **Pagination & Filtering** | The `GetAllParcelsHandler` supports pagination and text filtering for scalability and usability. |
 
 ---
 
-## 🧩 Handlers and Responsibilities
+## ⚙️ Handlers and Responsibilities
 
 | Handler | Responsibility | Key Validations |
-|----------|----------------|-----------------|
-| **CreateParcelHandler** | Creates a new parcel | Parcel name must be unique; Warehouse ID must exist |
-| **GetParcelByIdHandler** | Retrieves a parcel by its ID | `parcelId` must be valid and parcel must exist |
-| **GetAllParcelsHandler** | Retrieves all parcels for a warehouse | `warehouseId` must be valid and warehouse must exist |
-| **UpdateParcelHandler** | Updates parcel information | `parcelId` must be valid; Parcel must exist; Warehouse must exist; New name must be unique |
-| **DeleteParcelHandler** | Permanently deletes a parcel | `parcelId` must be valid and parcel must exist |
-| **GetNextDayParcelScheduleHandler** | Retrieves parcels scheduled for next day grouped by warehouse | Only includes parcels with `status = pending`; ignores null warehouses |
-| **ParcelCallbackController** | Accepts a list of parcels from an external API and delegates creation to `CreateParcelHandler` | Each parcel validated before creation |
+|----------|----------------|----------------|
+| **CreateParcelHandler** | Creates a new parcel record. | - Parcel name must be unique<br>- Warehouse ID must exist |
+| **UpdateParcelHandler** | Updates an existing parcel. | - Parcel ID must be valid<br>- Parcel must exist<br>- Parcel name must be unique<br>- Warehouse ID must exist |
+| **DeleteParcelHandler** | Deletes a parcel permanently (hard delete). | - Parcel ID must be valid<br>- Parcel must exist |
+| **GetParcelByIdHandler** | Retrieves a parcel by ID. | - Parcel ID must be valid<br>- Parcel must exist |
+| **GetAllParcelsHandler** | Retrieves parcels by warehouse with pagination and filtering. | - Warehouse ID is mandatory<br>- Optional filtering by parcel name, city, recipient name, or recipient phone |
+| **GetNextDayParcelScheduleHandler** | Fetches next-day pending parcels grouped by warehouse. | - Only "pending" parcels included<br>- Grouped by warehouse name and ID<br>- Returns error if no pending parcels |
 
 ---
 
-## 🛠️ API Endpoints
+## API Endpoints
 
 | Method | Endpoint | Description |
-|--------|-----------|-------------|
+|---------|-----------|-------------|
 | `POST` | `/api/parcel/create` | Create a new parcel |
+| `PUT` | `/api/parcel/update/{parcelId}` | Update an existing parcel |
+| `DELETE` | `/api/parcel/{parcelId}` | Delete a parcel by ID |
 | `GET` | `/api/parcel/{parcelId}` | Get a parcel by ID |
-| `GET` | `/api/parcel/all/{warehouseId}` | Get all parcels for a warehouse |
-| `PUT` | `/api/parcel/{parcelId}` | Update a parcel |
-| `DELETE` | `/api/parcel/{parcelId}` | Delete a parcel permanently |
-| `POST` | `/api/parcel/callback` | Callback endpoint for bulk parcel creation (external APIs) |
-| `GET` | `/api/parcel/schedule/nextday` | Get next-day pending parcels grouped by warehouse |
+| `GET` | `/api/parcel/all` | Get all parcels by warehouse with pagination & filtering |
+| `GET` | `/api/parcel/schedule/next-day` | Get next-day pending parcels grouped by warehouse |
+| `POST` | `/api/parcel/callback` | Bulk create parcels via external callback |
 
 ---
 
-## 🧪 Unit Tests (MC/DC Coverage)
+## 🧪 Unit Tests (MC/DC)
 
-### 1️⃣ CreateParcelHandlerTest
-**Conditions Tested**
+All tests are written using **JUnit 5** and **Mockito**, ensuring complete condition and decision coverage.
+
+### 1. **CreateParcelHandlerTest**
+**Conditions tested:**
 - Parcel name already exists → returns error
-- Warehouse ID invalid → throws error
-- Warehouse valid → success
-- All fields mapped correctly → success
+- Warehouse ID invalid → returns error
+- Warehouse ID valid → success
+- All fields properly mapped → success
 
-**Expected Outcomes**
-- Error for duplicates
-- Success on valid creation
+*Expected outcome:* Error messages or successful `ParcelResponseDto`.
 
 ---
 
-### 2️⃣ GetParcelByIdHandlerTest
-**Conditions Tested**
-- `parcelId == null` → returns error
-- `parcelId <= 0` → returns error
-- Parcel not found → returns error
-- Parcel found → success
+### 2. **UpdateParcelHandlerTest**
+**Conditions tested:**
+- Parcel ID null or ≤ 0 → return error
+- Parcel not found → return error
+- Parcel name conflict → return error
+- Warehouse not found → return error
+- Valid update → return updated DTO
 
-**Expected Outcomes**
-- Error message or valid `ParcelResponseDto`
-
----
-
-### 3️⃣ GetAllParcelsHandlerTest
-**Conditions Tested**
-- `warehouseId == null` → returns error
-- `warehouseId <= 0` → returns error
-- Warehouse not found → returns error
-- Parcels found → success
-
-**Expected Outcomes**
-- Empty list or list of `ParcelResponseDto`
+*Expected outcome:* Updated parcel or descriptive error message.
 
 ---
 
-### 4️⃣ UpdateParcelHandlerTest
-**Conditions Tested**
-- `parcelId == null` or `<= 0` → invalid
-- Parcel not found → error
-- Warehouse not found → error
-- New name already exists → error
-- Valid update → success
+### 3. **DeleteParcelHandlerTest**
+**Conditions tested:**
+- Parcel ID null or ≤ 0 → return error
+- Parcel not found → return error
+- Valid parcel ID → delete successful
 
-**Expected Outcomes**
-- Either error message or successfully updated `ParcelResponseDto`
+*Expected outcome:* `"Parcel deleted successfully"` confirmation.
 
 ---
 
-### 5️⃣ DeleteParcelHandlerTest
-**Conditions Tested**
-- `parcelId == null` or `<= 0` → invalid
-- Parcel not found → error
-- Valid parcel → success
+### 4. **GetParcelByIdHandlerTest**
+**Conditions tested:**
+- Parcel ID null or ≤ 0 → return error
+- Parcel not found → return error
+- Parcel exists → return success
 
-**Expected Outcomes**
-- Error message for invalid IDs
-- Success message `"Parcel deleted successfully"`
+*Expected outcome:* Returns `ParcelResponseDto` or error.
 
 ---
 
-### 6️⃣ GetNextDayParcelScheduleHandlerTest
-**Conditions Tested**
-- No parcels exist → error
-- No pending parcels → error
-- Pending parcels with null warehouse → skipped
-- Valid pending parcels with warehouse → grouped correctly
+### 5. **GetAllParcelsHandlerTest**
+**Conditions tested:**
+- Warehouse ID null or ≤ 0 → return error
+- No parcels for warehouse → return empty result
+- Filter by name, city, recipient name, recipient phone → success
+- Pagination limits respected
 
-**Expected Outcomes**
-- Returns grouped list: `{ "1 - Main Warehouse": [ParcelResponseDto], "2 - Secondary Warehouse": [...] }`
-- Achieves 100% **MC/DC coverage**
+*Expected outcome:* Paginated list of `ParcelResponseDto`.
 
 ---
 
-### 7️⃣ ParcelCallbackControllerTest
-**Conditions Tested**
-- Empty parcel list → no calls to `CreateParcelHandler`
-- All parcels valid → each parcel created successfully
-- Partial failure → handled gracefully
+### 6. **GetNextDayParcelScheduleHandlerTest**
+**Conditions tested:**
+- No parcels → return error
+- No pending parcels → return error
+- Pending parcels with null warehouse skipped
+- Valid pending parcels grouped by warehouse ID and name
 
-**Expected Outcomes**
-- Returns a list of successfully created parcels
-- Proper error responses for invalid entries
+*Expected outcome:* Grouped map of pending parcels.
+
+---
+
+### 7. **ParcelMapperHandlerTest**
+**Conditions tested:**
+- All `ParcelDao` fields correctly mapped to `ParcelResponseDto`
+- Optional warehouse name handled gracefully
+
+*Expected outcome:* Fully mapped DTO with correct values.
+
+---
+
+## 🔍 Filtering and Pagination (in `GetAllParcelsHandler`)
+### Parameters:
+- `warehouseId` *(required)* — Warehouse to filter parcels by
+- `searchText` *(optional)* — Filters where:
+    - Parcel name **starts with** text
+    - City **starts with** text
+    - Recipient name or phone **starts with** text
+- `page` *(optional, default=0)* — Page number
+- `size` *(optional, default=10)* — Number of records per page
+
+### Example API Call:
+GET /api/parcel/getAll?warehouseid=1&searchText=box&page=0&size=10
+
+Returns paginated & filtered parcel list for warehouse **1**.
+
+---
+
+## Design Summary
+- **SRP** ensures every handler class is focused and testable.
+- **MC/DC** testing ensures logic coverage across all conditional branches.
+- **Pagination & Filtering** make large datasets manageable.
+- **Clear DTO boundaries** prevent entity exposure in the API layer.
+- **Error handling** provides consistent responses with messages in `ApiResponse`.
 
 ---

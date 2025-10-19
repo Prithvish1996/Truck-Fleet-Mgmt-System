@@ -40,8 +40,9 @@ public class ParcelDao {
     @Column(nullable = false)
     private Double weight;
 
-    @Column(nullable = false)
-    private String status;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private StatusEnum status;
 
     @Column(nullable = true)
     private String deliveryInstructions;
@@ -63,6 +64,13 @@ public class ParcelDao {
 
     @Column(name = "updated_at")
     private ZonedDateTime updatedAt;
+
+    public enum StatusEnum {
+        PENDING,
+        SCHEDULED,
+        DELIVERED,
+        RETURNED
+    }
 
     @PrePersist
     protected void onCreate() {

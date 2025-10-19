@@ -16,7 +16,7 @@ public class ParcelMapperHandler {
         dto.setPostalcode(parcel.getPostalcode());
         dto.setWeight(parcel.getWeight());
         dto.setWarehouseId(parcel.getWarehouse().getId());
-        dto.setStatus(parcel.getStatus());
+        dto.setStatus(parcel.getStatus().name());
         dto.setCreatedAt(parcel.getCreatedAt());
         dto.setDeliveryInstructions(parcel.getDeliveryInstructions());
         dto.setRecipientName(parcel.getRecipientName());

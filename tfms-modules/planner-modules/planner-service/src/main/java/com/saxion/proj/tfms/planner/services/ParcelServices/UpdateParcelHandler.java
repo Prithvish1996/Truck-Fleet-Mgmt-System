@@ -59,7 +59,6 @@ public class UpdateParcelHandler implements IUpdateParcel {
         parcel.setWeight(dto.getWeight());
         parcel.setCity(dto.getCity());
         parcel.setWarehouse(warehouseOpt.get());
-        parcel.setStatus(dto.getStatus());
         parcel.setDeliveryInstructions(dto.getDeliveryInstructions());
         parcel.setRecipientName(dto.getRecipientName());
         parcel.setRecipientPhone(dto.getRecipientPhone());

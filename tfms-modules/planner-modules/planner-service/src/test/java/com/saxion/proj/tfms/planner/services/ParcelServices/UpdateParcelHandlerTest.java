@@ -62,7 +62,6 @@ class UpdateParcelHandlerTest {
         dto.setWeight(5.0);
         dto.setCity("Amsterdam");
         dto.setWarehouseId(1L);
-        dto.setStatus("pending");
         dto.setDeliveryInstructions("Leave at door");
         dto.setRecipientName("John Doe");
         dto.setRecipientPhone("+31 6 1111 2222");

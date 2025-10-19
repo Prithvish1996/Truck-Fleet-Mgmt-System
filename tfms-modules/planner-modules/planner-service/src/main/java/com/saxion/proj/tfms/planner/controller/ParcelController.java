@@ -83,10 +83,14 @@ public class ParcelController {
 
 
     // List all parcels
-    @GetMapping("/getAll/{warehouseid}")
-    public ResponseEntity<ApiResponse<List<ParcelResponseDto>>> getAllParcels(
+    @GetMapping("/getAll")
+    public ResponseEntity<ApiResponse<Map<String, Object>>> getAllParcels(
             @CurrentUser UserContext user,
-            @PathVariable("warehouseid") Long warehouseid) {
+            @RequestParam Long warehouseid,
+            @RequestParam(required = false) String searchText,
+            @RequestParam(required = false, defaultValue = "0") Integer page,
+            @RequestParam(required = false, defaultValue = "10") Integer size) {
+
         if (!user.isValid()) {
             return ResponseEntity.status(401)
                     .body(ApiResponse.error("Invalid token"));
@@ -98,7 +102,7 @@ public class ParcelController {
                     .body(ApiResponse.error("Not Authorized"));
         }
 
-        return ResponseEntity.ok(getAllParcels.Handle(warehouseid));
+        return ResponseEntity.ok(getAllParcels.Handle(warehouseid, searchText, page, size));
     }
 
     // get parcel by id

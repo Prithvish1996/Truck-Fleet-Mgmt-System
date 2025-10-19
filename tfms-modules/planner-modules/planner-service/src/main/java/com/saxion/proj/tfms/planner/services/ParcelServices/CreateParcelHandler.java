@@ -40,7 +40,7 @@ public class CreateParcelHandler implements ICreateParcel {
         parcel.setWeight(dto.getWeight());
         parcel.setCity(dto.getCity());
         parcel.setWarehouse(warehouse);
-        parcel.setStatus(dto.getStatus());
+        parcel.setStatus(ParcelDao.StatusEnum.PENDING);
         parcel.setDeliveryInstructions(dto.getDeliveryInstructions());
         parcel.setRecipientName(dto.getRecipientName());
         parcel.setRecipientPhone(dto.getRecipientPhone());

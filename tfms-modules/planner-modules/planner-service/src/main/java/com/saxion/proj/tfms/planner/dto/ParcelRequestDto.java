@@ -33,9 +33,6 @@ public class ParcelRequestDto {
     @NotNull(message = "Warehouse ID is required")
     private Long warehouseId;
 
-    @NotBlank(message = "Status is required")
-    private String status;
-
     private String deliveryInstructions;
 
     @NotBlank(message = "Recipient name is required")

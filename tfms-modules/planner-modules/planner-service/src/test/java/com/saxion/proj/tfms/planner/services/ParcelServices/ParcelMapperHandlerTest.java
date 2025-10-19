@@ -35,7 +35,7 @@ class ParcelMapperHandlerTest {
         parcel.setPostalcode("1012 AB");
         parcel.setWeight(2.5);
         parcel.setWarehouse(warehouse);
-        parcel.setStatus("Pending");
+        parcel.setStatus(ParcelDao.StatusEnum.PENDING);
         parcel.setCreatedAt(ZonedDateTime.now());
         parcel.setDeliveryInstructions("Leave at front door");
         parcel.setRecipientName("John Doe");
@@ -54,7 +54,7 @@ class ParcelMapperHandlerTest {
         assertEquals(parcel.getPostalcode(), dto.getPostalcode());
         assertEquals(parcel.getWeight(), dto.getWeight());
         assertEquals(parcel.getWarehouse().getId(), dto.getWarehouseId());
-        assertEquals(parcel.getStatus(), dto.getStatus());
+        assertEquals(parcel.getStatus().name(), dto.getStatus());
         assertEquals(parcel.getCreatedAt(), dto.getCreatedAt());
         assertEquals(parcel.getDeliveryInstructions(), dto.getDeliveryInstructions());
         assertEquals(parcel.getRecipientName(), dto.getRecipientName());
