@@ -7,6 +7,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="planner-service" />
         <module name="log-monitoring" />
         <module name="maintenance-service" />
         <module name="document-mgmt-service" />
@@ -33,6 +34,7 @@
       <module name="driver-service" target="17" />
       <module name="notification-service" target="17" />
       <module name="order-service" target="17" />
+      <module name="planner-module" target="17" />
       <module name="planner-modules" target="17" />
       <module name="tfms-analytics" target="17" />
       <module name="tfms-customer" target="17" />
@@ -54,7 +56,9 @@
       <module name="driver-service" options="-parameters" />
       <module name="notification-service" options="-parameters" />
       <module name="order-service" options="-parameters" />
+      <module name="planner-module" options="-parameters" />
       <module name="planner-modules" options="-parameters" />
+      <module name="planner-service" options="-parameters" />
       <module name="tfms" options="-parameters" />
       <module name="tfms-analytics" options="-parameters" />
       <module name="tfms-customer" options="-parameters" />

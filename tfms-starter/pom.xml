@@ -46,7 +46,14 @@
         <!-- Commons Module -->
         <dependency>
             <groupId>com.saxion.proj</groupId>
-            <artifactId>tfms-commons</artifactId>
+            <artifactId>common-modules</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- Planner Module Dependencies -->
+        <dependency>
+            <groupId>com.saxion.proj</groupId>
+            <artifactId>planner-service</artifactId>
             <version>${project.version}</version>
         </dependency>
 

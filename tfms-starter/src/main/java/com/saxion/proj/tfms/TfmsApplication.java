@@ -9,7 +9,10 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan(basePackages = {
     "com.saxion.proj.tfms",           // Main application
     "com.saxion.proj.tfms.commons",   // Commons components
-    "com.saxion.proj.tfms.auth"       // Auth service (controllers, services, abstractions)
+    "com.saxion.proj.tfms.commons.model",
+    "com.saxion.proj.tfms.planner",
+    "com.saxion.proj.tfms.auth",       // Auth service controllers
+    "com.saxion.proj.tfms.auth.abstraction"       // Auth service controllers
 })
 public class TfmsApplication {
     public static void main(String[] args) {
@@ -17,7 +20,7 @@ public class TfmsApplication {
         ThreadContext.put("service", "tfms-truck-fleet-management-system");
         ThreadContext.put("environment", System.getProperty("app.environment", "dev"));
         ThreadContext.put("application", "tfms-truck-fleet-management-system");
-        
+
         SpringApplication.run(TfmsApplication.class, args);
     }
 }

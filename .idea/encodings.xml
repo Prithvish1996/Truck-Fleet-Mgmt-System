@@ -32,6 +32,7 @@
     <file url="file://$PROJECT_DIR$/order-service/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/payment-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/payment-service/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/planner-module/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/tfms-modules/auth-modules/auth-service/src/main/java" charset="UTF-8" />
@@ -44,6 +45,7 @@
     <file url="file://$PROJECT_DIR$/tfms-modules/core-modules/order-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/tfms-modules/core-modules/tracking-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/tfms-modules/core-modules/truck-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tfms-modules/planner-modules/planner-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/tfms-modules/planner-modules/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/tfms-modules/platform-modules/log-modules/monitoring-module/analytics-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/tfms-modules/shared-modules/common-utils/src/main/java" charset="UTF-8" />

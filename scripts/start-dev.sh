@@ -114,13 +114,13 @@ done
 echo -e "\n${BLUE}Starting Frontend (React Dev Server)...${NC}"
 
 # Check if frontend directory exists
-if [ ! -d "$PROJECT_ROOT/frontend" ]; then
+if [ ! -d "$PROJECT_ROOT/frontend/my-app" ]; then
     echo -e "${YELLOW}Frontend directory not found. Creating basic React app...${NC}"
     cd "$PROJECT_ROOT"
     npx create-react-app frontend --template typescript
 fi
 
-cd "$PROJECT_ROOT/frontend"
+cd "$PROJECT_ROOT/frontend/my-app"
 
 # Check if node_modules exists
 if [ ! -d "node_modules" ]; then

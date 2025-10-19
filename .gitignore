@@ -10,3 +10,8 @@ logs/
 *.log.*
 *.json
 !**/src/**/*.json
+
+# Maven/Gradle build directories
+*.class
+*.jar
+
