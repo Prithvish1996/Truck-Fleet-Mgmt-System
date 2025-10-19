@@ -35,6 +35,11 @@ public class GetAllParcelHandler implements IGetAllParcels {
                 .map(parcelMapper::toDto)
                 .collect(Collectors.toList());
 
+        // Check if any parcels were found
+        if (parcelDtos.isEmpty()) {
+            return ApiResponse.error("No parcels found for the given warehouse ID");
+        }
+
         return ApiResponse.success(parcelDtos);
     }
 

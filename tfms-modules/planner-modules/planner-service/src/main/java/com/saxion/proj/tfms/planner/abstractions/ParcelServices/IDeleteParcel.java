@@ -1,0 +1,9 @@
+package com.saxion.proj.tfms.planner.abstractions.ParcelServices;
+
+import com.saxion.proj.tfms.commons.dto.ApiResponse;
+import com.saxion.proj.tfms.planner.dto.ParcelRequestDto;
+import com.saxion.proj.tfms.planner.dto.ParcelResponseDto;
+
+public interface IDeleteParcel {
+    ApiResponse<Void> Handle(Long parcelId);
+}
