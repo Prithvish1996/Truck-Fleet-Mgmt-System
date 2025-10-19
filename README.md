@@ -125,4 +125,4 @@ http://localhost:8080/api/
 
 ## Modules/ Services
 
-- [Planner Service](tfms-modules/planner-modules/README.md) – Handles parcel operations such as create, retrieve by ID, and retrieve by warehouse.
+- [Parcel Service](tfms-modules/planner-modules/PARCEL-README.md) – Handles parcel operations such as create, retrieve by ID, and retrieve by warehouse.
