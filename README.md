@@ -13,6 +13,16 @@ This is a **multi-module Spring Boot project** with the following structure:
 
 ---
 
+## Documentation
+
+For detailed information about specific topics, refer to the following documentation:
+
+- **[Logging & Monitoring Guide](docs/monitor-logging.md)** - Comprehensive guide on Log4j2 logging system, service-based log file separation, and monitoring
+- **[Security Documentation](docs/Security.md)** - Security implementation details including JWT authentication, HTTPS/TLS configuration, and security best practices
+- **[Deployment Guide](docs/DEPLOYMENT.md)** - Complete deployment guide for development and production modes
+
+---
+
 ## Prerequisites
 
 Before running the application, make sure you have the following installed:

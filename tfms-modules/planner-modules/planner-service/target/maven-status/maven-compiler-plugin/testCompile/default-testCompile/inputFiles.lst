@@ -1,8 +1,0 @@
-/Users/abuchi/IdeaProjects/SaxionProject/02/tfms-modules/planner-modules/planner-service/src/test/java/com/saxion/proj/tfms/planner/PlannerServiceApplicationTests.java
-/Users/abuchi/IdeaProjects/SaxionProject/02/tfms-modules/planner-modules/planner-service/src/test/java/com/saxion/proj/tfms/planner/services/ParcelServices/CreateParcelHandlerTest.java
-/Users/abuchi/IdeaProjects/SaxionProject/02/tfms-modules/planner-modules/planner-service/src/test/java/com/saxion/proj/tfms/planner/services/ParcelServices/DeleteParcelHandlerTest.java
-/Users/abuchi/IdeaProjects/SaxionProject/02/tfms-modules/planner-modules/planner-service/src/test/java/com/saxion/proj/tfms/planner/services/ParcelServices/GetAllParcelHandlerTest.java
-/Users/abuchi/IdeaProjects/SaxionProject/02/tfms-modules/planner-modules/planner-service/src/test/java/com/saxion/proj/tfms/planner/services/ParcelServices/GetNextDayParcelScheduleHandlerTest.java
-/Users/abuchi/IdeaProjects/SaxionProject/02/tfms-modules/planner-modules/planner-service/src/test/java/com/saxion/proj/tfms/planner/services/ParcelServices/GetParcelByIdHandlerTest.java
-/Users/abuchi/IdeaProjects/SaxionProject/02/tfms-modules/planner-modules/planner-service/src/test/java/com/saxion/proj/tfms/planner/services/ParcelServices/ParcelMapperHandlerTest.java
-/Users/abuchi/IdeaProjects/SaxionProject/02/tfms-modules/planner-modules/planner-service/src/test/java/com/saxion/proj/tfms/planner/services/ParcelServices/UpdateParcelHandlerTest.java

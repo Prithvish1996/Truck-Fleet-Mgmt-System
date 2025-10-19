@@ -1,8 +1,0 @@
-com/saxion/proj/tfms/planner/services/ParcelServices/UpdateParcelHandlerTest.class
-com/saxion/proj/tfms/planner/services/ParcelServices/GetAllParcelsHandlerTest.class
-com/saxion/proj/tfms/planner/PlannerServiceApplicationTests.class
-com/saxion/proj/tfms/planner/services/ParcelServices/GetParcelByIdHandlerTest.class
-com/saxion/proj/tfms/planner/services/ParcelServices/CreateParcelHandlerTest.class
-com/saxion/proj/tfms/planner/services/ParcelServices/GetNextDayParcelScheduleHandlerTest.class
-com/saxion/proj/tfms/planner/services/ParcelServices/DeleteParcelHandlerTest.class
-com/saxion/proj/tfms/planner/services/ParcelServices/ParcelMapperHandlerTest.class
