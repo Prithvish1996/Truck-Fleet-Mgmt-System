@@ -1,6 +1,8 @@
 package com.saxion.proj.tfms.planner.services.ParcelServices;
 
 import com.saxion.proj.tfms.commons.dto.ApiResponse;
+import com.saxion.proj.tfms.commons.logging.ServiceLogger;
+import com.saxion.proj.tfms.commons.logging.ServiceName;
 import com.saxion.proj.tfms.commons.model.ParcelDao;
 import com.saxion.proj.tfms.planner.abstractions.ParcelServices.ICreateParcel;
 import com.saxion.proj.tfms.planner.dto.ParcelRequestDto;
@@ -14,6 +16,8 @@ public class CreateParcelHandler implements ICreateParcel {
     private final ParcelRepository parcelRepository;
     private final ParcelMapperHandler parcelMapper;
     private final WarehouseRepository warehouseRepository;
+    private static final ServiceLogger logger = ServiceLogger.getLogger(CreateParcelHandler.class);
+
 
     public CreateParcelHandler(ParcelRepository parcelRepository,
                                 ParcelMapperHandler parcelMapper,
@@ -25,6 +29,8 @@ public class CreateParcelHandler implements ICreateParcel {
 
     @Override
     public ApiResponse<ParcelResponseDto> Handle(ParcelRequestDto dto) {
+        logger.infoOp(ServiceName.PARCEL_SERVICE, "CREATE", "Creation of new parcel: {}", dto.getName());
+
         if (parcelRepository.existsByName(dto.getName())) {
             return ApiResponse.error("Parcel name already exists");
         }
@@ -49,6 +55,8 @@ public class CreateParcelHandler implements ICreateParcel {
         parcel.setActive(true);
 
         parcelRepository.save(parcel);
+        logger.infoOp(ServiceName.PARCEL_SERVICE, "CREATE", "Successfully saved the newly created parcel: {}", dto.getName());
+
         return ApiResponse.success(parcelMapper.toDto(parcel));
     }
 }

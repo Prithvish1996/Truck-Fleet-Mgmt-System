@@ -14,7 +14,8 @@ public enum ServiceName {
     NOTIFICATION_SERVICE("notification-service"),
     DRIVER_SERVICE("driver-service"),
     COMMON_SERVICE("common-service"),
-    PACKAGE_SERVICE("package-service");
+    PACKAGE_SERVICE("package-service"),
+    PARCEL_SERVICE("parcel-service");
 
     private final String serviceName;
 

@@ -4,6 +4,7 @@ import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.saxion.proj.tfms.commons.dto.ApiResponse;
+import com.saxion.proj.tfms.commons.logging.ServiceLogger;
 import com.saxion.proj.tfms.commons.model.WareHouseDao;
 import com.saxion.proj.tfms.planner.dto.ParcelRequestDto;
 import com.saxion.proj.tfms.planner.dto.ParcelResponseDto;
