@@ -1,5 +1,7 @@
 package com.saxion.proj.tfms.commons.model;
 
+import com.saxion.proj.tfms.commons.constants.AlgorithmType;
+import com.saxion.proj.tfms.commons.constants.StatusEnum;
 import com.saxion.proj.tfms.commons.dto.UserDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -9,7 +11,7 @@ import jakarta.persistence.*;
 import java.time.ZonedDateTime;
 
 @Entity
-@Table(name = "parcel")
+@Table(name = "parcels")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -64,13 +66,6 @@ public class ParcelDao {
 
     @Column(name = "updated_at")
     private ZonedDateTime updatedAt;
-
-    public enum StatusEnum {
-        PENDING,
-        SCHEDULED,
-        DELIVERED,
-        RETURNED
-    }
 
     @PrePersist
     protected void onCreate() {

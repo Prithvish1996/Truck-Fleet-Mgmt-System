@@ -1,5 +1,6 @@
 package com.saxion.proj.tfms.planner.services.ParcelServices;
 
+import com.saxion.proj.tfms.commons.constants.StatusEnum;
 import com.saxion.proj.tfms.commons.dto.ApiResponse;
 import com.saxion.proj.tfms.commons.model.ParcelDao;
 import com.saxion.proj.tfms.planner.abstractions.ParcelServices.ICreateParcel;
@@ -40,7 +41,7 @@ public class CreateParcelHandler implements ICreateParcel {
         parcel.setWeight(dto.getWeight());
         parcel.setCity(dto.getCity());
         parcel.setWarehouse(warehouse);
-        parcel.setStatus(ParcelDao.StatusEnum.PENDING);
+        parcel.setStatus(StatusEnum.PENDING);
         parcel.setDeliveryInstructions(dto.getDeliveryInstructions());
         parcel.setRecipientName(dto.getRecipientName());
         parcel.setRecipientPhone(dto.getRecipientPhone());

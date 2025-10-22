@@ -1,5 +1,6 @@
 package com.saxion.proj.tfms.planner.services.ParcelServices;
 
+import com.saxion.proj.tfms.commons.constants.StatusEnum;
 import com.saxion.proj.tfms.commons.dto.ApiResponse;
 import com.saxion.proj.tfms.planner.dto.ParcelResponseDto;
 import org.junit.jupiter.api.Test;
@@ -58,6 +59,7 @@ class GetAllParcelsHandlerTest {
         parcel1.setId(101L);
         parcel1.setName("Box A");
         parcel1.setCity("Amsterdam");
+        parcel1.setStatus(StatusEnum.PENDING);
         parcel1.setRecipientName("John Doe");
         parcel1.setRecipientPhone("12345");
         parcel1.setWarehouse(warehouseA);
@@ -66,6 +68,7 @@ class GetAllParcelsHandlerTest {
         parcel2.setId(102L);
         parcel2.setName("Package B");
         parcel2.setCity("Rotterdam");
+        parcel2.setStatus(StatusEnum.PENDING);
         parcel2.setRecipientName("Jane Doe");
         parcel2.setRecipientPhone("67890");
         parcel2.setWarehouse(warehouseA);

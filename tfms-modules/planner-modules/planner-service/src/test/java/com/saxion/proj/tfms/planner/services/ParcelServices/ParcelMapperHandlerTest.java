@@ -1,5 +1,6 @@
 package com.saxion.proj.tfms.planner.services.ParcelServices;
 
+import com.saxion.proj.tfms.commons.constants.StatusEnum;
 import com.saxion.proj.tfms.planner.dto.ParcelResponseDto;
 import com.saxion.proj.tfms.commons.model.ParcelDao;
 import com.saxion.proj.tfms.commons.model.WareHouseDao;
@@ -35,7 +36,7 @@ class ParcelMapperHandlerTest {
         parcel.setPostalcode("1012 AB");
         parcel.setWeight(2.5);
         parcel.setWarehouse(warehouse);
-        parcel.setStatus(ParcelDao.StatusEnum.PENDING);
+        parcel.setStatus(StatusEnum.PENDING);
         parcel.setCreatedAt(ZonedDateTime.now());
         parcel.setDeliveryInstructions("Leave at front door");
         parcel.setRecipientName("John Doe");
