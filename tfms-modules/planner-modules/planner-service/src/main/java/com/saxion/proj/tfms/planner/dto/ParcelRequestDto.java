@@ -17,23 +17,15 @@ public class ParcelRequestDto {
     @NotBlank(message = "Parcel name is required")
     private String name;
 
-    @NotBlank(message = "Address is required")
-    private String address;
+    @NotNull(message = "Warehouse information is required")
+    private WareHouseRequestDto warehouse;
 
-    @NotBlank(message = "City is required")
-    private String city;
+    @NotNull(message = "Delivery location is required")
+    private LocationRequestDto deliveryLocation;
 
-    @NotBlank(message = "Postal code is required")
-    private String postalCode;
-
-    @NotNull(message = "Weight is required")
-    @Positive(message = "Weight must be greater than zero")
     private Double weight;
 
-    @NotNull(message = "Warehouse ID is required")
-    private Long warehouseId;
-
-    private String deliveryInstructions;
+    private Double volume;
 
     @NotBlank(message = "Recipient name is required")
     private String recipientName;
@@ -41,9 +33,5 @@ public class ParcelRequestDto {
     @NotBlank(message = "Recipient phone is required")
     private String recipientPhone;
 
-    @NotBlank(message = "Latitude is required")
-    private double latitude;
-
-    @NotBlank(message = "Longitude is required")
-    private double longitude;
+    private String deliveryInstructions;
 }

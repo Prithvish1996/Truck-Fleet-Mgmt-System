@@ -25,7 +25,7 @@ public class GetParcelByIdHandler implements IGetParcelById {
             return ApiResponse.error("Invalid parcel ID");
         }
 
-        Optional<ParcelDao> parcelOpt = parcelRepository.findById(parcelId);
+        Optional<ParcelDao> parcelOpt = parcelRepository.findByIdWithRelations(parcelId);
 
         if (parcelOpt.isEmpty()) {
             return ApiResponse.error("Parcel not found");

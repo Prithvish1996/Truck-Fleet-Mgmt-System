@@ -49,7 +49,7 @@ public class GetNextDayParcelScheduleHandler implements IGetNextDayParcelSchedul
         }
 
         // Fetch all parcels with status 'pending'
-        List<ParcelDao> pendingParcels = parcelRepository.findAll()
+        List<ParcelDao> pendingParcels = parcelRepository.findAllWithRelations()
                 .stream()
                 .filter(parcel -> parcel.getStatus() != null &&
                         "pending".equalsIgnoreCase(parcel.getStatus().name()))

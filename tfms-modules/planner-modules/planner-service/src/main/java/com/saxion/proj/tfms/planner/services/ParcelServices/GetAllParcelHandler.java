@@ -10,6 +10,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.*;
+import java.util.stream.Collectors;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,26 +51,45 @@ public class GetAllParcelHandler implements IGetAllParcels {
 
         Pageable pageable = PageRequest.of(page, size);
 
-        // Fetch parcels belonging to the given warehouse
-        Page<ParcelDao> parcelPage = parcelRepository.findAll(pageable);
+        // Step 1: get page of parcel IDs
+        List<Long> ids = parcelRepository.findParcelIds(pageable);
+        if (ids.isEmpty()) {
+            Map<String, Object> emptyResponse = new HashMap<>();
+            emptyResponse.put("currentPage", page);
+            emptyResponse.put("pageSize", size);
+            emptyResponse.put("totalItems", 0);
+            emptyResponse.put("totalPages", 0);
+            emptyResponse.put("data", Collections.emptyList());
+            return ApiResponse.success(emptyResponse);
+        }
+
+        // Step 2: fetch parcels with eager relationships
+        List<ParcelDao> parcels = parcelRepository.findAllWithLocations(ids);
+
+        // Step 3: filtering
         String filterText = (searchText != null) ? searchText.toLowerCase() : "";
-        List<ParcelResponseDto> filteredDtos = parcelPage.getContent().stream()
+        List<ParcelResponseDto> filteredDtos = parcels.stream()
                 .filter(parcel -> parcel.getWarehouse() != null && warehouseId.equals(parcel.getWarehouse().getId()))
                 .filter(parcel -> {
                     if (filterText.isEmpty()) return true;
                     return (parcel.getName() != null && parcel.getName().toLowerCase().startsWith(filterText))
-                            || (parcel.getStatus().name().toLowerCase().startsWith(filterText))
+                            || (parcel.getStatus() != null && parcel.getStatus().name().toLowerCase().startsWith(filterText))
                             || (parcel.getRecipientName() != null && parcel.getRecipientName().toLowerCase().startsWith(filterText))
                             || (parcel.getRecipientPhone() != null && parcel.getRecipientPhone().toLowerCase().startsWith(filterText));
                 })
                 .map(parcelMapper::toDto)
                 .collect(Collectors.toList());
 
+        // Step 4: get total count for pagination metadata
+        long totalCount = parcelRepository.count();
+        int totalPages = (int) Math.ceil((double) totalCount / size);
+
+        // Step 5: build response map
         Map<String, Object> response = new HashMap<>();
         response.put("currentPage", page);
         response.put("pageSize", size);
-        response.put("totalItems", parcelPage.getTotalElements());
-        response.put("totalPages", parcelPage.getTotalPages());
+        response.put("totalItems", totalCount);
+        response.put("totalPages", totalPages);
         response.put("data", filteredDtos);
 
         return ApiResponse.success(response);

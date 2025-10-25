@@ -14,16 +14,21 @@ import java.time.ZonedDateTime;
 public class ParcelResponseDto {
     private Long parcelId;
     private String name;
-    private String address;
-    private String postalcode;
-    private String city;
     private Double weight;
-    private Long warehouseId;
     private String status;
     private ZonedDateTime createdAt;
-    private String deliveryInstructions;
     private String recipientName;
     private String recipientPhone;
-    private String latitude;
-    private String longitude;
+    private String deliveryInstructions;
+    private String deliveryAddress;
+    private String deliveryPostalCode;
+    private String deliveryCity;
+    private Double deliveryLatitude;
+    private Double deliveryLongitude;
+    private Long warehouseId;
+    private String warehouseAddress;
+    private String warehousePostalCode;
+    private String warehouseCity;
+    private Double warehouseLatitude;
+    private Double warehouseLongitude;
 }

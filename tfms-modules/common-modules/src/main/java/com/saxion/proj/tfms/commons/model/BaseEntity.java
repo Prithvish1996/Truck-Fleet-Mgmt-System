@@ -7,9 +7,6 @@ import java.time.ZonedDateTime;
 public abstract class BaseEntity {
 
     @Column(nullable = false)
-    private String name;
-
-    @Column(nullable = false)
     private boolean isActive = true;
 
     @Column(name = "created_at")

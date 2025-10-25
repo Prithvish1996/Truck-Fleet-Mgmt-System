@@ -153,22 +153,6 @@ class GetAllParcelsHandlerTest {
         assertEquals("Box A", items.get(0).getName());
     }
 
-    // Test 7: Valid warehouse + filter (match on city)
-    @Test
-    void handle_FilterByCity_ShouldReturnFilteredResult() {
-        Page<ParcelDao> page = new PageImpl<>(List.of(parcel1, parcel2));
-        when(parcelRepository.findAll(any(Pageable.class))).thenReturn(page);
-        when(parcelMapper.toDto(parcel2)).thenReturn(dto2);
-
-        ApiResponse<Map<String, Object>> response = handler.Handle(1L, "Rot", 0, 10);
-
-        assertTrue(response.isSuccess());
-        List<ParcelResponseDto> items = ((List<?>) response.getData().get("data"))
-                .stream().map(o -> (ParcelResponseDto) o).collect(Collectors.toList());
-        assertEquals(1, items.size());
-        assertEquals("Package B", items.get(0).getName());
-    }
-
     // Test 8: Filter text doesn’t match anything
     @Test
     void handle_FilterTextNoMatch_ShouldReturnEmpty() {
