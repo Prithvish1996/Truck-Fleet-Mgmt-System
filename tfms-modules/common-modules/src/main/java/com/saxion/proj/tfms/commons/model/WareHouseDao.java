@@ -45,7 +45,6 @@ public class WareHouseDao {
         updatedAt = ZonedDateTime.now();
     }
 
-
     // Optional one-to-many for reverse lookup
     @OneToMany(mappedBy = "warehouse", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ParcelDao> parcels = new ArrayList<>();

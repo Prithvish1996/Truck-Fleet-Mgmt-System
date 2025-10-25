@@ -58,7 +58,6 @@ public class GetAllParcelHandler implements IGetAllParcels {
                     if (filterText.isEmpty()) return true;
                     return (parcel.getName() != null && parcel.getName().toLowerCase().startsWith(filterText))
                             || (parcel.getStatus().name().toLowerCase().startsWith(filterText))
-                            || (parcel.getCity() != null && parcel.getCity().toLowerCase().startsWith(filterText))
                             || (parcel.getRecipientName() != null && parcel.getRecipientName().toLowerCase().startsWith(filterText))
                             || (parcel.getRecipientPhone() != null && parcel.getRecipientPhone().toLowerCase().startsWith(filterText));
                 })

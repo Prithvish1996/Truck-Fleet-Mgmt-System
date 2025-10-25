@@ -1,15 +1,18 @@
 package com.saxion.proj.tfms.planner.services.ParcelServices;
 
 import com.saxion.proj.tfms.commons.dto.ApiResponse;
+import com.saxion.proj.tfms.commons.model.LocationDao;
 import com.saxion.proj.tfms.planner.abstractions.ParcelServices.IUpdateParcel;
 import com.saxion.proj.tfms.planner.dto.ParcelRequestDto;
 import com.saxion.proj.tfms.planner.dto.ParcelResponseDto;
+import com.saxion.proj.tfms.planner.repository.LocationRepository;
 import com.saxion.proj.tfms.planner.repository.ParcelRepository;
 import com.saxion.proj.tfms.planner.repository.WarehouseRepository;
 import com.saxion.proj.tfms.commons.model.ParcelDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.xml.stream.Location;
 import java.util.Optional;
 
 @Service
@@ -17,14 +20,17 @@ public class UpdateParcelHandler implements IUpdateParcel {
     private final ParcelRepository parcelRepository;
     private final ParcelMapperHandler parcelMapper;
     private final WarehouseRepository warehouseRepository;
+    private final LocationRepository locationRepository;
 
     @Autowired
     public UpdateParcelHandler(ParcelRepository parcelRepository,
                                ParcelMapperHandler parcelMapper,
-                               WarehouseRepository warehouseRepository) {
+                               WarehouseRepository warehouseRepository,
+                               LocationRepository locationRepository) {
         this.parcelRepository = parcelRepository;
         this.parcelMapper = parcelMapper;
         this.warehouseRepository = warehouseRepository;
+        this.locationRepository = locationRepository;
     }
 
     public ApiResponse<ParcelResponseDto> Handle(Long parcelId, ParcelRequestDto dto) {
@@ -52,18 +58,28 @@ public class UpdateParcelHandler implements IUpdateParcel {
             return ApiResponse.error("Warehouse not found with ID: " + dto.getWarehouseId());
         }
 
+        // Fetch the existing parcel
+        Optional<LocationDao> locationOpt = locationRepository.findById(parcel.getDeliveryLocation().getId());
+        if (locationOpt.isEmpty()) {
+            return ApiResponse.error("Delivery location not found");
+        }
+        LocationDao location = locationOpt.get();
+        // Update location fields
+        location.setAddress(dto.getAddress());
+        location.setLatitude(dto.getLatitude());
+        location.setLongitude(dto.getLongitude());
+        location.setCity(dto.getCity());
+        location.setPostalCode(dto.getPostalCode());
+        locationRepository.save(location);
+
+
         // Update fields
         parcel.setName(dto.getName());
-        parcel.setAddress(dto.getAddress());
-        parcel.setPostalcode(dto.getPostalCode());
         parcel.setWeight(dto.getWeight());
-        parcel.setCity(dto.getCity());
         parcel.setWarehouse(warehouseOpt.get());
         parcel.setDeliveryInstructions(dto.getDeliveryInstructions());
         parcel.setRecipientName(dto.getRecipientName());
         parcel.setRecipientPhone(dto.getRecipientPhone());
-        parcel.setLatitude(dto.getLatitude());
-        parcel.setLongitude(dto.getLongitude());
 
         // Save updated parcel
         parcelRepository.save(parcel);

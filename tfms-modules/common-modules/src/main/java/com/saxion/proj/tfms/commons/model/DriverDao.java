@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -18,16 +19,24 @@ public class DriverDao extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long id;
 
-    @Column(nullable = false)
-    private String name;
+    // Link to user account (one-to-one)
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false, unique = true, referencedColumnName = "id")
+    private UserDao user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    // Driver base location
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "location_id")
     private LocationDao location;
 
-    @OneToMany(mappedBy = "driver", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<RouteDao> routes;
+    // Routes assigned to this driver
+    @OneToMany(mappedBy = "driver", cascade = CascadeType.ALL, orphanRemoval = false)
+    private List<RouteDao> routes = new ArrayList<>();
 
+    // assignment to this driver
+    @OneToMany(mappedBy = "driver", cascade = CascadeType.ALL, orphanRemoval = false)
+    private List<DriverTruckAssignmentDao> assignments = new ArrayList<>();
 }

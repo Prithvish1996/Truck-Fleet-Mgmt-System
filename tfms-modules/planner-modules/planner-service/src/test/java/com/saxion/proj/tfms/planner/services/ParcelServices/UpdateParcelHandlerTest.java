@@ -65,8 +65,8 @@ class UpdateParcelHandlerTest {
         dto.setDeliveryInstructions("Leave at door");
         dto.setRecipientName("John Doe");
         dto.setRecipientPhone("+31 6 1111 2222");
-        dto.setLatitude("52.3676");
-        dto.setLongitude("4.9041");
+//        dto.setLatitude("52.3676");
+//        dto.setLongitude("4.9041");
 
         responseDto = new ParcelResponseDto();
         responseDto.setName(dto.getName());

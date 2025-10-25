@@ -37,5 +37,11 @@ public class TruckDao extends BaseEntity {
     private String lastServicedBy;
 
     @OneToMany(mappedBy = "truck", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DriverTruckAssignmentDao> assignments;
+
+    @OneToMany(mappedBy = "truck", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<MaintenanceRecordDao> maintenances;
+
+    @OneToMany(mappedBy = "truck", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RouteDao> routes;
 }

@@ -42,8 +42,8 @@ public class ParcelRequestDto {
     private String recipientPhone;
 
     @NotBlank(message = "Latitude is required")
-    private String latitude;
+    private double latitude;
 
     @NotBlank(message = "Longitude is required")
-    private String longitude;
+    private double longitude;
 }

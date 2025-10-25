@@ -11,9 +11,6 @@ public class ParcelMapperHandler {
         ParcelResponseDto dto = new ParcelResponseDto();
         dto.setParcelId(parcel.getId());
         dto.setName(parcel.getName());
-        dto.setAddress(parcel.getAddress());
-        dto.setCity(parcel.getCity());
-        dto.setPostalcode(parcel.getPostalcode());
         dto.setWeight(parcel.getWeight());
         dto.setWarehouseId(parcel.getWarehouse().getId());
         dto.setStatus(parcel.getStatus().name());
@@ -21,8 +18,7 @@ public class ParcelMapperHandler {
         dto.setDeliveryInstructions(parcel.getDeliveryInstructions());
         dto.setRecipientName(parcel.getRecipientName());
         dto.setRecipientPhone(parcel.getRecipientPhone());
-        dto.setLatitude(parcel.getLatitude());
-        dto.setLongitude(parcel.getLongitude());
+        dto.setDeliveryInstructions(parcel.getDeliveryInstructions());
         return dto;
     }
 }

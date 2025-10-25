@@ -6,6 +6,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "locations")
 @Data
@@ -16,6 +19,7 @@ public class LocationDao extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long id;
 
     @Column(nullable = false)
@@ -32,4 +36,20 @@ public class LocationDao extends BaseEntity {
 
     @Column(nullable = false)
     private String postalCode;
+
+    // reverse relations
+    @OneToMany(mappedBy = "location", cascade = CascadeType.ALL, orphanRemoval = false)
+    private List<DriverDao> drivers = new ArrayList<>();
+
+    @OneToMany(mappedBy = "pickupLocation", cascade = CascadeType.ALL, orphanRemoval = false)
+    private List<ParcelDao> pickupParcels = new ArrayList<>();
+
+    @OneToMany(mappedBy = "deliveryLocation", cascade = CascadeType.ALL, orphanRemoval = false)
+    private List<ParcelDao> deliveryParcels = new ArrayList<>();
+
+    @OneToMany(mappedBy = "location", cascade = CascadeType.ALL, orphanRemoval = false)
+    private List<RouteStopDao> routeStops = new ArrayList<>();
+
+    @OneToMany(mappedBy = "startWarehouse", cascade = CascadeType.ALL, orphanRemoval = false)
+    private List<RouteDao> routesStart = new ArrayList<>();
 }

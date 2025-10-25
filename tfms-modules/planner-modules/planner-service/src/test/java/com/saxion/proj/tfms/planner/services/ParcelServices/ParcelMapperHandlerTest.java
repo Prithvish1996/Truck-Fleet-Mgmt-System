@@ -31,9 +31,6 @@ class ParcelMapperHandlerTest {
         ParcelDao parcel = new ParcelDao();
         parcel.setId(1L);
         parcel.setName("Test Parcel");
-        parcel.setAddress("123 Main St");
-        parcel.setCity("Amsterdam");
-        parcel.setPostalcode("1012 AB");
         parcel.setWeight(2.5);
         parcel.setWarehouse(warehouse);
         parcel.setStatus(StatusEnum.PENDING);
@@ -41,8 +38,6 @@ class ParcelMapperHandlerTest {
         parcel.setDeliveryInstructions("Leave at front door");
         parcel.setRecipientName("John Doe");
         parcel.setRecipientPhone("+31 6 12345678");
-        parcel.setLatitude("52.3676");
-        parcel.setLongitude("4.9041");
 
         // Act
         ParcelResponseDto dto = mapper.toDto(parcel);
@@ -50,9 +45,6 @@ class ParcelMapperHandlerTest {
         // Assert: verify all fields are mapped correctly
         assertEquals(parcel.getId(), dto.getParcelId());
         assertEquals(parcel.getName(), dto.getName());
-        assertEquals(parcel.getAddress(), dto.getAddress());
-        assertEquals(parcel.getCity(), dto.getCity());
-        assertEquals(parcel.getPostalcode(), dto.getPostalcode());
         assertEquals(parcel.getWeight(), dto.getWeight());
         assertEquals(parcel.getWarehouse().getId(), dto.getWarehouseId());
         assertEquals(parcel.getStatus().name(), dto.getStatus());
@@ -60,7 +52,5 @@ class ParcelMapperHandlerTest {
         assertEquals(parcel.getDeliveryInstructions(), dto.getDeliveryInstructions());
         assertEquals(parcel.getRecipientName(), dto.getRecipientName());
         assertEquals(parcel.getRecipientPhone(), dto.getRecipientPhone());
-        assertEquals(parcel.getLatitude(), dto.getLatitude());
-        assertEquals(parcel.getLongitude(), dto.getLongitude());
     }
 }

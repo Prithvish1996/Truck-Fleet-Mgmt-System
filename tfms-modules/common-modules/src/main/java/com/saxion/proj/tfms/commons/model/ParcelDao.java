@@ -6,6 +6,7 @@ import com.saxion.proj.tfms.commons.dto.UserDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import jakarta.persistence.*;
 import java.time.ZonedDateTime;
@@ -19,25 +20,26 @@ public class ParcelDao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long id;
 
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
-    private String latitude;
+    // To be replace with pickup location
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "warehouse_id", nullable = false)
+    private WareHouseDao warehouse;
 
-    @Column(nullable = false)
-    private String longitude;
+    // link to pickup location
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "pickup_location_id")
+    private LocationDao pickupLocation;
 
-    @Column(nullable = false)
-    private String address;
-
-    @Column(nullable = false)
-    private String postalcode;
-
-    @Column(nullable = false)
-    private String city;
+    // link to delivery location
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "delivery_location_id")
+    private LocationDao deliveryLocation;
 
     @Column(nullable = false)
     private Double weight;
@@ -46,18 +48,13 @@ public class ParcelDao {
     @Column(name = "status", nullable = false)
     private StatusEnum status;
 
-    @Column(nullable = true)
+    @Column(columnDefinition = "TEXT")
     private String deliveryInstructions;
 
-    @Column(nullable = true)
     private String recipientName;
 
     @Column(nullable = false)
     private String recipientPhone;
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "warehouse_id", nullable = false)
-    private WareHouseDao warehouse;  // Replaces warehouseId
 
     private boolean active = true;
 
