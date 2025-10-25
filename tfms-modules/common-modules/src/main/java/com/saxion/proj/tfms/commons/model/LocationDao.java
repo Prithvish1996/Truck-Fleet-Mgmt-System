@@ -41,9 +41,6 @@ public class LocationDao extends BaseEntity {
     @OneToMany(mappedBy = "location", cascade = CascadeType.ALL, orphanRemoval = false)
     private List<DriverDao> drivers = new ArrayList<>();
 
-    @OneToMany(mappedBy = "pickupLocation", cascade = CascadeType.ALL, orphanRemoval = false)
-    private List<ParcelDao> pickupParcels = new ArrayList<>();
-
     @OneToMany(mappedBy = "deliveryLocation", cascade = CascadeType.ALL, orphanRemoval = false)
     private List<ParcelDao> deliveryParcels = new ArrayList<>();
 

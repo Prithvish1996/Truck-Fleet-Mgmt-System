@@ -6,31 +6,29 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "driver_truck_assignment")
+@Table(name = "depot")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false, onlyExplicitlyIncluded = true)
-public class DriverTruckAssignmentDao extends BaseEntity {
+public class DepotDao extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = true)
-    @JoinColumn(name = "driver_id")
-    private DriverDao driver;
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = true)
-    @JoinColumn(name = "truck_id")
-    private TruckDao truck;
+    @Column(nullable = false)
+    private String name;
 
     @Column(nullable = false)
-    private ZonedDateTime dateAssigned;
+    private Double capacity;
+
+    // Link to location (one-to-one)
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "location_id", nullable = false, unique = true, referencedColumnName = "id")
+    private LocationDao location;
 }

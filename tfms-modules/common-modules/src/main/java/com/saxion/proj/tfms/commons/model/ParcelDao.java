@@ -10,6 +10,8 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import jakarta.persistence.*;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "parcels")
@@ -26,23 +28,18 @@ public class ParcelDao {
     @Column(nullable = false)
     private String name;
 
-    // To be replace with pickup location
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "warehouse_id", nullable = false)
     private WareHouseDao warehouse;
-
-    // link to pickup location
-    @ManyToOne(fetch = FetchType.LAZY, optional = true)
-    @JoinColumn(name = "pickup_location_id")
-    private LocationDao pickupLocation;
 
     // link to delivery location
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "delivery_location_id")
     private LocationDao deliveryLocation;
 
-    @Column(nullable = false)
     private Double weight;
+
+    private Double volume;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
@@ -63,6 +60,10 @@ public class ParcelDao {
 
     @Column(name = "updated_at")
     private ZonedDateTime updatedAt;
+
+    // assignment to this parcel
+    @OneToMany(mappedBy = "parcel", cascade = CascadeType.ALL, orphanRemoval = false)
+    private List<ParcelStopDao> parcelStops = new ArrayList<>();
 
     @PrePersist
     protected void onCreate() {

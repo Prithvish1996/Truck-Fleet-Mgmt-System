@@ -6,6 +6,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "route_stops")
 @Data
@@ -46,8 +49,8 @@ public class RouteStopDao extends BaseEntity {
     @JoinColumn(name = "route_id")
     private RouteDao route;
 
-    // If this break is part of a RouteComputation snapshot, link to it
-//    @ManyToOne(fetch = FetchType.LAZY, optional = true)
-//    @JoinColumn(name = "route_computation_id")
-//    private RouteComputationDao routeComputation;
+    // assignment to this route stop
+    @OneToMany(mappedBy = "routestop", cascade = CascadeType.ALL, orphanRemoval = false)
+    private List<ParcelStopDao> parcelStops = new ArrayList<>();
+
 }

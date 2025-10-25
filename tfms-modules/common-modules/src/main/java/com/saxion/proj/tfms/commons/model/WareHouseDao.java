@@ -19,11 +19,12 @@ public class WareHouseDao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
     private String name;
 
-    @Column(nullable = false)
-    private String location;
+    // Link to location (one-to-one)
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "location_id", nullable = false, unique = true, referencedColumnName = "id")
+    private LocationDao location;
 
     private boolean active = true;
 
