@@ -1,6 +1,10 @@
 package com.saxion.proj.tfms.config;
 
+import com.saxion.proj.tfms.commons.model.DepotDao;
+import com.saxion.proj.tfms.commons.model.LocationDao;
 import com.saxion.proj.tfms.commons.model.WareHouseDao;
+import com.saxion.proj.tfms.planner.repository.DepotRepository;
+import com.saxion.proj.tfms.planner.repository.LocationRepository;
 import com.saxion.proj.tfms.planner.repository.WarehouseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -25,8 +29,12 @@ public class DefaultUserDataInitializer {
     private AuthUserRepository userRepository;
 
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
     @Autowired
-    private WarehouseRepository warehouseRepository;
+    private DepotRepository depotRepository;
+
+    @Autowired
+    private LocationRepository locationRepository;
 
     /**
      * Initialize default users after the application context is fully loaded
@@ -48,7 +56,7 @@ public class DefaultUserDataInitializer {
         createUserIfNotExists("test@example.com", "testuser", "password123", UserType.DRIVER);
 
         // Create default warehouse
-        createWareHouseIfNotExists("Warehouse 1", "Netherlands");
+        createDepotIfNotExists("Main Depot", 500.0);
 
         System.out.println("Default users initialization completed.");
     }
@@ -72,18 +80,27 @@ public class DefaultUserDataInitializer {
         }
     }
 
-    //Create default warehouse
-    private void createWareHouseIfNotExists(String name, String location) {
-        if (!warehouseRepository.existsByName(name)) {
-            WareHouseDao warehouse = new WareHouseDao();
-            warehouse.setName(name);
-            warehouse.setLocation(location);
-            warehouse.setActive(true);
-            warehouse.setCreatedAt(ZonedDateTime.now());
-            warehouse.setUpdatedAt(ZonedDateTime.now());
+    //Create default depot
+    private void createDepotIfNotExists(String name, Double capacity) {
+        String locationPostcode = "11111";
+        LocationDao location = new LocationDao();
+        if (!locationRepository.existsByPostalCode(locationPostcode)) {
+            location.setPostalCode(locationPostcode);
+            location.setAddress("Netherlands");
+            location.setCity("Deventer");
+            location.setLatitude(10.0);
+            location.setLongitude(20.0);
+            locationRepository.save(location);
+            System.out.println("Default depot created: " + name + " (" + location + ")");
+        }
 
-            warehouseRepository.save(warehouse);
-            System.out.println("Default warehouse created: " + name + " (" + location + ")");
+        if (!depotRepository.existsByName(name)) {
+            DepotDao depot = new DepotDao();
+            depot.setName(name);
+            depot.setLocation(location);
+            depot.setCapacity(capacity);
+            depotRepository.save(depot);
+            System.out.println("Default depot created: " + name + " (" + location + ")");
         }
     }
 }

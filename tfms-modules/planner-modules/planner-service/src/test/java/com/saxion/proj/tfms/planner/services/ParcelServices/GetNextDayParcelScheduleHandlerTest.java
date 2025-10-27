@@ -1,5 +1,6 @@
 package com.saxion.proj.tfms.planner.services.ParcelServices;
 
+import com.saxion.proj.tfms.commons.constants.StatusEnum;
 import com.saxion.proj.tfms.commons.dto.ApiResponse;
 import com.saxion.proj.tfms.commons.model.ParcelDao;
 import com.saxion.proj.tfms.commons.model.WareHouseDao;
@@ -57,21 +58,21 @@ class GetNextDayParcelScheduleHandlerTest {
         parcelPending1 = new ParcelDao();
         parcelPending1.setId(101L);
         parcelPending1.setName("Parcel A");
-        parcelPending1.setStatus(ParcelDao.StatusEnum.PENDING);
+        parcelPending1.setStatus(StatusEnum.PENDING);
         parcelPending1.setWarehouse(warehouseA);
         parcelPending1.setCreatedAt(ZonedDateTime.now());
 
         parcelPending2 = new ParcelDao();
         parcelPending2.setId(102L);
         parcelPending2.setName("Parcel B");
-        parcelPending2.setStatus(ParcelDao.StatusEnum.PENDING);
+        parcelPending2.setStatus(StatusEnum.PENDING);
         parcelPending2.setWarehouse(warehouseB);
         parcelPending2.setCreatedAt(ZonedDateTime.now());
 
         parcelDelivered = new ParcelDao();
         parcelDelivered.setId(103L);
         parcelDelivered.setName("Parcel C");
-        parcelDelivered.setStatus(ParcelDao.StatusEnum.DELIVERED);
+        parcelDelivered.setStatus(StatusEnum.DELIVERED);
         parcelDelivered.setWarehouse(warehouseA);
         parcelDelivered.setCreatedAt(ZonedDateTime.now());
 

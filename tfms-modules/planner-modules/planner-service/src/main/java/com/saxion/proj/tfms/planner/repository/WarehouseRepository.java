@@ -10,5 +10,7 @@ import java.util.Optional;
 public interface WarehouseRepository extends JpaRepository<WareHouseDao, Long>{
     Optional<WareHouseDao> findById(Long id);
 
+    Optional<WareHouseDao> findByName(String name);
+
     boolean existsByName(String name);
 }
