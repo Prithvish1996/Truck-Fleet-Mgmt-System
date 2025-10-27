@@ -1,15 +1,20 @@
 package com.saxion.proj.tfms.commons.model;
 
+import com.saxion.proj.tfms.commons.constants.AlgorithmType;
+import com.saxion.proj.tfms.commons.constants.StatusEnum;
 import com.saxion.proj.tfms.commons.dto.UserDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import jakarta.persistence.*;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Table(name = "parcel")
+@Table(name = "parcels")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,45 +22,36 @@ public class ParcelDao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long id;
 
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
-    private String latitude;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "warehouse_id", nullable = false)
+    private WareHouseDao warehouse;
 
-    @Column(nullable = false)
-    private String longitude;
+    // link to delivery location
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "delivery_location_id")
+    private LocationDao deliveryLocation;
 
-    @Column(nullable = false)
-    private String address;
-
-    @Column(nullable = false)
-    private String postalcode;
-
-    @Column(nullable = false)
-    private String city;
-
-    @Column(nullable = false)
     private Double weight;
+
+    private Double volume;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private StatusEnum status;
 
-    @Column(nullable = true)
+    @Column(columnDefinition = "TEXT")
     private String deliveryInstructions;
 
-    @Column(nullable = true)
     private String recipientName;
 
     @Column(nullable = false)
     private String recipientPhone;
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "warehouse_id", nullable = false)
-    private WareHouseDao warehouse;  // Replaces warehouseId
 
     private boolean active = true;
 
@@ -65,12 +61,9 @@ public class ParcelDao {
     @Column(name = "updated_at")
     private ZonedDateTime updatedAt;
 
-    public enum StatusEnum {
-        PENDING,
-        SCHEDULED,
-        DELIVERED,
-        RETURNED
-    }
+    // assignment to this parcel
+    @OneToMany(mappedBy = "parcel", cascade = CascadeType.ALL, orphanRemoval = false)
+    private List<ParcelStopDao> parcelStops = new ArrayList<>();
 
     @PrePersist
     protected void onCreate() {
