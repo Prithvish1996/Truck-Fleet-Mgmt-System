@@ -1,0 +1,169 @@
+.route-info {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.route-info__header {
+  margin-bottom: 16px;
+}
+
+.route-info__title {
+  margin: 0;
+  color: #333;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.route-info__package {
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.route-info__package-name {
+  margin: 0 0 8px 0;
+  color: #333;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.route-info__package-address {
+  margin: 4px 0;
+  color: #666;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.route-info__package-recipient {
+  margin: 4px 0 0 0;
+  color: #666;
+  font-size: 14px;
+}
+
+.route-info__stats {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.route-info__stats-title {
+  margin: 0 0 12px 0;
+  color: #2c3e50;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.route-info__stats-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.route-info__stat {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+}
+
+.route-info__stat-icon {
+  font-size: 18px;
+  width: 24px;
+  text-align: center;
+}
+
+.route-info__stat-label {
+  font-size: 14px;
+  color: #666;
+  font-weight: 500;
+  min-width: 70px;
+}
+
+.route-info__stat-value {
+  font-size: 15px;
+  color: #2c3e50;
+  font-weight: 600;
+  margin-left: auto;
+}
+
+.route-info__loading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+}
+
+.route-info__loading-icon {
+  font-size: 16px;
+  animation: spin 1s linear infinite;
+}
+
+.route-info__loading-text {
+  font-size: 14px;
+  color: #666;
+  font-style: italic;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .route-info {
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+    padding: 16px;
+  }
+  
+  .route-info__title {
+    font-size: 16px;
+  }
+  
+  .route-info__package-name {
+    font-size: 15px;
+  }
+  
+  .route-info__package-address,
+  .route-info__package-recipient {
+    font-size: 13px;
+  }
+  
+  .route-info__stats {
+    padding: 12px;
+  }
+  
+  .route-info__stats-title {
+    font-size: 14px;
+  }
+  
+  .route-info__stat {
+    gap: 8px;
+    padding: 6px 0;
+  }
+  
+  .route-info__stat-icon {
+    font-size: 16px;
+    width: 20px;
+  }
+  
+  .route-info__stat-label {
+    font-size: 13px;
+    min-width: 60px;
+  }
+  
+  .route-info__stat-value {
+    font-size: 14px;
+  }
+}

@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import './AgendaPlanner.css';
+
+//TODO: This is a mock component for the agenda planner. This needs to be refactored to use the backend and actual data.
 
 interface AvailabilitySlot {
   id: string;
@@ -51,7 +53,6 @@ export default function AgendaPlanner() {
     startOfWeek.setDate(date.getDate() - date.getDay());
     const dates: string[] = [];
     
-    // Only include Monday (1) through Saturday (6), exclude Sunday (0)
     for (let i = 1; i < 7; i++) {
       const currentDate = new Date(startOfWeek);
       currentDate.setDate(startOfWeek.getDate() + i);

@@ -4,6 +4,7 @@ import { authService } from '../services/authService';
 import AdminDashboard from '../pages/Admin/AdminDashboard';
 import DriverDashboard from '../pages/Driver/DriverDashboard/DriverDashboard';
 import RouteOverview from '../pages/Driver/routeOverview/RouteOverview';
+import Navigation from '../pages/Driver/Navigation/Navigation';
 import PlannerDashboard from '../pages/Planner/PlannerDashboard';
 
 export const RoleBasedRouter: React.FC = () => {
@@ -16,12 +17,12 @@ export const RoleBasedRouter: React.FC = () => {
     case 'ADMIN':
       return <AdminDashboard />;
     case 'DRIVER':
-      // Handle driver routes
       if (location.pathname === '/driver/route-overview') {
-        console.log('Rendering RouteOverview');
         return <RouteOverview />;
       }
-      console.log('Rendering DriverDashboard');
+      if (location.pathname === '/driver/navigation') {
+        return <Navigation navigate={(path: string) => window.location.href = path} />;
+      }
       return <DriverDashboard />;
     case 'PLANNER':
       return <PlannerDashboard />;

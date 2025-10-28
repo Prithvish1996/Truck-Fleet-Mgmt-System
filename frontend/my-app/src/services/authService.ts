@@ -1,5 +1,7 @@
 // API service for authentication
-const API_BASE_URL = 'http://localhost:8080/api';
+import { apiConfig } from '../config/apiConfig';
+
+const API_BASE_URL = apiConfig.baseURL;
 
 export interface LoginRequest {
   email: string;

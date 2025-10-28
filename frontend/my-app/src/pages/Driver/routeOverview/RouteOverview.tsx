@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import DriverHeader from "../components/driverHeader";
 import { useState, useEffect } from "react";
 import { routeService } from "../../../services/routeService";
-import { Route, RouteBreak } from "../../../types";
+import { Route } from "../../../types";
 import "./RouteOverview.css";
 
 interface RouteStop {
@@ -103,9 +103,9 @@ function RouteOverview() {
     };
 
     const handleStartRoute = () => {
-        // Navigate to route execution or start the route
+        // Navigate to navigation page for route execution
         console.log('Starting route...');
-        // You can implement route starting logic here
+        navigate('/driver/navigation');
     };
 
     return (

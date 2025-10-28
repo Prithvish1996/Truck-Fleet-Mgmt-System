@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authService } from '../../../services/authService';
 import { routeService } from '../../../services/routeService';
@@ -40,7 +40,11 @@ export default function DriverDashboard() {
       setLoading(true);
       const driverRoutes = await routeService.getDriverRoutes();
       setRoutes(driverRoutes);
-      console.log('Loaded routes:', driverRoutes);
+
+      // THIS IS FOR DEBUGGING ONLY
+      // console.log('Loaded routes:', driverRoutes);
+      // console.log('Routes JSON:', JSON.stringify(driverRoutes, null, 2));
+
     } catch (error) {
       console.error('Error loading routes:', error);
     } finally {
