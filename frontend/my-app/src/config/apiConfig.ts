@@ -10,7 +10,7 @@ const getApiConfig = (): ApiConfig => {
   
   if (isDevelopment) {
     return {
-      baseURL: 'https://localhost:8443/api', // Your backend uses HTTPS on 8443
+      baseURL: 'https://localhost:8443/api', // Backend uses HTTPS on 8443
       useHTTPS: true,
       allowSelfSignedCerts: true // Allow self-signed certs in development
     };

@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import DriverHeader from '../components/driverHeader';
 import MapComponent from '../components/navigation/MapComponent';
-import RouteInfo from '../components/navigation/RouteInfo';
+import NavigationControls from '../components/navigation/NavigationControls';
 import LocationPermission from '../components/navigation/LocationPermission';
 import LoadingSpinner from '../components/ui/LoadingSpinner';
 import ErrorMessage from '../components/ui/ErrorMessage';
-import { navigationService, NavigationState } from '../../../services/navigationService';
 import { GraphhopperRoute } from '../../../services/graphhopperService';
 import './Navigation.css';
 
@@ -14,60 +13,56 @@ interface NavigationProps {
 }
 
 const GraphhopperNavigation: React.FC<NavigationProps> = ({ navigate }) => {
-  const [state, setState] = useState<NavigationState>(navigationService.getState());
+  // State management
+  const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
+  const [destination, setDestination] = useState<[number, number] | null>(null);
+  const [routeData, setRouteData] = useState<GraphhopperRoute | null>(null);
+  const [currentHeading, setCurrentHeading] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
+  // Mock destination for demo purposes (you can replace this with real data)
   useEffect(() => {
-    // Set up navigation service callbacks
-    navigationService.setCallbacks({
-      onLocationUpdate: (location: [number, number]) => {
-        setState(prev => ({ ...prev, userLocation: location }));
-      },
-      onRouteUpdate: (route: GraphhopperRoute | null) => {
-        setState(prev => ({ ...prev, routeData: route }));
-      },
-      onStateChange: (updates: Partial<NavigationState>) => {
-        setState(prev => ({ ...prev, ...updates }));
-      }
-    });
-
-    // Load initial route data
-    navigationService.loadRouteData();
-
-    // Cleanup on unmount
-    return () => {
-      navigationService.cleanup();
-    };
+    // Set a mock destination (Amsterdam city center)
+    setDestination([52.3676, 4.9041]);
+    setLoading(false);
   }, []);
 
   const handleLocationGranted = (location: [number, number]) => {
-    setState(prev => ({ ...prev, userLocation: location }));
+    setUserLocation(location);
+    setError(null);
   };
 
   const handleLocationError = (error: string) => {
-    setState(prev => ({ ...prev, error }));
+    setError(error);
+  };
+
+  const handleLocationUpdate = (location: [number, number]) => {
+    setUserLocation(location);
+  };
+
+  const handleRouteUpdate = (route: GraphhopperRoute | null) => {
+    setRouteData(route);
+  };
+
+  const handleHeadingUpdate = (heading: number) => {
+    setCurrentHeading(heading);
+  };
+
+
+  const handleMapReady = () => {
+    console.log('Map is ready for navigation');
   };
 
   const handleRetry = () => {
-    setState(prev => ({ ...prev, error: null }));
-    navigationService.loadRouteData();
+    setError(null);
+    // Force reload by updating destination
+    if (destination) {
+      setDestination([...destination]);
+    }
   };
 
-  const handleMapReady = () => {
-    navigationService.setMapReady(true);
-    
-    // Force map to invalidate size when container is ready (only once)
-    const timer = setTimeout(() => {
-      const mapElement = document.querySelector('.leaflet-container');
-      if (mapElement) {
-        // Trigger a resize event to ensure map renders properly (only once)
-        window.dispatchEvent(new Event('resize'));
-      }
-    }, 1000);
-    
-    return () => clearTimeout(timer);
-  };
-
-  if (state.loading) {
+  if (loading) {
     return (
       <div className="navigation-container">
         <DriverHeader navigate={navigate} />
@@ -82,13 +77,13 @@ const GraphhopperNavigation: React.FC<NavigationProps> = ({ navigate }) => {
     );
   }
 
-  if (state.error) {
+  if (error) {
     return (
       <div className="navigation-container">
         <DriverHeader navigate={navigate} />
         <div className="navigation-container__content">
           <ErrorMessage 
-            message={state.error}
+            message={error}
             onRetry={handleRetry}
             className="navigation-container__error"
           />
@@ -102,13 +97,15 @@ const GraphhopperNavigation: React.FC<NavigationProps> = ({ navigate }) => {
       <DriverHeader navigate={navigate} />
       <div className="navigation-container__content">
         <div className="navigation-container__map">
-          {state.userLocation ? (
+          {userLocation ? (
             <MapComponent
-              userLocation={state.userLocation}
-              destination={state.destination}
-              onLocationUpdate={(location) => setState(prev => ({ ...prev, userLocation: location }))}
-              onRouteUpdate={(route) => setState(prev => ({ ...prev, routeData: route }))}
+              userLocation={userLocation}
+              destination={destination}
+              onLocationUpdate={handleLocationUpdate}
+              onRouteUpdate={handleRouteUpdate}
               onMapReady={handleMapReady}
+              navigationMode={true}
+              onHeadingUpdate={handleHeadingUpdate}
             />
           ) : (
             <LocationPermission
@@ -118,13 +115,14 @@ const GraphhopperNavigation: React.FC<NavigationProps> = ({ navigate }) => {
           )}
         </div>
         
-        {state.firstPackage && (
-          <RouteInfo
-            package={state.firstPackage}
-            routeData={state.routeData}
-            className="navigation-container__route-info"
+        {/* Navigation Controls */}
+        {userLocation && (
+          <NavigationControls
+            currentHeading={currentHeading}
+            routeData={routeData}
           />
         )}
+        
       </div>
     </div>
   );

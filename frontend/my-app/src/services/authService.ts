@@ -42,6 +42,9 @@ class AuthService {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(credentials),
+        // Ignore SSL certificate errors in development
+        mode: 'cors',
+        credentials: 'include',
       });
 
       if (!response.ok) {
