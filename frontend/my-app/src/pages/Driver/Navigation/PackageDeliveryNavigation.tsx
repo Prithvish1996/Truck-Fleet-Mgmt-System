@@ -27,7 +27,6 @@ const PackageDeliveryNavigation: React.FC<PackageDeliveryNavigationProps> = ({
   const [currentPackageIndex, setCurrentPackageIndex] = useState(0);
   const [deliveryState, setDeliveryState] = useState<DeliveryState>('loading');
   const [error, setError] = useState<string | null>(null);
-  const [estimatedTime, setEstimatedTime] = useState<string | null>(null);
   const [currentDestination, setCurrentDestination] = useState<[number, number] | null>(null);
 
   const currentPackage = packages.length > 0 ? packages[currentPackageIndex] : null;
@@ -69,29 +68,14 @@ const PackageDeliveryNavigation: React.FC<PackageDeliveryNavigationProps> = ({
     }
   }, [currentPackage]);
 
-  const calculateEstimate = useCallback(async (origin: [number, number], destination: [number, number]) => {
-    if (!currentPackage || !routeId) return;
-
-    try {
-      setDeliveryState('calculating_estimate');
-      const estimate = await deliveryService.calculateEstimate(origin, destination, currentPackage.id);
-      setEstimatedTime(estimate.durationText);
-      setDeliveryState('showing_navigation');
-    } catch (err) {
-      console.error('Error calculating estimate:', err);
-      setError(err instanceof Error ? err.message : 'Failed to calculate delivery time');
-      setDeliveryState('error');
-    }
-  }, [currentPackage, routeId]);
-
   const handleLocationGranted = useCallback((location: [number, number]) => {
     setUserLocation(location);
     setError(null);
     
     if (currentPackage && deliveryState === 'waiting_location') {
-      calculateEstimate(location, [currentPackage.latitude, currentPackage.longitude]);
+      setDeliveryState('showing_navigation');
     }
-  }, [currentPackage, deliveryState, calculateEstimate]);
+  }, [currentPackage, deliveryState]);
 
   const handleOpenNavigation = useCallback(() => {
     if (!currentPackage || !currentDestination) return;
@@ -115,11 +99,9 @@ const PackageDeliveryNavigation: React.FC<PackageDeliveryNavigationProps> = ({
           const nextIndex = currentPackageIndex + 1;
           setCurrentPackageIndex(nextIndex);
           setDeliveryState('waiting_location');
-          setEstimatedTime(null);
           
           if (userLocation) {
-            const nextPackage = packages[nextIndex];
-            calculateEstimate(userLocation, [nextPackage.latitude, nextPackage.longitude]);
+            setDeliveryState('showing_navigation');
           }
         } else {
           setDeliveryState('completed');
@@ -140,7 +122,7 @@ const PackageDeliveryNavigation: React.FC<PackageDeliveryNavigationProps> = ({
   const handleRetry = () => {
     setError(null);
     if (userLocation && currentPackage) {
-      calculateEstimate(userLocation, [currentPackage.latitude, currentPackage.longitude]);
+      setDeliveryState('showing_navigation');
     } else {
       setDeliveryState('waiting_location');
     }
@@ -211,7 +193,7 @@ const PackageDeliveryNavigation: React.FC<PackageDeliveryNavigationProps> = ({
             package={currentPackage}
             packageNumber={currentPackageIndex + 1}
             totalPackages={packages.length}
-            estimatedTime={estimatedTime}
+            estimatedTime={currentPackage.estimatedTravelTime}
           />
         )}
 
@@ -231,7 +213,7 @@ const PackageDeliveryNavigation: React.FC<PackageDeliveryNavigationProps> = ({
           )}
         </div>
 
-        {(deliveryState === 'calculating_estimate' || deliveryState === 'showing_navigation') && (
+        {deliveryState === 'showing_navigation' && (
           <DeliveryNavigationControls
             state={deliveryState}
             onOpenNavigation={handleOpenNavigation}

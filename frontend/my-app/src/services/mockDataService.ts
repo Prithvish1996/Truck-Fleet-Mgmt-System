@@ -1,5 +1,6 @@
 import { Route, Truck, Driver, Package, RouteResponse, TruckResponse, RouteBreak } from '../types';
 import { authService } from './authService';
+import { processRouteWithBreaks } from './breakCalculationService';
 import { IoHome } from "react-icons/io5";
 
 // Mock data for drivers - using backend default users
@@ -94,7 +95,8 @@ const mockPackages: Package[] = [
     status: 'pending',
     deliveryInstructions: 'Leave at front door if no answer',
     recipientName: 'Jan de Vries',
-    recipientPhone: '+31 6 1111 2222'
+    recipientPhone: '+31 6 1111 2222',
+    estimatedTravelTime: 2400 // 40 min
   },
   {
     id: 'P002',
@@ -108,7 +110,8 @@ const mockPackages: Package[] = [
     status: 'pending',
     deliveryInstructions: 'Call recipient before delivery',
     recipientName: 'Maria Garcia',
-    recipientPhone: '+31 6 3333 4444'
+    recipientPhone: '+31 6 3333 4444',
+    estimatedTravelTime: 2100 // 35 min
   },
   {
     id: 'P003',
@@ -122,7 +125,8 @@ const mockPackages: Package[] = [
     status: 'pending',
     deliveryInstructions: 'Deliver to reception',
     recipientName: 'Ahmed Hassan',
-    recipientPhone: '+31 6 5555 6666'
+    recipientPhone: '+31 6 5555 6666',
+    estimatedTravelTime: 1800 // 30 min
   },
   {
     id: 'P004',
@@ -136,7 +140,8 @@ const mockPackages: Package[] = [
     status: 'pending',
     deliveryInstructions: 'Handle with care',
     recipientName: 'Lisa Anderson',
-    recipientPhone: '+31 6 7777 8888'
+    recipientPhone: '+31 6 7777 8888',
+    estimatedTravelTime: 2700 // 45 min
   },
   {
     id: 'P005',
@@ -150,7 +155,8 @@ const mockPackages: Package[] = [
     status: 'pending',
     deliveryInstructions: 'Deliver to side entrance',
     recipientName: 'Tom Brown',
-    recipientPhone: '+31 6 9999 0000'
+    recipientPhone: '+31 6 9999 0000',
+    estimatedTravelTime: 3000 // 50 min
   },
   // Packages for Route R3213-03
   {
@@ -165,7 +171,8 @@ const mockPackages: Package[] = [
     status: 'pending',
     deliveryInstructions: 'Deliver to office building',
     recipientName: 'Emma Wilson',
-    recipientPhone: '+31 6 1111 3333'
+    recipientPhone: '+31 6 1111 3333',
+    estimatedTravelTime: 1080
   },
   {
     id: 'P007',
@@ -179,7 +186,8 @@ const mockPackages: Package[] = [
     status: 'pending',
     deliveryInstructions: 'Temperature controlled delivery',
     recipientName: 'Dr. Johnson',
-    recipientPhone: '+31 6 2222 4444'
+    recipientPhone: '+31 6 2222 4444',
+    estimatedTravelTime: 1320
   },
   {
     id: 'P008',
@@ -193,79 +201,21 @@ const mockPackages: Package[] = [
     status: 'pending',
     deliveryInstructions: 'Keep refrigerated',
     recipientName: 'Sophie Martin',
-    recipientPhone: '+31 6 3333 5555'
+    recipientPhone: '+31 6 3333 5555',
+    estimatedTravelTime: 540
   }
 ];
 
-// Mock data for route breaks
-const mockBreaks: RouteBreak[] = [
-  {
-    id: 'break-1',
-    type: 'break',
-    name: 'Coffee Break',
-    duration: '15 min',
-    scheduledTime: '10:30',
-    location: {
-      latitude: 52.3702,
-      longitude: 4.8952,
-      address: 'Kalverstraat 92',
-      city: 'Amsterdam',
-      postalCode: '1012 PH'
-    },
-    packagesBetween: {
-      beforePackage: 'P002', // After delivering P002 (Furniture Package)
-      afterPackage: 'P003'  // Before delivering P003 (Clothing Package)
-    }
-  },
-  {
-    id: 'break-2',
-    type: 'break',
-    name: 'Lunch Break',
-    duration: '30 min',
-    scheduledTime: '12:00',
-    location: {
-      latitude: 52.3731,
-      longitude: 4.8903,
-      address: 'Nieuwendijk 123',
-      city: 'Amsterdam',
-      postalCode: '1012 MD'
-    },
-    packagesBetween: {
-      beforePackage: 'P003', // After delivering P003 (Clothing Package)
-      afterPackage: 'P004'  // Before delivering P004 (Books Package)
-    }
-  },
-  {
-    id: 'break-3',
-    type: 'break',
-    name: 'Short Break',
-    duration: '10 min',
-    scheduledTime: '15:00',
-    location: {
-      latitude: 52.3756,
-      longitude: 4.8854,
-      address: 'Spui 25',
-      city: 'Amsterdam',
-      postalCode: '1012 WX'
-    },
-    packagesBetween: {
-      beforePackage: 'P007', // After delivering P007 (Medical Supplies)
-      afterPackage: 'P008'  // Before delivering P008 (Food Package)
-    }
-  }
-];
-
-// Mock data for routes
-const mockRoutes: Route[] = [
+// Mock data for routes (breaks will be calculated automatically)
+const rawMockRoutes: Omit<Route, 'breaks'>[] = [
   {
     id: 'R1223-01',
     truckId: 'T321',
-    driverId: 'driver@tfms.com', // Backend default driver
+    driverId: 'driver@tfms.com',
     packages: mockPackages.filter(p => ['P001', 'P002', 'P003', 'P004', 'P005', 'P006', 'P007', 'P008'].includes(p.id)),
-    breaks: [mockBreaks[0], mockBreaks[1]], // Coffee break and lunch break
     startTime: '07:30',
     duration: '8 hours',
-    date: new Date().toISOString().split('T')[0], // Today
+    date: new Date().toISOString().split('T')[0],
     status: 'scheduled',
     totalDistance: 45.2,
     estimatedFuelCost: 28.50,
@@ -274,12 +224,11 @@ const mockRoutes: Route[] = [
   {
     id: 'R3213-03',
     truckId: 'T5441',
-    driverId: 'test@example.com', // Backend test driver
+    driverId: 'test@example.com',
     packages: mockPackages.filter(p => ['P006', 'P007', 'P008'].includes(p.id)),
-    breaks: [mockBreaks[2]], // Short break only for shorter route
     startTime: '14:00',
     duration: '3 hours',
-    date: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], // Day after tomorrow
+    date: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
     status: 'scheduled',
     totalDistance: 18.7,
     estimatedFuelCost: 12.30,
@@ -288,18 +237,20 @@ const mockRoutes: Route[] = [
   {
     id: 'R4567-02',
     truckId: 'T789',
-    driverId: 'driver@tfms.com', // Another route for the main driver
+    driverId: 'driver@tfms.com',
     packages: mockPackages.filter(p => ['P006', 'P007', 'P008'].includes(p.id)),
-    breaks: [mockBreaks[0]], // No breaks for this route
     startTime: '09:00',
     duration: '6 hours',
-    date: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], // In 3 days
+    date: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
     status: 'scheduled',
     totalDistance: 0,
     estimatedFuelCost: 0,
     priority: 'low'
   }
 ];
+
+// Process routes to add automatically calculated breaks
+const mockRoutes: Route[] = rawMockRoutes.map(processRouteWithBreaks);
 
 class MockDataService {
   private routes: Route[] = [...mockRoutes];

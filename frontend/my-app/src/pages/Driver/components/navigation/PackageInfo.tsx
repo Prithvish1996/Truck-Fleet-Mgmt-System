@@ -1,12 +1,13 @@
 import React from 'react';
 import { Package } from '../../../../types';
+import { formatTravelTime } from '../../../../utils/timeFormatter';
 import './PackageInfo.css';
 
 interface PackageInfoProps {
   package: Package;
   packageNumber: number;
   totalPackages: number;
-  estimatedTime?: string | null;
+  estimatedTime?: number | null;
 }
 
 const PackageInfo: React.FC<PackageInfoProps> = ({ 
@@ -28,7 +29,7 @@ const PackageInfo: React.FC<PackageInfoProps> = ({
         )}
         {estimatedTime && (
           <p className="package-info__estimate">
-            <strong>Estimated time:</strong> {estimatedTime}
+            <strong>Estimated time:</strong> {formatTravelTime(estimatedTime)}
           </p>
         )}
       </div>

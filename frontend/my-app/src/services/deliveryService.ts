@@ -5,7 +5,6 @@ import { Package } from '../types';
 export type DeliveryState = 
   | 'loading'
   | 'waiting_location'
-  | 'calculating_estimate'
   | 'showing_navigation'
   | 'waiting_confirmation'
   | 'completed'

@@ -13,6 +13,7 @@ export interface Package {
   deliveryInstructions?: string;
   recipientName: string;
   recipientPhone: string;
+  estimatedTravelTime?: number; // Travel time in seconds - calculated by backend
 }
 
 export interface RouteBreak {

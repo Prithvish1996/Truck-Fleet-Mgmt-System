@@ -1,9 +1,12 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import DriverHeader from "../components/driverHeader";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { routeService } from "../../../services/routeService";
-import { Route, Package } from "../../../types";
+import { Route, Package, RouteBreak } from "../../../types";
+import { formatTravelTime } from "../../../utils/timeFormatter";
 import "./RouteOverview.css";
+
+type RouteItem = { type: 'package'; data: Package } | { type: 'break'; data: RouteBreak };
 
 interface RouteOverviewProps {
     routeId?: string;
@@ -63,6 +66,30 @@ function RouteOverview({ routeId: propRouteId }: RouteOverviewProps = {} as Rout
         navigate('/driver/navigation');
     };
 
+    const routeItems = useMemo(() => {
+        if (!currentRoute) return [];
+        
+        const items: RouteItem[] = [];
+        const breaks = currentRoute.breaks || [];
+        const usedBreaks = new Set<string>();
+        
+        packages.forEach((pkg, index) => {
+            items.push({ type: 'package', data: pkg });
+            
+            const breakAfterPackage = breaks.find(breakItem => 
+                !usedBreaks.has(breakItem.id) &&
+                breakItem.packagesBetween?.beforePackage === pkg.id
+            );
+            
+            if (breakAfterPackage) {
+                items.push({ type: 'break', data: breakAfterPackage });
+                usedBreaks.add(breakAfterPackage.id);
+            }
+        });
+        
+        return items;
+    }, [currentRoute, packages]);
+
     return (
         <div className="route-overview">
             <DriverHeader navigate={() => navigate('/driver/dashboard')} />
@@ -72,32 +99,69 @@ function RouteOverview({ routeId: propRouteId }: RouteOverviewProps = {} as Rout
                     <div className="loading-message">Loading route...</div>
                 ) : packages.length > 0 ? (
                     <div className="route-stops-container">
-                        {packages.map((pkg, index) => (
-                            <div key={pkg.id} className="route-stop-card shipping">
-                                <div className="stop-status stop-status-top-right">
-                                    <span className={`status-badge status-${pkg.status}`}>
-                                        {pkg.status === 'delivered' ? '✓ Delivered' : 
-                                         pkg.status === 'picked_up' ? '📦 Picked Up' : 
-                                         '⏳ Pending'}
-                                    </span>
-                                </div>
-                                <div className="stop-icon">
-                                    <div className="house-icon">🏠</div>
-                                </div>
-                                <div className="stop-content">
-                                    <div className="stop-type">Shipping</div>
-                                    <div className="stop-name">{pkg.recipientName}</div>
-                                    <div className="stop-address">{pkg.address}</div>
-                                    <div className="stop-location">{pkg.city} {pkg.postalCode}</div>
-                                    {pkg.deliveryInstructions && (
-                                        <div className="stop-instructions">
-                                            <small>Instructions: {pkg.deliveryInstructions}</small>
+                        {routeItems.map((item, index) => {
+                            if (item.type === 'package') {
+                                const pkg = item.data;
+                                return (
+                                    <div key={pkg.id} className="route-stop-card shipping">
+                                        <div className="stop-status stop-status-top-right">
+                                            <span className={`status-badge status-${pkg.status}`}>
+                                                {pkg.status === 'delivered' ? '✓ Delivered' : 
+                                                 pkg.status === 'picked_up' ? '📦 Picked Up' : 
+                                                 '⏳ Pending'}
+                                            </span>
                                         </div>
-                                    )}
-                                </div>
-                                <div className="stop-arrow">›</div>
-                            </div>
-                        ))}
+                                        <div className="stop-icon">
+                                            <div className="house-icon">🏠</div>
+                                        </div>
+                                        <div className="stop-content">
+                                            <div className="stop-type">Shipping</div>
+                                            <div className="stop-name">{pkg.recipientName}</div>
+                                            <div className="stop-address">{pkg.address}</div>
+                                            <div className="stop-location">{pkg.city} {pkg.postalCode}</div>
+                                            {pkg.estimatedTravelTime && (
+                                                <div className="stop-travel-time">
+                                                    <span className="travel-time-label">⏱️ Estimated travel time:</span>
+                                                    <span className="travel-time-value">{formatTravelTime(pkg.estimatedTravelTime)}</span>
+                                                </div>
+                                            )}
+                                            {pkg.deliveryInstructions && (
+                                                <div className="stop-instructions">
+                                                    <small>Instructions: {pkg.deliveryInstructions}</small>
+                                                </div>
+                                            )}
+                                        </div>
+                                        <div className="stop-arrow">›</div>
+                                    </div>
+                                );
+                            } else {
+                                const breakItem = item.data;
+                                return (
+                                    <div key={breakItem.id} className="route-stop-card break">
+                                        <div className="stop-icon">
+                                            <div className="break-icon">☕</div>
+                                        </div>
+                                        <div className="stop-content">
+                                            <div className="stop-type">Break</div>
+                                            <div className="stop-name">{breakItem.name}</div>
+                                            {breakItem.scheduledTime && (
+                                                <div className="stop-travel-time">
+                                                    <span className="travel-time-label">🕐 Scheduled:</span>
+                                                    <span className="travel-time-value">{breakItem.scheduledTime}</span>
+                                                </div>
+                                            )}
+                                            {breakItem.duration && (
+                                                <div className="stop-travel-time">
+                                                    <span className="travel-time-label">⏱️ Duration:</span>
+                                                    <span className="travel-time-value">{breakItem.duration}</span>
+                                                </div>
+                                            )}
+                                        </div>
+                                        <div className="stop-arrow">›</div>
+                                    </div>
+                                );
+                            }
+                        })}
                         
                         {isFromNavigation ? (
                             <button className="back-to-navigation-button" onClick={handleBackToNavigation}>
