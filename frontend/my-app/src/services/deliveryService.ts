@@ -11,9 +11,6 @@ export type DeliveryState =
   | 'error';
 
 class DeliveryService {
-  /**
-   * Load packages for a route
-   */
   async loadPackages(routeId: string): Promise<Package[]> {
     const routePackages = await routeService.getRoutePackages(routeId) as Package[] | { data?: Package[]; packages?: Package[] };
     
@@ -26,9 +23,6 @@ class DeliveryService {
     );
   }
 
-  /**
-   * Calculate and send time estimate for a package
-   */
   async calculateEstimate(
     origin: [number, number],
     destination: [number, number],
@@ -51,16 +45,10 @@ class DeliveryService {
     };
   }
 
-  /**
-   * Open Google Maps navigation
-   */
   openNavigation(destination: [number, number], address?: string): void {
     googleMapsService.openNavigation(destination, address);
   }
 
-  /**
-   * Handle delivery result (confirmed or denied)
-   */
   async handleDeliveryResult(
     packageId: string,
     confirmed: boolean
