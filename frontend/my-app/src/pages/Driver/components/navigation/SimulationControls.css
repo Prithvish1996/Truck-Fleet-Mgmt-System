@@ -1,0 +1,350 @@
+/* Simulation Marker Styles */
+.simulation-marker {
+  background: transparent !important;
+  border: none !important;
+}
+
+.simulation-marker__content {
+  width: 30px;
+  height: 30px;
+  position: relative;
+}
+
+.simulation-marker__arrow {
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 20px solid #ff6b6b;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform-origin: center bottom;
+  margin-left: -8px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.simulation-marker__arrow::after {
+  content: '';
+  position: absolute;
+  top: 20px;
+  left: -6px;
+  width: 12px;
+  height: 12px;
+  background: #ff6b6b;
+  border-radius: 50%;
+  border: 2px solid white;
+}
+
+/* Map viewport container - Google Maps style */
+.map-viewport {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden; /* Clip the rotated map content */
+}
+
+.map-container {
+  position: relative;
+  width: 200%; /* Twice as wide to ensure complete coverage when rotated */
+  height: 200%;
+  left: -50%; /* Center the larger map */
+  top: -50%;
+  transform-origin: center center;
+}
+
+/* Map rotation and performance styles - Google Maps style */
+.leaflet-container {
+  transform-origin: center center !important;
+  transition: transform 0.3s ease-out !important;
+}
+
+.leaflet-tile-container {
+  transform-origin: center center !important;
+}
+
+.leaflet-map-pane {
+  transform-origin: center center !important;
+}
+
+/* Improve tile loading performance */
+.leaflet-tile {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+
+/* Ensure tiles load properly during rotation */
+.leaflet-tile-container img {
+  transition: none !important;
+}
+
+.simulation-controls {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  border: 1px solid #e0e0e0;
+  z-index: 1000;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.simulation-controls__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.simulation-controls__header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.simulation-controls__header h3 {
+  margin: 0;
+  color: #333;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.simulation-controls__status {
+  display: flex;
+  align-items: center;
+}
+
+.collapse-btn {
+  background: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 14px;
+  color: #666;
+  transition: all 0.2s ease;
+}
+
+.collapse-btn:hover {
+  background: #e0e0e0;
+  color: #333;
+}
+
+.status-indicator {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-indicator--running {
+  background: #e8f5e8;
+  color: #2e7d32;
+  border: 1px solid #4caf50;
+}
+
+.status-indicator--stopped {
+  background: #f5f5f5;
+  color: #666;
+  border: 1px solid #ccc;
+}
+
+.simulation-controls__no-route {
+  padding: 20px;
+  text-align: center;
+  color: #666;
+}
+
+.simulation-controls__no-route p {
+  margin: 0 0 12px 0;
+  font-size: 14px;
+}
+
+.simulation-controls__no-route ul {
+  text-align: left;
+  margin: 12px 0 0 0;
+  padding-left: 20px;
+}
+
+.simulation-controls__no-route li {
+  margin: 4px 0;
+  font-size: 13px;
+}
+
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.control-group label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #555;
+  margin-bottom: 4px;
+}
+
+.speed-slider,
+.progress-slider {
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: #e0e0e0;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.speed-slider::-webkit-slider-thumb,
+.progress-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #3388ff;
+  cursor: pointer;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.speed-slider::-moz-range-thumb,
+.progress-slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #3388ff;
+  cursor: pointer;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.speed-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #666;
+  margin-top: 4px;
+}
+
+.control-buttons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 100px;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn--primary {
+  background: #3388ff;
+  color: white;
+}
+
+.btn--primary:hover:not(:disabled) {
+  background: #2970d6;
+  transform: translateY(-1px);
+}
+
+.btn--secondary {
+  background: #f0f0f0;
+  color: #333;
+  border: 1px solid #ddd;
+}
+
+.btn--secondary:hover:not(:disabled) {
+  background: #e0e0e0;
+  transform: translateY(-1px);
+}
+
+.btn--danger {
+  background: #ff4444;
+  color: white;
+}
+
+.btn--danger:hover:not(:disabled) {
+  background: #e63939;
+  transform: translateY(-1px);
+}
+
+.simulation-info {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 16px;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.info-item:last-child {
+  margin-bottom: 0;
+}
+
+.info-label {
+  font-size: 13px;
+  color: #666;
+  font-weight: 500;
+}
+
+.info-value {
+  font-size: 13px;
+  color: #333;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  background: #fff;
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid #e0e0e0;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .simulation-controls {
+    margin: 8px;
+    padding: 16px;
+  }
+  
+  .control-buttons {
+    flex-direction: column;
+  }
+  
+  .btn {
+    width: 100%;
+    min-width: auto;
+  }
+  
+  .simulation-controls__header {
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+  }
+}
