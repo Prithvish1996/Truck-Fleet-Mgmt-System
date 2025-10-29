@@ -21,14 +21,13 @@ export default function DriverDashboard() {
     if (feedback.trim()) {
       console.log('Feedback submitted:', feedback);
       setFeedback('');
-      // Here you would typically send the feedback to the backend
     }
   };
 
   const startRoute = async (routeId: string) => {
     try {
       await routeService.startRoute(routeId);
-      // Navigate to route overview page
+      sessionStorage.removeItem('currentRouteId');
       navigate('/driver/route-overview');
     } catch (error) {
       console.error('Error starting route:', error);
@@ -41,10 +40,6 @@ export default function DriverDashboard() {
       const driverRoutes = await routeService.getDriverRoutes();
       setRoutes(driverRoutes);
 
-      // THIS IS FOR DEBUGGING ONLY
-      // console.log('Loaded routes:', driverRoutes);
-      // console.log('Routes JSON:', JSON.stringify(driverRoutes, null, 2));
-
     } catch (error) {
       console.error('Error loading routes:', error);
     } finally {
@@ -53,7 +48,6 @@ export default function DriverDashboard() {
   };
 
   useEffect(() => {
-    // Check if user is authenticated and is driver
     if (!authService.isAuthenticated() || authService.getUserRole() !== 'DRIVER') {
       navigate('/');
     } else {
@@ -63,17 +57,13 @@ export default function DriverDashboard() {
 
   return (
     <div className="driver-dashboard">
-      {/* Header */}
       <DriverHeader navigate={navigate} />
 
-      {/* Main Content */}
       <div className="dashboard-content">
         {activeTab === 'home' ? (
           <>
-            {/* Feedback Box */}
             <FeedbackBox feedback={feedback} setFeedback={setFeedback} handleFeedbackSubmit={handleFeedbackSubmit} />
 
-            {/* Route Cards */}
             {loading ? (
               <div className="loading-message">Loading routes...</div>
             ) : routes.length === 0 ? (
@@ -99,7 +89,6 @@ export default function DriverDashboard() {
         )}
       </div>
 
-      {/* Bottom Tab Bar */}
       <BottomTabBar activeTab={activeTab} onTabChange={setActiveTab} />
     </div>
   );

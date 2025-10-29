@@ -105,6 +105,74 @@ class RouteService {
   }
 
   /**
+   * Save delivery progress (current package index) for a route
+   * This should be stored in the database, but we'll also use localStorage as backup
+   */
+  async saveDeliveryProgress(routeId: string, currentPackageIndex: number): Promise<boolean> {
+    try {
+      // TODO: Implement backend endpoint to save delivery progress
+      // For now, we'll just use localStorage
+      // Backend endpoint: PUT /api/routes/{routeId}/delivery-progress
+      // Body: { currentPackageIndex: number }
+      
+      const url = `${this.getBaseUrl()}/routes/${routeId}/delivery-progress`;
+      const response = await fetch(url, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ currentPackageIndex }),
+        credentials: 'include'
+      });
+
+      if (response.ok) {
+        return true;
+      } else {
+        console.warn('Failed to save delivery progress to backend, using localStorage only');
+        return false;
+      }
+    } catch (error) {
+      console.warn('Error saving delivery progress to backend:', error);
+      // Don't throw - allow localStorage fallback
+      return false;
+    }
+  }
+
+  /**
+   * Get delivery progress (current package index) for a route
+   */
+  async getDeliveryProgress(routeId: string): Promise<number | null> {
+    try {
+      // TODO: Implement backend endpoint to get delivery progress
+      // Backend endpoint: GET /api/routes/{routeId}/delivery-progress
+      
+      const url = `${this.getBaseUrl()}/routes/${routeId}/delivery-progress`;
+      const response = await fetch(url, {
+        method: 'GET',
+        credentials: 'include'
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        return data.currentPackageIndex ?? null;
+      }
+      return null;
+    } catch (error) {
+      console.warn('Error loading delivery progress from backend:', error);
+      return null;
+    }
+  }
+
+  /**
+   * Get base URL for API calls
+   */
+  private getBaseUrl(): string {
+    // Import apiConfig dynamically to avoid circular dependencies
+    const apiConfig = require('../config/apiConfig').apiConfig;
+    return apiConfig.baseURL;
+  }
+
+  /**
    * Get routes by status
    */
   async getRoutesByStatus(status: Route['status']): Promise<Route[]> {

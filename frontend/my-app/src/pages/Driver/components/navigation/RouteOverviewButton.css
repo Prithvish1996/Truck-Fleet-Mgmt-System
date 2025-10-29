@@ -1,0 +1,29 @@
+.route-overview-button-container {
+  background: white;
+  padding: 12px 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  z-index: 10;
+}
+
+.route-overview-button {
+  width: 100%;
+  padding: 12px 24px;
+  background: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.route-overview-button:hover {
+  background: #e0e0e0;
+  border-color: #bbb;
+}
+
+.route-overview-button:active {
+  transform: scale(0.98);
+}
+

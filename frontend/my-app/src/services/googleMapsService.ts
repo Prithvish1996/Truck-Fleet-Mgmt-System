@@ -1,0 +1,256 @@
+// Google Maps API service for delivery time estimates and routing
+import { apiConfig } from '../config/apiConfig';
+
+// Note: You'll need to add your Google Maps API key to your environment variables
+const GOOGLE_MAPS_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY || '';
+// Set to false to disable Google Maps API and use local calculations instead
+const USE_GOOGLE_MAPS_API = false;
+
+export interface GoogleMapsRouteEstimate {
+  distance: {
+    text: string;
+    value: number; // in meters
+  };
+  duration: {
+    text: string;
+    value: number; // in seconds
+  };
+  status: string;
+}
+
+export interface GoogleMapsDistanceMatrixResponse {
+  destination_addresses: string[];
+  origin_addresses: string[];
+  rows: Array<{
+    elements: GoogleMapsRouteEstimate[];
+  }>;
+  status: string;
+}
+
+class GoogleMapsService {
+  private apiKey: string;
+  private useApi: boolean;
+
+  constructor(apiKey: string = GOOGLE_MAPS_API_KEY, useApi: boolean = USE_GOOGLE_MAPS_API) {
+    this.apiKey = apiKey;
+    this.useApi = useApi && !!apiKey;
+    if (useApi && !apiKey) {
+      console.warn('Google Maps API key not configured. Please set REACT_APP_GOOGLE_MAPS_API_KEY');
+    }
+  }
+
+  /**
+   * Calculate distance between two points using Haversine formula (in meters)
+   */
+  private calculateDistance(origin: [number, number], destination: [number, number]): number {
+    const R = 6371e3; // Earth's radius in meters
+    const φ1 = origin[0] * Math.PI / 180;
+    const φ2 = destination[0] * Math.PI / 180;
+    const Δφ = (destination[0] - origin[0]) * Math.PI / 180;
+    const Δλ = (destination[1] - origin[1]) * Math.PI / 180;
+
+    const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+              Math.cos(φ1) * Math.cos(φ2) *
+              Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+    return R * c; // Distance in meters
+  }
+
+  /**
+   * Get time estimate using Google Maps API (if enabled) or fallback to local calculation
+   */
+  async getTimeEstimate(
+    origin: [number, number], // [lat, lng]
+    destination: [number, number], // [lat, lng]
+    mode: 'driving' | 'walking' | 'bicycling' | 'transit' = 'driving'
+  ): Promise<{ durationInSeconds: number; distanceInMeters: number; durationText: string; distanceText: string }> {
+    // Try Google Maps API first if enabled
+    if (this.useApi) {
+      try {
+        return await this.getTimeEstimateFromAPI(origin, destination, mode);
+      } catch (error) {
+        console.warn('Google Maps API failed, falling back to local calculation:', error);
+        // Fall through to local calculation
+      }
+    }
+
+    // Fallback to local calculation
+    return this.getTimeEstimateLocal(origin, destination, mode);
+  }
+
+  /**
+   * Get time estimate from Google Maps API (DISABLED - use local calculation instead)
+   */
+  private async getTimeEstimateFromAPI(
+    origin: [number, number],
+    destination: [number, number],
+    mode: 'driving' | 'walking' | 'bicycling' | 'transit'
+  ): Promise<{ durationInSeconds: number; distanceInMeters: number; durationText: string; distanceText: string }> {
+    if (!this.apiKey) {
+      throw new Error('Google Maps API key is not configured');
+    }
+
+    const originStr = `${origin[0]},${origin[1]}`;
+    const destStr = `${destination[0]},${destination[1]}`;
+
+    const url = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${originStr}&destinations=${destStr}&mode=${mode}&key=${this.apiKey}`;
+
+    const response = await fetch(url);
+    
+    if (!response.ok) {
+      throw new Error(`Google Maps API error: ${response.status} ${response.statusText}`);
+    }
+
+    const data: GoogleMapsDistanceMatrixResponse = await response.json();
+
+    if (data.status !== 'OK' || !data.rows || data.rows.length === 0) {
+      throw new Error(`Google Maps API returned status: ${data.status}`);
+    }
+
+    const element = data.rows[0].elements[0];
+
+    if (element.status !== 'OK') {
+      throw new Error(`Route calculation failed: ${element.status}`);
+    }
+
+    return {
+      durationInSeconds: element.duration.value,
+      distanceInMeters: element.distance.value,
+      durationText: element.duration.text,
+      distanceText: element.distance.text
+    };
+  }
+
+  /**
+   * Get time estimate using local calculation (fallback when API is disabled)
+   */
+  private getTimeEstimateLocal(
+    origin: [number, number],
+    destination: [number, number],
+    mode: 'driving' | 'walking' | 'bicycling' | 'transit'
+  ): { durationInSeconds: number; distanceInMeters: number; durationText: string; distanceText: string } {
+    // Calculate straight-line distance
+    const distanceInMeters = this.calculateDistance(origin, destination);
+    
+    // Estimate time based on mode (average speeds)
+    const averageSpeed: { [key: string]: number } = {
+      driving: 50, // km/h
+      walking: 5,
+      bicycling: 15,
+      transit: 30
+    };
+    
+    const speed = averageSpeed[mode] || 50; // default to driving
+    const distanceInKm = distanceInMeters / 1000;
+    const durationInHours = distanceInKm / speed;
+    const durationInSeconds = Math.round(durationInHours * 3600);
+    
+    // Format distance text
+    let distanceText: string;
+    if (distanceInMeters < 1000) {
+      distanceText = `${Math.round(distanceInMeters)} m`;
+    } else {
+      distanceText = `${distanceInKm.toFixed(1)} km`;
+    }
+    
+    // Format duration text
+    let durationText: string;
+    if (durationInSeconds < 60) {
+      durationText = `${durationInSeconds} sec`;
+    } else if (durationInSeconds < 3600) {
+      const minutes = Math.round(durationInSeconds / 60);
+      durationText = `${minutes} min`;
+    } else {
+      const hours = Math.floor(durationInSeconds / 3600);
+      const minutes = Math.round((durationInSeconds % 3600) / 60);
+      durationText = minutes > 0 ? `${hours} h ${minutes} min` : `${hours} h`;
+    }
+
+    return {
+      durationInSeconds,
+      distanceInMeters,
+      durationText,
+      distanceText
+    };
+  }
+
+  /**
+   * Send time estimate to backend
+   */
+  async sendTimeEstimateToBackend(
+    packageId: string,
+    userLocation: [number, number],
+    packageLocation: [number, number],
+    estimatedDurationSeconds: number,
+    estimatedDistanceMeters: number
+  ): Promise<void> {
+    try {
+      const url = `${apiConfig.baseURL}/packages/${packageId}/delivery-estimate`;
+      
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userLocation: {
+            latitude: userLocation[0],
+            longitude: userLocation[1]
+          },
+          packageLocation: {
+            latitude: packageLocation[0],
+            longitude: packageLocation[1]
+          },
+          estimatedDurationSeconds,
+          estimatedDistanceMeters,
+          timestamp: new Date().toISOString()
+        }),
+        ...apiConfig.useHTTPS ? {} : {},
+        credentials: 'include'
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Failed to send time estimate to backend: ${response.status} ${errorText}`);
+      }
+
+      console.log('Time estimate sent to backend successfully');
+    } catch (error) {
+      console.error('Error sending time estimate to backend:', error);
+      // Don't throw - allow the flow to continue even if backend call fails
+    }
+  }
+
+  /**
+   * Generate Google Maps deep link for navigation
+   */
+  generateNavigationDeepLink(
+    destination: [number, number], // [lat, lng]
+    destinationAddress?: string
+  ): string {
+    const lat = destination[0];
+    const lng = destination[1];
+
+    // Try Google Maps app first, fallback to web
+    if (destinationAddress) {
+      // Use query parameter for address-based navigation (more reliable)
+      const encodedAddress = encodeURIComponent(destinationAddress);
+      return `https://www.google.com/maps/dir/?api=1&destination=${encodedAddress}`;
+    } else {
+      // Use coordinates
+      return `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
+    }
+  }
+
+  /**
+   * Open Google Maps app with navigation
+   */
+  openNavigation(destination: [number, number], destinationAddress?: string): void {
+    const deepLink = this.generateNavigationDeepLink(destination, destinationAddress);
+    console.log('Opening Google Maps:', deepLink);
+    window.open(deepLink, '_blank');
+  }
+}
+
+export const googleMapsService = new GoogleMapsService();

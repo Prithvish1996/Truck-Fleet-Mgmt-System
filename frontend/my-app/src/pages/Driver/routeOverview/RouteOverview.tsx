@@ -1,110 +1,65 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import DriverHeader from "../components/driverHeader";
 import { useState, useEffect } from "react";
 import { routeService } from "../../../services/routeService";
-import { Route } from "../../../types";
+import { Route, Package } from "../../../types";
 import "./RouteOverview.css";
 
-interface RouteStop {
-    id: string;
-    type: 'shipping' | 'break';
-    name: string;
-    address: string;
-    city: string;
-    postalCode: string;
-    duration?: string; // for breaks
-    packagesBetween?: {
-        beforePackage: string;
-        afterPackage: string;
-    };
+interface RouteOverviewProps {
+    routeId?: string;
 }
 
-function RouteOverview() {
+function RouteOverview({ routeId: propRouteId }: RouteOverviewProps = {} as RouteOverviewProps) {
     const navigate = useNavigate();
+    const location = useLocation();
     const [currentRoute, setCurrentRoute] = useState<Route | null>(null);
+    const [packages, setPackages] = useState<Package[]>([]);
     const [loading, setLoading] = useState(true);
+    
+    const storedRouteId = sessionStorage.getItem('currentRouteId');
+    const routeId = propRouteId || 
+                    (location.state as any)?.routeId || 
+                    storedRouteId ||
+                    null;
 
     useEffect(() => {
-        loadCurrentRoute();
-    }, []);
+        loadRoute();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [routeId]);
 
-    const loadCurrentRoute = async () => {
+    const loadRoute = async () => {
         try {
             setLoading(true);
-            const routes = await routeService.getDriverRoutes();
-            // Find the route that's currently in progress
-            const inProgressRoute = routes.find(route => route.status === 'in_progress');
-            if (inProgressRoute) {
-                setCurrentRoute(inProgressRoute);
+            
+            if (routeId) {
+                const route = await routeService.getRouteById(routeId);
+                if (route) {
+                    setCurrentRoute(route);
+                    setPackages(route.packages);
+                }
+            } else {
+                const routes = await routeService.getDriverRoutes();
+                const inProgressRoute = routes.find(route => route.status === 'in_progress');
+                if (inProgressRoute) {
+                    setCurrentRoute(inProgressRoute);
+                    setPackages(inProgressRoute.packages);
+                }
             }
         } catch (error) {
-            console.error('Error loading current route:', error);
+            console.error('Error loading route:', error);
         } finally {
             setLoading(false);
         }
     };
 
-    // Generate route stops from packages and backend-provided breaks
-    const generateRouteStops = (route: Route): RouteStop[] => {
-        const stops: RouteStop[] = [];
-        
-        // Create a map of package IDs to their index for quick lookup
-        const packageIndexMap = new Map<string, number>();
-        route.packages.forEach((pkg, index) => {
-            packageIndexMap.set(pkg.id, index);
-        });
-        
-        // Create all stops (packages and breaks) with their positions
-        const allStops: (RouteStop & { position: number })[] = [];
-        
-        // Add package stops
-        route.packages.forEach((pkg) => {
-            allStops.push({
-                id: pkg.id,
-                type: 'shipping',
-                name: pkg.recipientName,
-                address: pkg.address,
-                city: pkg.city,
-                postalCode: pkg.postalCode,
-                position: packageIndexMap.get(pkg.id) || 0
-            });
-        });
-        
-        // Add breaks with their calculated positions
-        route.breaks.forEach((breakItem) => {
-            if (breakItem.packagesBetween) {
-                const beforeIndex = packageIndexMap.get(breakItem.packagesBetween.beforePackage);
-                const afterIndex = packageIndexMap.get(breakItem.packagesBetween.afterPackage);
-                
-                if (beforeIndex !== undefined && afterIndex !== undefined) {
-                    // Position the break between the packages
-                    const breakPosition = beforeIndex + 0.5; // Place break between packages
-                    
-                    allStops.push({
-                        id: breakItem.id,
-                        type: 'break',
-                        name: breakItem.name,
-                        address: breakItem.location?.address || '',
-                        city: breakItem.location?.city || '',
-                        postalCode: breakItem.location?.postalCode || '',
-                        duration: breakItem.duration,
-                        packagesBetween: breakItem.packagesBetween,
-                        position: breakPosition
-                    });
-                }
-            }
-        });
-        
-        // Sort stops by position
-        allStops.sort((a, b) => a.position - b.position);
-        
-        // Remove position property and return the ordered stops
-        return allStops.map(({ position, ...stop }) => stop);
+    const isFromNavigation = !!storedRouteId;
+    
+    const handleStartRoute = () => {
+        sessionStorage.removeItem('currentRouteId');
+        navigate('/driver/navigation');
     };
 
-    const handleStartRoute = () => {
-        // Navigate to navigation page for route execution
-        console.log('Starting route...');
+    const handleBackToNavigation = () => {
         navigate('/driver/navigation');
     };
 
@@ -115,49 +70,49 @@ function RouteOverview() {
             <div className="route-overview-content">
                 {loading ? (
                     <div className="loading-message">Loading route...</div>
-                ) : currentRoute ? (
+                ) : packages.length > 0 ? (
                     <div className="route-stops-container">
-                        {generateRouteStops(currentRoute).map((stop) => (
-                            <div key={stop.id} className={`route-stop-card ${stop.type}`}>
+                        {packages.map((pkg, index) => (
+                            <div key={pkg.id} className="route-stop-card shipping">
+                                <div className="stop-status stop-status-top-right">
+                                    <span className={`status-badge status-${pkg.status}`}>
+                                        {pkg.status === 'delivered' ? '✓ Delivered' : 
+                                         pkg.status === 'picked_up' ? '📦 Picked Up' : 
+                                         '⏳ Pending'}
+                                    </span>
+                                </div>
                                 <div className="stop-icon">
-                                    {stop.type === 'shipping' ? (
-                                        <div className="house-icon">🏠</div>
-                                    ) : (
-                                        <div className="break-icon">⏸</div>
-                                    )}
+                                    <div className="house-icon">🏠</div>
                                 </div>
                                 <div className="stop-content">
-                                    {stop.type === 'shipping' ? (
-                                        <>
-                                            <div className="stop-type">Shipping</div>
-                                            <div className="stop-name">{stop.name}</div>
-                                            <div className="stop-address">{stop.address}</div>
-                                            <div className="stop-location">{stop.city} {stop.postalCode}</div>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <div className="stop-type">Break</div>
-                                            <div className="stop-name">{stop.name}</div>
-                                            {stop.duration && (
-                                                <div className="break-duration">Duration: {stop.duration}</div>
-                                            )}
-                                        </>
+                                    <div className="stop-type">Shipping</div>
+                                    <div className="stop-name">{pkg.recipientName}</div>
+                                    <div className="stop-address">{pkg.address}</div>
+                                    <div className="stop-location">{pkg.city} {pkg.postalCode}</div>
+                                    {pkg.deliveryInstructions && (
+                                        <div className="stop-instructions">
+                                            <small>Instructions: {pkg.deliveryInstructions}</small>
+                                        </div>
                                     )}
                                 </div>
-                                {stop.type === 'shipping' && (
-                                    <div className="stop-arrow">›</div>
-                                )}
+                                <div className="stop-arrow">›</div>
                             </div>
                         ))}
                         
-                        <button className="start-route-button" onClick={handleStartRoute}>
-                            Start
-                        </button>
+                        {isFromNavigation ? (
+                            <button className="back-to-navigation-button" onClick={handleBackToNavigation}>
+                                ← Back to Navigation
+                            </button>
+                        ) : (
+                            <button className="start-route-button" onClick={handleStartRoute}>
+                                Start
+                            </button>
+                        )}
                     </div>
                 ) : (
                     <div className="no-route-message">
-                        <h2>No active route found</h2>
-                        <p>Start a route from the dashboard to see route details here.</p>
+                        <h2>No packages found</h2>
+                        <p>No packages are available for this route.</p>
                         <button 
                             className="back-to-dashboard-btn"
                             onClick={() => navigate('/driver/dashboard')}
