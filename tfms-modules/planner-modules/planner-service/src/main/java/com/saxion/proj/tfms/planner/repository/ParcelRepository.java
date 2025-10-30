@@ -67,6 +67,15 @@ public interface ParcelRepository extends JpaRepository<ParcelDao, Long> {
             Pageable pageable
     );
 
+    // Fetch all parcels by status and planned delivery date. No pagination.
+    @Query("SELECT p FROM ParcelDao p " +
+            "WHERE p.status = :status " +
+            "AND DATE(p.plannedDeliveryDate) = :plannedDate")
+    List<ParcelDao> findAllByStatusAndPlannedDeliveryDate(
+            @Param("status") StatusEnum status,
+            @Param("plannedDate") LocalDate plannedDate
+    );
+
     // Counts parcels by warehouse and status
     long countByWarehouseAndStatus(WareHouseDao warehouse, StatusEnum status);
 

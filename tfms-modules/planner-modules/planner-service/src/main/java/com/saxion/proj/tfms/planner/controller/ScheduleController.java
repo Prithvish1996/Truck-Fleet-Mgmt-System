@@ -3,6 +3,7 @@ package com.saxion.proj.tfms.planner.controller;
 import com.saxion.proj.tfms.commons.dto.ApiResponse;
 import com.saxion.proj.tfms.commons.security.UserContext;
 import com.saxion.proj.tfms.commons.security.annotations.CurrentUser;
+import com.saxion.proj.tfms.planner.abstractions.ScheduleService.IGetScheduledByDate;
 import com.saxion.proj.tfms.planner.abstractions.ScheduleService.IGetScheduledDeliveries;
 import com.saxion.proj.tfms.planner.abstractions.ScheduleService.IScheduleNextDayDelivery;
 import com.saxion.proj.tfms.planner.dto.ParcelResponseDto;
@@ -27,6 +28,9 @@ public class ScheduleController {
     @Autowired
     private IGetScheduledDeliveries getNextDayDelivery;
 
+    @Autowired
+    private IGetScheduledByDate getScheduleDeliveries;
+
     //schedule parcel delivery
     @PostMapping("/schedule-next-day")
     public ApiResponse<List<ParcelResponseDto>> scheduleNextDay(
@@ -44,8 +48,8 @@ public class ScheduleController {
         return scheduleNextDayDelivery.Handle(dto);
     }
 
-    // List all schedule delivery
-    @GetMapping("/get")
+    // List all schedule delivery with pagination
+    @GetMapping("/paginated")
     public ResponseEntity<ApiResponse<Map<String, Object>>> getAllSchedules(
             @CurrentUser UserContext user,
             @RequestParam(required = false) ZonedDateTime date,
@@ -64,5 +68,27 @@ public class ScheduleController {
         }
 
         return ResponseEntity.ok(getNextDayDelivery.Handle(date, page, size));
+    }
+
+    // List all schedule delivery without pagination
+    @GetMapping("/all")
+    public ResponseEntity<ApiResponse<List<ParcelResponseDto>>> getAllSchedulesWithoutPagination(
+            @CurrentUser UserContext user,
+            @RequestParam(required = false) ZonedDateTime date) {
+
+        // Authentication check
+        if (!user.isValid()) {
+            return ResponseEntity.status(401)
+                    .body(ApiResponse.error("Invalid token"));
+        }
+
+        // Authorization check
+        if (!"PLANNER".equalsIgnoreCase(user.getRole())) {
+            return ResponseEntity.status(403)
+                    .body(ApiResponse.error("Not Authorized"));
+        }
+
+        ApiResponse<List<ParcelResponseDto>> response = getScheduleDeliveries.Handle(date);
+        return ResponseEntity.ok(response);
     }
 }

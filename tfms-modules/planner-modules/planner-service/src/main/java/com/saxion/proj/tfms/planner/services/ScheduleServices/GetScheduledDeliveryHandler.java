@@ -3,6 +3,7 @@ package com.saxion.proj.tfms.planner.services.ScheduleServices;
 import com.saxion.proj.tfms.commons.dto.ApiResponse;
 import com.saxion.proj.tfms.commons.constants.StatusEnum;
 import com.saxion.proj.tfms.commons.model.ParcelDao;
+import com.saxion.proj.tfms.commons.utility.Helper;
 import com.saxion.proj.tfms.planner.abstractions.ScheduleService.IGetScheduledDeliveries;
 import com.saxion.proj.tfms.planner.dto.ParcelResponseDto;
 import com.saxion.proj.tfms.planner.repository.ParcelRepository;
@@ -20,11 +21,15 @@ import java.util.Map;
 public class GetScheduledDeliveryHandler implements IGetScheduledDeliveries {
 
     private final ParcelRepository parcelRepository;
+    private final Helper helper;
 
-    public GetScheduledDeliveryHandler(ParcelRepository parcelRepository) {
+    public GetScheduledDeliveryHandler(ParcelRepository parcelRepository,
+                                       Helper helper) {
         this.parcelRepository = parcelRepository;
+        this.helper = helper;
     }
 
+    // This handle return the list of scheduled parcels by date and the list is paginated.
     @Override
     public ApiResponse<Map<String, Object>> Handle(ZonedDateTime plannedDate, int page, int size) {
 
@@ -33,7 +38,7 @@ public class GetScheduledDeliveryHandler implements IGetScheduledDeliveries {
         }
 
         // Compute effective planned delivery date (skip Sunday)
-        ZonedDateTime effectiveDate = computePlannedDate(plannedDate);
+        ZonedDateTime effectiveDate = helper.ComputePlannedDate(plannedDate);
 
         Pageable pageable = PageRequest.of(page, size);
 
@@ -53,19 +58,5 @@ public class GetScheduledDeliveryHandler implements IGetScheduledDeliveries {
         response.put("data", parcelPage.getContent());
 
         return ApiResponse.success(response);
-    }
-
-    /**
-     * Compute next valid planned delivery date (skip Sunday)
-     */
-    private ZonedDateTime computePlannedDate(ZonedDateTime plannedDate) {
-        ZonedDateTime date = (plannedDate == null)
-                ? ZonedDateTime.now().plusDays(1)
-                : plannedDate;
-
-        if (date.getDayOfWeek() == DayOfWeek.SUNDAY) {
-            date = date.plusDays(1);
-        }
-        return date;
     }
 }
