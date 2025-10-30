@@ -1,12 +1,18 @@
 package com.saxion.proj.tfms.planner.repository;
 
+import com.saxion.proj.tfms.commons.constants.StatusEnum;
 import com.saxion.proj.tfms.commons.model.ParcelDao;
 import com.saxion.proj.tfms.commons.model.UserDao;
+import com.saxion.proj.tfms.commons.model.WareHouseDao;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.Optional;
 
 import java.util.Optional;
@@ -50,4 +56,18 @@ public interface ParcelRepository extends JpaRepository<ParcelDao, Long> {
         LEFT JOIN FETCH w.location wl
         """)
     Optional<ParcelDao> findAllWithRelations();
+
+    // Fetch all parcels by status and planned delivery date.
+    @Query("SELECT p FROM ParcelDao p " +
+            "WHERE p.status = :status " +
+            "AND DATE(p.plannedDeliveryDate) = :plannedDate")
+    Page<ParcelDao> findByStatusAndPlannedDeliveryDate(
+            @Param("status") StatusEnum status,
+            @Param("plannedDate") LocalDate plannedDate,
+            Pageable pageable
+    );
+
+    // Counts parcels by warehouse and status
+    long countByWarehouseAndStatus(WareHouseDao warehouse, StatusEnum status);
+
 }

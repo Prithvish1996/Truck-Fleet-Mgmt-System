@@ -61,6 +61,12 @@ public class ParcelDao {
     @Column(name = "updated_at")
     private ZonedDateTime updatedAt;
 
+    @Column(name = "planned_delivery_date")
+    private ZonedDateTime plannedDeliveryDate;
+
+    @Column(name = "planned_duration_time")
+    private String plannedDurationTime;
+
     // assignment to this parcel
     @OneToMany(mappedBy = "parcel", cascade = CascadeType.ALL, orphanRemoval = false)
     private List<ParcelStopDao> parcelStops = new ArrayList<>();

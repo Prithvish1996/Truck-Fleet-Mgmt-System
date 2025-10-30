@@ -46,7 +46,7 @@ public class ParcelController {
             return ApiResponse.error("Invalid token");
         }
 
-        if (!Objects.equals(user.getRole(), "ADMIN")) {
+        if (!Objects.equals(user.getRole(), "PLANNER")) {
             return ApiResponse.error("Not Authorized");
         }
 
@@ -97,7 +97,7 @@ public class ParcelController {
         }
 
         String role = user.getRole();
-        if(!Objects.equals(role, "ADMIN")){
+        if(!Objects.equals(role, "PLANNER")){
             return ResponseEntity.status(403)
                     .body(ApiResponse.error("Not Authorized"));
         }
@@ -128,6 +128,12 @@ public class ParcelController {
                     .body(ApiResponse.error("Invalid token"));
         }
 
+        String role = user.getRole();
+        if(!Objects.equals(role, "ADMIN")){
+            return ResponseEntity.status(403)
+                    .body(ApiResponse.error("Not Authorized"));
+        }
+
         return ResponseEntity.ok(deleteParcelById.Handle(parcelid));
     }
 
@@ -142,7 +148,7 @@ public class ParcelController {
             return ApiResponse.error("Invalid token");
         }
 
-        if (!Objects.equals(user.getRole(), "ADMIN")) {
+        if (!Objects.equals(user.getRole(), "PLANNER")) {
             return ApiResponse.error("Not Authorized");
         }
 

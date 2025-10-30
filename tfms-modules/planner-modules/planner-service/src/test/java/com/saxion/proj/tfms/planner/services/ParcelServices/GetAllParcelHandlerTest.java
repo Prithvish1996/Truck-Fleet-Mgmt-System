@@ -124,10 +124,20 @@ class GetAllParcelsHandlerTest {
     // Test 5: Valid warehouse, filter = null (should return all)
     @Test
     void handle_ValidWarehouseId_NoFilter_ShouldReturnAllParcels() {
-        Page<ParcelDao> page = new PageImpl<>(List.of(parcel1, parcel2));
-        when(parcelRepository.findAll(any(Pageable.class))).thenReturn(page);
+        // Mock repo IDs
+        when(parcelRepository.findParcelIds(any(Pageable.class)))
+                .thenReturn(List.of(1L, 2L));
+
+        // Mock full parcel fetch
+        when(parcelRepository.findAllWithLocations(List.of(1L, 2L)))
+                .thenReturn(List.of(parcel1, parcel2));
+
+        // Mock mapper
         when(parcelMapper.toDto(parcel1)).thenReturn(dto1);
         when(parcelMapper.toDto(parcel2)).thenReturn(dto2);
+
+        // Mock count for pagination metadata
+        when(parcelRepository.count()).thenReturn(2L);
 
         ApiResponse<Map<String, Object>> response = handler.Handle(1L, null, 0, 10);
 
@@ -140,9 +150,20 @@ class GetAllParcelsHandlerTest {
     // Test 6: Valid warehouse + filter (match on name)
     @Test
     void handle_FilterByParcelName_ShouldReturnFilteredResult() {
-        Page<ParcelDao> page = new PageImpl<>(List.of(parcel1, parcel2));
-        when(parcelRepository.findAll(any(Pageable.class))).thenReturn(page);
+        // Mock repo IDs
+        when(parcelRepository.findParcelIds(any(Pageable.class)))
+                .thenReturn(List.of(1L, 2L));
+
+        // Mock full parcel fetch
+        when(parcelRepository.findAllWithLocations(List.of(1L, 2L)))
+                .thenReturn(List.of(parcel1, parcel2));
+
+        // Mock mapper
         when(parcelMapper.toDto(parcel1)).thenReturn(dto1);
+        when(parcelMapper.toDto(parcel2)).thenReturn(dto2);
+
+        // Mock count
+        when(parcelRepository.count()).thenReturn(2L);
 
         ApiResponse<Map<String, Object>> response = handler.Handle(1L, "Box", 0, 10);
 

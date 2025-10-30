@@ -27,14 +27,14 @@ class GetParcelByIdHandlerTest {
     }
 
     @Test
-    void testParcelIdIsNull() {
+    void handle_ParcelIdIsNull() {
         ApiResponse<ParcelResponseDto> response = handler.Handle(null);
         assertFalse(response.isSuccess());
         assertEquals("Invalid parcel ID", response.getMessage());
     }
 
     @Test
-    void testParcelIdIsZeroOrNegative() {
+    void handle_ParcelIdIsZeroOrNegative() {
         ApiResponse<ParcelResponseDto> responseZero = handler.Handle(0L);
         assertFalse(responseZero.isSuccess());
         assertEquals("Invalid parcel ID", responseZero.getMessage());
@@ -45,7 +45,7 @@ class GetParcelByIdHandlerTest {
     }
 
     @Test
-    void testParcelNotFound() {
+    void handle_ParcelNotFound() {
         Long parcelId = 10L;
         when(parcelRepository.findById(parcelId)).thenReturn(Optional.empty());
 
@@ -55,12 +55,12 @@ class GetParcelByIdHandlerTest {
     }
 
     @Test
-    void testParcelFound() {
+    void handle_ParcelFound() {
         Long parcelId = 1L;
         ParcelDao parcelDao = new ParcelDao();
         ParcelResponseDto dto = new ParcelResponseDto();
 
-        when(parcelRepository.findById(parcelId)).thenReturn(Optional.of(parcelDao));
+        when(parcelRepository.findByIdWithRelations(parcelId)).thenReturn(Optional.of(parcelDao));
         when(parcelMapper.toDto(parcelDao)).thenReturn(dto);
 
         ApiResponse<ParcelResponseDto> response = handler.Handle(parcelId);

@@ -56,7 +56,7 @@ public class GetNextDayParcelScheduleHandler implements IGetNextDayParcelSchedul
                 .collect(Collectors.toList());
 
         if (pendingParcels.isEmpty()) {
-            return ApiResponse.error("No pending parcels scheduled for next day");
+            return ApiResponse.error("No pending parcels matched with any warehouse");
         }
 
         // Group by warehouse ID and Name (e.g., "1 - Central Warehouse")

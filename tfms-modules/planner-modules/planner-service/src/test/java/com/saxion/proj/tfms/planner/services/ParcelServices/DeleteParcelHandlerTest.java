@@ -36,7 +36,7 @@ class DeleteParcelHandlerTest {
 
     // Test 1: parcelId is null -> should return "Invalid parcel ID"
     @Test
-    void testHandle_NullParcelId_ShouldReturnError() {
+    void handle_NullParcelId_ShouldReturnError() {
         ApiResponse<Void> response = deleteParcelHandler.Handle(null);
 
         assertFalse(response.isSuccess());
@@ -47,7 +47,7 @@ class DeleteParcelHandlerTest {
 
     // Test 2: parcelId <= 0 -> should return "Invalid parcel ID"
     @Test
-    void testHandle_InvalidParcelId_ShouldReturnError() {
+    void handle_InvalidParcelId_ShouldReturnError() {
         ApiResponse<Void> response = deleteParcelHandler.Handle(0L);
 
         assertFalse(response.isSuccess());
@@ -58,7 +58,7 @@ class DeleteParcelHandlerTest {
 
     // Test 3: parcel not found -> should return "Parcel not found"
     @Test
-    void testHandle_ParcelNotFound_ShouldReturnError() {
+    void handle_ParcelNotFound_ShouldReturnError() {
         when(parcelRepository.findById(1L)).thenReturn(Optional.empty());
 
         ApiResponse<Void> response = deleteParcelHandler.Handle(1L);
@@ -71,7 +71,7 @@ class DeleteParcelHandlerTest {
 
     // Test 4: parcel exists -> should delete successfully
     @Test
-    void testHandle_ParcelExists_ShouldDeleteSuccessfully() {
+    void handle_ParcelExists_ShouldDeleteSuccessfully() {
         when(parcelRepository.findById(1L)).thenReturn(Optional.of(parcel));
 
         ApiResponse<Void> response = deleteParcelHandler.Handle(1L);

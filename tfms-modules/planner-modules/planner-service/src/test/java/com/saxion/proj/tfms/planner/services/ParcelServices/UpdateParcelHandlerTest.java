@@ -93,7 +93,7 @@ class UpdateParcelHandlerTest {
 
     // Test 1: parcelId == null
     @Test
-    void testHandle_NullParcelId_ShouldReturnError() {
+    void handle_NullParcelId_ShouldReturnError() {
         ApiResponse<ParcelResponseDto> response = updateParcelHandler.Handle(null, dto);
         assertFalse(response.isSuccess());
         assertEquals("Invalid parcel ID", response.getMessage());
@@ -102,7 +102,7 @@ class UpdateParcelHandlerTest {
 
     // Test 2: parcelId <= 0
     @Test
-    void testHandle_InvalidParcelId_ShouldReturnError() {
+    void handle_InvalidParcelId_ShouldReturnError() {
         ApiResponse<ParcelResponseDto> response = updateParcelHandler.Handle(0L, dto);
         assertFalse(response.isSuccess());
         assertEquals("Invalid parcel ID", response.getMessage());
@@ -111,18 +111,18 @@ class UpdateParcelHandlerTest {
 
     // Test 3: parcel not found
     @Test
-    void testHandle_ParcelNotFound_ShouldReturnError() {
-        when(parcelRepository.findById(1L)).thenReturn(Optional.empty());
+    void handle_ParcelNotFound_ShouldReturnError() {
+        when(parcelRepository.findByIdWithRelations(1L)).thenReturn(Optional.empty());
         ApiResponse<ParcelResponseDto> response = updateParcelHandler.Handle(1L, dto);
         assertFalse(response.isSuccess());
         assertEquals("Parcel not found", response.getMessage());
-        verify(parcelRepository, times(1)).findById(1L);
+        verify(parcelRepository, times(1)).findByIdWithRelations(1L);
     }
 
     // Test 4: parcel name already exists
     @Test
-    void testHandle_ParcelNameAlreadyExists_ShouldReturnError() {
-        when(parcelRepository.findById(1L)).thenReturn(Optional.of(parcel));
+    void handle_ParcelNameAlreadyExists_ShouldReturnError() {
+        when(parcelRepository.findByIdWithRelations(1L)).thenReturn(Optional.of(parcel));
         when(parcelRepository.existsByName(dto.getName())).thenReturn(true);
 
         ApiResponse<ParcelResponseDto> response = updateParcelHandler.Handle(1L, dto);
@@ -134,8 +134,8 @@ class UpdateParcelHandlerTest {
 
     // Test 5: warehouse does not exist -> should create warehouse
     @Test
-    void testHandle_ShouldCreateWarehouse_WhenWarehouseNotFound() {
-        when(parcelRepository.findById(1L)).thenReturn(Optional.of(parcel));
+    void handle_houldCreateWarehouse_WhenWarehouseNotFound() {
+        when(parcelRepository.findByIdWithRelations(1L)).thenReturn(Optional.of(parcel));
         when(parcelRepository.existsByName(dto.getName())).thenReturn(false);
         when(warehouseRepository.findByName("Main Warehouse")).thenReturn(Optional.empty());
 
@@ -178,8 +178,8 @@ class UpdateParcelHandlerTest {
 
     // Test 6: warehouse exists -> reuse warehouse
     @Test
-    void testHandle_ShouldReuseWarehouse_WhenWarehouseExists() {
-        when(parcelRepository.findById(1L)).thenReturn(Optional.of(parcel));
+    void handle_ShouldReuseWarehouse_WhenWarehouseExists() {
+        when(parcelRepository.findByIdWithRelations(1L)).thenReturn(Optional.of(parcel));
         when(parcelRepository.existsByName(dto.getName())).thenReturn(false);
 
         WareHouseDao existingWarehouse = new WareHouseDao();
@@ -207,8 +207,8 @@ class UpdateParcelHandlerTest {
 
     // Test 7: delivery location exists -> reuse existing location
     @Test
-    void testHandle_ShouldReuseExistingDeliveryLocation_WhenPostcodeExists() {
-        when(parcelRepository.findById(1L)).thenReturn(Optional.of(parcel));
+    void handle_ShouldReuseExistingDeliveryLocation_WhenPostcodeExists() {
+        when(parcelRepository.findByIdWithRelations(1L)).thenReturn(Optional.of(parcel));
         when(parcelRepository.existsByName(dto.getName())).thenReturn(false);
 
         WareHouseDao existingWarehouse = new WareHouseDao();
