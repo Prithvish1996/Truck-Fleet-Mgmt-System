@@ -53,7 +53,8 @@ public class SecurityConfig {
                     "/v3/api-docs/**",
                     "/swagger-ui/**",
                     "/swagger-ui.html",
-                    "/api/auth/login"  // Login endpoint must be public
+                    "/api/auth/login",  // Login endpoint must be public
+                    "/api/routing/**"   // Routing matrix endpoints (for testing)
                 ).permitAll()
                 
                 // All other API endpoints require authentication

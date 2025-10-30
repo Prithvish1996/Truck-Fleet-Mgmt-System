@@ -19,6 +19,7 @@
         <module name="auth-service" />
         <module name="payment-service" />
         <module name="common-modules" />
+        <module name="routing-service" />
         <module name="gateway-service" />
         <module name="tfms-starter" />
         <module name="assignment-service" />
@@ -36,11 +37,13 @@
       <module name="order-service" target="17" />
       <module name="planner-module" target="17" />
       <module name="planner-modules" target="17" />
+      <module name="planner-service (1)" target="17" />
       <module name="tfms-analytics" target="17" />
       <module name="tfms-customer" target="17" />
       <module name="tfms-driver" target="17" />
       <module name="tfms-order" target="17" />
       <module name="tracking-service" target="17" />
+      <module name="truck-assignment-service" target="17" />
       <module name="truck-service" target="17" />
     </bytecodeTargetLevel>
   </component>
@@ -59,6 +62,8 @@
       <module name="planner-module" options="-parameters" />
       <module name="planner-modules" options="-parameters" />
       <module name="planner-service" options="-parameters" />
+      <module name="planner-service (1)" options="-parameters" />
+      <module name="routing-service" options="-parameters" />
       <module name="tfms" options="-parameters" />
       <module name="tfms-analytics" options="-parameters" />
       <module name="tfms-customer" options="-parameters" />
@@ -66,6 +71,7 @@
       <module name="tfms-order" options="-parameters" />
       <module name="tfms-starter" options="-parameters" />
       <module name="tracking-service" options="-parameters" />
+      <module name="truck-assignment-service" options="-parameters" />
       <module name="truck-service" options="-parameters" />
     </option>
   </component>

@@ -34,8 +34,11 @@
         <!-- Authentication & Security Modules -->
         <module>tfms-modules/auth-modules/auth-service</module>
 
-        <!-- Driver Module -->
+        <!-- Planner Module -->
         <module>tfms-modules/planner-modules/planner-service</module>
+
+        <!-- Routing Service Module -->
+        <module>tfms-modules/routing-distribution-module/routing-service</module>
 
         <!-- Main Application (Built Last) -->
         <module>tfms-starter</module>
