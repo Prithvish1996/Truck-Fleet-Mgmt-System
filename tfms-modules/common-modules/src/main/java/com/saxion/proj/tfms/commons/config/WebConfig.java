@@ -18,4 +18,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
         resolvers.add(currentUserResolver);
     }
+
+    // CORS configuration is handled by DevCorsConfiguration in Spring Security layer
+    // No need to configure here to avoid conflicts
 }

@@ -21,9 +21,15 @@ public class SecurityConfig {
     @Autowired
     private JwtAuthenticationFilter jwtAuthenticationFilter;
 
+    @Autowired
+    private org.springframework.web.cors.CorsConfigurationSource corsConfigurationSource;
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+            // Enable CORS (using bean from DevCorsConfiguration)
+            .cors(cors -> cors.configurationSource(corsConfigurationSource))
+            
             // Disable CSRF for REST API
             .csrf(csrf -> csrf.disable())
             

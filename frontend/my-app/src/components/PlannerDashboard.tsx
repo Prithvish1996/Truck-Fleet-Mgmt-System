@@ -1,18 +1,115 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authService } from '../services/authService';
+import RoutePlanningModal from './RoutePlanningModal';
+import RouteAssignmentPage from './RouteAssignmentPage';
+import RouteTrackingPage from './RouteTrackingPage';
+import TruckDetailPage from './TruckDetailPage';
+import ParcelDetailPage from './ParcelDetailPage';
+import { RouteAssignment } from '../types';
 import './PlannerDashboard.css';
 
 export default function PlannerDashboard() {
   const navigate = useNavigate();
   const [expandedSections, setExpandedSections] = useState<{ [key: string]: boolean }>({});
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const [isRoutePlanningModalOpen, setIsRoutePlanningModalOpen] = useState(false);
+  const [showRouteAssignment, setShowRouteAssignment] = useState(false);
+  const [showRouteTracking, setShowRouteTracking] = useState(false);
+  const [showTruckDetail, setShowTruckDetail] = useState(false);
+  const [showParcelDetail, setShowParcelDetail] = useState(false);
+  const [selectedParcelIds, setSelectedParcelIds] = useState<string[]>([]);
+  const [submittedAssignments, setSubmittedAssignments] = useState<RouteAssignment[]>([]);
+  const [selectedTruckPlateNo, setSelectedTruckPlateNo] = useState<string>('');
+  const [selectedParcelId, setSelectedParcelId] = useState<string>('');
+  const [truckDetailPreviousPage, setTruckDetailPreviousPage] = useState<'assignment' | 'tracking' | null>(null);
 
   const toggleSection = (section: string) => {
     setExpandedSections(prev => ({
       ...prev,
       [section]: !prev[section]
     }));
+  };
+
+  const handleRoutePlanningClick = () => {
+    setIsRoutePlanningModalOpen(true);
+  };
+
+  const handleGenerateRoute = (selectedParcels: string[]) => {
+    console.log('Generating route for parcels:', selectedParcels);
+    setSelectedParcelIds(selectedParcels);
+    setIsRoutePlanningModalOpen(false);
+    setShowRouteAssignment(true);
+  };
+
+  const handleReturnFromAssignment = () => {
+    // Return to previous page (Route Planning Modal)
+    setShowRouteAssignment(false);
+    setIsRoutePlanningModalOpen(true);
+    // Don't clear selectedParcelIds, so user can regenerate route if needed
+  };
+
+  const handleReturnHome = () => {
+    // Return to Dashboard (when closing modal)
+    setShowRouteAssignment(false);
+    setSelectedParcelIds([]);
+  };
+
+  const handleSubmitAssignments = (assignments: RouteAssignment[]) => {
+    console.log('Submitting route assignments:', assignments);
+    // Store submitted assignments and show tracking page
+    setSubmittedAssignments(assignments);
+    setShowRouteAssignment(false);
+    setShowRouteTracking(true);
+  };
+
+  const handleReturnFromTracking = () => {
+    // Return to Route Assignment page instead of Dashboard
+    setShowRouteTracking(false);
+    setShowRouteAssignment(true);
+    // Keep submittedAssignments and selectedParcelIds so user can see their assignments
+  };
+
+  const handleTrackRoute = (assignment: RouteAssignment) => {
+    console.log('Tracking route:', assignment);
+    // Route map modal is handled by RouteTrackingPage component
+  };
+
+  const handleTruckClick = (truckPlateNo: string) => {
+    setSelectedTruckPlateNo(truckPlateNo);
+    // Determine which page we're coming from
+    if (showRouteAssignment) {
+      setTruckDetailPreviousPage('assignment');
+      setShowRouteAssignment(false);
+    } else if (showRouteTracking) {
+      setTruckDetailPreviousPage('tracking');
+      setShowRouteTracking(false);
+    }
+    setShowTruckDetail(true);
+  };
+
+  const handleReturnFromTruckDetail = () => {
+    setShowTruckDetail(false);
+    // Return to the previous page
+    if (truckDetailPreviousPage === 'assignment') {
+      setShowRouteAssignment(true);
+    } else if (truckDetailPreviousPage === 'tracking') {
+      setShowRouteTracking(true);
+    }
+    setTruckDetailPreviousPage(null);
+    setSelectedTruckPlateNo('');
+  };
+
+  const handleParcelClick = (parcelId: string) => {
+    setSelectedParcelId(parcelId);
+    setShowTruckDetail(false);
+    setShowParcelDetail(true);
+  };
+
+  const handleReturnFromParcelDetail = () => {
+    setShowParcelDetail(false);
+    setShowTruckDetail(true);
+    setSelectedParcelId('');
   };
 
   const handleLogout = async () => {
@@ -36,6 +133,51 @@ export default function PlannerDashboard() {
       navigate('/');
     }
   }, [navigate]);
+
+  // Show parcel detail page if active
+  if (showParcelDetail) {
+    return (
+      <ParcelDetailPage
+        parcelId={selectedParcelId}
+        onReturn={handleReturnFromParcelDetail}
+      />
+    );
+  }
+
+  // Show truck detail page if active
+  if (showTruckDetail) {
+    return (
+      <TruckDetailPage
+        truckPlateNo={selectedTruckPlateNo}
+        onReturn={handleReturnFromTruckDetail}
+        onParcelClick={handleParcelClick}
+      />
+    );
+  }
+
+  // Show route tracking page if active
+  if (showRouteTracking) {
+    return (
+      <RouteTrackingPage
+        assignments={submittedAssignments}
+        onReturn={handleReturnFromTracking}
+        onTrack={handleTrackRoute}
+        onTruckClick={handleTruckClick}
+      />
+    );
+  }
+
+  // Show route assignment page if active
+  if (showRouteAssignment) {
+    return (
+      <RouteAssignmentPage
+        selectedParcelIds={selectedParcelIds}
+        onReturn={handleReturnFromAssignment}
+        onSubmit={handleSubmitAssignments}
+        onTruckClick={handleTruckClick}
+      />
+    );
+  }
 
   return (
     <div className="planner-dashboard">
@@ -67,6 +209,12 @@ export default function PlannerDashboard() {
               <p>Plan and optimize delivery routes for maximum efficiency.</p>
               <p>Consider traffic patterns, delivery windows, and vehicle capacity.</p>
               <p>Assign routes to drivers and track progress.</p>
+              <button 
+                className="route-planning-button"
+                onClick={handleRoutePlanningClick}
+              >
+                View Tomorrow's Requests
+              </button>
             </div>
           )}
         </div>
@@ -119,6 +267,12 @@ export default function PlannerDashboard() {
           )}
         </div>
       </div>
+
+      <RoutePlanningModal
+        isOpen={isRoutePlanningModalOpen}
+        onClose={() => setIsRoutePlanningModalOpen(false)}
+        onGenerateRoute={handleGenerateRoute}
+      />
     </div>
   );
 }

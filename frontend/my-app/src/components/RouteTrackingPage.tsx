@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { RouteAssignment } from '../types';
 import RouteMapModal from './RouteMapModal';
 import './RouteTrackingPage.css';
@@ -117,9 +117,9 @@ export default function RouteTrackingPage({ assignments, onReturn, onTrack, onTr
           >
             Previous page
           </button>
-          <div className="pagination-numbers">
-            {Array.from({ length: Math.min(7, totalPages) }, (_, i) => {
-              let pageNum;
+                    <div className="pagination-numbers">
+            {Array.from({ length: Math.min(7, totalPages) }, (_, i) => {     
+              let pageNum: number;
               if (totalPages <= 7) {
                 pageNum = i + 1;
               } else if (currentPage <= 4) {

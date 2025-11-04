@@ -85,3 +85,45 @@ export interface TruckResponse {
   data: Truck[];
   timestamp: string;
 }
+
+// Parcel Request interface for route planning
+export interface ParcelRequest {
+  id: string; // Parcel ID
+  customer: string; // Customer name
+  warehouse: string; // Warehouse location
+  deliveryLocation: string; // Delivery address/city
+  priority: 'Low' | 'Medium' | 'High';
+}
+
+// Route Assignment interface for assigning trucks and drivers
+export interface RouteAssignment {
+  id: string;
+  truckPlateNo: string;
+  date: string; // Date and time
+  numberOfParcels: number;
+  driverId: string | null; // null means "New" (unassigned)
+}
+
+export interface TruckParcel {
+  id: string;
+  parcelId: string; // e.g., "P1223-01"
+  customer: string;
+  deliveryLocation: string;
+  driverId: string | null;
+}
+
+export interface ParcelDetail {
+  parcelId: string; // e.g., "P1223-01"
+  internalId: string; // e.g., "P-001"
+  contactPerson: string;
+  phone: string;
+  email: string;
+  streetName: string;
+  houseNumber: string;
+  zipCode: string;
+  city: string;
+  country: string;
+  typesOfItems: string;
+  specialInstructions: string;
+  remarks: string;
+}
