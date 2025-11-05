@@ -1,19 +1,21 @@
-package com.saxion.proj.tfms.planner.services.ParcelServices;
+package com.saxion.proj.tfms.planner.services.parcelServices;
 
 import com.saxion.proj.tfms.commons.constants.StatusEnum;
 import com.saxion.proj.tfms.commons.dto.ApiResponse;
 import com.saxion.proj.tfms.commons.model.LocationDao;
 import com.saxion.proj.tfms.commons.model.ParcelDao;
 import com.saxion.proj.tfms.commons.model.WareHouseDao;
-import com.saxion.proj.tfms.planner.abstractions.ParcelServices.ICreateParcel;
+import com.saxion.proj.tfms.planner.abstractions.parcelServices.ICreateParcel;
 import com.saxion.proj.tfms.planner.dto.ParcelRequestDto;
 import com.saxion.proj.tfms.planner.dto.ParcelResponseDto;
 import com.saxion.proj.tfms.planner.repository.LocationRepository;
 import com.saxion.proj.tfms.planner.repository.ParcelRepository;
 import com.saxion.proj.tfms.planner.repository.WarehouseRepository;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
+@Qualifier("createParcelHandler")
 public class CreateParcelHandler implements ICreateParcel {
     private final ParcelRepository parcelRepository;
     private final ParcelMapperHandler parcelMapper;

@@ -1,15 +1,17 @@
-package com.saxion.proj.tfms.planner.services.ParcelServices;
+package com.saxion.proj.tfms.planner.services.parcelServices;
 
 import com.saxion.proj.tfms.commons.dto.ApiResponse;
-import com.saxion.proj.tfms.planner.abstractions.ParcelServices.IDeleteParcel;
+import com.saxion.proj.tfms.planner.abstractions.parcelServices.IDeleteParcel;
 import com.saxion.proj.tfms.planner.repository.ParcelRepository;
 import com.saxion.proj.tfms.commons.model.ParcelDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
+@Qualifier("deleteParcelHandler")
 public class DeleteParcelHandler implements IDeleteParcel {
 
     private final ParcelRepository parcelRepository;

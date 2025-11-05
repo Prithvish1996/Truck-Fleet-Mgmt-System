@@ -6,6 +6,6 @@ import com.saxion.proj.tfms.planner.dto.ParcelResponseDto;
 import java.util.List;
 import java.util.Map;
 
-public interface IGetNextDayParcelSchedule {
+public interface IGetPendingParcel {
     ApiResponse<Map<String, List<ParcelResponseDto>>> Handle();
 }

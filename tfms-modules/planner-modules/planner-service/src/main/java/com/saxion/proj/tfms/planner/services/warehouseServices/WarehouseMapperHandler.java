@@ -1,12 +1,10 @@
-package com.saxion.proj.tfms.planner.services.WarehouseServices;
+package com.saxion.proj.tfms.planner.services.warehouseServices;
 
 import com.saxion.proj.tfms.commons.model.LocationDao;
 import com.saxion.proj.tfms.commons.model.WareHouseDao;
 import com.saxion.proj.tfms.planner.dto.LocationResponseDto;
 import com.saxion.proj.tfms.planner.dto.WareHouseResponseDto;
 import org.springframework.stereotype.Component;
-
-import java.time.ZonedDateTime;
 
 @Component
 public class WarehouseMapperHandler {

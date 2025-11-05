@@ -1,11 +1,8 @@
-package com.saxion.proj.tfms.planner.abstractions.ScheduleService;
+package com.saxion.proj.tfms.planner.abstractions.scheduleService;
 
 import com.saxion.proj.tfms.commons.dto.ApiResponse;
-import com.saxion.proj.tfms.planner.dto.ParcelResponseDto;
-import com.saxion.proj.tfms.planner.dto.ScheduleRequestDto;
 
 import java.time.ZonedDateTime;
-import java.util.List;
 import java.util.Map;
 
 public interface IGetScheduledDeliveries {

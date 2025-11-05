@@ -1,5 +1,6 @@
 package com.saxion.proj.tfms.commons.model;
 
+import com.saxion.proj.tfms.commons.constants.StatusEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,6 +22,9 @@ public class DriverDao extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private Long id;
+
+    @Column(name = "is_available", nullable = false)
+    private Boolean isAvailable;
 
     // Link to user account (one-to-one)
     @OneToOne(fetch = FetchType.LAZY, optional = false)

@@ -1,18 +1,20 @@
-package com.saxion.proj.tfms.planner.services.WarehouseServices;
+package com.saxion.proj.tfms.planner.services.warehouseServices;
 
 import com.saxion.proj.tfms.commons.constants.StatusEnum;
 import com.saxion.proj.tfms.commons.dto.ApiResponse;
 import com.saxion.proj.tfms.commons.model.WareHouseDao;
-import com.saxion.proj.tfms.planner.abstractions.WarehouseServices.IGetWarehouseById;
+import com.saxion.proj.tfms.planner.abstractions.warehouseServices.IGetWarehouseById;
 import com.saxion.proj.tfms.planner.dto.WareHouseResponseDto;
 import com.saxion.proj.tfms.planner.repository.ParcelRepository;
 import com.saxion.proj.tfms.planner.repository.WarehouseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
+@Qualifier("getWarehouseByIdHandler")
 public class GetWarehouseByIdHandler implements IGetWarehouseById {
 
     private final WarehouseRepository warehouseRepository;

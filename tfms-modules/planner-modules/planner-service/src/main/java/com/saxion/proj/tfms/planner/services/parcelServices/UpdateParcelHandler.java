@@ -1,9 +1,9 @@
-package com.saxion.proj.tfms.planner.services.ParcelServices;
+package com.saxion.proj.tfms.planner.services.parcelServices;
 
 import com.saxion.proj.tfms.commons.dto.ApiResponse;
 import com.saxion.proj.tfms.commons.model.LocationDao;
 import com.saxion.proj.tfms.commons.model.WareHouseDao;
-import com.saxion.proj.tfms.planner.abstractions.ParcelServices.IUpdateParcel;
+import com.saxion.proj.tfms.planner.abstractions.parcelServices.IUpdateParcel;
 import com.saxion.proj.tfms.planner.dto.LocationRequestDto;
 import com.saxion.proj.tfms.planner.dto.ParcelRequestDto;
 import com.saxion.proj.tfms.planner.dto.ParcelResponseDto;
@@ -12,14 +12,15 @@ import com.saxion.proj.tfms.planner.repository.LocationRepository;
 import com.saxion.proj.tfms.planner.repository.ParcelRepository;
 import com.saxion.proj.tfms.planner.repository.WarehouseRepository;
 import com.saxion.proj.tfms.commons.model.ParcelDao;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.xml.stream.Location;
 import java.util.Optional;
 
 @Service
+@Qualifier("updateParcelHandler")
 public class UpdateParcelHandler implements IUpdateParcel {
     private final ParcelRepository parcelRepository;
     private final ParcelMapperHandler parcelMapper;

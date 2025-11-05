@@ -1,11 +1,11 @@
-package com.saxion.proj.tfms.planner.services.ParcelServices;
+package com.saxion.proj.tfms.planner.services.parcelServices;
 
 import com.saxion.proj.tfms.commons.dto.ApiResponse;
 import com.saxion.proj.tfms.commons.model.ParcelDao;
-import com.saxion.proj.tfms.planner.abstractions.ParcelServices.IGetAllParcels;
+import com.saxion.proj.tfms.planner.abstractions.parcelServices.IGetAllParcels;
 import com.saxion.proj.tfms.planner.dto.ParcelResponseDto;
 import com.saxion.proj.tfms.planner.repository.ParcelRepository;
-import org.springframework.data.domain.Page;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -15,9 +15,9 @@ import java.util.stream.Collectors;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
+@Qualifier("getAllParcelHandler")
 public class GetAllParcelHandler implements IGetAllParcels {
 
     private final ParcelRepository parcelRepository;

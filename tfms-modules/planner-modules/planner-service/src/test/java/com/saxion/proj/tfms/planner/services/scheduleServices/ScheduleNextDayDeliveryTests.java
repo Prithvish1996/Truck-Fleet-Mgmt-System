@@ -1,4 +1,4 @@
-package com.saxion.proj.tfms.planner.services.ScheduleServices;
+package com.saxion.proj.tfms.planner.services.scheduleServices;
 
 import com.saxion.proj.tfms.commons.constants.StatusEnum;
 import com.saxion.proj.tfms.commons.dto.ApiResponse;
@@ -6,7 +6,7 @@ import com.saxion.proj.tfms.commons.model.ParcelDao;
 import com.saxion.proj.tfms.planner.dto.ParcelResponseDto;
 import com.saxion.proj.tfms.planner.dto.ScheduleRequestDto;
 import com.saxion.proj.tfms.planner.repository.ParcelRepository;
-import com.saxion.proj.tfms.planner.services.ParcelServices.ParcelMapperHandler;
+import com.saxion.proj.tfms.planner.services.parcelServices.ParcelMapperHandler;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;

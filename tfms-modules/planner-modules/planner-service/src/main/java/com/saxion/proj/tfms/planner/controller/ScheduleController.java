@@ -3,13 +3,14 @@ package com.saxion.proj.tfms.planner.controller;
 import com.saxion.proj.tfms.commons.dto.ApiResponse;
 import com.saxion.proj.tfms.commons.security.UserContext;
 import com.saxion.proj.tfms.commons.security.annotations.CurrentUser;
-import com.saxion.proj.tfms.planner.abstractions.ScheduleService.IGetScheduledByDate;
-import com.saxion.proj.tfms.planner.abstractions.ScheduleService.IGetScheduledDeliveries;
-import com.saxion.proj.tfms.planner.abstractions.ScheduleService.IScheduleNextDayDelivery;
+import com.saxion.proj.tfms.planner.abstractions.scheduleService.IGetScheduledByDate;
+import com.saxion.proj.tfms.planner.abstractions.scheduleService.IGetScheduledDeliveries;
+import com.saxion.proj.tfms.planner.abstractions.scheduleService.IScheduleNextDayDelivery;
 import com.saxion.proj.tfms.planner.dto.ParcelResponseDto;
 import com.saxion.proj.tfms.planner.dto.ScheduleRequestDto;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,12 +24,15 @@ import java.util.Objects;
 public class ScheduleController {
 
     @Autowired
+    @Qualifier("scheduleNextDayDeliveryHandler")
     private IScheduleNextDayDelivery scheduleNextDayDelivery;
 
     @Autowired
+    @Qualifier("getScheduledDeliveryHandler")
     private IGetScheduledDeliveries getNextDayDelivery;
 
     @Autowired
+    @Qualifier("getScheduledByDateHandler")
     private IGetScheduledByDate getScheduleDeliveries;
 
     //schedule parcel delivery

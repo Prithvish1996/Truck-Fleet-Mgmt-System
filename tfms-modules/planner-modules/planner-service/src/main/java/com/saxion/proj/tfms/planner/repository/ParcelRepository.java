@@ -12,6 +12,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.Optional;
 
@@ -49,34 +50,23 @@ public interface ParcelRepository extends JpaRepository<ParcelDao, Long> {
         """)
     Optional<ParcelDao> findByIdWithRelations(@Param("id") Long id);
 
-    @Query("""
-        SELECT p FROM ParcelDao p
-        LEFT JOIN FETCH p.deliveryLocation dl
-        LEFT JOIN FETCH p.warehouse w
-        LEFT JOIN FETCH w.location wl
-        """)
-    Optional<ParcelDao> findAllWithRelations();
-
-    // Fetch all parcels by status and planned delivery date.
     @Query("SELECT p FROM ParcelDao p " +
-            "WHERE p.status = :status " +
-            "AND DATE(p.plannedDeliveryDate) = :plannedDate")
-    Page<ParcelDao> findByStatusAndPlannedDeliveryDate(
-            @Param("status") StatusEnum status,
-            @Param("plannedDate") LocalDate plannedDate,
-            Pageable pageable
-    );
+            "JOIN FETCH p.warehouse w " +
+            "JOIN FETCH w.location l " +
+            "WHERE p.status = 'PENDING'")
+    List<ParcelDao> findPendingWithRelations();
 
     // Fetch all parcels by status and planned delivery date. No pagination.
     @Query("SELECT p FROM ParcelDao p " +
             "WHERE p.status = :status " +
-            "AND DATE(p.plannedDeliveryDate) = :plannedDate")
+            "AND p.plannedDeliveryDate >= :startOfDay " +
+            "AND p.plannedDeliveryDate < :endOfDay")
     List<ParcelDao> findAllByStatusAndPlannedDeliveryDate(
             @Param("status") StatusEnum status,
-            @Param("plannedDate") LocalDate plannedDate
+            @Param("startOfDay") ZonedDateTime startOfDay,
+            @Param("endOfDay") ZonedDateTime endOfDay
     );
 
     // Counts parcels by warehouse and status
     long countByWarehouseAndStatus(WareHouseDao warehouse, StatusEnum status);
-
 }

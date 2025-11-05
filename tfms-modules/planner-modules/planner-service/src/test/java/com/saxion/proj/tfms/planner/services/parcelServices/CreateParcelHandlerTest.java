@@ -1,4 +1,4 @@
-package com.saxion.proj.tfms.planner.services.ParcelServices;
+package com.saxion.proj.tfms.planner.services.parcelServices;
 
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;

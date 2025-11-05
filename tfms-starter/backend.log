@@ -51,30 +51,30 @@ Listening for transport dt_socket at address: 5005
 
  :: Spring Boot ::                (v3.5.5)
 
-2025-10-30 21:10:02.071 [background-preinit] INFO  [] [] org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.3.Final
-2025-10-30 21:10:02.116 [main] INFO  [tfms-truck-fleet-management-system] [] com.saxion.proj.tfms.TfmsApplication - Starting TfmsApplication using Java 17.0.16 with PID 10025 (/Users/abuchi/IdeaProjects/SaxionProject/02/tfms-starter/target/classes started by abuchi in /Users/abuchi/IdeaProjects/SaxionProject/02/tfms-starter)
-2025-10-30 21:10:02.122 [main] DEBUG [tfms-truck-fleet-management-system] [] com.saxion.proj.tfms.TfmsApplication - Running with Spring Boot v3.5.5, Spring v6.2.10
-2025-10-30 21:10:02.124 [main] INFO  [tfms-truck-fleet-management-system] [] com.saxion.proj.tfms.TfmsApplication - The following 1 profile is active: "dev"
-2025-10-30 21:10:03.185 [main] INFO  [tfms-truck-fleet-management-system] [] org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-10-30 21:10:03.257 [main] INFO  [tfms-truck-fleet-management-system] [] org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 64 ms. Found 5 JPA repository interfaces.
-2025-10-30 21:10:03.876 [main] INFO  [tfms-truck-fleet-management-system] [] org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8443 (https)
-2025-10-30 21:10:03.888 [main] INFO  [tfms-truck-fleet-management-system] [] org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["https-jsse-nio-8443"]
-2025-10-30 21:10:03.894 [main] INFO  [tfms-truck-fleet-management-system] [] org.apache.catalina.core.StandardService - Starting service [Tomcat]
-2025-10-30 21:10:03.894 [main] INFO  [tfms-truck-fleet-management-system] [] org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.44]
-2025-10-30 21:10:03.938 [main] INFO  [tfms-truck-fleet-management-system] [] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-2025-10-30 21:10:03.940 [main] INFO  [tfms-truck-fleet-management-system] [] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1778 ms
-2025-10-30 21:10:04.057 [main] INFO  [tfms-truck-fleet-management-system] [] com.saxion.proj.tfms.config.security.RateLimitingFilter - Rate limiting filter initialized with limit: 60 requests per minute
-2025-10-30 21:10:04.091 [main] DEBUG [tfms-truck-fleet-management-system] [] com.saxion.proj.tfms.config.security.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
-2025-10-30 21:10:04.092 [main] DEBUG [tfms-truck-fleet-management-system] [] com.saxion.proj.tfms.config.security.RateLimitingFilter - Filter 'rateLimitingFilter' configured for use
-2025-10-30 21:10:04.199 [main] INFO  [tfms-truck-fleet-management-system] [] org.hibernate.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-10-30 21:10:04.245 [main] INFO  [tfms-truck-fleet-management-system] [] org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.26.Final
-2025-10-30 21:10:04.275 [main] INFO  [tfms-truck-fleet-management-system] [] org.hibernate.cache.internal.RegionFactoryInitiator - HHH000026: Second-level cache disabled
-2025-10-30 21:10:04.528 [main] INFO  [tfms-truck-fleet-management-system] [] org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-10-30 21:10:04.556 [main] INFO  [tfms-truck-fleet-management-system] [] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-2025-10-30 21:10:04.697 [main] INFO  [tfms-truck-fleet-management-system] [] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@71e409f
-2025-10-30 21:10:04.699 [main] INFO  [tfms-truck-fleet-management-system] [] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-2025-10-30 21:10:04.727 [main] WARN  [tfms-truck-fleet-management-system] [] org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2025-10-30 21:10:04.747 [main] INFO  [tfms-truck-fleet-management-system] [] org.hibernate.orm.connections.pooling - HHH10001005: Database info:
+2025-11-05 09:51:01.697 [background-preinit] INFO  [] [] org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.3.Final
+2025-11-05 09:51:01.742 [main] INFO  [tfms-truck-fleet-management-system] [] com.saxion.proj.tfms.TfmsApplication - Starting TfmsApplication using Java 17.0.16 with PID 86615 (/Users/abuchi/IdeaProjects/SaxionProject/02/tfms-starter/target/classes started by abuchi in /Users/abuchi/IdeaProjects/SaxionProject/02/tfms-starter)
+2025-11-05 09:51:01.752 [main] DEBUG [tfms-truck-fleet-management-system] [] com.saxion.proj.tfms.TfmsApplication - Running with Spring Boot v3.5.5, Spring v6.2.10
+2025-11-05 09:51:01.754 [main] INFO  [tfms-truck-fleet-management-system] [] com.saxion.proj.tfms.TfmsApplication - The following 1 profile is active: "dev"
+2025-11-05 09:51:03.258 [main] INFO  [tfms-truck-fleet-management-system] [] org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-11-05 09:51:03.342 [main] INFO  [tfms-truck-fleet-management-system] [] org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 74 ms. Found 8 JPA repository interfaces.
+2025-11-05 09:51:04.258 [main] INFO  [tfms-truck-fleet-management-system] [] org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8443 (https)
+2025-11-05 09:51:04.277 [main] INFO  [tfms-truck-fleet-management-system] [] org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["https-jsse-nio-8443"]
+2025-11-05 09:51:04.284 [main] INFO  [tfms-truck-fleet-management-system] [] org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2025-11-05 09:51:04.284 [main] INFO  [tfms-truck-fleet-management-system] [] org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.44]
+2025-11-05 09:51:04.344 [main] INFO  [tfms-truck-fleet-management-system] [] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-11-05 09:51:04.346 [main] INFO  [tfms-truck-fleet-management-system] [] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2544 ms
+2025-11-05 09:51:04.472 [main] INFO  [tfms-truck-fleet-management-system] [] com.saxion.proj.tfms.config.security.RateLimitingFilter - Rate limiting filter initialized with limit: 60 requests per minute
+2025-11-05 09:51:04.571 [main] DEBUG [tfms-truck-fleet-management-system] [] com.saxion.proj.tfms.config.security.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+2025-11-05 09:51:04.572 [main] DEBUG [tfms-truck-fleet-management-system] [] com.saxion.proj.tfms.config.security.RateLimitingFilter - Filter 'rateLimitingFilter' configured for use
+2025-11-05 09:51:04.715 [main] INFO  [tfms-truck-fleet-management-system] [] org.hibernate.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-11-05 09:51:04.766 [main] INFO  [tfms-truck-fleet-management-system] [] org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.26.Final
+2025-11-05 09:51:04.804 [main] INFO  [tfms-truck-fleet-management-system] [] org.hibernate.cache.internal.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-11-05 09:51:05.248 [main] INFO  [tfms-truck-fleet-management-system] [] org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-11-05 09:51:05.332 [main] INFO  [tfms-truck-fleet-management-system] [] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-11-05 09:51:05.770 [main] INFO  [tfms-truck-fleet-management-system] [] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@2ee1b017
+2025-11-05 09:51:05.772 [main] INFO  [tfms-truck-fleet-management-system] [] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-11-05 09:51:05.836 [main] WARN  [tfms-truck-fleet-management-system] [] org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-11-05 09:51:05.857 [main] INFO  [tfms-truck-fleet-management-system] [] org.hibernate.orm.connections.pooling - HHH10001005: Database info:
 	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
 	Database driver: undefined/unknown
 	Database version: 17.6
@@ -82,190 +82,190 @@ Listening for transport dt_socket at address: 5005
 	Isolation level: undefined/unknown
 	Minimum pool size: undefined/unknown
 	Maximum pool size: undefined/unknown
-2025-10-30 21:10:05.923 [main] INFO  [tfms-truck-fleet-management-system] [] org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-10-30 21:10:05.938 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.305 [main] INFO  [tfms-truck-fleet-management-system] [] org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-11-05 09:51:07.323 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     set client_min_messages = WARNING
 Hibernate: 
     set client_min_messages = WARNING
-2025-10-30 21:10:05.940 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.325 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists depot 
        drop constraint if exists FKe301iowoaqjm6tyewp59qfwar
 Hibernate: 
     alter table if exists depot 
        drop constraint if exists FKe301iowoaqjm6tyewp59qfwar
-2025-10-30 21:10:05.944 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.384 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists driver_truck_assignment 
        drop constraint if exists FKcsuas72gnx4wiys76lfr3frx9
 Hibernate: 
     alter table if exists driver_truck_assignment 
        drop constraint if exists FKcsuas72gnx4wiys76lfr3frx9
-2025-10-30 21:10:05.945 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.387 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists driver_truck_assignment 
        drop constraint if exists FKojdwijoc98dbfltpsl4ptifvr
 Hibernate: 
     alter table if exists driver_truck_assignment 
        drop constraint if exists FKojdwijoc98dbfltpsl4ptifvr
-2025-10-30 21:10:05.947 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.390 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists drivers 
        drop constraint if exists FKpm96np638t9xhgj0cpbd80so2
 Hibernate: 
     alter table if exists drivers 
        drop constraint if exists FKpm96np638t9xhgj0cpbd80so2
-2025-10-30 21:10:05.948 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.392 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists drivers 
        drop constraint if exists FKfscpnjt46gco44xh86l99rxh7
 Hibernate: 
     alter table if exists drivers 
        drop constraint if exists FKfscpnjt46gco44xh86l99rxh7
-2025-10-30 21:10:05.949 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.394 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists maintenance_records 
        drop constraint if exists FKfxk5kmlv4sota7yuut3e445ey
 Hibernate: 
     alter table if exists maintenance_records 
        drop constraint if exists FKfxk5kmlv4sota7yuut3e445ey
-2025-10-30 21:10:05.950 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.395 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists maintenance_records 
        drop constraint if exists FK44jqd9qs4v5yaok9mnbw7odh6
 Hibernate: 
     alter table if exists maintenance_records 
        drop constraint if exists FK44jqd9qs4v5yaok9mnbw7odh6
-2025-10-30 21:10:05.951 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.396 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists maintenance_records 
        drop constraint if exists FK3nnro82drqwl32kixdi26b0eh
 Hibernate: 
     alter table if exists maintenance_records 
        drop constraint if exists FK3nnro82drqwl32kixdi26b0eh
-2025-10-30 21:10:05.952 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.398 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists parcel_stop 
        drop constraint if exists FKkvedi2peoy3kemqqstjb4xy4x
 Hibernate: 
     alter table if exists parcel_stop 
        drop constraint if exists FKkvedi2peoy3kemqqstjb4xy4x
-2025-10-30 21:10:05.953 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.399 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists parcel_stop 
        drop constraint if exists FKkj3ptd9rut8iej1miysqgvw99
 Hibernate: 
     alter table if exists parcel_stop 
        drop constraint if exists FKkj3ptd9rut8iej1miysqgvw99
-2025-10-30 21:10:05.954 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.400 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists parcels 
        drop constraint if exists FKnv2yi0jrhhk8ggr7xs3gvkwts
 Hibernate: 
     alter table if exists parcels 
        drop constraint if exists FKnv2yi0jrhhk8ggr7xs3gvkwts
-2025-10-30 21:10:05.955 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.402 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists parcels 
        drop constraint if exists FK1n63sg4bq9lpaxdsvx4w6cgp5
 Hibernate: 
     alter table if exists parcels 
        drop constraint if exists FK1n63sg4bq9lpaxdsvx4w6cgp5
-2025-10-30 21:10:05.956 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.403 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists route_computations 
        drop constraint if exists FK3c01sxk46leij2gki1cnnsi9o
 Hibernate: 
     alter table if exists route_computations 
        drop constraint if exists FK3c01sxk46leij2gki1cnnsi9o
-2025-10-30 21:10:05.957 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.404 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists route_stops 
        drop constraint if exists FKrn2p3aqxpwxytuk4mivh6mqud
 Hibernate: 
     alter table if exists route_stops 
        drop constraint if exists FKrn2p3aqxpwxytuk4mivh6mqud
-2025-10-30 21:10:05.958 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.406 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists route_stops 
        drop constraint if exists FKk06cpv8bljt11b6mo3cqdd5xc
 Hibernate: 
     alter table if exists route_stops 
        drop constraint if exists FKk06cpv8bljt11b6mo3cqdd5xc
-2025-10-30 21:10:05.959 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.407 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists route_stops 
        drop constraint if exists FKp1fka8xfu6pf91algbjueupey
 Hibernate: 
     alter table if exists route_stops 
        drop constraint if exists FKp1fka8xfu6pf91algbjueupey
-2025-10-30 21:10:05.960 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.408 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists route_stops 
        drop constraint if exists FK63y33daxb1qs5nbnkuicbpkej
 Hibernate: 
     alter table if exists route_stops 
        drop constraint if exists FK63y33daxb1qs5nbnkuicbpkej
-2025-10-30 21:10:05.960 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.409 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists routes 
        drop constraint if exists FKop0qr5t6dwfrb9sg8x25o5ivd
 Hibernate: 
     alter table if exists routes 
        drop constraint if exists FKop0qr5t6dwfrb9sg8x25o5ivd
-2025-10-30 21:10:05.961 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.411 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists routes 
        drop constraint if exists FKkasfgt0bc1i58uq4uarrubhwx
 Hibernate: 
     alter table if exists routes 
        drop constraint if exists FKkasfgt0bc1i58uq4uarrubhwx
-2025-10-30 21:10:05.962 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.412 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists routes 
        drop constraint if exists FKjasq7qb9iqn2ym54o4kfmafac
 Hibernate: 
     alter table if exists routes 
        drop constraint if exists FKjasq7qb9iqn2ym54o4kfmafac
-2025-10-30 21:10:05.963 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.413 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists warehouse 
        drop constraint if exists FKm7is2pg5vfxb3iqrhs1741fa
 Hibernate: 
     alter table if exists warehouse 
        drop constraint if exists FKm7is2pg5vfxb3iqrhs1741fa
-2025-10-30 21:10:05.964 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.414 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     drop table if exists depot cascade
 Hibernate: 
     drop table if exists depot cascade
-2025-10-30 21:10:05.969 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.424 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     drop table if exists driver_truck_assignment cascade
 Hibernate: 
     drop table if exists driver_truck_assignment cascade
-2025-10-30 21:10:05.971 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.426 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     drop table if exists drivers cascade
 Hibernate: 
     drop table if exists drivers cascade
-2025-10-30 21:10:05.972 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.431 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     drop table if exists locations cascade
 Hibernate: 
     drop table if exists locations cascade
-2025-10-30 21:10:05.974 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.433 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     drop table if exists maintenance_records cascade
 Hibernate: 
     drop table if exists maintenance_records cascade
-2025-10-30 21:10:05.976 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.435 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     drop table if exists parcel_stop cascade
 Hibernate: 
     drop table if exists parcel_stop cascade
-2025-10-30 21:10:05.977 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.437 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     drop table if exists parcels cascade
 Hibernate: 
     drop table if exists parcels cascade
-2025-10-30 21:10:05.980 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.439 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     drop table if exists route_computations cascade
 Hibernate: 
     drop table if exists route_computations cascade
-2025-10-30 21:10:05.982 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.442 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     drop table if exists route_stops cascade
 Hibernate: 
     drop table if exists route_stops cascade
-2025-10-30 21:10:05.984 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.444 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     drop table if exists routes cascade
 Hibernate: 
     drop table if exists routes cascade
-2025-10-30 21:10:05.987 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.446 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     drop table if exists trucks cascade
 Hibernate: 
     drop table if exists trucks cascade
-2025-10-30 21:10:05.989 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.448 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     drop table if exists users cascade
 Hibernate: 
     drop table if exists users cascade
-2025-10-30 21:10:05.993 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.452 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     drop table if exists warehouse cascade
 Hibernate: 
     drop table if exists warehouse cascade
-2025-10-30 21:10:06.000 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.462 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     create table depot (
         capacity float(53) not null,
         is_active boolean not null,
@@ -287,7 +287,7 @@ Hibernate:
         name varchar(255) not null,
         primary key (id)
     )
-2025-10-30 21:10:06.005 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.545 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     create table driver_truck_assignment (
         is_active boolean not null,
         created_at timestamp(6) with time zone,
@@ -296,6 +296,7 @@ Hibernate:
         id bigint generated by default as identity,
         truck_id bigint,
         updated_at timestamp(6) with time zone,
+        "assignment-status" varchar(255) not null check ("assignment-status" in ('PENDING','SCHEDULED','DELIVERED','RETURNED','ASSIGNED','COMPLETED')),
         primary key (id)
     )
 Hibernate: 
@@ -307,11 +308,13 @@ Hibernate:
         id bigint generated by default as identity,
         truck_id bigint,
         updated_at timestamp(6) with time zone,
+        "assignment-status" varchar(255) not null check ("assignment-status" in ('PENDING','SCHEDULED','DELIVERED','RETURNED','ASSIGNED','COMPLETED')),
         primary key (id)
     )
-2025-10-30 21:10:06.009 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.557 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     create table drivers (
         is_active boolean not null,
+        is_available boolean not null,
         created_at timestamp(6) with time zone,
         id bigint generated by default as identity,
         location_id bigint,
@@ -322,6 +325,7 @@ Hibernate:
 Hibernate: 
     create table drivers (
         is_active boolean not null,
+        is_available boolean not null,
         created_at timestamp(6) with time zone,
         id bigint generated by default as identity,
         location_id bigint,
@@ -329,7 +333,7 @@ Hibernate:
         user_id bigint not null unique,
         primary key (id)
     )
-2025-10-30 21:10:06.013 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.560 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     create table locations (
         is_active boolean not null,
         latitude float(53) not null,
@@ -355,7 +359,7 @@ Hibernate:
         postal_code varchar(255) not null,
         primary key (id)
     )
-2025-10-30 21:10:06.017 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.563 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     create table maintenance_records (
         cost float(53),
         is_active boolean not null,
@@ -385,7 +389,7 @@ Hibernate:
         service_type varchar(255) not null,
         primary key (id)
     )
-2025-10-30 21:10:06.020 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.567 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     create table parcel_stop (
         is_active boolean not null,
         created_at timestamp(6) with time zone,
@@ -405,7 +409,7 @@ Hibernate:
         updated_at timestamp(6) with time zone,
         primary key (id)
     )
-2025-10-30 21:10:06.023 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.569 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     create table parcels (
         active boolean not null,
         volume float(53),
@@ -421,7 +425,7 @@ Hibernate:
         planned_duration_time varchar(255),
         recipient_name varchar(255),
         recipient_phone varchar(255) not null,
-        status varchar(255) not null check (status in ('PENDING','SCHEDULED','DELIVERED','RETURNED')),
+        status varchar(255) not null check (status in ('PENDING','SCHEDULED','DELIVERED','RETURNED','ASSIGNED','COMPLETED')),
         primary key (id)
     )
 Hibernate: 
@@ -440,10 +444,10 @@ Hibernate:
         planned_duration_time varchar(255),
         recipient_name varchar(255),
         recipient_phone varchar(255) not null,
-        status varchar(255) not null check (status in ('PENDING','SCHEDULED','DELIVERED','RETURNED')),
+        status varchar(255) not null check (status in ('PENDING','SCHEDULED','DELIVERED','RETURNED','ASSIGNED','COMPLETED')),
         primary key (id)
     )
-2025-10-30 21:10:06.027 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.574 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     create table route_computations (
         is_active boolean not null,
         success boolean not null,
@@ -487,7 +491,7 @@ Hibernate:
         route_geometry TEXT,
         primary key (id)
     )
-2025-10-30 21:10:06.031 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.577 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     create table route_stops (
         is_active boolean not null,
         after_package_id bigint,
@@ -517,7 +521,7 @@ Hibernate:
         scheduled_time varchar(255) not null,
         primary key (id)
     )
-2025-10-30 21:10:06.037 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.581 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     create table routes (
         estimated_fuel_cost float(53) not null,
         is_active boolean not null,
@@ -553,9 +557,10 @@ Hibernate:
         status varchar(255) not null,
         primary key (id)
     )
-2025-10-30 21:10:06.040 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.585 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     create table trucks (
         is_active boolean not null,
+        is_available boolean not null,
         last_service_date date,
         volume float(53),
         created_at timestamp(6) with time zone,
@@ -563,13 +568,14 @@ Hibernate:
         updated_at timestamp(6) with time zone,
         last_serviced_by varchar(255),
         make varchar(255) not null,
-        name varchar(255) not null,
+        plate_number varchar(255) not null,
         truck_type varchar(255) not null check (truck_type in ('SMALL','MEDIUM','LARGE','ELECTRIC','REFRIGERATED')),
         primary key (id)
     )
 Hibernate: 
     create table trucks (
         is_active boolean not null,
+        is_available boolean not null,
         last_service_date date,
         volume float(53),
         created_at timestamp(6) with time zone,
@@ -577,11 +583,11 @@ Hibernate:
         updated_at timestamp(6) with time zone,
         last_serviced_by varchar(255),
         make varchar(255) not null,
-        name varchar(255) not null,
+        plate_number varchar(255) not null,
         truck_type varchar(255) not null check (truck_type in ('SMALL','MEDIUM','LARGE','ELECTRIC','REFRIGERATED')),
         primary key (id)
     )
-2025-10-30 21:10:06.043 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.588 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     create table users (
         active boolean not null,
         created_at timestamp(6) with time zone,
@@ -607,7 +613,7 @@ Hibernate:
         username varchar(255) not null unique,
         primary key (id)
     )
-2025-10-30 21:10:06.048 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.594 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     create table warehouse (
         active boolean not null,
         created_at timestamp(6) with time zone,
@@ -627,7 +633,7 @@ Hibernate:
         name varchar(255),
         primary key (id)
     )
-2025-10-30 21:10:06.054 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.597 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists depot 
        add constraint FKe301iowoaqjm6tyewp59qfwar 
        foreign key (location_id) 
@@ -637,7 +643,7 @@ Hibernate:
        add constraint FKe301iowoaqjm6tyewp59qfwar 
        foreign key (location_id) 
        references locations
-2025-10-30 21:10:06.057 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.602 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists driver_truck_assignment 
        add constraint FKcsuas72gnx4wiys76lfr3frx9 
        foreign key (driver_id) 
@@ -647,7 +653,7 @@ Hibernate:
        add constraint FKcsuas72gnx4wiys76lfr3frx9 
        foreign key (driver_id) 
        references drivers
-2025-10-30 21:10:06.058 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.603 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists driver_truck_assignment 
        add constraint FKojdwijoc98dbfltpsl4ptifvr 
        foreign key (truck_id) 
@@ -657,7 +663,7 @@ Hibernate:
        add constraint FKojdwijoc98dbfltpsl4ptifvr 
        foreign key (truck_id) 
        references trucks
-2025-10-30 21:10:06.060 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.605 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists drivers 
        add constraint FKpm96np638t9xhgj0cpbd80so2 
        foreign key (location_id) 
@@ -667,7 +673,7 @@ Hibernate:
        add constraint FKpm96np638t9xhgj0cpbd80so2 
        foreign key (location_id) 
        references locations
-2025-10-30 21:10:06.061 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.606 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists drivers 
        add constraint FKfscpnjt46gco44xh86l99rxh7 
        foreign key (user_id) 
@@ -677,7 +683,7 @@ Hibernate:
        add constraint FKfscpnjt46gco44xh86l99rxh7 
        foreign key (user_id) 
        references users
-2025-10-30 21:10:06.063 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.608 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists maintenance_records 
        add constraint FKfxk5kmlv4sota7yuut3e445ey 
        foreign key (serviced_by_user_id) 
@@ -687,7 +693,7 @@ Hibernate:
        add constraint FKfxk5kmlv4sota7yuut3e445ey 
        foreign key (serviced_by_user_id) 
        references users
-2025-10-30 21:10:06.064 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.610 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists maintenance_records 
        add constraint FK44jqd9qs4v5yaok9mnbw7odh6 
        foreign key (truck_id) 
@@ -697,7 +703,7 @@ Hibernate:
        add constraint FK44jqd9qs4v5yaok9mnbw7odh6 
        foreign key (truck_id) 
        references trucks
-2025-10-30 21:10:06.066 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.611 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists maintenance_records 
        add constraint FK3nnro82drqwl32kixdi26b0eh 
        foreign key (user_id) 
@@ -707,7 +713,7 @@ Hibernate:
        add constraint FK3nnro82drqwl32kixdi26b0eh 
        foreign key (user_id) 
        references users
-2025-10-30 21:10:06.067 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.613 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists parcel_stop 
        add constraint FKkvedi2peoy3kemqqstjb4xy4x 
        foreign key (parcel_id) 
@@ -717,7 +723,7 @@ Hibernate:
        add constraint FKkvedi2peoy3kemqqstjb4xy4x 
        foreign key (parcel_id) 
        references parcels
-2025-10-30 21:10:06.069 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.614 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists parcel_stop 
        add constraint FKkj3ptd9rut8iej1miysqgvw99 
        foreign key (route_stop_id) 
@@ -727,7 +733,7 @@ Hibernate:
        add constraint FKkj3ptd9rut8iej1miysqgvw99 
        foreign key (route_stop_id) 
        references route_stops
-2025-10-30 21:10:06.070 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.616 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists parcels 
        add constraint FKnv2yi0jrhhk8ggr7xs3gvkwts 
        foreign key (delivery_location_id) 
@@ -737,7 +743,7 @@ Hibernate:
        add constraint FKnv2yi0jrhhk8ggr7xs3gvkwts 
        foreign key (delivery_location_id) 
        references locations
-2025-10-30 21:10:06.072 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.617 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists parcels 
        add constraint FK1n63sg4bq9lpaxdsvx4w6cgp5 
        foreign key (warehouse_id) 
@@ -747,7 +753,7 @@ Hibernate:
        add constraint FK1n63sg4bq9lpaxdsvx4w6cgp5 
        foreign key (warehouse_id) 
        references warehouse
-2025-10-30 21:10:06.073 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.619 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists route_computations 
        add constraint FK3c01sxk46leij2gki1cnnsi9o 
        foreign key (route_id) 
@@ -757,7 +763,7 @@ Hibernate:
        add constraint FK3c01sxk46leij2gki1cnnsi9o 
        foreign key (route_id) 
        references routes
-2025-10-30 21:10:06.075 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.620 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists route_stops 
        add constraint FKrn2p3aqxpwxytuk4mivh6mqud 
        foreign key (after_package_id) 
@@ -767,7 +773,7 @@ Hibernate:
        add constraint FKrn2p3aqxpwxytuk4mivh6mqud 
        foreign key (after_package_id) 
        references parcels
-2025-10-30 21:10:06.076 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.622 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists route_stops 
        add constraint FKk06cpv8bljt11b6mo3cqdd5xc 
        foreign key (before_package_id) 
@@ -777,7 +783,7 @@ Hibernate:
        add constraint FKk06cpv8bljt11b6mo3cqdd5xc 
        foreign key (before_package_id) 
        references parcels
-2025-10-30 21:10:06.078 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.623 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists route_stops 
        add constraint FKp1fka8xfu6pf91algbjueupey 
        foreign key (location_id) 
@@ -787,7 +793,7 @@ Hibernate:
        add constraint FKp1fka8xfu6pf91algbjueupey 
        foreign key (location_id) 
        references locations
-2025-10-30 21:10:06.079 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.624 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists route_stops 
        add constraint FK63y33daxb1qs5nbnkuicbpkej 
        foreign key (route_id) 
@@ -797,7 +803,7 @@ Hibernate:
        add constraint FK63y33daxb1qs5nbnkuicbpkej 
        foreign key (route_id) 
        references routes
-2025-10-30 21:10:06.080 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.626 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists routes 
        add constraint FKop0qr5t6dwfrb9sg8x25o5ivd 
        foreign key (driver_id) 
@@ -807,7 +813,7 @@ Hibernate:
        add constraint FKop0qr5t6dwfrb9sg8x25o5ivd 
        foreign key (driver_id) 
        references drivers
-2025-10-30 21:10:06.082 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.627 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists routes 
        add constraint FKkasfgt0bc1i58uq4uarrubhwx 
        foreign key (start_warehouse_id) 
@@ -817,7 +823,7 @@ Hibernate:
        add constraint FKkasfgt0bc1i58uq4uarrubhwx 
        foreign key (start_warehouse_id) 
        references locations
-2025-10-30 21:10:06.083 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.628 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists routes 
        add constraint FKjasq7qb9iqn2ym54o4kfmafac 
        foreign key (truck_id) 
@@ -827,7 +833,7 @@ Hibernate:
        add constraint FKjasq7qb9iqn2ym54o4kfmafac 
        foreign key (truck_id) 
        references trucks
-2025-10-30 21:10:06.084 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:07.630 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists warehouse 
        add constraint FKm7is2pg5vfxb3iqrhs1741fa 
        foreign key (location_id) 
@@ -837,23 +843,23 @@ Hibernate:
        add constraint FKm7is2pg5vfxb3iqrhs1741fa 
        foreign key (location_id) 
        references locations
-2025-10-30 21:10:06.089 [main] INFO  [tfms-truck-fleet-management-system] [] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-10-30 21:10:06.358 [main] INFO  [tfms-truck-fleet-management-system] [] org.springframework.data.jpa.repository.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-11-05 09:51:07.634 [main] INFO  [tfms-truck-fleet-management-system] [] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-11-05 09:51:07.932 [main] INFO  [tfms-truck-fleet-management-system] [] org.springframework.data.jpa.repository.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
 📝 Logging configured - Service: tfms-truck-fleet-management-system, Environment: dev
-2025-10-30 21:10:07.324 [main] INFO  [tfms-truck-fleet-management-system] [] org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver - Exposing 3 endpoints beneath base path '/actuator'
-2025-10-30 21:10:07.388 [main] INFO  [tfms-truck-fleet-management-system] [] org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping - Adding welcome page: class path resource [static/index.html]
-2025-10-30 21:10:07.549 [main] WARN  [tfms-truck-fleet-management-system] [] org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration - 
+2025-11-05 09:51:09.898 [main] INFO  [tfms-truck-fleet-management-system] [] org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver - Exposing 3 endpoints beneath base path '/actuator'
+2025-11-05 09:51:09.975 [main] INFO  [tfms-truck-fleet-management-system] [] org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping - Adding welcome page: class path resource [static/index.html]
+2025-11-05 09:51:10.179 [main] WARN  [tfms-truck-fleet-management-system] [] org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration - 
 
-Using generated security password: a2d4c3d4-143a-4cec-9b64-458dce0a5b82
+Using generated security password: bac20c25-2df1-4a5c-8461-e64f01971c70
 
 This generated password is for development use only. Your security configuration must be updated before running your application in production.
 
-2025-10-30 21:10:07.558 [main] INFO  [tfms-truck-fleet-management-system] [] org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
-2025-10-30 21:10:07.963 [main] INFO  [tfms-truck-fleet-management-system] [] org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["https-jsse-nio-8443"]
-2025-10-30 21:10:08.177 [main] INFO  [tfms-truck-fleet-management-system] [] org.apache.tomcat.util.net.NioEndpoint.certificate - Connector [https-jsse-nio-8443], TLS virtual host [_default_], certificate type [UNDEFINED] configured from keystore [/Users/abuchi/.keystore] using alias [tfms-dev] with trust store [null]
-2025-10-30 21:10:08.191 [main] INFO  [tfms-truck-fleet-management-system] [] org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 8443 (https) with context path '/'
-2025-10-30 21:10:08.212 [main] INFO  [tfms-truck-fleet-management-system] [] com.saxion.proj.tfms.TfmsApplication - Started TfmsApplication in 6.568 seconds (process running for 7.205)
-2025-10-30 21:10:08.321 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:10.190 [main] INFO  [tfms-truck-fleet-management-system] [] org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-11-05 09:51:10.817 [main] INFO  [tfms-truck-fleet-management-system] [] org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["https-jsse-nio-8443"]
+2025-11-05 09:51:11.182 [main] INFO  [tfms-truck-fleet-management-system] [] org.apache.tomcat.util.net.NioEndpoint.certificate - Connector [https-jsse-nio-8443], TLS virtual host [_default_], certificate type [UNDEFINED] configured from keystore [/Users/abuchi/.keystore] using alias [tfms-dev] with trust store [null]
+2025-11-05 09:51:11.203 [main] INFO  [tfms-truck-fleet-management-system] [] org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 8443 (https) with context path '/'
+2025-11-05 09:51:11.228 [main] INFO  [tfms-truck-fleet-management-system] [] com.saxion.proj.tfms.TfmsApplication - Started TfmsApplication in 10.12 seconds (process running for 11.018)
+2025-11-05 09:51:11.419 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         ud1_0.id 
     from
@@ -871,11 +877,7 @@ Hibernate:
         ud1_0.email=? 
     fetch
         first ? rows only
-2025-10-30 21:10:08.382 [https-jsse-nio-8443-exec-4] INFO  [] [] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-10-30 21:10:08.383 [https-jsse-nio-8443-exec-4] INFO  [] [] org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2025-10-30 21:10:08.384 [https-jsse-nio-8443-exec-4] INFO  [] [] org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
-2025-10-30 21:10:08.428 [https-jsse-nio-8443-exec-4] DEBUG [] [] com.saxion.proj.tfms.config.security.RateLimitingFilter - Rate limit check: IP=127.0.0.1, Count=1, Limit=60
-2025-10-30 21:10:08.490 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:11.668 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         users
@@ -890,7 +892,7 @@ Hibernate:
     values
         (?, ?, ?, ?, ?, ?, ?, ?)
 Default user created: admin@tfms.com (ADMIN)
-2025-10-30 21:10:08.511 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:11.692 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         ud1_0.id 
     from
@@ -908,7 +910,7 @@ Hibernate:
         ud1_0.email=? 
     fetch
         first ? rows only
-2025-10-30 21:10:08.621 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:11.795 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         users
@@ -923,7 +925,7 @@ Hibernate:
     values
         (?, ?, ?, ?, ?, ?, ?, ?)
 Default user created: driver@tfms.com (DRIVER)
-2025-10-30 21:10:08.624 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:11.798 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         ud1_0.id 
     from
@@ -941,7 +943,77 @@ Hibernate:
         ud1_0.email=? 
     fetch
         first ? rows only
-2025-10-30 21:10:08.732 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:11.909 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    insert 
+    into
+        users
+        (active, api_key, created_at, email, password, updated_at, user_type, username) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        users
+        (active, api_key, created_at, email, password, updated_at, user_type, username) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+Default user created: driver2@tfms.com (DRIVER)
+2025-11-05 09:51:11.913 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    select
+        ud1_0.id 
+    from
+        users ud1_0 
+    where
+        ud1_0.email=? 
+    fetch
+        first ? rows only
+Hibernate: 
+    select
+        ud1_0.id 
+    from
+        users ud1_0 
+    where
+        ud1_0.email=? 
+    fetch
+        first ? rows only
+2025-11-05 09:51:12.023 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    insert 
+    into
+        users
+        (active, api_key, created_at, email, password, updated_at, user_type, username) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        users
+        (active, api_key, created_at, email, password, updated_at, user_type, username) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+Default user created: driver3@tfms.com (DRIVER)
+2025-11-05 09:51:12.027 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    select
+        ud1_0.id 
+    from
+        users ud1_0 
+    where
+        ud1_0.email=? 
+    fetch
+        first ? rows only
+Hibernate: 
+    select
+        ud1_0.id 
+    from
+        users ud1_0 
+    where
+        ud1_0.email=? 
+    fetch
+        first ? rows only
+2025-11-05 09:51:12.110 [https-jsse-nio-8443-exec-4] INFO  [] [] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-11-05 09:51:12.110 [https-jsse-nio-8443-exec-4] INFO  [] [] org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-11-05 09:51:12.112 [https-jsse-nio-8443-exec-4] INFO  [] [] org.springframework.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2025-11-05 09:51:12.156 [https-jsse-nio-8443-exec-4] DEBUG [] [] com.saxion.proj.tfms.config.security.RateLimitingFilter - Rate limit check: IP=127.0.0.1, Count=1, Limit=60
+2025-11-05 09:51:12.177 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         users
@@ -956,7 +1028,7 @@ Hibernate:
     values
         (?, ?, ?, ?, ?, ?, ?, ?)
 Default user created: planner@tfms.com (PLANNER)
-2025-10-30 21:10:08.735 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:12.180 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         ud1_0.id 
     from
@@ -974,7 +1046,7 @@ Hibernate:
         ud1_0.email=? 
     fetch
         first ? rows only
-2025-10-30 21:10:08.846 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:12.289 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         users
@@ -989,7 +1061,7 @@ Hibernate:
     values
         (?, ?, ?, ?, ?, ?, ?, ?)
 Default user created: test@example.com (DRIVER)
-2025-10-30 21:10:08.850 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:12.294 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         ld1_0.id 
     from
@@ -1007,7 +1079,7 @@ Hibernate:
         ld1_0.postal_code=? 
     fetch
         first ? rows only
-2025-10-30 21:10:08.858 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:12.304 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         locations
@@ -1022,7 +1094,7 @@ Hibernate:
     values
         (?, ?, ?, ?, ?, ?, ?, ?)
 Default depot created: Main Depot (LocationDao(id=1, latitude=10.0, longitude=20.0, address=Netherlands, city=Deventer, postalCode=11111, drivers=[], deliveryParcels=[], routeStops=[], routesStart=[]))
-2025-10-30 21:10:08.872 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:12.445 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         dd1_0.id 
     from
@@ -1040,7 +1112,7 @@ Hibernate:
         dd1_0.name=? 
     fetch
         first ? rows only
-2025-10-30 21:10:08.874 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-05 09:51:12.530 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         depot
@@ -1055,6 +1127,1100 @@ Hibernate:
     values
         (?, ?, ?, ?, ?, ?)
 Default depot created: Main Depot (LocationDao(id=1, latitude=10.0, longitude=20.0, address=Netherlands, city=Deventer, postalCode=11111, drivers=[], deliveryParcels=[], routeStops=[], routesStart=[]))
+2025-11-05 09:51:12.702 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    select
+        ld1_0.id,
+        ld1_0.address,
+        ld1_0.city,
+        ld1_0.created_at,
+        ld1_0.is_active,
+        ld1_0.latitude,
+        ld1_0.longitude,
+        ld1_0.postal_code,
+        ld1_0.updated_at 
+    from
+        locations ld1_0 
+    where
+        ld1_0.postal_code=?
+Hibernate: 
+    select
+        ld1_0.id,
+        ld1_0.address,
+        ld1_0.city,
+        ld1_0.created_at,
+        ld1_0.is_active,
+        ld1_0.latitude,
+        ld1_0.longitude,
+        ld1_0.postal_code,
+        ld1_0.updated_at 
+    from
+        locations ld1_0 
+    where
+        ld1_0.postal_code=?
+2025-11-05 09:51:12.714 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    insert 
+    into
+        locations
+        (address, city, created_at, is_active, latitude, longitude, postal_code, updated_at) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        locations
+        (address, city, created_at, is_active, latitude, longitude, postal_code, updated_at) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+2025-11-05 09:51:12.719 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    select
+        whd1_0.id,
+        whd1_0.active,
+        whd1_0.created_at,
+        whd1_0.location_id,
+        whd1_0.name,
+        whd1_0.updated_at 
+    from
+        warehouse whd1_0 
+    where
+        whd1_0.name=?
+Hibernate: 
+    select
+        whd1_0.id,
+        whd1_0.active,
+        whd1_0.created_at,
+        whd1_0.location_id,
+        whd1_0.name,
+        whd1_0.updated_at 
+    from
+        warehouse whd1_0 
+    where
+        whd1_0.name=?
+2025-11-05 09:51:12.722 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    insert 
+    into
+        warehouse
+        (active, created_at, location_id, name, updated_at) 
+    values
+        (?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        warehouse
+        (active, created_at, location_id, name, updated_at) 
+    values
+        (?, ?, ?, ?, ?)
+2025-11-05 09:51:12.726 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    select
+        ld1_0.id,
+        ld1_0.address,
+        ld1_0.city,
+        ld1_0.created_at,
+        ld1_0.is_active,
+        ld1_0.latitude,
+        ld1_0.longitude,
+        ld1_0.postal_code,
+        ld1_0.updated_at 
+    from
+        locations ld1_0 
+    where
+        ld1_0.postal_code=?
+Hibernate: 
+    select
+        ld1_0.id,
+        ld1_0.address,
+        ld1_0.city,
+        ld1_0.created_at,
+        ld1_0.is_active,
+        ld1_0.latitude,
+        ld1_0.longitude,
+        ld1_0.postal_code,
+        ld1_0.updated_at 
+    from
+        locations ld1_0 
+    where
+        ld1_0.postal_code=?
+2025-11-05 09:51:12.728 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    insert 
+    into
+        locations
+        (address, city, created_at, is_active, latitude, longitude, postal_code, updated_at) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        locations
+        (address, city, created_at, is_active, latitude, longitude, postal_code, updated_at) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+2025-11-05 09:51:12.735 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    select
+        pd1_0.id 
+    from
+        parcels pd1_0 
+    where
+        pd1_0.name=? 
+    fetch
+        first ? rows only
+Hibernate: 
+    select
+        pd1_0.id 
+    from
+        parcels pd1_0 
+    where
+        pd1_0.name=? 
+    fetch
+        first ? rows only
+2025-11-05 09:51:12.737 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    insert 
+    into
+        parcels
+        (active, created_at, delivery_instructions, delivery_location_id, name, planned_delivery_date, planned_duration_time, recipient_name, recipient_phone, status, updated_at, volume, warehouse_id, weight) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        parcels
+        (active, created_at, delivery_instructions, delivery_location_id, name, planned_delivery_date, planned_duration_time, recipient_name, recipient_phone, status, updated_at, volume, warehouse_id, weight) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-11-05 09:51:12.740 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    select
+        ld1_0.id,
+        ld1_0.address,
+        ld1_0.city,
+        ld1_0.created_at,
+        ld1_0.is_active,
+        ld1_0.latitude,
+        ld1_0.longitude,
+        ld1_0.postal_code,
+        ld1_0.updated_at 
+    from
+        locations ld1_0 
+    where
+        ld1_0.postal_code=?
+Hibernate: 
+    select
+        ld1_0.id,
+        ld1_0.address,
+        ld1_0.city,
+        ld1_0.created_at,
+        ld1_0.is_active,
+        ld1_0.latitude,
+        ld1_0.longitude,
+        ld1_0.postal_code,
+        ld1_0.updated_at 
+    from
+        locations ld1_0 
+    where
+        ld1_0.postal_code=?
+2025-11-05 09:51:12.743 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    select
+        whd1_0.id,
+        whd1_0.active,
+        whd1_0.created_at,
+        whd1_0.location_id,
+        whd1_0.name,
+        whd1_0.updated_at 
+    from
+        warehouse whd1_0 
+    where
+        whd1_0.name=?
+Hibernate: 
+    select
+        whd1_0.id,
+        whd1_0.active,
+        whd1_0.created_at,
+        whd1_0.location_id,
+        whd1_0.name,
+        whd1_0.updated_at 
+    from
+        warehouse whd1_0 
+    where
+        whd1_0.name=?
+2025-11-05 09:51:12.745 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    select
+        ld1_0.id,
+        ld1_0.address,
+        ld1_0.city,
+        ld1_0.created_at,
+        ld1_0.is_active,
+        ld1_0.latitude,
+        ld1_0.longitude,
+        ld1_0.postal_code,
+        ld1_0.updated_at 
+    from
+        locations ld1_0 
+    where
+        ld1_0.postal_code=?
+Hibernate: 
+    select
+        ld1_0.id,
+        ld1_0.address,
+        ld1_0.city,
+        ld1_0.created_at,
+        ld1_0.is_active,
+        ld1_0.latitude,
+        ld1_0.longitude,
+        ld1_0.postal_code,
+        ld1_0.updated_at 
+    from
+        locations ld1_0 
+    where
+        ld1_0.postal_code=?
+2025-11-05 09:51:12.748 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    select
+        pd1_0.id 
+    from
+        parcels pd1_0 
+    where
+        pd1_0.name=? 
+    fetch
+        first ? rows only
+Hibernate: 
+    select
+        pd1_0.id 
+    from
+        parcels pd1_0 
+    where
+        pd1_0.name=? 
+    fetch
+        first ? rows only
+2025-11-05 09:51:12.750 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    insert 
+    into
+        parcels
+        (active, created_at, delivery_instructions, delivery_location_id, name, planned_delivery_date, planned_duration_time, recipient_name, recipient_phone, status, updated_at, volume, warehouse_id, weight) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        parcels
+        (active, created_at, delivery_instructions, delivery_location_id, name, planned_delivery_date, planned_duration_time, recipient_name, recipient_phone, status, updated_at, volume, warehouse_id, weight) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-11-05 09:51:12.753 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    select
+        ld1_0.id,
+        ld1_0.address,
+        ld1_0.city,
+        ld1_0.created_at,
+        ld1_0.is_active,
+        ld1_0.latitude,
+        ld1_0.longitude,
+        ld1_0.postal_code,
+        ld1_0.updated_at 
+    from
+        locations ld1_0 
+    where
+        ld1_0.postal_code=?
+Hibernate: 
+    select
+        ld1_0.id,
+        ld1_0.address,
+        ld1_0.city,
+        ld1_0.created_at,
+        ld1_0.is_active,
+        ld1_0.latitude,
+        ld1_0.longitude,
+        ld1_0.postal_code,
+        ld1_0.updated_at 
+    from
+        locations ld1_0 
+    where
+        ld1_0.postal_code=?
+2025-11-05 09:51:12.756 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    select
+        whd1_0.id,
+        whd1_0.active,
+        whd1_0.created_at,
+        whd1_0.location_id,
+        whd1_0.name,
+        whd1_0.updated_at 
+    from
+        warehouse whd1_0 
+    where
+        whd1_0.name=?
+Hibernate: 
+    select
+        whd1_0.id,
+        whd1_0.active,
+        whd1_0.created_at,
+        whd1_0.location_id,
+        whd1_0.name,
+        whd1_0.updated_at 
+    from
+        warehouse whd1_0 
+    where
+        whd1_0.name=?
+2025-11-05 09:51:12.759 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    select
+        ld1_0.id,
+        ld1_0.address,
+        ld1_0.city,
+        ld1_0.created_at,
+        ld1_0.is_active,
+        ld1_0.latitude,
+        ld1_0.longitude,
+        ld1_0.postal_code,
+        ld1_0.updated_at 
+    from
+        locations ld1_0 
+    where
+        ld1_0.postal_code=?
+Hibernate: 
+    select
+        ld1_0.id,
+        ld1_0.address,
+        ld1_0.city,
+        ld1_0.created_at,
+        ld1_0.is_active,
+        ld1_0.latitude,
+        ld1_0.longitude,
+        ld1_0.postal_code,
+        ld1_0.updated_at 
+    from
+        locations ld1_0 
+    where
+        ld1_0.postal_code=?
+2025-11-05 09:51:12.761 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    select
+        pd1_0.id 
+    from
+        parcels pd1_0 
+    where
+        pd1_0.name=? 
+    fetch
+        first ? rows only
+Hibernate: 
+    select
+        pd1_0.id 
+    from
+        parcels pd1_0 
+    where
+        pd1_0.name=? 
+    fetch
+        first ? rows only
+2025-11-05 09:51:12.762 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    insert 
+    into
+        parcels
+        (active, created_at, delivery_instructions, delivery_location_id, name, planned_delivery_date, planned_duration_time, recipient_name, recipient_phone, status, updated_at, volume, warehouse_id, weight) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        parcels
+        (active, created_at, delivery_instructions, delivery_location_id, name, planned_delivery_date, planned_duration_time, recipient_name, recipient_phone, status, updated_at, volume, warehouse_id, weight) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-11-05 09:51:12.766 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    select
+        ld1_0.id,
+        ld1_0.address,
+        ld1_0.city,
+        ld1_0.created_at,
+        ld1_0.is_active,
+        ld1_0.latitude,
+        ld1_0.longitude,
+        ld1_0.postal_code,
+        ld1_0.updated_at 
+    from
+        locations ld1_0 
+    where
+        ld1_0.postal_code=?
+Hibernate: 
+    select
+        ld1_0.id,
+        ld1_0.address,
+        ld1_0.city,
+        ld1_0.created_at,
+        ld1_0.is_active,
+        ld1_0.latitude,
+        ld1_0.longitude,
+        ld1_0.postal_code,
+        ld1_0.updated_at 
+    from
+        locations ld1_0 
+    where
+        ld1_0.postal_code=?
+2025-11-05 09:51:12.770 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    select
+        whd1_0.id,
+        whd1_0.active,
+        whd1_0.created_at,
+        whd1_0.location_id,
+        whd1_0.name,
+        whd1_0.updated_at 
+    from
+        warehouse whd1_0 
+    where
+        whd1_0.name=?
+Hibernate: 
+    select
+        whd1_0.id,
+        whd1_0.active,
+        whd1_0.created_at,
+        whd1_0.location_id,
+        whd1_0.name,
+        whd1_0.updated_at 
+    from
+        warehouse whd1_0 
+    where
+        whd1_0.name=?
+2025-11-05 09:51:12.773 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    select
+        ld1_0.id,
+        ld1_0.address,
+        ld1_0.city,
+        ld1_0.created_at,
+        ld1_0.is_active,
+        ld1_0.latitude,
+        ld1_0.longitude,
+        ld1_0.postal_code,
+        ld1_0.updated_at 
+    from
+        locations ld1_0 
+    where
+        ld1_0.postal_code=?
+Hibernate: 
+    select
+        ld1_0.id,
+        ld1_0.address,
+        ld1_0.city,
+        ld1_0.created_at,
+        ld1_0.is_active,
+        ld1_0.latitude,
+        ld1_0.longitude,
+        ld1_0.postal_code,
+        ld1_0.updated_at 
+    from
+        locations ld1_0 
+    where
+        ld1_0.postal_code=?
+2025-11-05 09:51:12.775 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    select
+        pd1_0.id 
+    from
+        parcels pd1_0 
+    where
+        pd1_0.name=? 
+    fetch
+        first ? rows only
+Hibernate: 
+    select
+        pd1_0.id 
+    from
+        parcels pd1_0 
+    where
+        pd1_0.name=? 
+    fetch
+        first ? rows only
+2025-11-05 09:51:12.777 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    insert 
+    into
+        parcels
+        (active, created_at, delivery_instructions, delivery_location_id, name, planned_delivery_date, planned_duration_time, recipient_name, recipient_phone, status, updated_at, volume, warehouse_id, weight) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        parcels
+        (active, created_at, delivery_instructions, delivery_location_id, name, planned_delivery_date, planned_duration_time, recipient_name, recipient_phone, status, updated_at, volume, warehouse_id, weight) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-11-05 09:51:12.780 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    select
+        ld1_0.id,
+        ld1_0.address,
+        ld1_0.city,
+        ld1_0.created_at,
+        ld1_0.is_active,
+        ld1_0.latitude,
+        ld1_0.longitude,
+        ld1_0.postal_code,
+        ld1_0.updated_at 
+    from
+        locations ld1_0 
+    where
+        ld1_0.postal_code=?
+Hibernate: 
+    select
+        ld1_0.id,
+        ld1_0.address,
+        ld1_0.city,
+        ld1_0.created_at,
+        ld1_0.is_active,
+        ld1_0.latitude,
+        ld1_0.longitude,
+        ld1_0.postal_code,
+        ld1_0.updated_at 
+    from
+        locations ld1_0 
+    where
+        ld1_0.postal_code=?
+2025-11-05 09:51:12.782 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    select
+        whd1_0.id,
+        whd1_0.active,
+        whd1_0.created_at,
+        whd1_0.location_id,
+        whd1_0.name,
+        whd1_0.updated_at 
+    from
+        warehouse whd1_0 
+    where
+        whd1_0.name=?
+Hibernate: 
+    select
+        whd1_0.id,
+        whd1_0.active,
+        whd1_0.created_at,
+        whd1_0.location_id,
+        whd1_0.name,
+        whd1_0.updated_at 
+    from
+        warehouse whd1_0 
+    where
+        whd1_0.name=?
+2025-11-05 09:51:12.785 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    select
+        ld1_0.id,
+        ld1_0.address,
+        ld1_0.city,
+        ld1_0.created_at,
+        ld1_0.is_active,
+        ld1_0.latitude,
+        ld1_0.longitude,
+        ld1_0.postal_code,
+        ld1_0.updated_at 
+    from
+        locations ld1_0 
+    where
+        ld1_0.postal_code=?
+Hibernate: 
+    select
+        ld1_0.id,
+        ld1_0.address,
+        ld1_0.city,
+        ld1_0.created_at,
+        ld1_0.is_active,
+        ld1_0.latitude,
+        ld1_0.longitude,
+        ld1_0.postal_code,
+        ld1_0.updated_at 
+    from
+        locations ld1_0 
+    where
+        ld1_0.postal_code=?
+2025-11-05 09:51:12.787 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    select
+        pd1_0.id 
+    from
+        parcels pd1_0 
+    where
+        pd1_0.name=? 
+    fetch
+        first ? rows only
+Hibernate: 
+    select
+        pd1_0.id 
+    from
+        parcels pd1_0 
+    where
+        pd1_0.name=? 
+    fetch
+        first ? rows only
+2025-11-05 09:51:12.789 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    insert 
+    into
+        parcels
+        (active, created_at, delivery_instructions, delivery_location_id, name, planned_delivery_date, planned_duration_time, recipient_name, recipient_phone, status, updated_at, volume, warehouse_id, weight) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        parcels
+        (active, created_at, delivery_instructions, delivery_location_id, name, planned_delivery_date, planned_duration_time, recipient_name, recipient_phone, status, updated_at, volume, warehouse_id, weight) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-11-05 09:51:12.792 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    select
+        ud1_0.id,
+        ud1_0.active,
+        ud1_0.api_key,
+        ud1_0.created_at,
+        ud1_0.email,
+        ud1_0.password,
+        ud1_0.updated_at,
+        ud1_0.user_type,
+        ud1_0.username 
+    from
+        users ud1_0 
+    where
+        ud1_0.email=?
+Hibernate: 
+    select
+        ud1_0.id,
+        ud1_0.active,
+        ud1_0.api_key,
+        ud1_0.created_at,
+        ud1_0.email,
+        ud1_0.password,
+        ud1_0.updated_at,
+        ud1_0.user_type,
+        ud1_0.username 
+    from
+        users ud1_0 
+    where
+        ud1_0.email=?
+2025-11-05 09:51:12.795 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    select
+        ld1_0.id,
+        ld1_0.address,
+        ld1_0.city,
+        ld1_0.created_at,
+        ld1_0.is_active,
+        ld1_0.latitude,
+        ld1_0.longitude,
+        ld1_0.postal_code,
+        ld1_0.updated_at 
+    from
+        locations ld1_0 
+    where
+        ld1_0.postal_code=?
+Hibernate: 
+    select
+        ld1_0.id,
+        ld1_0.address,
+        ld1_0.city,
+        ld1_0.created_at,
+        ld1_0.is_active,
+        ld1_0.latitude,
+        ld1_0.longitude,
+        ld1_0.postal_code,
+        ld1_0.updated_at 
+    from
+        locations ld1_0 
+    where
+        ld1_0.postal_code=?
+2025-11-05 09:51:12.796 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    insert 
+    into
+        locations
+        (address, city, created_at, is_active, latitude, longitude, postal_code, updated_at) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        locations
+        (address, city, created_at, is_active, latitude, longitude, postal_code, updated_at) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+2025-11-05 09:51:12.801 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    select
+        dd1_0.id 
+    from
+        drivers dd1_0 
+    where
+        dd1_0.user_id=? 
+    fetch
+        first ? rows only
+Hibernate: 
+    select
+        dd1_0.id 
+    from
+        drivers dd1_0 
+    where
+        dd1_0.user_id=? 
+    fetch
+        first ? rows only
+2025-11-05 09:51:12.803 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    insert 
+    into
+        drivers
+        (created_at, is_active, is_available, location_id, updated_at, user_id) 
+    values
+        (?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        drivers
+        (created_at, is_active, is_available, location_id, updated_at, user_id) 
+    values
+        (?, ?, ?, ?, ?, ?)
+Default Driver created: driver@tfms.com
+2025-11-05 09:51:12.806 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    select
+        ud1_0.id,
+        ud1_0.active,
+        ud1_0.api_key,
+        ud1_0.created_at,
+        ud1_0.email,
+        ud1_0.password,
+        ud1_0.updated_at,
+        ud1_0.user_type,
+        ud1_0.username 
+    from
+        users ud1_0 
+    where
+        ud1_0.email=?
+Hibernate: 
+    select
+        ud1_0.id,
+        ud1_0.active,
+        ud1_0.api_key,
+        ud1_0.created_at,
+        ud1_0.email,
+        ud1_0.password,
+        ud1_0.updated_at,
+        ud1_0.user_type,
+        ud1_0.username 
+    from
+        users ud1_0 
+    where
+        ud1_0.email=?
+2025-11-05 09:51:12.808 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    select
+        ld1_0.id,
+        ld1_0.address,
+        ld1_0.city,
+        ld1_0.created_at,
+        ld1_0.is_active,
+        ld1_0.latitude,
+        ld1_0.longitude,
+        ld1_0.postal_code,
+        ld1_0.updated_at 
+    from
+        locations ld1_0 
+    where
+        ld1_0.postal_code=?
+Hibernate: 
+    select
+        ld1_0.id,
+        ld1_0.address,
+        ld1_0.city,
+        ld1_0.created_at,
+        ld1_0.is_active,
+        ld1_0.latitude,
+        ld1_0.longitude,
+        ld1_0.postal_code,
+        ld1_0.updated_at 
+    from
+        locations ld1_0 
+    where
+        ld1_0.postal_code=?
+2025-11-05 09:51:12.809 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    insert 
+    into
+        locations
+        (address, city, created_at, is_active, latitude, longitude, postal_code, updated_at) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        locations
+        (address, city, created_at, is_active, latitude, longitude, postal_code, updated_at) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+2025-11-05 09:51:12.812 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    select
+        dd1_0.id 
+    from
+        drivers dd1_0 
+    where
+        dd1_0.user_id=? 
+    fetch
+        first ? rows only
+Hibernate: 
+    select
+        dd1_0.id 
+    from
+        drivers dd1_0 
+    where
+        dd1_0.user_id=? 
+    fetch
+        first ? rows only
+2025-11-05 09:51:12.814 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    insert 
+    into
+        drivers
+        (created_at, is_active, is_available, location_id, updated_at, user_id) 
+    values
+        (?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        drivers
+        (created_at, is_active, is_available, location_id, updated_at, user_id) 
+    values
+        (?, ?, ?, ?, ?, ?)
+Default Driver created: driver2@tfms.com
+2025-11-05 09:51:12.817 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    select
+        ud1_0.id,
+        ud1_0.active,
+        ud1_0.api_key,
+        ud1_0.created_at,
+        ud1_0.email,
+        ud1_0.password,
+        ud1_0.updated_at,
+        ud1_0.user_type,
+        ud1_0.username 
+    from
+        users ud1_0 
+    where
+        ud1_0.email=?
+Hibernate: 
+    select
+        ud1_0.id,
+        ud1_0.active,
+        ud1_0.api_key,
+        ud1_0.created_at,
+        ud1_0.email,
+        ud1_0.password,
+        ud1_0.updated_at,
+        ud1_0.user_type,
+        ud1_0.username 
+    from
+        users ud1_0 
+    where
+        ud1_0.email=?
+2025-11-05 09:51:12.820 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    select
+        ld1_0.id,
+        ld1_0.address,
+        ld1_0.city,
+        ld1_0.created_at,
+        ld1_0.is_active,
+        ld1_0.latitude,
+        ld1_0.longitude,
+        ld1_0.postal_code,
+        ld1_0.updated_at 
+    from
+        locations ld1_0 
+    where
+        ld1_0.postal_code=?
+Hibernate: 
+    select
+        ld1_0.id,
+        ld1_0.address,
+        ld1_0.city,
+        ld1_0.created_at,
+        ld1_0.is_active,
+        ld1_0.latitude,
+        ld1_0.longitude,
+        ld1_0.postal_code,
+        ld1_0.updated_at 
+    from
+        locations ld1_0 
+    where
+        ld1_0.postal_code=?
+2025-11-05 09:51:12.821 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    select
+        dd1_0.id 
+    from
+        drivers dd1_0 
+    where
+        dd1_0.user_id=? 
+    fetch
+        first ? rows only
+Hibernate: 
+    select
+        dd1_0.id 
+    from
+        drivers dd1_0 
+    where
+        dd1_0.user_id=? 
+    fetch
+        first ? rows only
+2025-11-05 09:51:12.823 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    insert 
+    into
+        drivers
+        (created_at, is_active, is_available, location_id, updated_at, user_id) 
+    values
+        (?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        drivers
+        (created_at, is_active, is_available, location_id, updated_at, user_id) 
+    values
+        (?, ?, ?, ?, ?, ?)
+Default Driver created: driver3@tfms.com
+2025-11-05 09:51:12.826 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    select
+        td1_0.id 
+    from
+        trucks td1_0 
+    where
+        td1_0.plate_number=? 
+    fetch
+        first ? rows only
+Hibernate: 
+    select
+        td1_0.id 
+    from
+        trucks td1_0 
+    where
+        td1_0.plate_number=? 
+    fetch
+        first ? rows only
+2025-11-05 09:51:12.828 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    insert 
+    into
+        trucks
+        (created_at, is_active, is_available, last_service_date, last_serviced_by, make, plate_number, truck_type, updated_at, volume) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        trucks
+        (created_at, is_active, is_available, last_service_date, last_serviced_by, make, plate_number, truck_type, updated_at, volume) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Default Truck created: TRK-001
+2025-11-05 09:51:12.831 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    select
+        td1_0.id 
+    from
+        trucks td1_0 
+    where
+        td1_0.plate_number=? 
+    fetch
+        first ? rows only
+Hibernate: 
+    select
+        td1_0.id 
+    from
+        trucks td1_0 
+    where
+        td1_0.plate_number=? 
+    fetch
+        first ? rows only
+2025-11-05 09:51:12.832 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    insert 
+    into
+        trucks
+        (created_at, is_active, is_available, last_service_date, last_serviced_by, make, plate_number, truck_type, updated_at, volume) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        trucks
+        (created_at, is_active, is_available, last_service_date, last_serviced_by, make, plate_number, truck_type, updated_at, volume) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Default Truck created: TRK-002
+2025-11-05 09:51:12.835 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    select
+        td1_0.id 
+    from
+        trucks td1_0 
+    where
+        td1_0.plate_number=? 
+    fetch
+        first ? rows only
+Hibernate: 
+    select
+        td1_0.id 
+    from
+        trucks td1_0 
+    where
+        td1_0.plate_number=? 
+    fetch
+        first ? rows only
+2025-11-05 09:51:12.836 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    insert 
+    into
+        trucks
+        (created_at, is_active, is_available, last_service_date, last_serviced_by, make, plate_number, truck_type, updated_at, volume) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        trucks
+        (created_at, is_active, is_available, last_service_date, last_serviced_by, make, plate_number, truck_type, updated_at, volume) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Default Truck created: TRK-003
+2025-11-05 09:51:12.839 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    select
+        td1_0.id 
+    from
+        trucks td1_0 
+    where
+        td1_0.plate_number=? 
+    fetch
+        first ? rows only
+Hibernate: 
+    select
+        td1_0.id 
+    from
+        trucks td1_0 
+    where
+        td1_0.plate_number=? 
+    fetch
+        first ? rows only
+2025-11-05 09:51:12.841 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    insert 
+    into
+        trucks
+        (created_at, is_active, is_available, last_service_date, last_serviced_by, make, plate_number, truck_type, updated_at, volume) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        trucks
+        (created_at, is_active, is_available, last_service_date, last_serviced_by, make, plate_number, truck_type, updated_at, volume) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Default Truck created: TRK-004
+2025-11-05 09:51:12.843 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    select
+        td1_0.id 
+    from
+        trucks td1_0 
+    where
+        td1_0.plate_number=? 
+    fetch
+        first ? rows only
+Hibernate: 
+    select
+        td1_0.id 
+    from
+        trucks td1_0 
+    where
+        td1_0.plate_number=? 
+    fetch
+        first ? rows only
+2025-11-05 09:51:12.844 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    insert 
+    into
+        trucks
+        (created_at, is_active, is_available, last_service_date, last_serviced_by, make, plate_number, truck_type, updated_at, volume) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        trucks
+        (created_at, is_active, is_available, last_service_date, last_serviced_by, make, plate_number, truck_type, updated_at, volume) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Default Truck created: TRK-005
 Default users initialization completed.
 
 ============================================================
@@ -1071,57 +2237,867 @@ H2 Console: http://localhost:8443/h2-console
 Application started successfully!
 ============================================================
 
-2025-10-30 21:10:26.699 [https-jsse-nio-8443-exec-5] DEBUG [] [] com.saxion.proj.tfms.config.security.RateLimitingFilter - Rate limit check: IP=0:0:0:0:0:0:0:1, Count=1, Limit=60
-2025-10-30 21:10:27.038 [https-jsse-nio-8443-exec-6] DEBUG [] [] com.saxion.proj.tfms.config.security.RateLimitingFilter - Rate limit check: IP=0:0:0:0:0:0:0:1, Count=2, Limit=60
-2025-10-30 21:10:27.084 [https-jsse-nio-8443-exec-6] DEBUG [] [] com.saxion.proj.tfms.config.security.RateLimitingFilter - Rate limit check: IP=0:0:0:0:0:0:0:1, Count=3, Limit=60
-2025-10-30 21:10:27.093 [https-jsse-nio-8443-exec-6] DEBUG [] [] com.saxion.proj.tfms.config.security.RateLimitingFilter - Rate limit check: IP=0:0:0:0:0:0:0:1, Count=4, Limit=60
-2025-10-30 21:10:27.163 [https-jsse-nio-8443-exec-4] DEBUG [] [] com.saxion.proj.tfms.config.security.RateLimitingFilter - Rate limit check: IP=0:0:0:0:0:0:0:1, Count=5, Limit=60
-2025-10-30 21:10:27.178 [https-jsse-nio-8443-exec-9] DEBUG [] [] com.saxion.proj.tfms.config.security.RateLimitingFilter - Rate limit check: IP=0:0:0:0:0:0:0:1, Count=6, Limit=60
-2025-10-30 21:10:29.813 [https-jsse-nio-8443-exec-10] DEBUG [] [] com.saxion.proj.tfms.config.security.RateLimitingFilter - Rate limit check: IP=0:0:0:0:0:0:0:1, Count=7, Limit=60
-2025-10-30 21:10:30.069 [https-jsse-nio-8443-exec-7] DEBUG [] [] com.saxion.proj.tfms.config.security.RateLimitingFilter - Rate limit check: IP=0:0:0:0:0:0:0:1, Count=8, Limit=60
-2025-10-30 21:10:30.763 [https-jsse-nio-8443-exec-7] INFO  [] [] org.springdoc.api.AbstractOpenApiResource - Init duration for springdoc-openapi is: 627 ms
-2025-10-30 21:10:34.767 [https-jsse-nio-8443-exec-2] DEBUG [] [] com.saxion.proj.tfms.config.security.RateLimitingFilter - Rate limit check: IP=0:0:0:0:0:0:0:1, Count=9, Limit=60
-2025-10-30 21:10:35.113 [https-jsse-nio-8443-exec-2] INFO  [] [] org.springdoc.api.AbstractOpenApiResource - Init duration for springdoc-openapi is: 344 ms
-2025-10-30 21:12:15.134 [https-jsse-nio-8443-exec-2] DEBUG [] [] com.saxion.proj.tfms.config.security.RateLimitingFilter - Rate limit check: IP=0:0:0:0:0:0:0:1, Count=1, Limit=60
-2025-10-30 21:12:31.194 [https-jsse-nio-8443-exec-7] DEBUG [] [] com.saxion.proj.tfms.config.security.RateLimitingFilter - Rate limit check: IP=0:0:0:0:0:0:0:1, Count=2, Limit=60
-2025-10-30 21:12:31.416 [https-jsse-nio-8443-exec-7] INFO  [security-service] [LOGIN] com.saxion.proj.tfms.auth.service.AuthService - Authentication attempt for user: admin@tfms.com
-2025-10-30 21:12:31.491 [https-jsse-nio-8443-exec-7] DEBUG [security-service] [] org.hibernate.SQL - 
+2025-11-05 09:51:23.840 [https-jsse-nio-8443-exec-10] DEBUG [] [] com.saxion.proj.tfms.config.security.RateLimitingFilter - Rate limit check: IP=0:0:0:0:0:0:0:1, Count=1, Limit=60
+2025-11-05 09:51:23.856 [https-jsse-nio-8443-exec-10] DEBUG [] [] org.hibernate.SQL - 
     select
-        ud1_0.id,
-        ud1_0.active,
-        ud1_0.api_key,
-        ud1_0.created_at,
-        ud1_0.email,
-        ud1_0.password,
-        ud1_0.updated_at,
-        ud1_0.user_type,
-        ud1_0.username 
+        td1_0.id,
+        td1_0.created_at,
+        td1_0.is_active,
+        td1_0.is_available,
+        td1_0.last_service_date,
+        td1_0.last_serviced_by,
+        td1_0.make,
+        td1_0.plate_number,
+        td1_0.truck_type,
+        td1_0.updated_at,
+        td1_0.volume 
     from
-        users ud1_0 
+        trucks td1_0 
     where
-        ud1_0.email=? 
-        and ud1_0.active=true
+        td1_0.id=?
 Hibernate: 
     select
-        ud1_0.id,
-        ud1_0.active,
-        ud1_0.api_key,
-        ud1_0.created_at,
-        ud1_0.email,
-        ud1_0.password,
-        ud1_0.updated_at,
-        ud1_0.user_type,
-        ud1_0.username 
+        td1_0.id,
+        td1_0.created_at,
+        td1_0.is_active,
+        td1_0.is_available,
+        td1_0.last_service_date,
+        td1_0.last_serviced_by,
+        td1_0.make,
+        td1_0.plate_number,
+        td1_0.truck_type,
+        td1_0.updated_at,
+        td1_0.volume 
     from
-        users ud1_0 
+        trucks td1_0 
     where
-        ud1_0.email=? 
-        and ud1_0.active=true
-2025-10-30 21:12:31.845 [https-jsse-nio-8443-exec-7] INFO  [security-service] [LOGIN] com.saxion.proj.tfms.auth.service.AuthService - Authentication successful for user: admin@tfms.com
-2025-10-30 21:13:01.024 [https-jsse-nio-8443-exec-3] DEBUG [] [] com.saxion.proj.tfms.config.security.RateLimitingFilter - Rate limit check: IP=0:0:0:0:0:0:0:1, Count=3, Limit=60
-2025-10-30 21:13:05.742 [https-jsse-nio-8443-exec-4] DEBUG [] [] com.saxion.proj.tfms.config.security.RateLimitingFilter - Rate limit check: IP=0:0:0:0:0:0:0:1, Count=1, Limit=60
-2025-10-30 21:13:35.470 [SpringApplicationShutdownHook] INFO  [] [] org.springframework.boot.web.embedded.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
-2025-10-30 21:13:35.479 [tomcat-shutdown] INFO  [] [] org.springframework.boot.web.embedded.tomcat.GracefulShutdown - Graceful shutdown complete
-2025-10-30 21:13:35.498 [SpringApplicationShutdownHook] INFO  [] [] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-2025-10-30 21:13:35.503 [SpringApplicationShutdownHook] INFO  [] [] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-2025-10-30 21:13:35.505 [SpringApplicationShutdownHook] INFO  [] [] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+        td1_0.id=?
+2025-11-05 09:51:23.867 [https-jsse-nio-8443-exec-10] ERROR [] [] com.saxion.proj.tfms.commons.exception.SecurityErrorHandler - Unexpected error for request: uri=/api/planner/truck/1 - Error: failed to lazily initialize a collection of role: com.saxion.proj.tfms.commons.model.TruckDao.routes: could not initialize proxy - no Session
+org.hibernate.LazyInitializationException: failed to lazily initialize a collection of role: com.saxion.proj.tfms.commons.model.TruckDao.routes: could not initialize proxy - no Session
+	at org.hibernate.collection.spi.AbstractPersistentCollection.throwLazyInitializationException(AbstractPersistentCollection.java:635) ~[hibernate-core-6.6.26.Final.jar:6.6.26.Final]
+	at org.hibernate.collection.spi.AbstractPersistentCollection.withTemporarySessionIfNeeded(AbstractPersistentCollection.java:219) ~[hibernate-core-6.6.26.Final.jar:6.6.26.Final]
+	at org.hibernate.collection.spi.AbstractPersistentCollection.readSize(AbstractPersistentCollection.java:150) ~[hibernate-core-6.6.26.Final.jar:6.6.26.Final]
+	at org.hibernate.collection.spi.PersistentBag.size(PersistentBag.java:353) ~[hibernate-core-6.6.26.Final.jar:6.6.26.Final]
+	at com.saxion.proj.tfms.planner.services.truckServices.GetTruckByIdHandler.Handle(GetTruckByIdHandler.java:45) ~[classes/:?]
+	at com.saxion.proj.tfms.planner.controller.TruckController.getTrucks(TruckController.java:40) ~[classes/:?]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:?]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[?:?]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:?]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[?:?]
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:258) ~[spring-web-6.2.10.jar:6.2.10]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:191) ~[spring-web-6.2.10.jar:6.2.10]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118) ~[spring-webmvc-6.2.10.jar:6.2.10]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:991) ~[spring-webmvc-6.2.10.jar:6.2.10]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:896) ~[spring-webmvc-6.2.10.jar:6.2.10]
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87) ~[spring-webmvc-6.2.10.jar:6.2.10]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089) ~[spring-webmvc-6.2.10.jar:6.2.10]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979) ~[spring-webmvc-6.2.10.jar:6.2.10]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014) ~[spring-webmvc-6.2.10.jar:6.2.10]
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903) ~[spring-webmvc-6.2.10.jar:6.2.10]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564) ~[tomcat-embed-core-10.1.44.jar:6.0]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885) ~[spring-webmvc-6.2.10.jar:6.2.10]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658) ~[tomcat-embed-core-10.1.44.jar:6.0]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195) ~[tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51) ~[tomcat-embed-websocket-10.1.44.jar:10.1.44]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.44.jar:10.1.44]
+	at com.saxion.proj.tfms.config.security.RateLimitingFilter.doFilterInternal(RateLimitingFilter.java:52) ~[classes/:?]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.10.jar:6.2.10]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:110) ~[spring-web-6.2.10.jar:6.2.10]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:108) ~[spring-web-6.2.10.jar:6.2.10]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:108) ~[spring-web-6.2.10.jar:6.2.10]
+	at org.springframework.security.web.FilterChainProxy.lambda$doFilterInternal$3(FilterChainProxy.java:231) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$FilterObservation$SimpleFilterObservation.lambda$wrap$1(ObservationFilterChainDecorator.java:479) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$AroundFilterObservation$SimpleAroundFilterObservation.lambda$wrap$1(ObservationFilterChainDecorator.java:340) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator.lambda$wrapSecured$0(ObservationFilterChainDecorator.java:82) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:128) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.access.intercept.AuthorizationFilter.doFilter(AuthorizationFilter.java:101) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:125) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:119) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:131) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:85) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:100) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:179) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at com.saxion.proj.tfms.config.security.JwtAuthenticationFilter.doFilterInternal(JwtAuthenticationFilter.java:74) ~[classes/:?]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.10.jar:6.2.10]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.10.jar:6.2.10]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:82) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:69) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:62) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.10.jar:6.2.10]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.10.jar:6.2.10]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$AroundFilterObservation$SimpleAroundFilterObservation.lambda$wrap$0(ObservationFilterChainDecorator.java:323) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:224) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:233) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:191) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.2.10.jar:6.2.10]
+	at org.springframework.web.filter.ServletRequestPathFilter.doFilter(ServletRequestPathFilter.java:52) ~[spring-web-6.2.10.jar:6.2.10]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.2.10.jar:6.2.10]
+	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74) ~[spring-web-6.2.10.jar:6.2.10]
+	at org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebSecurityConfiguration.java:319) ~[spring-security-config-6.5.3.jar:6.5.3]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.2.10.jar:6.2.10]
+	at org.springframework.web.servlet.handler.HandlerMappingIntrospector.lambda$createCacheFilter$4(HandlerMappingIntrospector.java:267) ~[spring-webmvc-6.2.10.jar:6.2.10]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) [spring-web-6.2.10.jar:6.2.10]
+	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74) [spring-web-6.2.10.jar:6.2.10]
+	at org.springframework.security.config.annotation.web.configuration.WebMvcSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebMvcSecurityConfiguration.java:240) [spring-security-config-6.5.3.jar:6.5.3]
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:362) [spring-web-6.2.10.jar:6.2.10]
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:278) [spring-web-6.2.10.jar:6.2.10]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) [spring-web-6.2.10.jar:6.2.10]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) [spring-web-6.2.10.jar:6.2.10]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) [spring-web-6.2.10.jar:6.2.10]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) [spring-web-6.2.10.jar:6.2.10]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:110) [spring-web-6.2.10.jar:6.2.10]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) [spring-web-6.2.10.jar:6.2.10]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) [spring-web-6.2.10.jar:6.2.10]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) [spring-web-6.2.10.jar:6.2.10]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:116) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:398) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1769) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1189) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:658) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at java.base/java.lang.Thread.run(Thread.java:840) [?:?]
+2025-11-05 09:52:21.365 [https-jsse-nio-8443-exec-6] DEBUG [] [] com.saxion.proj.tfms.config.security.RateLimitingFilter - Rate limit check: IP=0:0:0:0:0:0:0:1, Count=1, Limit=60
+2025-11-05 09:52:21.437 [https-jsse-nio-8443-exec-6] DEBUG [] [] org.hibernate.SQL - 
+    select
+        whd1_0.id,
+        whd1_0.active,
+        whd1_0.created_at,
+        whd1_0.location_id,
+        whd1_0.name,
+        whd1_0.updated_at 
+    from
+        warehouse whd1_0 
+    where
+        whd1_0.active 
+    fetch
+        first ? rows only
+Hibernate: 
+    select
+        whd1_0.id,
+        whd1_0.active,
+        whd1_0.created_at,
+        whd1_0.location_id,
+        whd1_0.name,
+        whd1_0.updated_at 
+    from
+        warehouse whd1_0 
+    where
+        whd1_0.active 
+    fetch
+        first ? rows only
+2025-11-05 09:52:21.480 [https-jsse-nio-8443-exec-6] DEBUG [] [] org.hibernate.SQL - 
+    select
+        ld1_0.id,
+        ld1_0.address,
+        ld1_0.city,
+        ld1_0.created_at,
+        ld1_0.is_active,
+        ld1_0.latitude,
+        ld1_0.longitude,
+        ld1_0.postal_code,
+        ld1_0.updated_at 
+    from
+        locations ld1_0 
+    where
+        ld1_0.id=?
+Hibernate: 
+    select
+        ld1_0.id,
+        ld1_0.address,
+        ld1_0.city,
+        ld1_0.created_at,
+        ld1_0.is_active,
+        ld1_0.latitude,
+        ld1_0.longitude,
+        ld1_0.postal_code,
+        ld1_0.updated_at 
+    from
+        locations ld1_0 
+    where
+        ld1_0.id=?
+2025-11-05 09:52:21.500 [https-jsse-nio-8443-exec-6] DEBUG [] [] org.hibernate.SQL - 
+    select
+        count(pd1_0.id) 
+    from
+        parcels pd1_0 
+    where
+        pd1_0.warehouse_id=? 
+        and pd1_0.status=?
+Hibernate: 
+    select
+        count(pd1_0.id) 
+    from
+        parcels pd1_0 
+    where
+        pd1_0.warehouse_id=? 
+        and pd1_0.status=?
+2025-11-05 09:52:21.507 [https-jsse-nio-8443-exec-6] DEBUG [] [] org.hibernate.SQL - 
+    select
+        count(pd1_0.id) 
+    from
+        parcels pd1_0 
+    where
+        pd1_0.warehouse_id=? 
+        and pd1_0.status=?
+Hibernate: 
+    select
+        count(pd1_0.id) 
+    from
+        parcels pd1_0 
+    where
+        pd1_0.warehouse_id=? 
+        and pd1_0.status=?
+2025-11-05 09:52:21.509 [https-jsse-nio-8443-exec-6] DEBUG [] [] org.hibernate.SQL - 
+    select
+        count(pd1_0.id) 
+    from
+        parcels pd1_0 
+    where
+        pd1_0.warehouse_id=? 
+        and pd1_0.status=?
+Hibernate: 
+    select
+        count(pd1_0.id) 
+    from
+        parcels pd1_0 
+    where
+        pd1_0.warehouse_id=? 
+        and pd1_0.status=?
+2025-11-05 09:52:29.855 [https-jsse-nio-8443-exec-7] DEBUG [] [] com.saxion.proj.tfms.config.security.RateLimitingFilter - Rate limit check: IP=0:0:0:0:0:0:0:1, Count=2, Limit=60
+2025-11-05 09:52:29.862 [https-jsse-nio-8443-exec-7] DEBUG [] [] org.hibernate.SQL - 
+    select
+        whd1_0.id,
+        whd1_0.active,
+        whd1_0.created_at,
+        whd1_0.location_id,
+        whd1_0.name,
+        whd1_0.updated_at 
+    from
+        warehouse whd1_0 
+    where
+        whd1_0.id=?
+Hibernate: 
+    select
+        whd1_0.id,
+        whd1_0.active,
+        whd1_0.created_at,
+        whd1_0.location_id,
+        whd1_0.name,
+        whd1_0.updated_at 
+    from
+        warehouse whd1_0 
+    where
+        whd1_0.id=?
+2025-11-05 09:52:29.864 [https-jsse-nio-8443-exec-7] DEBUG [] [] org.hibernate.SQL - 
+    select
+        ld1_0.id,
+        ld1_0.address,
+        ld1_0.city,
+        ld1_0.created_at,
+        ld1_0.is_active,
+        ld1_0.latitude,
+        ld1_0.longitude,
+        ld1_0.postal_code,
+        ld1_0.updated_at 
+    from
+        locations ld1_0 
+    where
+        ld1_0.id=?
+Hibernate: 
+    select
+        ld1_0.id,
+        ld1_0.address,
+        ld1_0.city,
+        ld1_0.created_at,
+        ld1_0.is_active,
+        ld1_0.latitude,
+        ld1_0.longitude,
+        ld1_0.postal_code,
+        ld1_0.updated_at 
+    from
+        locations ld1_0 
+    where
+        ld1_0.id=?
+2025-11-05 09:52:29.867 [https-jsse-nio-8443-exec-7] DEBUG [] [] org.hibernate.SQL - 
+    select
+        count(pd1_0.id) 
+    from
+        parcels pd1_0 
+    where
+        pd1_0.warehouse_id=? 
+        and pd1_0.status=?
+Hibernate: 
+    select
+        count(pd1_0.id) 
+    from
+        parcels pd1_0 
+    where
+        pd1_0.warehouse_id=? 
+        and pd1_0.status=?
+2025-11-05 09:52:29.869 [https-jsse-nio-8443-exec-7] DEBUG [] [] org.hibernate.SQL - 
+    select
+        count(pd1_0.id) 
+    from
+        parcels pd1_0 
+    where
+        pd1_0.warehouse_id=? 
+        and pd1_0.status=?
+Hibernate: 
+    select
+        count(pd1_0.id) 
+    from
+        parcels pd1_0 
+    where
+        pd1_0.warehouse_id=? 
+        and pd1_0.status=?
+2025-11-05 09:52:29.871 [https-jsse-nio-8443-exec-7] DEBUG [] [] org.hibernate.SQL - 
+    select
+        count(pd1_0.id) 
+    from
+        parcels pd1_0 
+    where
+        pd1_0.warehouse_id=? 
+        and pd1_0.status=?
+Hibernate: 
+    select
+        count(pd1_0.id) 
+    from
+        parcels pd1_0 
+    where
+        pd1_0.warehouse_id=? 
+        and pd1_0.status=?
+2025-11-05 09:52:37.914 [https-jsse-nio-8443-exec-8] DEBUG [] [] com.saxion.proj.tfms.config.security.RateLimitingFilter - Rate limit check: IP=0:0:0:0:0:0:0:1, Count=3, Limit=60
+2025-11-05 09:52:37.945 [https-jsse-nio-8443-exec-8] DEBUG [] [] org.hibernate.SQL - 
+    select
+        w1_0.id,
+        w1_0.active,
+        w1_0.created_at,
+        w1_0.location_id,
+        w1_0.name,
+        w1_0.updated_at 
+    from
+        parcels pd1_0 
+    join
+        warehouse w1_0 
+            on w1_0.id=pd1_0.warehouse_id 
+    where
+        pd1_0.id=?
+Hibernate: 
+    select
+        w1_0.id,
+        w1_0.active,
+        w1_0.created_at,
+        w1_0.location_id,
+        w1_0.name,
+        w1_0.updated_at 
+    from
+        parcels pd1_0 
+    join
+        warehouse w1_0 
+            on w1_0.id=pd1_0.warehouse_id 
+    where
+        pd1_0.id=?
+2025-11-05 09:52:37.949 [https-jsse-nio-8443-exec-8] DEBUG [] [] org.hibernate.SQL - 
+    select
+        ld1_0.id,
+        ld1_0.address,
+        ld1_0.city,
+        ld1_0.created_at,
+        ld1_0.is_active,
+        ld1_0.latitude,
+        ld1_0.longitude,
+        ld1_0.postal_code,
+        ld1_0.updated_at 
+    from
+        locations ld1_0 
+    where
+        ld1_0.id=?
+Hibernate: 
+    select
+        ld1_0.id,
+        ld1_0.address,
+        ld1_0.city,
+        ld1_0.created_at,
+        ld1_0.is_active,
+        ld1_0.latitude,
+        ld1_0.longitude,
+        ld1_0.postal_code,
+        ld1_0.updated_at 
+    from
+        locations ld1_0 
+    where
+        ld1_0.id=?
+2025-11-05 09:52:37.953 [https-jsse-nio-8443-exec-8] DEBUG [] [] org.hibernate.SQL - 
+    select
+        count(pd1_0.id) 
+    from
+        parcels pd1_0 
+    where
+        pd1_0.warehouse_id=? 
+        and pd1_0.status=?
+Hibernate: 
+    select
+        count(pd1_0.id) 
+    from
+        parcels pd1_0 
+    where
+        pd1_0.warehouse_id=? 
+        and pd1_0.status=?
+2025-11-05 09:52:37.955 [https-jsse-nio-8443-exec-8] DEBUG [] [] org.hibernate.SQL - 
+    select
+        count(pd1_0.id) 
+    from
+        parcels pd1_0 
+    where
+        pd1_0.warehouse_id=? 
+        and pd1_0.status=?
+Hibernate: 
+    select
+        count(pd1_0.id) 
+    from
+        parcels pd1_0 
+    where
+        pd1_0.warehouse_id=? 
+        and pd1_0.status=?
+2025-11-05 09:52:37.957 [https-jsse-nio-8443-exec-8] DEBUG [] [] org.hibernate.SQL - 
+    select
+        count(pd1_0.id) 
+    from
+        parcels pd1_0 
+    where
+        pd1_0.warehouse_id=? 
+        and pd1_0.status=?
+Hibernate: 
+    select
+        count(pd1_0.id) 
+    from
+        parcels pd1_0 
+    where
+        pd1_0.warehouse_id=? 
+        and pd1_0.status=?
+2025-11-05 09:52:49.048 [https-jsse-nio-8443-exec-9] DEBUG [] [] com.saxion.proj.tfms.config.security.RateLimitingFilter - Rate limit check: IP=0:0:0:0:0:0:0:1, Count=4, Limit=60
+2025-11-05 09:52:49.055 [https-jsse-nio-8443-exec-9] DEBUG [] [] org.hibernate.SQL - 
+    select
+        td1_0.id,
+        td1_0.created_at,
+        td1_0.is_active,
+        td1_0.is_available,
+        td1_0.last_service_date,
+        td1_0.last_serviced_by,
+        td1_0.make,
+        td1_0.plate_number,
+        td1_0.truck_type,
+        td1_0.updated_at,
+        td1_0.volume 
+    from
+        trucks td1_0 
+    where
+        td1_0.id=?
+Hibernate: 
+    select
+        td1_0.id,
+        td1_0.created_at,
+        td1_0.is_active,
+        td1_0.is_available,
+        td1_0.last_service_date,
+        td1_0.last_serviced_by,
+        td1_0.make,
+        td1_0.plate_number,
+        td1_0.truck_type,
+        td1_0.updated_at,
+        td1_0.volume 
+    from
+        trucks td1_0 
+    where
+        td1_0.id=?
+2025-11-05 09:52:49.060 [https-jsse-nio-8443-exec-9] ERROR [] [] com.saxion.proj.tfms.commons.exception.SecurityErrorHandler - Unexpected error for request: uri=/api/planner/truck/1 - Error: failed to lazily initialize a collection of role: com.saxion.proj.tfms.commons.model.TruckDao.routes: could not initialize proxy - no Session
+org.hibernate.LazyInitializationException: failed to lazily initialize a collection of role: com.saxion.proj.tfms.commons.model.TruckDao.routes: could not initialize proxy - no Session
+	at org.hibernate.collection.spi.AbstractPersistentCollection.throwLazyInitializationException(AbstractPersistentCollection.java:635) ~[hibernate-core-6.6.26.Final.jar:6.6.26.Final]
+	at org.hibernate.collection.spi.AbstractPersistentCollection.withTemporarySessionIfNeeded(AbstractPersistentCollection.java:219) ~[hibernate-core-6.6.26.Final.jar:6.6.26.Final]
+	at org.hibernate.collection.spi.AbstractPersistentCollection.readSize(AbstractPersistentCollection.java:150) ~[hibernate-core-6.6.26.Final.jar:6.6.26.Final]
+	at org.hibernate.collection.spi.PersistentBag.size(PersistentBag.java:353) ~[hibernate-core-6.6.26.Final.jar:6.6.26.Final]
+	at com.saxion.proj.tfms.planner.services.truckServices.GetTruckByIdHandler.Handle(GetTruckByIdHandler.java:45) ~[classes/:?]
+	at com.saxion.proj.tfms.planner.controller.TruckController.getTrucks(TruckController.java:40) ~[classes/:?]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:?]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[?:?]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:?]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[?:?]
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:258) ~[spring-web-6.2.10.jar:6.2.10]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:191) ~[spring-web-6.2.10.jar:6.2.10]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118) ~[spring-webmvc-6.2.10.jar:6.2.10]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:991) ~[spring-webmvc-6.2.10.jar:6.2.10]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:896) ~[spring-webmvc-6.2.10.jar:6.2.10]
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87) ~[spring-webmvc-6.2.10.jar:6.2.10]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089) ~[spring-webmvc-6.2.10.jar:6.2.10]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979) ~[spring-webmvc-6.2.10.jar:6.2.10]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014) ~[spring-webmvc-6.2.10.jar:6.2.10]
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903) ~[spring-webmvc-6.2.10.jar:6.2.10]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564) ~[tomcat-embed-core-10.1.44.jar:6.0]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885) ~[spring-webmvc-6.2.10.jar:6.2.10]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658) ~[tomcat-embed-core-10.1.44.jar:6.0]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195) ~[tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51) ~[tomcat-embed-websocket-10.1.44.jar:10.1.44]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.44.jar:10.1.44]
+	at com.saxion.proj.tfms.config.security.RateLimitingFilter.doFilterInternal(RateLimitingFilter.java:52) ~[classes/:?]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.10.jar:6.2.10]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:110) ~[spring-web-6.2.10.jar:6.2.10]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:108) ~[spring-web-6.2.10.jar:6.2.10]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:108) ~[spring-web-6.2.10.jar:6.2.10]
+	at org.springframework.security.web.FilterChainProxy.lambda$doFilterInternal$3(FilterChainProxy.java:231) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$FilterObservation$SimpleFilterObservation.lambda$wrap$1(ObservationFilterChainDecorator.java:479) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$AroundFilterObservation$SimpleAroundFilterObservation.lambda$wrap$1(ObservationFilterChainDecorator.java:340) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator.lambda$wrapSecured$0(ObservationFilterChainDecorator.java:82) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:128) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.access.intercept.AuthorizationFilter.doFilter(AuthorizationFilter.java:101) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:125) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:119) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:131) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:85) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:100) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:179) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at com.saxion.proj.tfms.config.security.JwtAuthenticationFilter.doFilterInternal(JwtAuthenticationFilter.java:74) ~[classes/:?]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.10.jar:6.2.10]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.10.jar:6.2.10]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:82) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:69) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:62) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.10.jar:6.2.10]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.10.jar:6.2.10]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$AroundFilterObservation$SimpleAroundFilterObservation.lambda$wrap$0(ObservationFilterChainDecorator.java:323) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:224) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:233) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:191) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.2.10.jar:6.2.10]
+	at org.springframework.web.filter.ServletRequestPathFilter.doFilter(ServletRequestPathFilter.java:52) ~[spring-web-6.2.10.jar:6.2.10]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.2.10.jar:6.2.10]
+	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74) ~[spring-web-6.2.10.jar:6.2.10]
+	at org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebSecurityConfiguration.java:319) ~[spring-security-config-6.5.3.jar:6.5.3]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.2.10.jar:6.2.10]
+	at org.springframework.web.servlet.handler.HandlerMappingIntrospector.lambda$createCacheFilter$4(HandlerMappingIntrospector.java:267) ~[spring-webmvc-6.2.10.jar:6.2.10]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) [spring-web-6.2.10.jar:6.2.10]
+	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74) [spring-web-6.2.10.jar:6.2.10]
+	at org.springframework.security.config.annotation.web.configuration.WebMvcSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebMvcSecurityConfiguration.java:240) [spring-security-config-6.5.3.jar:6.5.3]
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:362) [spring-web-6.2.10.jar:6.2.10]
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:278) [spring-web-6.2.10.jar:6.2.10]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) [spring-web-6.2.10.jar:6.2.10]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) [spring-web-6.2.10.jar:6.2.10]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) [spring-web-6.2.10.jar:6.2.10]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) [spring-web-6.2.10.jar:6.2.10]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:110) [spring-web-6.2.10.jar:6.2.10]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) [spring-web-6.2.10.jar:6.2.10]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) [spring-web-6.2.10.jar:6.2.10]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) [spring-web-6.2.10.jar:6.2.10]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:116) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:398) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1769) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1189) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:658) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at java.base/java.lang.Thread.run(Thread.java:840) [?:?]
+2025-11-05 09:59:01.025 [https-jsse-nio-8443-exec-5] DEBUG [] [] com.saxion.proj.tfms.config.security.RateLimitingFilter - Rate limit check: IP=0:0:0:0:0:0:0:1, Count=1, Limit=60
+2025-11-05 09:59:01.050 [https-jsse-nio-8443-exec-5] DEBUG [] [] org.hibernate.SQL - 
+    select
+        td1_0.id,
+        td1_0.created_at,
+        td1_0.is_active,
+        td1_0.is_available,
+        td1_0.last_service_date,
+        td1_0.last_serviced_by,
+        td1_0.make,
+        td1_0.plate_number,
+        td1_0.truck_type,
+        td1_0.updated_at,
+        td1_0.volume 
+    from
+        trucks td1_0 
+    where
+        td1_0.id=?
+Hibernate: 
+    select
+        td1_0.id,
+        td1_0.created_at,
+        td1_0.is_active,
+        td1_0.is_available,
+        td1_0.last_service_date,
+        td1_0.last_serviced_by,
+        td1_0.make,
+        td1_0.plate_number,
+        td1_0.truck_type,
+        td1_0.updated_at,
+        td1_0.volume 
+    from
+        trucks td1_0 
+    where
+        td1_0.id=?
+2025-11-05 09:59:01.065 [https-jsse-nio-8443-exec-5] ERROR [] [] com.saxion.proj.tfms.commons.exception.SecurityErrorHandler - Unexpected error for request: uri=/api/planner/truck/1 - Error: failed to lazily initialize a collection of role: com.saxion.proj.tfms.commons.model.TruckDao.routes: could not initialize proxy - no Session
+org.hibernate.LazyInitializationException: failed to lazily initialize a collection of role: com.saxion.proj.tfms.commons.model.TruckDao.routes: could not initialize proxy - no Session
+	at org.hibernate.collection.spi.AbstractPersistentCollection.throwLazyInitializationException(AbstractPersistentCollection.java:635) ~[hibernate-core-6.6.26.Final.jar:6.6.26.Final]
+	at org.hibernate.collection.spi.AbstractPersistentCollection.withTemporarySessionIfNeeded(AbstractPersistentCollection.java:219) ~[hibernate-core-6.6.26.Final.jar:6.6.26.Final]
+	at org.hibernate.collection.spi.AbstractPersistentCollection.readSize(AbstractPersistentCollection.java:150) ~[hibernate-core-6.6.26.Final.jar:6.6.26.Final]
+	at org.hibernate.collection.spi.PersistentBag.size(PersistentBag.java:353) ~[hibernate-core-6.6.26.Final.jar:6.6.26.Final]
+	at com.saxion.proj.tfms.planner.services.truckServices.GetTruckByIdHandler.Handle(GetTruckByIdHandler.java:45) ~[classes/:?]
+	at com.saxion.proj.tfms.planner.controller.TruckController.getTrucks(TruckController.java:40) ~[classes/:?]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:?]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[?:?]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:?]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[?:?]
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:258) ~[spring-web-6.2.10.jar:6.2.10]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:191) ~[spring-web-6.2.10.jar:6.2.10]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118) ~[spring-webmvc-6.2.10.jar:6.2.10]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:991) ~[spring-webmvc-6.2.10.jar:6.2.10]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:896) ~[spring-webmvc-6.2.10.jar:6.2.10]
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87) ~[spring-webmvc-6.2.10.jar:6.2.10]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089) ~[spring-webmvc-6.2.10.jar:6.2.10]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979) ~[spring-webmvc-6.2.10.jar:6.2.10]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014) ~[spring-webmvc-6.2.10.jar:6.2.10]
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903) ~[spring-webmvc-6.2.10.jar:6.2.10]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564) ~[tomcat-embed-core-10.1.44.jar:6.0]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885) ~[spring-webmvc-6.2.10.jar:6.2.10]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658) ~[tomcat-embed-core-10.1.44.jar:6.0]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195) ~[tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51) ~[tomcat-embed-websocket-10.1.44.jar:10.1.44]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.44.jar:10.1.44]
+	at com.saxion.proj.tfms.config.security.RateLimitingFilter.doFilterInternal(RateLimitingFilter.java:52) ~[classes/:?]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.10.jar:6.2.10]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:110) ~[spring-web-6.2.10.jar:6.2.10]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:108) ~[spring-web-6.2.10.jar:6.2.10]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:108) ~[spring-web-6.2.10.jar:6.2.10]
+	at org.springframework.security.web.FilterChainProxy.lambda$doFilterInternal$3(FilterChainProxy.java:231) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$FilterObservation$SimpleFilterObservation.lambda$wrap$1(ObservationFilterChainDecorator.java:479) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$AroundFilterObservation$SimpleAroundFilterObservation.lambda$wrap$1(ObservationFilterChainDecorator.java:340) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator.lambda$wrapSecured$0(ObservationFilterChainDecorator.java:82) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:128) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.access.intercept.AuthorizationFilter.doFilter(AuthorizationFilter.java:101) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:125) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:119) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:131) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:85) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:100) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:179) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at com.saxion.proj.tfms.config.security.JwtAuthenticationFilter.doFilterInternal(JwtAuthenticationFilter.java:74) ~[classes/:?]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.10.jar:6.2.10]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.10.jar:6.2.10]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:82) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:69) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:62) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.10.jar:6.2.10]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.10.jar:6.2.10]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$AroundFilterObservation$SimpleAroundFilterObservation.lambda$wrap$0(ObservationFilterChainDecorator.java:323) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:224) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:233) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:191) ~[spring-security-web-6.5.3.jar:6.5.3]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.2.10.jar:6.2.10]
+	at org.springframework.web.filter.ServletRequestPathFilter.doFilter(ServletRequestPathFilter.java:52) ~[spring-web-6.2.10.jar:6.2.10]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.2.10.jar:6.2.10]
+	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74) ~[spring-web-6.2.10.jar:6.2.10]
+	at org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebSecurityConfiguration.java:319) ~[spring-security-config-6.5.3.jar:6.5.3]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.2.10.jar:6.2.10]
+	at org.springframework.web.servlet.handler.HandlerMappingIntrospector.lambda$createCacheFilter$4(HandlerMappingIntrospector.java:267) ~[spring-webmvc-6.2.10.jar:6.2.10]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) [spring-web-6.2.10.jar:6.2.10]
+	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74) [spring-web-6.2.10.jar:6.2.10]
+	at org.springframework.security.config.annotation.web.configuration.WebMvcSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebMvcSecurityConfiguration.java:240) [spring-security-config-6.5.3.jar:6.5.3]
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:362) [spring-web-6.2.10.jar:6.2.10]
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:278) [spring-web-6.2.10.jar:6.2.10]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) [spring-web-6.2.10.jar:6.2.10]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) [spring-web-6.2.10.jar:6.2.10]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) [spring-web-6.2.10.jar:6.2.10]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) [spring-web-6.2.10.jar:6.2.10]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:110) [spring-web-6.2.10.jar:6.2.10]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) [spring-web-6.2.10.jar:6.2.10]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) [spring-web-6.2.10.jar:6.2.10]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) [spring-web-6.2.10.jar:6.2.10]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:116) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:398) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1769) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1189) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:658) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63) [tomcat-embed-core-10.1.44.jar:10.1.44]
+	at java.base/java.lang.Thread.run(Thread.java:840) [?:?]
+2025-11-05 09:59:44.931 [SpringApplicationShutdownHook] INFO  [] [] org.springframework.boot.web.embedded.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-11-05 09:59:44.953 [tomcat-shutdown] INFO  [] [] org.springframework.boot.web.embedded.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-11-05 09:59:44.988 [SpringApplicationShutdownHook] INFO  [] [] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-11-05 09:59:44.998 [SpringApplicationShutdownHook] INFO  [] [] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-11-05 09:59:45.001 [SpringApplicationShutdownHook] INFO  [] [] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.

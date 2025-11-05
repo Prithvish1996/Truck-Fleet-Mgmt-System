@@ -15,6 +15,7 @@ public class ParcelResponseDto {
     private Long parcelId;
     private String name;
     private Double weight;
+    private Double volume;
     private String status;
     private ZonedDateTime createdAt;
     private String recipientName;

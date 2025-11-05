@@ -1,10 +1,8 @@
-package com.saxion.proj.tfms.planner.services.ParcelServices;
+package com.saxion.proj.tfms.planner.services.parcelServices;
 
 import com.saxion.proj.tfms.planner.dto.ParcelResponseDto;
 import com.saxion.proj.tfms.commons.model.ParcelDao;
 import org.springframework.stereotype.Component;
-
-import java.time.ZonedDateTime;
 
 @Component
 public class ParcelMapperHandler {
@@ -17,6 +15,7 @@ public class ParcelMapperHandler {
         dto.setParcelId(parcel.getId());
         dto.setName(parcel.getName());
         dto.setWeight(parcel.getWeight());
+        dto.setVolume(parcel.getVolume());
         dto.setStatus(parcel.getStatus() != null ? parcel.getStatus().name() : null);
         dto.setCreatedAt(parcel.getCreatedAt());
         dto.setRecipientName(parcel.getRecipientName());

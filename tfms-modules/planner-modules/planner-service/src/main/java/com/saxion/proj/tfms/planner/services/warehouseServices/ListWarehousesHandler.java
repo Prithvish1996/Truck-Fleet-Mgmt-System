@@ -1,13 +1,14 @@
-package com.saxion.proj.tfms.planner.services.WarehouseServices;
+package com.saxion.proj.tfms.planner.services.warehouseServices;
 
 import com.saxion.proj.tfms.commons.constants.StatusEnum;
 import com.saxion.proj.tfms.commons.dto.ApiResponse;
 import com.saxion.proj.tfms.commons.model.WareHouseDao;
-import com.saxion.proj.tfms.planner.abstractions.WarehouseServices.IListWarehouses;
+import com.saxion.proj.tfms.planner.abstractions.warehouseServices.IListWarehouses;
 import com.saxion.proj.tfms.planner.dto.WareHouseResponseDto;
 import com.saxion.proj.tfms.planner.repository.ParcelRepository;
 import com.saxion.proj.tfms.planner.repository.WarehouseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
+@Qualifier("listWarehousesHandler")
+@Transactional
 public class ListWarehousesHandler implements IListWarehouses {
 
     private final WarehouseRepository warehouseRepository;

@@ -1,14 +1,16 @@
-package com.saxion.proj.tfms.planner.services.ParcelServices;
+package com.saxion.proj.tfms.planner.services.parcelServices;
 
 import com.saxion.proj.tfms.commons.dto.ApiResponse;
 import com.saxion.proj.tfms.commons.model.ParcelDao;
-import com.saxion.proj.tfms.planner.abstractions.ParcelServices.IGetParcelById;
+import com.saxion.proj.tfms.planner.abstractions.parcelServices.IGetParcelById;
 import com.saxion.proj.tfms.planner.dto.ParcelResponseDto;
 import com.saxion.proj.tfms.planner.repository.ParcelRepository;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
+@Qualifier("getParcelByIdHandler")
 public class GetParcelByIdHandler implements IGetParcelById {
 
     private final ParcelRepository parcelRepository;

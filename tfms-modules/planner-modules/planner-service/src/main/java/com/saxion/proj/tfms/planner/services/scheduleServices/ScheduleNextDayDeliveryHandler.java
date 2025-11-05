@@ -1,14 +1,15 @@
-package com.saxion.proj.tfms.planner.services.ScheduleServices;
+package com.saxion.proj.tfms.planner.services.scheduleServices;
 
 import com.saxion.proj.tfms.commons.dto.ApiResponse;
 import com.saxion.proj.tfms.commons.model.ParcelDao;
 import com.saxion.proj.tfms.commons.constants.StatusEnum;
-import com.saxion.proj.tfms.planner.abstractions.ScheduleService.IScheduleNextDayDelivery;
+import com.saxion.proj.tfms.planner.abstractions.scheduleService.IScheduleNextDayDelivery;
 import com.saxion.proj.tfms.planner.dto.ParcelResponseDto;
 import com.saxion.proj.tfms.planner.dto.ScheduleRequestDto;
 import com.saxion.proj.tfms.planner.repository.ParcelRepository;
-import com.saxion.proj.tfms.planner.services.ParcelServices.ParcelMapperHandler;
+import com.saxion.proj.tfms.planner.services.parcelServices.ParcelMapperHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Qualifier("scheduleNextDayDeliveryHandler")
 public class ScheduleNextDayDeliveryHandler implements IScheduleNextDayDelivery {
 
     private final ParcelRepository parcelRepository;
@@ -40,12 +42,9 @@ public class ScheduleNextDayDeliveryHandler implements IScheduleNextDayDelivery 
         }
 
         // 3️Compute planned delivery date (next day, skip Sunday)
-        ZonedDateTime plannedDate = request.getDeliveryDate();
-        if (plannedDate == null) {
-            plannedDate = ZonedDateTime.now().plusDays(1);
-            if (plannedDate.getDayOfWeek() == DayOfWeek.SUNDAY) {
-                plannedDate = plannedDate.plusDays(1);
-            }
+        ZonedDateTime plannedDate = ZonedDateTime.now().plusDays(1);
+        if (plannedDate.getDayOfWeek() == DayOfWeek.SUNDAY) {
+            plannedDate = plannedDate.plusDays(1);
         }
 
         List<ParcelResponseDto> updatedParcels = new ArrayList<>();

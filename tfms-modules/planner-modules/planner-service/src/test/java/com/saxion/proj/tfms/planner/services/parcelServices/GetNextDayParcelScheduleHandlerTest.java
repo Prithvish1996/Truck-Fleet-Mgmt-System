@@ -1,4 +1,4 @@
-package com.saxion.proj.tfms.planner.services.ParcelServices;
+package com.saxion.proj.tfms.planner.services.parcelServices;
 
 import com.saxion.proj.tfms.commons.constants.StatusEnum;
 import com.saxion.proj.tfms.commons.dto.ApiResponse;
@@ -31,7 +31,7 @@ class GetNextDayParcelScheduleHandlerTest {
     private ParcelMapperHandler parcelMapper;
 
     @InjectMocks
-    private GetNextDayParcelScheduleHandler handler;
+    private GetPendingParcelHandler handler;
 
     private ParcelDao parcelPending1;
     private ParcelDao parcelPending2;

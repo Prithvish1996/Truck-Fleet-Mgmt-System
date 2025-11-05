@@ -2,30 +2,32 @@ package com.saxion.proj.tfms.planner.services.parcelServices;
 
 import com.saxion.proj.tfms.commons.dto.ApiResponse;
 import com.saxion.proj.tfms.commons.model.WareHouseDao;
-import com.saxion.proj.tfms.planner.abstractions.parcelServices.IGetNextDayParcelSchedule;
+import com.saxion.proj.tfms.planner.abstractions.parcelServices.IGetPendingParcel;
 import com.saxion.proj.tfms.planner.dto.ParcelResponseDto;
 import com.saxion.proj.tfms.planner.repository.ParcelRepository;
 import com.saxion.proj.tfms.planner.repository.WarehouseRepository;
 import com.saxion.proj.tfms.commons.model.ParcelDao;
+import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class GetNextDayParcelScheduleHandler implements IGetNextDayParcelSchedule {
+@Qualifier("getPendingParcelHandler")
+@Transactional
+public class GetPendingParcelHandler implements IGetPendingParcel {
 
-    private final ParcelRepository parcelRepository;
-    private final WarehouseRepository warehouseRepository;
-    private final ParcelMapperHandler parcelMapper;
+    @Autowired
+    private ParcelRepository parcelRepository;
 
-    public GetNextDayParcelScheduleHandler(ParcelRepository parcelRepository,
-                                    WarehouseRepository warehouseRepository,
-                                    ParcelMapperHandler parcelMapper) {
-        this.parcelRepository = parcelRepository;
-        this.warehouseRepository = warehouseRepository;
-        this.parcelMapper = parcelMapper;
-    }
+    @Autowired
+    private WarehouseRepository warehouseRepository;
+
+    @Autowired
+    private ParcelMapperHandler parcelMapper;
 
     /**
      * Returns a grouped list of pending parcels scheduled for the next day,
@@ -47,11 +49,7 @@ public class GetNextDayParcelScheduleHandler implements IGetNextDayParcelSchedul
         }
 
         // Fetch all parcels with status 'pending'
-        List<ParcelDao> pendingParcels = parcelRepository.findAllWithRelations()
-                .stream()
-                .filter(parcel -> parcel.getStatus() != null &&
-                        "pending".equalsIgnoreCase(parcel.getStatus().name()))
-                .collect(Collectors.toList());
+        List<ParcelDao> pendingParcels = parcelRepository.findPendingWithRelations();
 
         if (pendingParcels.isEmpty()) {
             return ApiResponse.error("No pending parcels matched with any warehouse");

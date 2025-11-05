@@ -1,12 +1,12 @@
-package com.saxion.proj.tfms.planner.services.ScheduleServices;
+package com.saxion.proj.tfms.planner.services.scheduleServices;
 
 import com.saxion.proj.tfms.commons.constants.StatusEnum;
 import com.saxion.proj.tfms.commons.dto.ApiResponse;
 import com.saxion.proj.tfms.commons.model.ParcelDao;
-import com.saxion.proj.tfms.commons.utility.Helper;
+import com.saxion.proj.tfms.commons.utility.PlannerHelper;
 import com.saxion.proj.tfms.planner.dto.ParcelResponseDto;
 import com.saxion.proj.tfms.planner.repository.ParcelRepository;
-import com.saxion.proj.tfms.planner.services.ParcelServices.ParcelMapperHandler;
+import com.saxion.proj.tfms.planner.services.parcelServices.ParcelMapperHandler;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
@@ -22,7 +22,7 @@ class GetScheduledByDateHandlerTest {
     private ParcelRepository parcelRepository;
 
     @Mock
-    private Helper helper;
+    private PlannerHelper helper;
 
     @Mock
     private ParcelMapperHandler parcelMapper;
@@ -63,8 +63,11 @@ class GetScheduledByDateHandlerTest {
     @Test
     void handle_PlannedDateNull_ShouldUseComputedDate() {
         ZonedDateTime computedDate = date.plusDays(1);
+        ZonedDateTime startOfDay = computedDate.toLocalDate().atStartOfDay(computedDate.getZone());
+        ZonedDateTime endOfDay = startOfDay.plusDays(1);
+
         when(helper.ComputePlannedDate(null)).thenReturn(computedDate);
-        when(parcelRepository.findAllByStatusAndPlannedDeliveryDate(StatusEnum.SCHEDULED, computedDate.toLocalDate()))
+        when(parcelRepository.findAllByStatusAndPlannedDeliveryDate(StatusEnum.SCHEDULED, startOfDay,endOfDay))
                 .thenReturn(List.of(parcel1));
         when(parcelMapper.toDto(parcel1)).thenReturn(dto1);
 
@@ -72,7 +75,7 @@ class GetScheduledByDateHandlerTest {
 
         verify(helper, times(1)).ComputePlannedDate(null);
         verify(parcelRepository, times(1))
-                .findAllByStatusAndPlannedDeliveryDate(StatusEnum.SCHEDULED, computedDate.toLocalDate());
+                .findAllByStatusAndPlannedDeliveryDate(StatusEnum.SCHEDULED, startOfDay,endOfDay);
         verify(parcelMapper, times(1)).toDto(parcel1);
 
         assertTrue(response.isSuccess());
@@ -83,8 +86,12 @@ class GetScheduledByDateHandlerTest {
     // Test 2: plannedDate provided — use as is
     @Test
     void handle_PlannedDateProvided_ShouldUseGivenDate() {
+
+        ZonedDateTime startOfDay = date.toLocalDate().atStartOfDay(date.getZone());
+        ZonedDateTime endOfDay = startOfDay.plusDays(1);
+
         when(helper.ComputePlannedDate(date)).thenReturn(date);
-        when(parcelRepository.findAllByStatusAndPlannedDeliveryDate(StatusEnum.SCHEDULED, date.toLocalDate()))
+        when(parcelRepository.findAllByStatusAndPlannedDeliveryDate(StatusEnum.SCHEDULED, startOfDay,endOfDay))
                 .thenReturn(List.of(parcel1, parcel2));
         when(parcelMapper.toDto(parcel1)).thenReturn(dto1);
         when(parcelMapper.toDto(parcel2)).thenReturn(dto2);
@@ -93,7 +100,7 @@ class GetScheduledByDateHandlerTest {
 
         verify(helper, times(1)).ComputePlannedDate(date);
         verify(parcelRepository, times(1))
-                .findAllByStatusAndPlannedDeliveryDate(StatusEnum.SCHEDULED, date.toLocalDate());
+                .findAllByStatusAndPlannedDeliveryDate(StatusEnum.SCHEDULED, startOfDay,endOfDay);
         verify(parcelMapper, times(2)).toDto(any());
 
         assertTrue(response.isSuccess());
@@ -103,8 +110,11 @@ class GetScheduledByDateHandlerTest {
     // Test 3: Repository returns empty list
     @Test
     void handle_NoScheduledParcels_ShouldReturnEmptyList() {
+        ZonedDateTime startOfDay = date.toLocalDate().atStartOfDay(date.getZone());
+        ZonedDateTime endOfDay = startOfDay.plusDays(1);
+
         when(helper.ComputePlannedDate(date)).thenReturn(date);
-        when(parcelRepository.findAllByStatusAndPlannedDeliveryDate(StatusEnum.SCHEDULED, date.toLocalDate()))
+        when(parcelRepository.findAllByStatusAndPlannedDeliveryDate(StatusEnum.SCHEDULED, startOfDay,endOfDay))
                 .thenReturn(Collections.emptyList());
 
         ApiResponse<List<ParcelResponseDto>> response = handler.Handle(date);

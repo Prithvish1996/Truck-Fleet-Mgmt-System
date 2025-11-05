@@ -1,20 +1,22 @@
-package com.saxion.proj.tfms.planner.services.WarehouseServices;
+package com.saxion.proj.tfms.planner.services.warehouseServices;
 
 import com.saxion.proj.tfms.commons.constants.StatusEnum;
 import com.saxion.proj.tfms.commons.dto.ApiResponse;
 import com.saxion.proj.tfms.commons.model.LocationDao;
 import com.saxion.proj.tfms.commons.model.WareHouseDao;
-import com.saxion.proj.tfms.planner.abstractions.WarehouseServices.IUpdateWarehouse;
+import com.saxion.proj.tfms.planner.abstractions.warehouseServices.IUpdateWarehouse;
 import com.saxion.proj.tfms.planner.dto.WareHouseRequestDto;
 import com.saxion.proj.tfms.planner.dto.WareHouseResponseDto;
 import com.saxion.proj.tfms.planner.repository.LocationRepository;
 import com.saxion.proj.tfms.planner.repository.ParcelRepository;
 import com.saxion.proj.tfms.planner.repository.WarehouseRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
 @Transactional
+@Qualifier("updateWarehouseHandler")
 public class UpdateWarehouseHandler implements IUpdateWarehouse {
 
     private final WarehouseRepository warehouseRepository;

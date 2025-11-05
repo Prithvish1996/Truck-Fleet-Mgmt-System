@@ -1,4 +1,4 @@
-package com.saxion.proj.tfms.planner.abstractions.WarehouseServices;
+package com.saxion.proj.tfms.planner.abstractions.warehouseServices;
 
 import com.saxion.proj.tfms.commons.dto.ApiResponse;
 import org.springframework.data.domain.Pageable;

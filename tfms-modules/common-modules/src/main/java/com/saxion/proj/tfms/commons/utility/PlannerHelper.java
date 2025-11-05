@@ -6,7 +6,7 @@ import java.time.DayOfWeek;
 import java.time.ZonedDateTime;
 
 @Component
-public class Helper {
+public class PlannerHelper {
 
     /**
      * Compute next valid planned delivery date (skip Sunday)
