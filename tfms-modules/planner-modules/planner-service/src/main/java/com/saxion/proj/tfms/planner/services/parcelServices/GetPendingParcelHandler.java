@@ -1,16 +1,14 @@
-package com.saxion.proj.tfms.planner.services.ParcelServices;
+package com.saxion.proj.tfms.planner.services.parcelServices;
 
 import com.saxion.proj.tfms.commons.dto.ApiResponse;
 import com.saxion.proj.tfms.commons.model.WareHouseDao;
-import com.saxion.proj.tfms.planner.abstractions.ParcelServices.IGetNextDayParcelSchedule;
+import com.saxion.proj.tfms.planner.abstractions.parcelServices.IGetNextDayParcelSchedule;
 import com.saxion.proj.tfms.planner.dto.ParcelResponseDto;
-import com.saxion.proj.tfms.planner.services.ParcelServices.ParcelMapperHandler;
 import com.saxion.proj.tfms.planner.repository.ParcelRepository;
 import com.saxion.proj.tfms.planner.repository.WarehouseRepository;
 import com.saxion.proj.tfms.commons.model.ParcelDao;
 import org.springframework.stereotype.Service;
 
-import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
