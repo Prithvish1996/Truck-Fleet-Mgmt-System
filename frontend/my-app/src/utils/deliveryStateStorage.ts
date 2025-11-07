@@ -10,9 +10,6 @@ export interface DeliveryStateData {
   timestamp: number; // When this state was saved
 }
 
-/**
- * Save delivery state to localStorage
- */
 export const saveDeliveryState = (routeId: string, data: Partial<DeliveryStateData>): void => {
   try {
     const key = `${STORAGE_KEY_PREFIX}${routeId}`;
@@ -29,9 +26,6 @@ export const saveDeliveryState = (routeId: string, data: Partial<DeliveryStateDa
   }
 };
 
-/**
- * Load delivery state from localStorage
- */
 export const loadDeliveryState = (routeId: string): DeliveryStateData | null => {
   try {
     const key = `${STORAGE_KEY_PREFIX}${routeId}`;
@@ -40,7 +34,6 @@ export const loadDeliveryState = (routeId: string): DeliveryStateData | null => 
 
     const stateData = JSON.parse(data) as DeliveryStateData;
     
-    // Check if state is still valid (within 24 hours)
     const maxAge = 24 * 60 * 60 * 1000; // 24 hours
     if (Date.now() - stateData.timestamp > maxAge) {
       clearDeliveryState(routeId);
@@ -54,9 +47,6 @@ export const loadDeliveryState = (routeId: string): DeliveryStateData | null => 
   }
 };
 
-/**
- * Clear delivery state from localStorage
- */
 export const clearDeliveryState = (routeId: string): void => {
   try {
     const key = `${STORAGE_KEY_PREFIX}${routeId}`;

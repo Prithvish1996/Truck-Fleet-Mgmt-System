@@ -8,20 +8,20 @@ export interface Package {
   address: string;
   city: string;
   postalCode: string;
-  weight: number; // in kg
+  weight: number;
   status: 'pending' | 'picked_up' | 'delivered';
   deliveryInstructions?: string;
   recipientName: string;
   recipientPhone: string;
-  estimatedTravelTime?: number; // Travel time in seconds - calculated by backend
+  estimatedTravelTime?: number;
 }
 
 export interface RouteBreak {
   id: string;
   type: 'break';
   name: string;
-  duration: string; // e.g., "15 min", "30 min"
-  scheduledTime?: string; // HH:MM format - when the break is scheduled
+  duration: string;
+  scheduledTime?: string;
   location?: {
     latitude: number;
     longitude: number;
@@ -30,8 +30,8 @@ export interface RouteBreak {
     postalCode?: string;
   };
   packagesBetween?: {
-    beforePackage: string; // ID of the package before the break
-    afterPackage: string; // ID of the package after the break
+    beforePackage: string;
+    afterPackage: string;
   };
 }
 
@@ -40,13 +40,13 @@ export interface Route {
   truckId: string;
   driverId: string;
   packages: Package[];
-  breaks: RouteBreak[]; // Breaks scheduled by the backend
-  startTime: string; // HH:MM format
-  duration: string; // e.g., "8 hours"
-  date: string; // YYYY-MM-DD format
+  breaks: RouteBreak[];
+  startTime: string;
+  duration: string;
+  date: string;
   status: 'scheduled' | 'in_progress' | 'completed' | 'cancelled';
-  totalDistance: number; // in km
-  estimatedFuelCost: number; // in euros
+  totalDistance: number;
+  estimatedFuelCost: number;
   priority: 'low' | 'medium' | 'high';
 }
 
@@ -54,7 +54,7 @@ export interface Truck {
   id: string;
   licensePlate: string;
   model: string;
-  capacity: number; // in kg
+  capacity: number;
   fuelType: 'diesel' | 'electric' | 'hybrid';
   status: 'available' | 'in_use' | 'maintenance' | 'out_of_service';
   currentLocation?: {
