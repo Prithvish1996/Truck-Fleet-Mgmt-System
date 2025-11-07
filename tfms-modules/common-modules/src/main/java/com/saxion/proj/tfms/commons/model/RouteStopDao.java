@@ -1,5 +1,7 @@
 package com.saxion.proj.tfms.commons.model;
 
+import com.saxion.proj.tfms.commons.constants.StatusEnum;
+import com.saxion.proj.tfms.commons.constants.StopType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,31 +28,23 @@ public class RouteStopDao extends BaseEntity {
     private String description;
 
     @Column(nullable = false)
-    private String duration;
+    private int priority;
 
-    @Column(nullable = false)
-    private String scheduledTime;
+    private String duration;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "location_id")
     private LocationDao location;
 
-    // before/after package in the route sequence (optional)
-    @ManyToOne(fetch = FetchType.LAZY, optional = true)
-    @JoinColumn(name = "before_package_id")
-    private ParcelDao beforePackage;
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = true)
-    @JoinColumn(name = "after_package_id")
-    private ParcelDao afterPackage;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "stop_type", nullable = false)
+    private StopType stopType;
 
     // The route this break belongs to (planned route)
-    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "route_id")
     private RouteDao route;
 
-    // assignment to this route stop
-    @OneToMany(mappedBy = "routestop", cascade = CascadeType.ALL, orphanRemoval = false)
-    private List<ParcelStopDao> parcelStops = new ArrayList<>();
-
+    @OneToMany(mappedBy = "stop", cascade = CascadeType.ALL, orphanRemoval = false)
+    private List<ParcelDao> parcels = new ArrayList<>();
 }

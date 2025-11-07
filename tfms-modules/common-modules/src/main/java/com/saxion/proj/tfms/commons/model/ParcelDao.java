@@ -64,12 +64,13 @@ public class ParcelDao {
     @Column(name = "planned_delivery_date")
     private ZonedDateTime plannedDeliveryDate;
 
-    @Column(name = "planned_duration_time")
-    private String plannedDurationTime;
+    @Column(name = "estimated_travel_time")
+    private int estimatedTravelTime;
 
-    // assignment to this parcel
-    @OneToMany(mappedBy = "parcel", cascade = CascadeType.ALL, orphanRemoval = false)
-    private List<ParcelStopDao> parcelStops = new ArrayList<>();
+    // The stop belongs to (planned route)
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "stop_id")
+    private RouteStopDao stop;
 
     @PrePersist
     protected void onCreate() {

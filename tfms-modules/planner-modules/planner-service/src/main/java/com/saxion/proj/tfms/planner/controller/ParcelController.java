@@ -3,6 +3,8 @@ package com.saxion.proj.tfms.planner.controller;
 import com.saxion.proj.tfms.commons.security.UserContext;
 import com.saxion.proj.tfms.commons.security.annotations.CurrentUser;
 import com.saxion.proj.tfms.planner.abstractions.parcelServices.*;
+import com.saxion.proj.tfms.planner.dto.UpdateParcelStatusRequestDto;
+import com.saxion.proj.tfms.planner.dto.UpdateRouteStatusRequestDto;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,6 +53,12 @@ public class ParcelController {
     @Qualifier("getPendingParcelHandler")
     private IGetPendingParcel getPendingParcel;
 
+
+    @Autowired
+    @Qualifier("updateParcelStatus")
+    private IUpdateParcelStatus updateParcelStatus;
+
+    //
     //create parcel
     @PostMapping("/create")
     public ApiResponse<ParcelResponseDto> create(
@@ -186,5 +194,18 @@ public class ParcelController {
         }
 
         return ResponseEntity.ok(getPendingParcel.Handle());
+    }
+
+    // -------------------- Update Parcel Status --------------------
+    @PutMapping("/status")
+    public ResponseEntity<ApiResponse<String>> updateRouteStatus(
+            @CurrentUser UserContext user,
+            @Valid @RequestBody UpdateParcelStatusRequestDto dto
+    ) {
+        if (!user.isValid()) {
+            return ResponseEntity.status(401).body(ApiResponse.error("Invalid token"));
+        }
+
+        return ResponseEntity.ok(updateParcelStatus.handle(dto));
     }
 }

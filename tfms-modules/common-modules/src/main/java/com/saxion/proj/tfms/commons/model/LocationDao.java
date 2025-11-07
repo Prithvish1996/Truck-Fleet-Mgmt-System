@@ -46,7 +46,4 @@ public class LocationDao extends BaseEntity {
 
     @OneToMany(mappedBy = "location", cascade = CascadeType.ALL, orphanRemoval = false)
     private List<RouteStopDao> routeStops = new ArrayList<>();
-
-    @OneToMany(mappedBy = "startWarehouse", cascade = CascadeType.ALL, orphanRemoval = false)
-    private List<RouteDao> routesStart = new ArrayList<>();
 }
