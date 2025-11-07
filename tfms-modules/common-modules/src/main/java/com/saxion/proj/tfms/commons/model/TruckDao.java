@@ -38,6 +38,9 @@ public class TruckDao extends BaseEntity {
 
     private String lastServicedBy;
 
+    @Column(nullable = false)
+    private Boolean isAvailable = true;
+
     private Double volume;
 
     @OneToMany(mappedBy = "truck", cascade = CascadeType.ALL, orphanRemoval = true)

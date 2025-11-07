@@ -96,5 +96,11 @@
             <version>5.6.0</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.saxion.proj</groupId>
+            <artifactId>routing-service</artifactId>
+            <version>1.0.0-dev</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 </project>

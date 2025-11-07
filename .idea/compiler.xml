@@ -19,10 +19,18 @@
         <module name="auth-service" />
         <module name="payment-service" />
         <module name="common-modules" />
-        <module name="routing-service" />
         <module name="gateway-service" />
         <module name="tfms-starter" />
         <module name="assignment-service" />
+      </profile>
+      <profile name="Annotation profile for Truck Fleet Management System" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar" />
+        </processorPath>
+        <module name="routing-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

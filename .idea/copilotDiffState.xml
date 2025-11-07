@@ -3,6 +3,15 @@
   <component name="CopilotDiffPersistence">
     <option name="pendingDiffs">
       <map>
+        <entry key="$PROJECT_DIR$/tfms-modules/routing-distribution-module/routing-service/src/main/java/com/saxion/proj/tfms/routing/model/TruckRoute.java">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/tfms-modules/routing-distribution-module/routing-service/src/main/java/com/saxion/proj/tfms/routing/model/TruckRoute.java" />
+              <option name="originalContent" value="&#10;import java.util.List;&#10;&#10;@Data&#10;@NoArgsConstructor&#10;@AllArgsConstructor&#10;public class TruckRoute {&#10;    private String truckId;&#10;    private int distance;&#10;    private int transportTime;&#10;    private List&lt;Activity&gt; activities;&#10;    private List&lt;String&gt; assignedParcels;&#10;    private String warehouseVisited;&#10;    private double capacityUsed;&#10;    private double totalCapacity;&#10;    private double capacityUtilizationPercent;&#10;}" />
+              <option name="updatedContent" value="import lombok.AllArgsConstructor;&#10;import lombok.Data;&#10;import lombok.NoArgsConstructor;&#10;&#10;import java.util.List;&#10;&#10;@Data&#10;@NoArgsConstructor&#10;@AllArgsConstructor&#10;public class TruckRoute {&#10;    private String truckId;&#10;    private int distance;&#10;    private int transportTime;&#10;    private List&lt;Activity&gt; activities;&#10;    private List&lt;String&gt; assignedParcels;&#10;    private String warehouseVisited;&#10;    private double capacityUsed;&#10;    private double totalCapacity;&#10;    private double capacityUtilizationPercent;&#10;}" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/tfms-modules/routing-distribution-module/routing-service/src/main/java/com/saxion/proj/tfms/routing/service/interfaces/LocationMappingService.java">
           <value>
             <PendingDiffInfo>
