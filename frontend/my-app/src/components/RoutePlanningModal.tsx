@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { ParcelRequest } from '../types';
 import './RoutePlanningModal.css';
 
 interface RoutePlanningModalProps {
@@ -8,74 +7,74 @@ interface RoutePlanningModalProps {
   onGenerateRoute: (selectedParcels: string[]) => void;
 }
 
-const mockParcelRequests: ParcelRequest[] = [
+const mockParcelRequests = [
   {
-    id: 'R1234-1',
-    customer: 'Amazon',
-    warehouse: 'The Hague',
-    deliveryLocation: 'Deventer',
+    id: 'R-965-FK',
+    customer: "Oct 10, 17:00",
+    warehouse: 'Amazon DUS2',
+    deliveryLocation: '15',
     priority: 'High'
   },
   {
-    id: 'R1234-2',
-    customer: 'Amazon',
-    warehouse: 'The Hague',
-    deliveryLocation: 'Deventer',
+    id: 'K-381-LP',
+    customer: "Oct 10, 17:00",
+    warehouse: 'Amazon DUS2',
+    deliveryLocation: '20',
     priority: 'Low'
   },
   {
-    id: 'R1234-3',
-    customer: 'Amazon',
-    warehouse: 'The Hague',
-    deliveryLocation: 'Deventer',
+    id: 'T-947-MJ',
+    customer: "Oct 10, 17:00",
+    warehouse: 'Amazon DUS2',
+    deliveryLocation: '22',
     priority: 'Low'
   },
   {
-    id: 'R1234-4',
-    customer: 'Amazon',
-    warehouse: 'Amsterdam',
-    deliveryLocation: 'Deventer',
+    id: 'H-520-ZR',
+    customer: "Oct 10, 17:00",
+    warehouse: 'Amazon DUS2',
+    deliveryLocation: '22',
     priority: 'Medium'
   },
   {
-    id: 'R1234-5',
-    customer: 'Amazon',
-    warehouse: 'Hoofddorp',
-    deliveryLocation: 'Deventer',
+    id: 'B-194-XN',
+    customer: "Oct 10, 17:00",
+    warehouse: 'Amazon DUS2',
+    deliveryLocation: '22',
     priority: 'Medium'
   },
   {
-    id: 'R1234-6',
-    customer: 'Amazon',
-    warehouse: 'The Hague',
-    deliveryLocation: 'Deventer',
+    id: 'V-803-GC',
+    customer: "Oct 10, 17:00",
+    warehouse: 'Amazon DUS2',
+    deliveryLocation: '22',
     priority: 'High'
   },
   {
-    id: 'R1234-7',
-    customer: 'Amazon',
-    warehouse: 'Amsterdam',
-    deliveryLocation: 'Deventer',
+    id: 'N-672-FD',
+    customer: "Oct 10, 17:00",
+    warehouse: 'Amazon DUS2',
+    deliveryLocation: '22',
     priority: 'Low'
   },
   {
-    id: 'R1234-8',
-    customer: 'Amazon',
-    warehouse: 'Rotterdam',
-    deliveryLocation: 'Deventer',
+    id: 'P-415-HV',
+    customer: "Oct 10, 17:00",
+    warehouse: 'Amazon DUS2',
+    deliveryLocation: '22',
     priority: 'Low'
   },
   {
-    id: 'R1234-9',
-    customer: 'Amazon',
-    warehouse: 'Rotterdam',
-    deliveryLocation: 'Deventer',
+    id: 'Z-209-KR',
+    customer: "Oct 10, 17:00",
+    warehouse: 'Amazon DUS2',
+    deliveryLocation: '22',
     priority: 'Medium'
   }
 ];
 
 export default function RoutePlanningModal({ isOpen, onClose, onGenerateRoute }: RoutePlanningModalProps) {
-  const [parcels, setParcels] = useState<ParcelRequest[]>([]);
+  const [parcels, setParcels] = useState<any[]>([]);
   const [selectedParcels, setSelectedParcels] = useState<Set<string>>(new Set());
 
   useEffect(() => {
@@ -116,11 +115,11 @@ export default function RoutePlanningModal({ isOpen, onClose, onGenerateRoute }:
   const getPriorityColor = (priority: string) => {
     switch (priority) {
       case 'High':
-        return '#ff4444'; // Red
+        return '#ff4444';
       case 'Medium':
-        return '#4CAF50'; // Green
+        return '#2f8b56';
       case 'Low':
-        return '#2196F3'; // Blue
+        return '#2196F3';
       default:
         return '#666';
     }
@@ -132,7 +131,7 @@ export default function RoutePlanningModal({ isOpen, onClose, onGenerateRoute }:
     <div className="route-planning-modal-overlay" onClick={onClose}>
       <div className="route-planning-modal" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
-          <h2 className="modal-title">Tomorrow's Requests</h2>
+          <h2 className="modal-title">New Requests</h2>
           <button className="modal-close-button" onClick={onClose}>×</button>
         </div>
         
@@ -149,10 +148,10 @@ export default function RoutePlanningModal({ isOpen, onClose, onGenerateRoute }:
                       className="select-all-checkbox"
                     />
                   </th>
-                  <th>Request ID</th>
-                  <th>Customer</th>
+                  <th>Truck Plate ID</th>
+                  <th>Delivery Date</th>
+                  <th>No. of Parcels</th>
                   <th>Warehouse</th>
-                  <th>Delivery Location</th>
                   <th>Priority</th>
                 </tr>
               </thead>
@@ -169,8 +168,8 @@ export default function RoutePlanningModal({ isOpen, onClose, onGenerateRoute }:
                     </td>
                     <td>{parcel.id}</td>
                     <td>{parcel.customer}</td>
-                    <td>{parcel.warehouse}</td>
                     <td>{parcel.deliveryLocation}</td>
+                    <td>{parcel.warehouse}</td>
                     <td>
                       <span 
                         className="priority-badge"
@@ -188,8 +187,8 @@ export default function RoutePlanningModal({ isOpen, onClose, onGenerateRoute }:
           <div className="modal-footer">
             <div className="selected-count">
               {selectedParcels.size > 0 
-                ? `${selectedParcels.size} parcel${selectedParcels.size > 1 ? 's' : ''} selected`
-                : 'No parcels selected'}
+                ? `${selectedParcels.size} request${selectedParcels.size > 1 ? 's' : ''} selected`
+                : 'No requests selected'}
             </div>
             <button 
               className="generate-route-button"

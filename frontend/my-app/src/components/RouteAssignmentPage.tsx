@@ -65,7 +65,7 @@ export default function RouteAssignmentPage({ selectedParcelIds, onReturn, onSub
           truckPlateNo: generateTruckPlateNo(i),
           date: dateStr,
           numberOfParcels: 25,
-          driverId: i < 4 ? preAssignedDrivers[i] : null // First 4 have drivers, rest are "New"
+          driverId: i < 4 ? preAssignedDrivers[i] : null
         });
       }
       
@@ -104,9 +104,9 @@ export default function RouteAssignmentPage({ selectedParcelIds, onReturn, onSub
   };
 
   const getDriverName = (driverId: string | null): string => {
-    if (!driverId) return 'New';
+    if (!driverId) return '';
     const driver = mockDrivers.find(d => d.id === driverId);
-    return driver ? driver.name : 'New';
+    return driver ? driver.name : '';
   };
 
   return (
@@ -119,7 +119,7 @@ export default function RouteAssignmentPage({ selectedParcelIds, onReturn, onSub
             <thead>
               <tr>
                 <th>No.</th>
-                <th>Truck Plate No.</th>
+                <th>Truck Plate ID</th>
                 <th>Date</th>
                 <th>No. of Parcels</th>
                 <th>Driver</th>
@@ -148,10 +148,10 @@ export default function RouteAssignmentPage({ selectedParcelIds, onReturn, onSub
                     <td>
                       <select
                         className="driver-select"
-                        value={assignment.driverId || 'new'}
-                        onChange={(e) => handleDriverChange(assignment.id, e.target.value === 'new' ? null : e.target.value)}
+                        value={assignment.driverId || ''}
+                        onChange={(e) => handleDriverChange(assignment.id, e.target.value === '' ? null : e.target.value)}
                       >
-                        <option value="new">New</option>
+                        <option value=""></option>
                         {mockDrivers.map(driver => (
                           <option key={driver.id} value={driver.id}>
                             {driver.name}
