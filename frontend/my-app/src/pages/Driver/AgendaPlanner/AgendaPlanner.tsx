@@ -62,6 +62,19 @@ export default function AgendaPlanner() {
     return dates;
   };
 
+  const getWeekNumber = (date: Date): number => {
+    // ISO week number calculation (week starts on Monday, week 1 contains the first Thursday)
+    const d = new Date(date);
+    d.setHours(0, 0, 0, 0);
+    // Set to nearest Thursday: current date + 4 - current day number
+    // Make Sunday's day number 7
+    d.setDate(d.getDate() + 4 - (d.getDay() || 7));
+    // Get first day of year
+    const yearStart = new Date(d.getFullYear(), 0, 1);
+    // Calculate full weeks to nearest Thursday
+    return Math.ceil((((d.getTime() - yearStart.getTime()) / 86400000) + 1) / 7);
+  };
+
   const getWeekDatesWithInfo = (date: Date) => {
     const dates = getWeekDates(date);
     return dates.map(dateStr => {
@@ -193,7 +206,7 @@ export default function AgendaPlanner() {
               ←
             </button>
             <span className="week-display">
-              {currentWeek.toLocaleDateString('en-US', { 
+              Week {getWeekNumber(currentWeek)} - {currentWeek.toLocaleDateString('en-US', { 
                 month: 'long', 
                 year: 'numeric' 
               })}

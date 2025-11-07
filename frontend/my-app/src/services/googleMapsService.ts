@@ -1,9 +1,6 @@
-// Google Maps API service for delivery time estimates and routing
 import { apiConfig } from '../config/apiConfig';
 
-// Note: You'll need to add your Google Maps API key to your environment variables
 const GOOGLE_MAPS_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY || '';
-// Set to false to disable Google Maps API and use local calculations instead
 const USE_GOOGLE_MAPS_API = false;
 
 export interface GoogleMapsRouteEstimate {
@@ -39,9 +36,6 @@ class GoogleMapsService {
     }
   }
 
-  /**
-   * Calculate distance between two points using Haversine formula (in meters)
-   */
   private calculateDistance(origin: [number, number], destination: [number, number]): number {
     const R = 6371e3; // Earth's radius in meters
     const φ1 = origin[0] * Math.PI / 180;
@@ -57,31 +51,22 @@ class GoogleMapsService {
     return R * c; // Distance in meters
   }
 
-  /**
-   * Get time estimate using Google Maps API (if enabled) or fallback to local calculation
-   */
   async getTimeEstimate(
     origin: [number, number], // [lat, lng]
     destination: [number, number], // [lat, lng]
     mode: 'driving' | 'walking' | 'bicycling' | 'transit' = 'driving'
   ): Promise<{ durationInSeconds: number; distanceInMeters: number; durationText: string; distanceText: string }> {
-    // Try Google Maps API first if enabled
     if (this.useApi) {
       try {
         return await this.getTimeEstimateFromAPI(origin, destination, mode);
       } catch (error) {
         console.warn('Google Maps API failed, falling back to local calculation:', error);
-        // Fall through to local calculation
       }
     }
 
-    // Fallback to local calculation
     return this.getTimeEstimateLocal(origin, destination, mode);
   }
 
-  /**
-   * Get time estimate from Google Maps API (DISABLED - use local calculation instead)
-   */
   private async getTimeEstimateFromAPI(
     origin: [number, number],
     destination: [number, number],
@@ -122,18 +107,13 @@ class GoogleMapsService {
     };
   }
 
-  /**
-   * Get time estimate using local calculation (fallback when API is disabled)
-   */
   private getTimeEstimateLocal(
     origin: [number, number],
     destination: [number, number],
     mode: 'driving' | 'walking' | 'bicycling' | 'transit'
   ): { durationInSeconds: number; distanceInMeters: number; durationText: string; distanceText: string } {
-    // Calculate straight-line distance
     const distanceInMeters = this.calculateDistance(origin, destination);
     
-    // Estimate time based on mode (average speeds)
     const averageSpeed: { [key: string]: number } = {
       driving: 50, // km/h
       walking: 5,
@@ -146,7 +126,6 @@ class GoogleMapsService {
     const durationInHours = distanceInKm / speed;
     const durationInSeconds = Math.round(durationInHours * 3600);
     
-    // Format distance text
     let distanceText: string;
     if (distanceInMeters < 1000) {
       distanceText = `${Math.round(distanceInMeters)} m`;
@@ -154,7 +133,6 @@ class GoogleMapsService {
       distanceText = `${distanceInKm.toFixed(1)} km`;
     }
     
-    // Format duration text
     let durationText: string;
     if (durationInSeconds < 60) {
       durationText = `${durationInSeconds} sec`;
@@ -175,9 +153,6 @@ class GoogleMapsService {
     };
   }
 
-  /**
-   * Send time estimate to backend
-   */
   async sendTimeEstimateToBackend(
     packageId: string,
     userLocation: [number, number],
@@ -218,13 +193,9 @@ class GoogleMapsService {
       console.log('Time estimate sent to backend successfully');
     } catch (error) {
       console.error('Error sending time estimate to backend:', error);
-      // Don't throw - allow the flow to continue even if backend call fails
     }
   }
 
-  /**
-   * Generate Google Maps deep link for navigation
-   */
   generateNavigationDeepLink(
     destination: [number, number], // [lat, lng]
     destinationAddress?: string
@@ -232,20 +203,14 @@ class GoogleMapsService {
     const lat = destination[0];
     const lng = destination[1];
 
-    // Try Google Maps app first, fallback to web
     if (destinationAddress) {
-      // Use query parameter for address-based navigation (more reliable)
       const encodedAddress = encodeURIComponent(destinationAddress);
       return `https://www.google.com/maps/dir/?api=1&destination=${encodedAddress}`;
     } else {
-      // Use coordinates
       return `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
     }
   }
 
-  /**
-   * Open Google Maps app with navigation
-   */
   openNavigation(destination: [number, number], destinationAddress?: string): void {
     const deepLink = this.generateNavigationDeepLink(destination, destinationAddress);
     console.log('Opening Google Maps:', deepLink);

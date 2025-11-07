@@ -6,23 +6,15 @@ import { Route } from '../../../types';
 import './DriverDashboard.css';
 import DriverHeader from '../components/driverHeader';
 import RouteCard from '../components/RouteCard';
-import FeedbackBox from '../components/feedbackBox';
 import BottomTabBar from '../components/BottomTabBar/BottomTabBar';
 import AgendaPlanner from '../AgendaPlanner/AgendaPlanner';
+import Suggestions from '../Suggestions/Suggestions';
 
 export default function DriverDashboard() {
   const navigate = useNavigate();
-  const [feedback, setFeedback] = useState('');
   const [routes, setRoutes] = useState<Route[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<'home' | 'agenda'>('home');
-
-  const handleFeedbackSubmit = () => {
-    if (feedback.trim()) {
-      console.log('Feedback submitted:', feedback);
-      setFeedback('');
-    }
-  };
+  const [activeTab, setActiveTab] = useState<'home' | 'agenda' | 'suggestions'>('home');
 
   const startRoute = async (routeId: string) => {
     try {
@@ -62,8 +54,6 @@ export default function DriverDashboard() {
       <div className="dashboard-content">
         {activeTab === 'home' ? (
           <>
-            <FeedbackBox feedback={feedback} setFeedback={setFeedback} handleFeedbackSubmit={handleFeedbackSubmit} />
-
             {loading ? (
               <div className="loading-message">Loading routes...</div>
             ) : routes.length === 0 ? (
@@ -84,8 +74,10 @@ export default function DriverDashboard() {
               ))
             )}
           </>
-        ) : (
+        ) : activeTab === 'agenda' ? (
           <AgendaPlanner />
+        ) : (
+          <Suggestions />
         )}
       </div>
 
