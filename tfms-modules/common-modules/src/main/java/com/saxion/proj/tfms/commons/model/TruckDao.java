@@ -22,8 +22,8 @@ public class TruckDao extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String name;
+    @Column(name = "plate_number", nullable = false)
+    private String plateNumber;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "truck_type", nullable = false)
@@ -37,6 +37,9 @@ public class TruckDao extends BaseEntity {
     private String lastServicedBy;
 
     private Double volume;
+
+    @Column(nullable = false)
+    private Boolean isAvailable;
 
     @OneToMany(mappedBy = "truck", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DriverTruckAssignmentDao> assignments;

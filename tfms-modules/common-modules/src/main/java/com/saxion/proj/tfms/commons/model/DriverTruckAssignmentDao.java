@@ -1,5 +1,6 @@
 package com.saxion.proj.tfms.commons.model;
 
+import com.saxion.proj.tfms.commons.constants.StatusEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,4 +34,8 @@ public class DriverTruckAssignmentDao extends BaseEntity {
 
     @Column(nullable = false)
     private ZonedDateTime dateAssigned;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "assignment-status", nullable = false)
+    private StatusEnum assignmentStatus;
 }
