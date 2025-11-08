@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.UniqueElements;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -23,8 +22,8 @@ public class TruckDao extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true) // Ensure truck names are unique, no duplicates allowed
-    private String name;
+    @Column(name = "plate_number", nullable = false)
+    private String plateNumber;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "truck_type", nullable = false)
@@ -33,15 +32,14 @@ public class TruckDao extends BaseEntity {
     @Column(nullable = false)
     private String make;
 
-
     private LocalDate lastServiceDate;
 
     private String lastServicedBy;
 
-    @Column(nullable = false)
-    private Boolean isAvailable = true;
-
     private Double volume;
+
+    @Column(nullable = false)
+    private Boolean isAvailable;
 
     @OneToMany(mappedBy = "truck", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DriverTruckAssignmentDao> assignments;
@@ -51,8 +49,4 @@ public class TruckDao extends BaseEntity {
 
     @OneToMany(mappedBy = "truck", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RouteDao> routes;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "depot_id", nullable = false)
-    private DepotDao depot;
 }

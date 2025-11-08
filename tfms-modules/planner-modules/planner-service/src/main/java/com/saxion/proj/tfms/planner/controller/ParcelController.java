@@ -1,9 +1,11 @@
 package com.saxion.proj.tfms.planner.controller;
 
-import com.saxion.proj.tfms.commons.dto.UserDto;
 import com.saxion.proj.tfms.commons.security.UserContext;
 import com.saxion.proj.tfms.commons.security.annotations.CurrentUser;
-import com.saxion.proj.tfms.planner.abstractions.ParcelServices.*;
+import com.saxion.proj.tfms.planner.abstractions.parcelServices.*;
+import com.saxion.proj.tfms.planner.dto.UpdateParcelStatusRequestDto;
+import com.saxion.proj.tfms.planner.dto.UpdateRouteStatusRequestDto;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import com.saxion.proj.tfms.commons.dto.ApiResponse;
@@ -18,24 +20,45 @@ import java.util.Objects;
 import com.saxion.proj.tfms.planner.dto.ParcelRequestDto;
 import com.saxion.proj.tfms.planner.dto.ParcelResponseDto;
 import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/planner/parcel")
 public class ParcelController {
     @Autowired
+    @Qualifier("createParcelHandler")
     private ICreateParcel createParcel;
-    @Autowired
-    private IGetAllParcels getAllParcels;
-    @Autowired
-    private IGetParcelById getParcelById;
-    @Autowired
-    private IDeleteParcel deleteParcelById;
-    @Autowired
-    private IUpdateParcel updateParcel;
-    @Autowired
-    private IGetNextDayParcelSchedule getNextDayParcel;
 
+    @Autowired
+    @Qualifier("createParcelsBulkHandler")
+    private ICreateParcelsBulk bulkCreateParcel;
+
+    @Autowired
+    @Qualifier("getAllParcelHandler")
+    private IGetAllParcels getAllParcels;
+
+
+    @Autowired
+    @Qualifier("getParcelByIdHandler")
+    private IGetParcelById getParcelById;
+
+    @Autowired
+    @Qualifier("deleteParcelHandler")
+    private IDeleteParcel deleteParcelById;
+
+    @Autowired
+    @Qualifier("updateParcelHandler")
+    private IUpdateParcel updateParcel;
+
+    @Autowired
+    @Qualifier("getPendingParcelHandler")
+    private IGetPendingParcel getPendingParcel;
+
+
+    @Autowired
+    @Qualifier("updateParcelStatus")
+    private IUpdateParcelStatus updateParcelStatus;
+
+    //
     //create parcel
     @PostMapping("/create")
     public ApiResponse<ParcelResponseDto> create(
@@ -46,39 +69,44 @@ public class ParcelController {
             return ApiResponse.error("Invalid token");
         }
 
-        if (!Objects.equals(user.getRole(), "ADMIN")) {
+        if (!Objects.equals(user.getRole(), "PLANNER")) {
             return ApiResponse.error("Not Authorized");
         }
 
         return createParcel.Handle(dto);
     }
 
+    //create bulk parcel
+    @PostMapping("/bulk")
+    public ApiResponse<List<ParcelResponseDto>> bulkCreation(
+            @Valid @CurrentUser UserContext user,
+            @RequestBody List<ParcelRequestDto> dtos
+    ){
+        if (!user.isValid()) {
+            return ApiResponse.error("Invalid token");
+        }
+
+        if (!Objects.equals(user.getRole(), "PLANNER")) {
+            return ApiResponse.error("Not Authorized");
+        }
+
+        return bulkCreateParcel.Handle(dtos);
+    }
+
     /**
-     * Endpoint for external APIs to push a list of parcels for creation
+     * Webhook for external APIs to push a list of parcels for creation
      */
-    @PostMapping("/callback")
+    @PostMapping("/webhook")
     public ResponseEntity<ApiResponse<List<ParcelResponseDto>>> handleParcelCallback(
+            @Valid @CurrentUser UserContext user,
             @Valid @RequestBody List<ParcelRequestDto> parcelRequests) {
 
-        // need the implement some form of validation to ensure only authorized external endpoint
-        // can utilized this callback
-
-        List<ParcelResponseDto> createdParcels = new ArrayList<>();
-
-        for (ParcelRequestDto parcelDto : parcelRequests) {
-            // Call existing CreateParcelHandler for each parcel
-            ApiResponse<ParcelResponseDto> response = createParcel.Handle(parcelDto);
-
-            if (response.isSuccess() && response.getData() != null) {
-                createdParcels.add(response.getData());
-            } else {
-                // You can log or handle partial failures here
-                System.err.println("Failed to create parcel: " + response.getMessage());
-            }
+        if (!user.isValid()) {
+            return ResponseEntity.status(401).body(ApiResponse.error("Invalid token"));
         }
 
         // Wrap the list of created parcels in a standard ApiResponse
-        return ResponseEntity.ok(ApiResponse.success(createdParcels));
+        return ResponseEntity.ok(bulkCreateParcel.Handle(parcelRequests));
     }
 
 
@@ -97,7 +125,7 @@ public class ParcelController {
         }
 
         String role = user.getRole();
-        if(!Objects.equals(role, "ADMIN")){
+        if(!Objects.equals(role, "PLANNER")){
             return ResponseEntity.status(403)
                     .body(ApiResponse.error("Not Authorized"));
         }
@@ -128,6 +156,12 @@ public class ParcelController {
                     .body(ApiResponse.error("Invalid token"));
         }
 
+        String role = user.getRole();
+        if(!Objects.equals(role, "ADMIN")){
+            return ResponseEntity.status(403)
+                    .body(ApiResponse.error("Not Authorized"));
+        }
+
         return ResponseEntity.ok(deleteParcelById.Handle(parcelid));
     }
 
@@ -142,7 +176,7 @@ public class ParcelController {
             return ApiResponse.error("Invalid token");
         }
 
-        if (!Objects.equals(user.getRole(), "ADMIN")) {
+        if (!Objects.equals(user.getRole(), "PLANNER")) {
             return ApiResponse.error("Not Authorized");
         }
 
@@ -159,6 +193,19 @@ public class ParcelController {
                     .body(ApiResponse.error("Invalid token"));
         }
 
-        return ResponseEntity.ok(getNextDayParcel.Handle());
+        return ResponseEntity.ok(getPendingParcel.Handle());
+    }
+
+    // -------------------- Update Parcel Status --------------------
+    @PutMapping("/status")
+    public ResponseEntity<ApiResponse<String>> updateRouteStatus(
+            @CurrentUser UserContext user,
+            @Valid @RequestBody UpdateParcelStatusRequestDto dto
+    ) {
+        if (!user.isValid()) {
+            return ResponseEntity.status(401).body(ApiResponse.error("Invalid token"));
+        }
+
+        return ResponseEntity.ok(updateParcelStatus.handle(dto));
     }
 }
