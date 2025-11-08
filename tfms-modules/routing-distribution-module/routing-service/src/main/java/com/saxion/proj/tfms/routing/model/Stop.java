@@ -4,7 +4,6 @@ import com.saxion.proj.tfms.routing.constant.StopType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +13,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@RequiredArgsConstructor
 public class Stop {
     private Coordinates coordinates;
     private List<Parcel> parcelsToDeliver = new CopyOnWriteArrayList<>();

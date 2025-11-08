@@ -2,7 +2,6 @@ package com.saxion.proj.tfms.auth.controller;
 
 import com.saxion.proj.tfms.auth.dto.LoginRequestDto;
 import com.saxion.proj.tfms.auth.dto.LoginResponseDto;
-import com.saxion.proj.tfms.auth.dto.UserProfileDto;
 import com.saxion.proj.tfms.auth.service.AuthService;
 import com.saxion.proj.tfms.commons.dto.ApiResponse;
 import com.saxion.proj.tfms.commons.service.TokenBlacklistService;
@@ -87,11 +86,13 @@ class AuthControllerTest {
     void login_WhenServiceThrowsException_ShouldReturnError() throws Exception {
         // Given
         when(authService.authenticate(any(LoginRequestDto.class)))
-                .thenThrow(new RuntimeException("Authentication failed"));
+                .thenThrow(new IllegalStateException("Authentication failed"));
         mockMvc.perform(post("/api/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(validLoginRequest)))
-                .andExpect(status().isInternalServerError());
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.success").value(false))
+                .andExpect(jsonPath("$.errorCode").value("ILLEGAL_STATE"));
 
         verify(authService).authenticate(any(LoginRequestDto.class));
     }
@@ -139,14 +140,15 @@ class AuthControllerTest {
     void logout_WhenBlacklistServiceThrows_ShouldReturnError() throws Exception {
 
         String token = "valid-token";
-        doThrow(new RuntimeException("Blacklist failed"))
+        doThrow(new IllegalStateException("Blacklist failed"))
                 .when(tokenBlacklistService).blackListToken(token);
 
 
         mockMvc.perform(post("/api/auth/logout")
                 .header("Authorization", "Bearer " + token))
-                .andExpect(status().isInternalServerError())
-                .andExpect(jsonPath("$.success").value(false));
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.success").value(false))
+                .andExpect(jsonPath("$.errorCode").value("ILLEGAL_STATE"));
 
         verify(tokenBlacklistService).blackListToken(token);
     }
