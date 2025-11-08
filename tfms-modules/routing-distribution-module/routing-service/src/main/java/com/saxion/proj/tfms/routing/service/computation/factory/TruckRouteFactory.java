@@ -29,22 +29,22 @@ public class TruckRouteFactory {
     public TruckRouteInfo createRouteForTruck(VRPRequest vrpRequest, TruckAssignment assignment, Long warehouseId) {
         logger.infoOp(ServiceName.ROUTING_SERVICE, "CREATE_TRUCK_ROUTE",
                 "Creating route for truck: {} in warehouse: {} with {} parcels",
-                assignment.getTruckId(), warehouseId, assignment.getParcels().size());
+                assignment.getTruckPlateNumber(), warehouseId, assignment.getParcels().size());
 
         try {
             RouteCoordinatesGroup coords = dataPreparer.prepareCoordinates(vrpRequest, assignment);
             logger.debugOp(ServiceName.ROUTING_SERVICE, "CREATE_TRUCK_ROUTE",
-                    "Coordinates prepared for truck: {}", assignment.getTruckId());
+                    "Coordinates prepared for truck: {}", assignment.getTruckPlateNumber());
 
             // Commenting for now to mock behaviour
             //        List<Stop> stops = routingProvider.calculateRoute(routeCoordinatesGroup);
 
             List<Stop> stops = dataPreparer.createUnoptimizedStops(coords, assignment, vrpRequest);
             logger.debugOp(ServiceName.ROUTING_SERVICE, "CREATE_TRUCK_ROUTE",
-                    "Created {} stops for truck: {}", stops.size(), assignment.getTruckId());
+                    "Created {} stops for truck: {}", stops.size(), assignment.getTruckPlateNumber());
 
             TruckRouteInfo routeInfo = TruckRouteInfo.builder()
-                    .truckName(assignment.getTruckId())
+                    .truckPlateNumber(assignment.getTruckPlateNumber())
                     .depotId(vrpRequest.getDepot().getDepotId())
                     .depotName(vrpRequest.getDepot().getDepotName())
                     .routeStops(stops)
@@ -54,14 +54,14 @@ public class TruckRouteFactory {
 
             logger.infoOp(ServiceName.ROUTING_SERVICE, "CREATE_TRUCK_ROUTE",
                     "Successfully created route for truck: {} with {} stops",
-                    assignment.getTruckId(), stops.size());
+                    assignment.getTruckPlateNumber(), stops.size());
 
             return routeInfo;
         } catch (Exception e) {
             logger.errorOp(ServiceName.ROUTING_SERVICE, "CREATE_TRUCK_ROUTE",
                     "Failed to create route for truck: {} in warehouse: {} - Error: {}",
-                    assignment.getTruckId(), warehouseId, e.getMessage());
-            throw new RuntimeException("Failed to create route for truck " + assignment.getTruckId(), e);
+                    assignment.getTruckPlateNumber(), warehouseId, e.getMessage());
+            throw new RuntimeException("Failed to create route for truck " + assignment.getTruckPlateNumber(), e);
         }
     }
 }

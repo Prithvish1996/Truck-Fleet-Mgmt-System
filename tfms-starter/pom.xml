@@ -70,11 +70,6 @@
             <version>${project.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.saxion.proj</groupId>
-            <artifactId>truck-assignment-service</artifactId>
-            <version>${project.version}</version>
-        </dependency>
 
         <!-- Lombok for boilerplate code reduction -->
         <dependency>

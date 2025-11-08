@@ -13,7 +13,6 @@ import org.springframework.context.annotation.ComponentScan;
     "com.saxion.proj.tfms.planner",
     "com.saxion.proj.tfms.auth",       // Auth service controllers
     "com.saxion.proj.tfms.routing",    // Routing service
-    "com.saxion.proj.tfms.truck.assingment", // Truck assignment service
     "com.saxion.proj.tfms.auth.abstraction"       // Auth service controllers
 })
 public class TfmsApplication {

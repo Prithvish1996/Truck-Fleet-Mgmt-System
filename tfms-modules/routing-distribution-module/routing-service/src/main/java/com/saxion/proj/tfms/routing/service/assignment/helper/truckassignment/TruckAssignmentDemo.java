@@ -60,7 +60,7 @@ public class TruckAssignmentDemo {
             System.out.println("  Overall Utilization: " + String.format("%.1f%%", response.getUtilizationPercentage()));
             System.out.println("\n  Truck Details:");
             for (TruckAssignment assignment : response.getTruckAssignments()) {
-                System.out.println("    " + assignment.getTruckId() + ":");
+                System.out.println("    " + assignment.getTruckPlateNumber() + ":");
                 System.out.println("      Parcels: " + assignment.getParcelCount());
                 System.out.println("      Used: " + String.format("%.2f / %.2f", 
                     assignment.getTotalVolume(), assignment.getTruckCapacity()));
@@ -102,7 +102,7 @@ public class TruckAssignmentDemo {
             
             System.out.println("\n  Assigned Parcels:");
             for (TruckAssignment assignment : response.getTruckAssignments()) {
-                System.out.println("    " + assignment.getTruckId() + ":");
+                System.out.println("    " + assignment.getTruckPlateNumber() + ":");
                 for (TruckAssignment.ParcelInfo parcel : assignment.getParcels()) {
                     System.out.println("      - " + parcel.getParcelId() + " (volume: " + parcel.getVolume() + ")");
                 }
@@ -150,7 +150,7 @@ public class TruckAssignmentDemo {
             
             System.out.println("\n  Assigned Parcels:");
             for (TruckAssignment assignment : response.getTruckAssignments()) {
-                System.out.println("    " + assignment.getTruckId() + ":");
+                System.out.println("    " + assignment.getTruckPlateNumber() + ":");
                 for (TruckAssignment.ParcelInfo parcel : assignment.getParcels()) {
                     System.out.println("      - " + parcel.getParcelId() + " (volume: " + parcel.getVolume() + ")");
                 }
@@ -202,7 +202,7 @@ public class TruckAssignmentDemo {
             
             System.out.println("\n  Truck Details (notice each truck appears only once):");
             for (TruckAssignment assignment : response.getTruckAssignments()) {
-                System.out.println("    " + assignment.getTruckId() + ":");
+                System.out.println("    " + assignment.getTruckPlateNumber() + ":");
                 System.out.println("      Capacity: " + String.format("%.0f", assignment.getTruckCapacity()));
                 System.out.println("      Used: " + String.format("%.0f", assignment.getTotalVolume()));
                 System.out.println("      Remaining: " + String.format("%.0f", assignment.getRemainingCapacity()));

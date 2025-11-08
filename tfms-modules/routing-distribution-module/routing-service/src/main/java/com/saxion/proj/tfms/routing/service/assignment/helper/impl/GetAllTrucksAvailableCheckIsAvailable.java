@@ -23,7 +23,7 @@ public class GetAllTrucksAvailableCheckIsAvailable implements IGetAllTrucksAvail
         return availableTrucks.stream()
                 .map(truck -> new TruckInfo(
                         truck.getId(),
-                        truck.getName(),
+                        truck.getPlateNumber(),
                         truck.getVolume() != null ? truck.getVolume() : 0.0
                 ))
                 .collect(Collectors.toList());

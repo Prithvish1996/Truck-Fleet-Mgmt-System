@@ -11,5 +11,5 @@ import java.util.Optional;
 public interface TruckNeededForRoutingRepository extends JpaRepository<TruckDao, Long> {
     List<TruckDao> findByIsAvailableTrue();
 
-    Optional<TruckDao> findByName(String name);
+    Optional<TruckDao> findByPlateNumber(String plateNumber);
 }

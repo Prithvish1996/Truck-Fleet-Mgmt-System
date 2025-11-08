@@ -21,17 +21,19 @@ public class CapacityAssignmentManager {
 
     private static final Logger log = LoggerFactory.getLogger(CapacityAssignmentManager.class);
 
-    @Autowired
-    @Qualifier("GetAllTrucksAvailableCheckForIsAvailable")
-    private IGetAllTrucksAvailable getAllTrucksAvailable;
+    private final IGetAllTrucksAvailable getAllTrucksAvailable;
+    private final TruckAssingmentAlgoService truckAssingmentAlgoService;
+    private final IMarkTruckUnavailable markTruckUnavailable;
 
     @Autowired
-    @Qualifier("TruckAssignmentServiceByBestFitAlgorithm")
-    private TruckAssingmentAlgoService truckAssingmentAlgoService;
-
-    @Autowired
-    @Qualifier("MarkTruckUnavailableUsingKeys")
-    private IMarkTruckUnavailable markTruckUnavailable;
+    public CapacityAssignmentManager(
+            @Qualifier("GetAllTrucksAvailableCheckForIsAvailable") IGetAllTrucksAvailable getAllTrucksAvailable,
+            @Qualifier("TruckAssignmentServiceByBestFitAlgorithm") TruckAssingmentAlgoService truckAssingmentAlgoService,
+            @Qualifier("MarkTruckUnavailableUsingKeys") IMarkTruckUnavailable markTruckUnavailable) {
+        this.getAllTrucksAvailable = getAllTrucksAvailable;
+        this.truckAssingmentAlgoService = truckAssingmentAlgoService;
+        this.markTruckUnavailable = markTruckUnavailable;
+    }
 
 
     @Transactional
@@ -103,7 +105,7 @@ public class CapacityAssignmentManager {
         assignments.put(warehouseId, response);
 
         for (TruckAssignment truckAssignment : response.getTruckAssignments()) {
-            String truckName = truckAssignment.getTruckId();
+            String truckName = truckAssignment.getTruckPlateNumber();
             if (truckName == null || truckName.trim().isEmpty()) {
                 log.warn("Skipping truck with null or empty name in warehouse {}", warehouseId);
                 continue;
@@ -128,7 +130,7 @@ public class CapacityAssignmentManager {
         Map<Long, List<Parcel>> map = new HashMap<>();
         for (Parcel parcel : parcels) {
             Long wid = parcel.getWarehouseId();
-            if (wid == null || wid == 0  || wid>0) continue;
+            if (wid == null || wid == 0  || wid<0) continue;
             if (!map.containsKey(wid)) {
                 map.put(wid, new ArrayList<>());
             }

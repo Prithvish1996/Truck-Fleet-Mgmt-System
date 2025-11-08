@@ -6,27 +6,27 @@ import java.util.List;
  * Truck assignment details
  */
 public class TruckAssignment {
-    private final String truckId;
+    private final String truckPlateNumber;
     private final List<ParcelInfo> parcels;
     private final double totalVolume; // Used capacity
     private final double truckCapacity; // Total truck capacity
 
-    public TruckAssignment(String truckId, List<ParcelInfo> parcels, double totalVolume) {
-        this.truckId = truckId;
+    public TruckAssignment(String truckPlateNumber, List<ParcelInfo> parcels, double totalVolume) {
+        this.truckPlateNumber = truckPlateNumber;
         this.parcels = parcels;
         this.totalVolume = totalVolume;
         this.truckCapacity = totalVolume; // For backward compatibility
     }
 
-    public TruckAssignment(String truckId, List<ParcelInfo> parcels, double totalVolume, double truckCapacity) {
-        this.truckId = truckId;
+    public TruckAssignment(String truckPlateNumber, List<ParcelInfo> parcels, double totalVolume, double truckCapacity) {
+        this.truckPlateNumber = truckPlateNumber;
         this.parcels = parcels;
         this.totalVolume = totalVolume;
         this.truckCapacity = truckCapacity;
     }
 
-    public String getTruckId() {
-        return truckId;
+    public String getTruckPlateNumber() {
+        return truckPlateNumber;
     }
 
     public List<ParcelInfo> getParcels() {

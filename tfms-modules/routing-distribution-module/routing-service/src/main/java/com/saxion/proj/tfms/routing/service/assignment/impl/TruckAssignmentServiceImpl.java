@@ -16,26 +16,17 @@ import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
-@Service("TruckAssingment")
+@Service("TruckAssignment")
 public class TruckAssignmentServiceImpl implements TruckAssignmentService {
 
     @Autowired
-    @Qualifier("GetAllTrucksAvailableCheckForIsAvailable")
-    private IGetAllTrucksAvailable getAllTrucksAvailable;
-
-    @Autowired
-    @Qualifier("TruckAssignmentServiceByBestFitAlgorithm")
-    private TruckAssingmentAlgoService assignmentAlgoService;
-
-    @Autowired
-    @Qualifier("MarkTruckUnavailableUsingKeys")
-    private IMarkTruckUnavailable markTruckUnavailable;
+    private CapacityAssignmentManager manager;
 
 
 
     @Override
     public Map<Long, AssignmentResponse> assignTrucksPerWarehouse(VRPRequest vrpRequest) {
-        CapacityAssignmentManager manager = new CapacityAssignmentManager();
+
         return manager.manageAssignmentPerWarehouse(vrpRequest);
     }
 }

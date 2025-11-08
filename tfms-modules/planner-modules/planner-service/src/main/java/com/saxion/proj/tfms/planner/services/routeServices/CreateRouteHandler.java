@@ -1,14 +1,19 @@
 package com.saxion.proj.tfms.planner.services.routeServices;
 
 import com.saxion.proj.tfms.commons.constants.StatusEnum;
-import com.saxion.proj.tfms.commons.constants.StopType;
 import com.saxion.proj.tfms.commons.dto.ApiResponse;
 import com.saxion.proj.tfms.commons.model.*;
 import com.saxion.proj.tfms.planner.abstractions.routeServices.ICreateRoute;
 import com.saxion.proj.tfms.planner.dto.*;
-import com.saxion.proj.tfms.planner.dto.routing.model.*;
+
 import com.saxion.proj.tfms.planner.repository.*;
+import com.saxion.proj.tfms.routing.model.*;
+import com.saxion.proj.tfms.routing.request.VRPRequest;
+import com.saxion.proj.tfms.routing.response.VRPResponse;
+import com.saxion.proj.tfms.routing.service.OptimizeRouting;
+import com.saxion.proj.tfms.routing.service.RoutingOptimizerImpl;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +26,9 @@ import java.util.stream.Collectors;
 @Qualifier("createRouteHandler")
 public class CreateRouteHandler implements ICreateRoute {
 
+
+
+    private final OptimizeRouting optimizeRouting;
     private final RouteRepository routeRepository;
     private final ParcelRepository parcelRepository;
     private final TruckRepository truckRepository;
@@ -29,12 +37,15 @@ public class CreateRouteHandler implements ICreateRoute {
     private final LocationRepository locationRepository;
     private final RouteStopRepository routeStopRepository;
 
-    public CreateRouteHandler(RouteRepository routeRepository,
+    public CreateRouteHandler(@Qualifier("RoutingOptimizer") OptimizeRouting optimizeRouting,
+                              RouteRepository routeRepository,
                               ParcelRepository parcelRepository,
                               TruckRepository truckRepository,
                               DriverRepository driverRepository,
                               DepotRepository depotRepository,
-                              LocationRepository locationRepository, RouteStopRepository routeStopRepository) {
+                              LocationRepository locationRepository,
+                              RouteStopRepository routeStopRepository) {
+        this.optimizeRouting = optimizeRouting;
         this.routeRepository = routeRepository;
         this.parcelRepository = parcelRepository;
         this.truckRepository = truckRepository;
@@ -89,6 +100,7 @@ public class CreateRouteHandler implements ICreateRoute {
             rp.setRecipientName(p.getRecipientName());
             rp.setRecipientPhone(p.getRecipientPhone());
             rp.setDeliveryInstructions(p.getDeliveryInstructions());
+            rp.setWarehouseId(p.getWarehouse().getId());
             return rp;
         }).collect(Collectors.toList());
 
@@ -116,13 +128,26 @@ public class CreateRouteHandler implements ICreateRoute {
                     RouteDao route = new RouteDao();
                     route.setTruck(truck);
                     route.setDepot(depotEntity);
-                    route.setTotalDistance(Optional.ofNullable(tri.getTotalDistance()).orElse(0L));
+
+                    /*
+                    Handle total distance conversion safely
+                    from Double to Long, defaulting to 0 if null
+                    NEED TO CHANGE LATER IF DISTANCE CAN BE LARGE
+                     */
+
+                    route.setTotalDistance(
+                            Long.valueOf(Optional.ofNullable(tri.getTotalDistance())
+                                    .map(d -> d.intValue())
+                                    .orElse(0))
+                    );
+
+
                     route.setTotalTransportTime(Optional.ofNullable(tri.getTotalTransportTime()).orElse(0L));
-                    route.setNote(vrpResponse.getNotes());
                     route.setStatus(StatusEnum.PLANNED);
                     route.setStartTime(ZonedDateTime.now());
                     route.setScheduleDate(ZonedDateTime.now());
                     route.setDuration(duration);
+                    route.setNote("Auto-generated route");
                     route = routeRepository.save(route); // persist first
 
                     // Step 5b: Persist each stop individually
@@ -135,9 +160,7 @@ public class CreateRouteHandler implements ICreateRoute {
                             stop.setDescription("Auto-generated stop");
                             stop.setPriority(priority++);
                             stop.setDuration(duration);
-                            stop.setStopType(s.getStopType() == null ? StopType.CUSTOMER :
-                                    StopType.valueOf(s.getStopType().name()));
-                            stop.setRoute(route);
+                            stop.setStopType(s.getStopType());
 
                             // Persist location
                             if (s.getCoordinates() != null) {
@@ -209,42 +232,7 @@ public class CreateRouteHandler implements ICreateRoute {
 
     //Stub VRP
     private VRPResponse callExternalVrpService(VRPRequest vrpRequest) {
-        TruckRouteInfo tri = new TruckRouteInfo();
-        tri.setTruckPlateNumber("TRK-001");
-        tri.setDepotId(vrpRequest.getDepot().getDepotId());
-        tri.setDepotName(vrpRequest.getDepot().getDepotName());
-        tri.setTotalTransportTime(500L);
-        tri.setTotalDistance(8L);
-
-        List<Stop> stops = new ArrayList<>();
-        WarehouseRoutingResult wrr = new WarehouseRoutingResult();
-        if (vrpRequest.getParcels() != null) {
-            for (Parcel p : vrpRequest.getParcels()) {
-                wrr.setGeneratedForWarehouse(p.getWarehouseId());
-                //define coordinates
-                LocationResponseDto loc = new LocationResponseDto();
-                loc.setLatitude(p.getDeliveryLatitude());
-                loc.setLongitude(p.getDeliveryLongitude());
-
-                //define stops
-                Stop stop = new Stop();
-                stop.setCoordinates(loc);
-                stop.setParcelsToDeliver(Collections.singletonList(p));
-                stop.setStopType(StopType.CUSTOMER);
-
-                stops.add(stop);
-            }
-        }
-        tri.setRouteStops(stops);
-        wrr.setTruckRoutes(Collections.singletonList(tri));
-
-        VRPResponse response = new VRPResponse();
-        response.setWarehouseRoutingResults(List.of(wrr));
-        response.setTotalTrucksUsed(1);
-        response.setEsitimatedDistanceInkm(500.0);
-        response.setEstimatedTimeInMinutes(40000);
-        response.setNotes("Default VRP stub");
-        return response;
+        return optimizeRouting.optimize(vrpRequest);
     }
 
     //DTO Mappers

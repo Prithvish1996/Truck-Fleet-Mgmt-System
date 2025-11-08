@@ -1,6 +1,5 @@
 package com.saxion.proj.tfms.commons.model;
 
-import com.saxion.proj.tfms.commons.constants.StatusEnum;
 import com.saxion.proj.tfms.commons.constants.StopType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

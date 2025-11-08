@@ -21,7 +21,7 @@ public class MarkTruckUnavailableUsingKeys implements IMarkTruckUnavailable {
     @Override
     @Transactional
     public TruckInfo byTruckUniqueName(String truckName) {
-        TruckDao truck = truckNeededForRoutingRepository.findByName(truckName)
+        TruckDao truck = truckNeededForRoutingRepository.findByPlateNumber(truckName)
                 .orElseThrow(() -> new NoSuchElementException("Truck not found with name: " + truckName));
 
         truck.setIsAvailable(false);
@@ -29,7 +29,7 @@ public class MarkTruckUnavailableUsingKeys implements IMarkTruckUnavailable {
 
         return new TruckInfo(
                 updated.getId(),
-                updated.getName(),
+                updated.getPlateNumber(),
                 updated.getVolume() != null ? updated.getVolume() : 0.0
         );
     }
@@ -45,7 +45,7 @@ public class MarkTruckUnavailableUsingKeys implements IMarkTruckUnavailable {
 
         return new TruckInfo(
                 updated.getId(),
-                updated.getName(),
+                updated.getPlateNumber(),
                 updated.getVolume() != null ? updated.getVolume() : 0.0
         );
     }

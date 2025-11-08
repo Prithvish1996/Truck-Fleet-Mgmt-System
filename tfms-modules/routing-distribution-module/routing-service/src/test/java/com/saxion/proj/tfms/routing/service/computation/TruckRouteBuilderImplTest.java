@@ -53,11 +53,11 @@ class TruckRouteBuilderImplTest {
         truckAssignment2 = new TruckAssignment("TRUCK-002", List.of(parcel2), 15.0, 100.0);
         
         truckRouteInfo1 = TruckRouteInfo.builder()
-                .truckName("TRUCK-001")
+                .truckPlateNumber("TRUCK-001")
                 .build();
         
         truckRouteInfo2 = TruckRouteInfo.builder()
-                .truckName("TRUCK-002")
+                .truckPlateNumber("TRUCK-002")
                 .build();
     }
 
@@ -73,7 +73,7 @@ class TruckRouteBuilderImplTest {
         assertNotNull(result);
         assertEquals(warehouseId, result.getGeneratedForWarehouse());
         assertEquals(1, result.getTruckRoutes().size());
-        assertEquals("TRUCK-001", result.getTruckRoutes().get(0).getTruckName());
+        assertEquals("TRUCK-001", result.getTruckRoutes().get(0).getTruckPlateNumber());
         verify(truckRouteFactory, times(1)).createRouteForTruck(vrpRequest, truckAssignment1, warehouseId);
     }
 
@@ -91,8 +91,8 @@ class TruckRouteBuilderImplTest {
         assertNotNull(result);
         assertEquals(warehouseId, result.getGeneratedForWarehouse());
         assertEquals(2, result.getTruckRoutes().size());
-        assertEquals("TRUCK-001", result.getTruckRoutes().get(0).getTruckName());
-        assertEquals("TRUCK-002", result.getTruckRoutes().get(1).getTruckName());
+        assertEquals("TRUCK-001", result.getTruckRoutes().get(0).getTruckPlateNumber());
+        assertEquals("TRUCK-002", result.getTruckRoutes().get(1).getTruckPlateNumber());
         verify(truckRouteFactory, times(1)).createRouteForTruck(vrpRequest, truckAssignment1, warehouseId);
         verify(truckRouteFactory, times(1)).createRouteForTruck(vrpRequest, truckAssignment2, warehouseId);
     }
@@ -220,7 +220,7 @@ class TruckRouteBuilderImplTest {
             manyTrucks.add(truck);
             
             TruckRouteInfo route = TruckRouteInfo.builder()
-                    .truckName("TRUCK-" + String.format("%03d", i))
+                    .truckPlateNumber("TRUCK-" + String.format("%03d", i))
                     .build();
             
             when(truckRouteFactory.createRouteForTruck(vrpRequest, truck, warehouseId))
@@ -337,7 +337,7 @@ class TruckRouteBuilderImplTest {
     void buildFullRouteForTrucks_shouldPreserveOrderOfTruckAssignments() {
         TruckAssignment.ParcelInfo parcel3 = new TruckAssignment.ParcelInfo("P003", 20.0);
         TruckAssignment truck3 = new TruckAssignment("TRUCK-003", List.of(parcel3), 20.0, 100.0);
-        TruckRouteInfo route3 = TruckRouteInfo.builder().truckName("TRUCK-003").build();
+        TruckRouteInfo route3 = TruckRouteInfo.builder().truckPlateNumber("TRUCK-003").build();
         
         when(mockAssignmentResponse.getTruckAssignments()).thenReturn(List.of(truckAssignment2, truck3, truckAssignment1));
         when(truckRouteFactory.createRouteForTruck(vrpRequest, truckAssignment2, warehouseId))
@@ -351,9 +351,9 @@ class TruckRouteBuilderImplTest {
                 vrpRequest, mockAssignmentResponse, warehouseId);
 
         assertEquals(3, result.getTruckRoutes().size());
-        assertEquals("TRUCK-002", result.getTruckRoutes().get(0).getTruckName());
-        assertEquals("TRUCK-003", result.getTruckRoutes().get(1).getTruckName());
-        assertEquals("TRUCK-001", result.getTruckRoutes().get(2).getTruckName());
+        assertEquals("TRUCK-002", result.getTruckRoutes().get(0).getTruckPlateNumber());
+        assertEquals("TRUCK-003", result.getTruckRoutes().get(1).getTruckPlateNumber());
+        assertEquals("TRUCK-001", result.getTruckRoutes().get(2).getTruckPlateNumber());
     }
 
     @Test

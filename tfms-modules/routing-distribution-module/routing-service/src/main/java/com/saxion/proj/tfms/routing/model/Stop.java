@@ -1,11 +1,10 @@
 package com.saxion.proj.tfms.routing.model;
 
-import com.saxion.proj.tfms.routing.constant.StopType;
+import com.saxion.proj.tfms.commons.constants.StopType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CopyOnWriteArrayList;

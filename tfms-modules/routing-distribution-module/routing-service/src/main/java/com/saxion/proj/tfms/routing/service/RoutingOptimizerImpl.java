@@ -22,7 +22,7 @@ public class RoutingOptimizerImpl implements OptimizeRouting {
     private static final ServiceLogger logger = ServiceLogger.getLogger(RoutingOptimizerImpl.class);
 
     @Autowired
-    @Qualifier("TruckAssingment")
+    @Qualifier("TruckAssignment")
     private TruckAssignmentService truckAssignmentService;
 
     @Autowired

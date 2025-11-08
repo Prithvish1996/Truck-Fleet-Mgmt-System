@@ -15,7 +15,7 @@ public class TruckRouteInfo {
 
     // Represents a single route for a truck.
 
-    private String truckName;
+    private String truckPlateNumber;
     private Long depotId;
     private String depotName;
     private List<Stop> routeStops;

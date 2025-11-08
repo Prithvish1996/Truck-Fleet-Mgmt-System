@@ -1,8 +1,8 @@
 package com.saxion.proj.tfms.routing.service.computation.factory;
 
+import com.saxion.proj.tfms.commons.constants.StopType;
 import com.saxion.proj.tfms.commons.logging.ServiceLogger;
 import com.saxion.proj.tfms.commons.logging.ServiceName;
-import com.saxion.proj.tfms.routing.constant.StopType;
 import com.saxion.proj.tfms.routing.model.Coordinates;
 import com.saxion.proj.tfms.routing.model.Parcel;
 import com.saxion.proj.tfms.routing.model.RouteCoordinatesGroup;
@@ -59,10 +59,11 @@ public class RouteDataPreparer {
             Stop.addOrUpdateStop(stops, new Stop(coords.getDepot(), new ArrayList<>(), StopType.DEPOT));
             Stop.addOrUpdateStop(stops, new Stop(coords.getWarehouse(), new ArrayList<>(), StopType.WAREHOUSE));
 
-            parcels.forEach(p -> {
-                List<Parcel> parcelList = List.of(p);
+            for (Parcel p : parcels) {
+                List<Parcel> parcelList = new ArrayList<>();
+                parcelList.add(p);
                 Stop.addOrUpdateStop(stops, new Stop(new Coordinates(p.getDeliveryLatitude(), p.getDeliveryLongitude()), parcelList, StopType.CUSTOMER));
-            });
+            }
 
             logger.debugOp(ServiceName.ROUTING_SERVICE, "CREATE_STOPS",
                     "Successfully created {} unoptimized stops (including depot and warehouse)",
