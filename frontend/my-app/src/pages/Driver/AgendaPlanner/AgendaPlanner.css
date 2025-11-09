@@ -81,7 +81,7 @@
 }
 
 .add-availability-btn {
-  background: linear-gradient(135deg, #96D6A1 0%, #7BC4A8 100%);
+  background: #96D6A1;
   color: white;
   border: none;
   padding: 12px 20px;
@@ -148,7 +148,7 @@
 }
 
 .day-header {
-  background: linear-gradient(135deg, #96D6A1 0%, #7BC4A8 100%);
+  background: #96D6A1;
   color: white;
   padding: 16px;
   display: flex;
@@ -185,7 +185,8 @@
 
 .day-status .status-available {
   background: rgba(46, 204, 113, 0.2);
-  color: #2ecc71;
+  color: white;
+  border-color: white;
   padding: 4px 8px;
   border-radius: 12px;
   font-size: 12px;
@@ -472,7 +473,7 @@
 }
 
 .modal-actions .save-btn {
-  background: linear-gradient(135deg, #96D6A1 0%, #7BC4A8 100%);
+  background: #96D6A1;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -492,7 +493,7 @@
 }
 
 .day-header {
-  background: linear-gradient(135deg, #96D6A1 0%, #7BC4A8 100%);
+  background: #96D6A1;
   color: white;
   padding: 20px 24px;
   display: flex;
@@ -576,7 +577,7 @@
 }
 
 .primary-btn {
-  background: linear-gradient(135deg, #96D6A1 0%, #7BC4A8 100%);
+  background: #96D6A1;
   color: white;
   border: none;
   padding: 12px 24px;
@@ -687,7 +688,7 @@
 }
 
 .save-slot-btn {
-  background: linear-gradient(135deg, #96D6A1 0%, #7BC4A8 100%);
+  background: #96D6A1;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -925,7 +926,7 @@
 }
 
 .save-btn {
-  background: linear-gradient(135deg, #96D6A1 0%, #7BC4A8 100%);
+  background: #96D6A1;
   color: white;
   border: none;
   padding: 12px 24px;
