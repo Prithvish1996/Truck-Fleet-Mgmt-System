@@ -7,21 +7,29 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="planner-service" />
         <module name="log-monitoring" />
         <module name="maintenance-service" />
         <module name="document-mgmt-service" />
         <module name="chat-service" />
         <module name="call-service" />
         <module name="discovery-service" />
-        <module name="tfms" />
         <module name="billing-service" />
-        <module name="auth-service" />
         <module name="payment-service" />
-        <module name="common-modules" />
         <module name="gateway-service" />
         <module name="tfms-starter" />
         <module name="assignment-service" />
+      </profile>
+      <profile name="Annotation profile for Truck Fleet Management System" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
+        </processorPath>
+        <module name="planner-service" />
+        <module name="auth-service" />
+        <module name="common-modules" />
+        <module name="tfms" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
