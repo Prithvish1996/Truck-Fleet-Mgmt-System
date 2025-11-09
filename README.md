@@ -13,6 +13,16 @@ This is a **multi-module Spring Boot project** with the following structure:
 
 ---
 
+## Documentation
+
+For detailed information about specific topics, refer to the following documentation:
+
+- **[Logging & Monitoring Guide](docs/monitor-logging.md)** - Comprehensive guide on Log4j2 logging system, service-based log file separation, and monitoring
+- **[Security Documentation](docs/Security.md)** - Security implementation details including JWT authentication, HTTPS/TLS configuration, and security best practices
+- **[Deployment Guide](docs/DEPLOYMENT.md)** - Complete deployment guide for development and production modes
+
+---
+
 ## Prerequisites
 
 Before running the application, make sure you have the following installed:
@@ -123,7 +133,6 @@ http://localhost:8080/api/
 5. start-dev.sh can be run directly from IntelliJ terminal (Git Bash enabled).
 
 
-## Add your files
+## Modules/ Services
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+- [Parcel Service](tfms-modules/planner-modules/PARCEL-README.md) – Handles parcel operations such as create, retrieve by ID, and retrieve by warehouse.

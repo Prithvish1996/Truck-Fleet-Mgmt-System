@@ -60,6 +60,15 @@ echo -e "${BLUE}Checking port availability...${NC}"
 check_port 8443 "Backend (HTTPS)"
 check_port 3000 "Frontend"
 
+# Create logs directory
+echo -e "${BLUE}Setting up logging directory...${NC}"
+mkdir -p "$PROJECT_ROOT/logs"
+echo -e "${GREEN}Logs directory ready: $PROJECT_ROOT/logs${NC}"
+
+# Export LOG_PATH so Log4j2 uses the project root logs directory
+export LOG_PATH="$PROJECT_ROOT/logs"
+echo -e "${BLUE}LOG_PATH set to: $LOG_PATH${NC}"
+
 # Build and Start Backend in Development Mode
 echo -e "\n${BLUE}� Building Backend...${NC}"
 cd "$PROJECT_ROOT/tfms-starter"
@@ -67,17 +76,18 @@ cd "$PROJECT_ROOT/tfms-starter"
 # Start backend in background (spring-boot:run will handle compilation)
 echo -e "${YELLOW}Building and starting backend...${NC}"
 # ----- START HERE TO UNCOMMENT IF YOU WANT TO RUN ON DIRECT MODE -----
-#../mvnw spring-boot:run -Dspring-boot.run.profiles=dev > backend.log 2>&1 &
+#../mvnw spring-boot:run -Dspring-boot.run.profiles=dev -Dspring-boot.run.jvmArguments="-DLOG_PATH=$LOG_PATH" > backend.log 2>&1 &
 #BACKEND_PID=$!
 # ----- STOP HERE -----
 
 # ----- START HERE TO COMMENT IF YOU DON"T WANT TO RUN ON DEBUG MODE -----
 ../mvnw spring-boot:run \
     -Dspring-boot.run.profiles=dev \
-    -Dspring-boot.run.jvmArguments="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005" \
+    -Dspring-boot.run.jvmArguments="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005 -DLOG_PATH=$LOG_PATH" \
     > backend.log 2>&1 &
 BACKEND_PID=$!
 echo "Backend started with PID $BACKEND_PID and remote debugging on port 5005"
+echo -e "${GREEN}Application logs: $LOG_PATH${NC}"
 # ----- STOP HERE -----
 
 
@@ -104,13 +114,13 @@ done
 echo -e "\n${BLUE}Starting Frontend (React Dev Server)...${NC}"
 
 # Check if frontend directory exists
-if [ ! -d "$PROJECT_ROOT/frontend" ]; then
+if [ ! -d "$PROJECT_ROOT/frontend/my-app" ]; then
     echo -e "${YELLOW}Frontend directory not found. Creating basic React app...${NC}"
     cd "$PROJECT_ROOT"
     npx create-react-app frontend --template typescript
 fi
 
-cd "$PROJECT_ROOT/frontend"
+cd "$PROJECT_ROOT/frontend/my-app"
 
 # Check if node_modules exists
 if [ ! -d "node_modules" ]; then
@@ -154,10 +164,13 @@ echo -e "${BLUE}Swagger UI:${NC} https://localhost:8443/swagger-ui/index.html"
 echo -e "${BLUE}API Docs:${NC} https://localhost:8443/v3/api-docs"
 echo -e "${BLUE}Actuator Info:${NC} https://localhost:8443/actuator/info"
 echo -e "${BLUE}Actuator Metrics:${NC} https://localhost:8443/actuator/metrics"
-echo -e "${YELLOW}Logs:${NC}"
+echo -e "${YELLOW}Application Logs (Log4j2):${NC}"
+echo -e "   Main: $PROJECT_ROOT/logs/tfms-application.log"
+echo -e "   Errors: $PROJECT_ROOT/logs/error.log"
+echo -e "   Service-specific: $PROJECT_ROOT/logs/[service-name].log"
+echo -e "${YELLOW}Startup Logs:${NC}"
 echo -e "   Backend: $PROJECT_ROOT/tfms-starter/backend.log"
 echo -e "   Frontend: $PROJECT_ROOT/frontend/frontend.log"
-echo -e "   Build: $PROJECT_ROOT/tfms-starter/build.log"
 echo -e "\n${YELLOW}Tip: Check logs if services don't respond${NC}"
 echo -e "${YELLOW}Press Ctrl+C to stop all services${NC}"
 

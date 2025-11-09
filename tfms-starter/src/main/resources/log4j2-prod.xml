@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Properties>
+        <Property name="APP_LOG_ROOT">${sys:LOG_PATH:-${sys:user.dir}/logs}</Property>
+        <Property name="APP_NAME">tfms</Property>
+        <Property name="ENV">${sys:app.environment:-prod}</Property>
+    </Properties>
+
+    <Appenders>
+        <!-- Console JSON Appender for Docker/Kubernetes stdout (ELK-friendly) -->
+        <Console name="ConsoleJSON" target="SYSTEM_OUT">
+            <JsonTemplateLayout eventTemplateUri="classpath:EcsLayout.json">
+                <EventTemplateAdditionalField key="application" value="${APP_NAME}"/>
+                <EventTemplateAdditionalField key="environment" value="${ENV}"/>
+                <EventTemplateAdditionalField key="service" value="$${ctx:service}"/>
+                <EventTemplateAdditionalField key="operation" value="$${ctx:operation}"/>
+                <EventTemplateAdditionalField key="traceId" value="$${ctx:traceId}"/>
+                <EventTemplateAdditionalField key="userId" value="$${ctx:userId}"/>
+            </JsonTemplateLayout>
+        </Console>
+
+        <!-- Main Application JSON Log (ELK-optimized) -->
+        <RollingFile name="AppJsonFileAppender" 
+                     fileName="${APP_LOG_ROOT}/tfms-application.json"
+                     filePattern="${APP_LOG_ROOT}/tfms-application-%d{yyyy-MM-dd}-%i.json">
+            <JsonTemplateLayout eventTemplateUri="classpath:EcsLayout.json">
+                <EventTemplateAdditionalField key="application" value="${APP_NAME}"/>
+                <EventTemplateAdditionalField key="environment" value="${ENV}"/>
+                <EventTemplateAdditionalField key="service" value="$${ctx:service}"/>
+                <EventTemplateAdditionalField key="operation" value="$${ctx:operation}"/>
+                <EventTemplateAdditionalField key="traceId" value="$${ctx:traceId}"/>
+                <EventTemplateAdditionalField key="userId" value="$${ctx:userId}"/>
+            </JsonTemplateLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="50MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="30"/>
+        </RollingFile>
+
+        <!-- Service-based JSON Routing (for ELK) -->
+        <Routing name="ServiceRoutingJsonAppender">
+            <Routes pattern="$${ctx:service:-unspecified}">
+                <Route key="unspecified">
+                    <!-- If no service context is set, don't create separate file -->
+                    <Null/>
+                </Route>
+                <Route>
+                    <RollingFile name="RollingJson-${ctx:service}" 
+                                 fileName="${APP_LOG_ROOT}/${ctx:service}.json"
+                                 filePattern="${APP_LOG_ROOT}/${ctx:service}-%d{yyyy-MM-dd}-%i.json">
+                        <JsonTemplateLayout eventTemplateUri="classpath:EcsLayout.json">
+                            <EventTemplateAdditionalField key="application" value="${APP_NAME}"/>
+                            <EventTemplateAdditionalField key="environment" value="${ENV}"/>
+                            <EventTemplateAdditionalField key="service" value="$${ctx:service}"/>
+                            <EventTemplateAdditionalField key="operation" value="$${ctx:operation}"/>
+                            <EventTemplateAdditionalField key="traceId" value="$${ctx:traceId}"/>
+                            <EventTemplateAdditionalField key="userId" value="$${ctx:userId}"/>
+                        </JsonTemplateLayout>
+                        <Policies>
+                            <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                            <SizeBasedTriggeringPolicy size="50MB"/>
+                        </Policies>
+                        <DefaultRolloverStrategy max="30"/>
+                    </RollingFile>
+                </Route>
+            </Routes>
+        </Routing>
+
+        <!-- Error JSON Log (ELK-optimized) -->
+        <RollingFile name="ErrorJsonFileAppender" 
+                     fileName="${APP_LOG_ROOT}/error.json"
+                     filePattern="${APP_LOG_ROOT}/error-%d{yyyy-MM-dd}-%i.json">
+            <JsonTemplateLayout eventTemplateUri="classpath:EcsLayout.json">
+                <EventTemplateAdditionalField key="application" value="${APP_NAME}"/>
+                <EventTemplateAdditionalField key="environment" value="${ENV}"/>
+                <EventTemplateAdditionalField key="service" value="$${ctx:service}"/>
+                <EventTemplateAdditionalField key="operation" value="$${ctx:operation}"/>
+                <EventTemplateAdditionalField key="traceId" value="$${ctx:traceId}"/>
+                <EventTemplateAdditionalField key="userId" value="$${ctx:userId}"/>
+            </JsonTemplateLayout>
+            <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="50MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="30"/>
+        </RollingFile>
+
+        <!-- Performance/Metrics JSON Log (ELK-optimized) -->
+        <RollingFile name="PerformanceJsonFileAppender" 
+                     fileName="${APP_LOG_ROOT}/performance.json"
+                     filePattern="${APP_LOG_ROOT}/performance-%d{yyyy-MM-dd}-%i.json">
+            <JsonTemplateLayout eventTemplateUri="classpath:EcsLayout.json">
+                <EventTemplateAdditionalField key="application" value="${APP_NAME}"/>
+                <EventTemplateAdditionalField key="environment" value="${ENV}"/>
+                <EventTemplateAdditionalField key="service" value="$${ctx:service}"/>
+                <EventTemplateAdditionalField key="operation" value="$${ctx:operation}"/>
+            </JsonTemplateLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="50MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="7"/>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <!-- Root Logger -->
+        <Root level="info">
+            <AppenderRef ref="ConsoleJSON"/>
+            <AppenderRef ref="AppJsonFileAppender"/>
+            <AppenderRef ref="ServiceRoutingJsonAppender"/>
+            <AppenderRef ref="ErrorJsonFileAppender"/>
+        </Root>
+
+        <!-- TFMS Application Loggers -->
+        <Logger name="com.saxion.proj.tfms" level="info" additivity="false">
+            <AppenderRef ref="ConsoleJSON"/>
+            <AppenderRef ref="AppJsonFileAppender"/>
+            <AppenderRef ref="ServiceRoutingJsonAppender"/>
+            <AppenderRef ref="ErrorJsonFileAppender"/>
+        </Logger>
+
+        <!-- Spring Framework -->
+        <Logger name="org.springframework" level="warn" additivity="false">
+            <AppenderRef ref="ConsoleJSON"/>
+            <AppenderRef ref="AppJsonFileAppender"/>
+        </Logger>
+
+        <!-- Hibernate/JPA -->
+        <Logger name="org.hibernate" level="warn" additivity="false">
+            <AppenderRef ref="ConsoleJSON"/>
+            <AppenderRef ref="AppJsonFileAppender"/>
+        </Logger>
+
+        <!-- Performance Logger -->
+        <Logger name="performance" level="info" additivity="false">
+            <AppenderRef ref="PerformanceJsonFileAppender"/>
+        </Logger>
+    </Loggers>
+</Configuration>
