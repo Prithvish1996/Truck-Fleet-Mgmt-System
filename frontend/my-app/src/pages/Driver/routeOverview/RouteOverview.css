@@ -10,6 +10,72 @@
   margin: 0 auto;
 }
 
+.stop-instructions {
+  margin-top: 4px;
+  font-size: 12px;
+  color: #888;
+  font-style: italic;
+}
+
+.stop-status {
+  margin-top: 4px;
+}
+
+.stop-status-top-right {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  margin-top: 0;
+  z-index: 10;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.status-pending {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.status-picked_up {
+  background-color: #d1ecf1;
+  color: #0c5460;
+}
+
+.status-delivered {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.back-to-navigation-button {
+  width: 100%;
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  padding: 16px 24px;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.2s, box-shadow 0.2s;
+  margin-top: 20px;
+}
+
+.back-to-navigation-button:hover {
+  background-color: #1976d2;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.back-to-navigation-button:active {
+  transform: translateY(1px);
+}
+
 .route-stops-container {
   display: flex;
   flex-direction: column;
@@ -24,6 +90,7 @@
   border-radius: 12px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.2s;
+  position: relative;
 }
 
 .route-stop-card.shipping {
@@ -88,6 +155,28 @@
 .stop-location {
   font-size: 14px;
   color: #555;
+  margin-bottom: 4px;
+}
+
+.stop-travel-time {
+  margin-top: 6px;
+  padding: 6px 10px;
+  background-color: #d4edda;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.travel-time-label {
+  color: #155724;
+  font-weight: 500;
+}
+
+.travel-time-value {
+  color: #4caf50;
+  font-weight: 600;
 }
 
 .stop-arrow {

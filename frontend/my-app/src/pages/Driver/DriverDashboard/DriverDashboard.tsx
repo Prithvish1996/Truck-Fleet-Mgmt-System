@@ -1,43 +1,38 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { authService } from '../../../services/authService';
 import { routeService } from '../../../services/routeService';
 import { Route } from '../../../types';
 import './DriverDashboard.css';
 import DriverHeader from '../components/driverHeader';
 import RouteCard from '../components/RouteCard';
-import FeedbackBox from '../components/feedbackBox';
+import BottomTabBar from '../components/BottomTabBar/BottomTabBar';
+import AgendaPlanner from '../AgendaPlanner/AgendaPlanner';
+import Suggestions from '../Suggestions/Suggestions';
 
 export default function DriverDashboard() {
   const navigate = useNavigate();
-  const [feedback, setFeedback] = useState('');
+  const location = useLocation();
   const [routes, setRoutes] = useState<Route[]>([]);
   const [loading, setLoading] = useState(true);
-
-  const handleFeedbackSubmit = () => {
-    if (feedback.trim()) {
-      console.log('Feedback submitted:', feedback);
-      setFeedback('');
-      // Here you would typically send the feedback to the backend
-    }
-  };
+  const [activeTab, setActiveTab] = useState<'home' | 'agenda' | 'suggestions'>('home');
 
   const startRoute = async (routeId: string) => {
     try {
       await routeService.startRoute(routeId);
-      // Navigate to route overview page
-      navigate('/driver/route-overview');
+      sessionStorage.removeItem('currentRouteId');
+      navigate('/driver/route-overview', { state: { routeId } });
     } catch (error) {
       console.error('Error starting route:', error);
     }
   };
 
-  const loadRoutes = async () => {
+  const loadRoutes = async (forceRefresh: boolean = false) => {
     try {
       setLoading(true);
-      const driverRoutes = await routeService.getDriverRoutes();
+      const driverRoutes = await routeService.getDriverRoutes(forceRefresh);
       setRoutes(driverRoutes);
-      console.log('Loaded routes:', driverRoutes);
+
     } catch (error) {
       console.error('Error loading routes:', error);
     } finally {
@@ -46,47 +41,49 @@ export default function DriverDashboard() {
   };
 
   useEffect(() => {
-    // Check if user is authenticated and is driver
     if (!authService.isAuthenticated() || authService.getUserRole() !== 'DRIVER') {
       navigate('/');
     } else {
-      loadRoutes();
+      const shouldRefresh = location.pathname === '/driver/dashboard' && location.state?.refresh;
+      loadRoutes(shouldRefresh);
     }
-  }, [navigate]);
+  }, [navigate, location.pathname, location.state]);
 
   return (
     <div className="driver-dashboard">
-      {/* Header */}
-     <DriverHeader navigate={navigate} />
+      <DriverHeader navigate={navigate} />
 
-      {/* Main Content */}
       <div className="dashboard-content">
-
-        {/* Feedback Box */}
-        <FeedbackBox feedback={feedback} setFeedback={setFeedback} handleFeedbackSubmit={handleFeedbackSubmit} />
-
-        {/* Route Cards */}
-        {loading ? (
-          <div className="loading-message">Loading routes...</div>
-        ) : routes.length === 0 ? (
-          <div className="no-routes-message">No routes assigned to you.</div>
+        {activeTab === 'home' ? (
+          <>
+            {loading ? (
+              <div className="loading-message">Loading routes...</div>
+            ) : routes.length === 0 ? (
+              <div className="no-routes-message">No routes assigned to you.</div>
+            ) : (
+              routes.map((route) => (
+                <RouteCard
+                  key={route.id}
+                  startRoute={startRoute}
+                  routeId={route.id}
+                  truckId={route.truckId}
+                  packages={route.packages.length}
+                  startTime={route.startTime}
+                  duration={route.duration}
+                  date={route.date}
+                  status={route.status}
+                />
+              ))
+            )}
+          </>
+        ) : activeTab === 'agenda' ? (
+          <AgendaPlanner />
         ) : (
-          routes.map((route) => (
-            <RouteCard
-              key={route.id}
-              startRoute={startRoute}
-              routeId={route.id}
-              truckId={route.truckId}
-              packages={route.packages.length}
-              startTime={route.startTime}
-              duration={route.duration}
-              date={route.date}
-              status={route.status}
-            />
-          ))
+          <Suggestions />
         )}
-
       </div>
+
+      <BottomTabBar activeTab={activeTab} onTabChange={setActiveTab} />
     </div>
   );
 }

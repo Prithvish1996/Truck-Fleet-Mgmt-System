@@ -4,12 +4,14 @@ import com.saxion.proj.tfms.commons.model.RouteDao;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
 public class RouteResponseDto {
+    private Long routeId;
     private Long driverId;
     private String driverUserName;
     private String driverEmail;
@@ -29,6 +31,7 @@ public class RouteResponseDto {
 
     public static RouteResponseDto fromEntity(RouteDao r) {
         RouteResponseDto dto = new RouteResponseDto();
+        dto.setRouteId(r.getId());
         dto.setDriverId(r.getDriver() != null ? r.getDriver().getId() : null);
         dto.setDriverEmail(r.getDriver() != null ? r.getDriver().getUser().getEmail() : null);
         dto.setDriverAvailable(r.getDriver() != null ? r.getDriver().getIsAvailable() : null);
@@ -40,7 +43,9 @@ public class RouteResponseDto {
         dto.setTotalDistance(r.getTotalDistance());
         dto.setTotalTransportTime(r.getTotalTransportTime());
         dto.setNote(r.getNote());
-        dto.setStartTime(r.getStartTime().toLocalTime().toString());
+        // Format startTime to include full date (day, month, year) and time
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        dto.setStartTime(r.getStartTime().format(formatter));
         dto.setDuration(r.getDuration());
         dto.setStatus(r.getStatus().name());
         dto.setEstimatedFuelCost(calculateFuelCost(r.getTotalDistance()));

@@ -1,0 +1,123 @@
+.delivery-confirmation {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  padding: 24px;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.delivery-confirmation__content {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.delivery-confirmation__title {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0 0 16px 0;
+  color: #1a1a1a;
+}
+
+.delivery-confirmation__question {
+  font-size: 18px;
+  color: #4a4a4a;
+  margin: 0 0 20px 0;
+  line-height: 1.5;
+}
+
+.delivery-confirmation__package-info {
+  background: #f5f5f5;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 0 0 24px 0;
+}
+
+.delivery-confirmation__package-info p {
+  margin: 8px 0;
+  font-size: 14px;
+  color: #666;
+}
+
+.delivery-confirmation__package-info p:first-child {
+  margin-top: 0;
+}
+
+.delivery-confirmation__package-info p:last-child {
+  margin-bottom: 0;
+}
+
+.delivery-confirmation__actions {
+  display: flex;
+  gap: 12px;
+}
+
+.delivery-confirmation__button {
+  flex: 1;
+  padding: 16px 24px;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 56px;
+}
+
+.delivery-confirmation__button--confirm {
+  background: #4CAF50;
+  color: white;
+}
+
+.delivery-confirmation__button--confirm:hover {
+  background: #45a049;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+}
+
+.delivery-confirmation__button--confirm:active {
+  transform: translateY(0);
+}
+
+.delivery-confirmation__button--deny {
+  background: #f44336;
+  color: white;
+}
+
+.delivery-confirmation__button--deny:hover {
+  background: #da190b;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(244, 67, 54, 0.3);
+}
+
+.delivery-confirmation__button--deny:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+  .delivery-confirmation {
+    padding: 20px;
+  }
+
+  .delivery-confirmation__title {
+    font-size: 20px;
+  }
+
+  .delivery-confirmation__question {
+    font-size: 16px;
+  }
+
+  .delivery-confirmation__actions {
+    flex-direction: column;
+  }
+
+  .delivery-confirmation__button {
+    width: 100%;
+  }
+}

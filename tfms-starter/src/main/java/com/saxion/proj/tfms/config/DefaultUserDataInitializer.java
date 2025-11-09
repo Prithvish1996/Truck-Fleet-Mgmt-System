@@ -1,6 +1,7 @@
 package com.saxion.proj.tfms.config;
 
 import com.saxion.proj.tfms.commons.constants.StatusEnum;
+import com.saxion.proj.tfms.commons.constants.StopType;
 import com.saxion.proj.tfms.commons.constants.TruckType;
 import com.saxion.proj.tfms.commons.model.*;
 import com.saxion.proj.tfms.planner.repository.*;
@@ -17,6 +18,8 @@ import jakarta.transaction.Transactional;
 
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -47,6 +50,12 @@ public class DefaultUserDataInitializer {
 
     @Autowired
     private TruckRepository truckRepository;
+
+    @Autowired
+    private RouteRepository routeRepository;
+
+    @Autowired
+    private RouteStopRepository routeStopRepository;
 
     /**
      * Initialize default users after the application context is fully loaded
@@ -90,6 +99,9 @@ public class DefaultUserDataInitializer {
         createDefaultTruck("TRK-003", TruckType.MEDIUM, 50000.0);
         createDefaultTruck("TRK-004", TruckType.MEDIUM, 50000.0);
         createDefaultTruck("TRK-005", TruckType.LARGE, 100000.0);
+
+        // Create default routes for driver ID 2
+        createDefaultRoutesForDriver(2L);
 
         System.out.println("Default users initialization completed.");
     }
@@ -246,5 +258,174 @@ public class DefaultUserDataInitializer {
             truckRepository.save(truck);
             System.out.println("Default Truck created: " + plateNumber);
         }
+    }
+
+    // Create Default Routes for Driver
+    private void createDefaultRoutesForDriver(Long driverId) {
+        // Get driver with ID 2
+        Optional<DriverDao> driverOpt = driverRepository.findById(driverId);
+        if (driverOpt.isEmpty()) {
+            System.out.println("Driver with ID " + driverId + " not found. Skipping route creation.");
+            return;
+        }
+        DriverDao driver = driverOpt.get();
+
+        // Get depot (Main Depot)
+        Optional<DepotDao> depotOpt = depotRepository.findByName("Main Depot");
+        if (depotOpt.isEmpty()) {
+            System.out.println("Main Depot not found. Skipping route creation.");
+            return;
+        }
+        DepotDao depot = depotOpt.get();
+
+        // Get a truck (use first available truck)
+        Optional<TruckDao> truckOpt = truckRepository.findAll().stream()
+                .filter(t -> t.getIsAvailable() != null && t.getIsAvailable())
+                .findFirst();
+        TruckDao truck = truckOpt.orElse(null);
+
+        // Check if routes already exist for this driver
+        long existingRoutesCount = routeRepository.findAllByDriverIdAndStatus(driverId, StatusEnum.ASSIGNED).size();
+        if (existingRoutesCount > 0) {
+            System.out.println("Routes already exist for driver ID " + driverId + ". Skipping route creation.");
+            return;
+        }
+
+        // Create 3 sample routes: 2 for today, 1 for tomorrow
+        ZonedDateTime now = ZonedDateTime.now();
+        
+        for (int i = 1; i <= 3; i++) {
+            RouteDao route = new RouteDao();
+            route.setDriver(driver);
+            route.setTruck(truck);
+            // Only assign depot to the first route (OneToOne constraint - only one route per depot)
+            route.setDepot(i == 1 ? depot : null);
+            route.setTotalDistance(50L + (i * 10L)); // 60, 70, 80 km
+            route.setTotalTransportTime(120L + (i * 30L)); // 150, 180, 210 minutes
+            route.setNote("Seeded route " + i + " for driver ID " + driverId);
+            route.setStatus(StatusEnum.ASSIGNED); // Important: must be ASSIGNED
+            
+            // Set dates and times: each route gets a distinct start time with full date (day, month, year)
+            ZonedDateTime routeStartTime;
+            if (i == 1) {
+                // Route 1: today at 8:00 AM
+                routeStartTime = now.toLocalDate().atTime(8, 0).atZone(now.getZone());
+            } else if (i == 2) {
+                // Route 2: today at 10:00 AM
+                routeStartTime = now.toLocalDate().atTime(10, 0).atZone(now.getZone());
+            } else {
+                // Route 3: tomorrow at 8:00 AM
+                routeStartTime = now.toLocalDate().plusDays(1).atTime(8, 0).atZone(now.getZone());
+            }
+            
+            route.setStartTime(routeStartTime);
+            route.setScheduleDate(routeStartTime);
+            
+            route.setDuration("4 hours");
+            
+            route = routeRepository.save(route);
+            
+            // Create stops for this route
+            List<RouteStopDao> stops = createStopsForRoute(route, i);
+            route.setStops(stops);
+            routeRepository.save(route);
+            
+            System.out.println("Default Route " + i + " created for driver ID " + driverId + " with " + stops.size() + " stops");
+        }
+    }
+
+    // Create stops for a route
+    private List<RouteStopDao> createStopsForRoute(RouteDao route, int routeNumber) {
+        List<RouteStopDao> stops = new ArrayList<>();
+        
+        // Get or create warehouse for parcels
+        WareHouseDao warehouse = wareHouseRepository
+                .findByName("Central Warehouse")
+                .orElseGet(() -> {
+                    // Create warehouse location if needed
+                    LocationDao warehouseLocation = locationRepository
+                            .findByPostalCode("22222")
+                            .orElseGet(() -> {
+                                LocationDao loc = new LocationDao();
+                                loc.setPostalCode("22222");
+                                loc.setCity("Deventer");
+                                loc.setAddress("Warehouse Street 5");
+                                loc.setLatitude(52.25);
+                                loc.setLongitude(6.16);
+                                return locationRepository.save(loc);
+                            });
+                    
+                    WareHouseDao w = new WareHouseDao();
+                    w.setName("Central Warehouse");
+                    w.setLocation(warehouseLocation);
+                    return wareHouseRepository.save(w);
+                });
+        
+        // Create stops: DEPOT -> WAREHOUSE -> multiple CUSTOMER -> DEPOT
+        // Minimum: 1 DEPOT + 1 WAREHOUSE + 2 CUSTOMER + 1 DEPOT = 5 stops
+        // Route 1: 5 stops (2 customers), Route 2: 6 stops (3 customers), Route 3: 5 stops (2 customers)
+        int numberOfCustomerStops = 2 + (routeNumber % 2); // 2 customers for route 1, 3 for route 2, 2 for route 3
+        int numberOfStops = 4 + numberOfCustomerStops; // DEPOT + WAREHOUSE + customers + DEPOT
+        
+        for (int i = 1; i <= numberOfStops; i++) {
+            final int stopIndex = i; // Make effectively final for lambda
+            RouteStopDao stop = new RouteStopDao();
+            stop.setDescription("Stop " + stopIndex + " for route " + routeNumber);
+            stop.setPriority(stopIndex);
+            stop.setDuration("30 minutes");
+            stop.setRoute(route);
+            
+            // Route structure: DEPOT -> WAREHOUSE -> CUSTOMER(s) -> DEPOT
+            if (stopIndex == 1) {
+                stop.setStopType(StopType.DEPOT);
+            } else if (stopIndex == 2) {
+                stop.setStopType(StopType.WAREHOUSE);
+            } else if (stopIndex == numberOfStops) {
+                stop.setStopType(StopType.DEPOT);
+            } else {
+                stop.setStopType(StopType.CUSTOMER);
+            }
+            
+            // Create or get location for this stop
+            // Use different postal codes to create different locations
+            String postalCode = String.format("5%04d", (routeNumber * 10 + stopIndex));
+            LocationDao location = locationRepository
+                    .findByPostalCode(postalCode)
+                    .orElseGet(() -> {
+                        LocationDao loc = new LocationDao();
+                        loc.setPostalCode(postalCode);
+                        loc.setCity("Amsterdam");
+                        loc.setAddress("Stop Street " + stopIndex);
+                        // Vary coordinates slightly for each stop
+                        loc.setLatitude(52.37 + (routeNumber * 0.01) + (stopIndex * 0.005));
+                        loc.setLongitude(4.90 + (routeNumber * 0.01) + (stopIndex * 0.005));
+                        return locationRepository.save(loc);
+                    });
+            stop.setLocation(location);
+            
+            stop = routeStopRepository.save(stop);
+            
+            // Create a parcel for this stop (only for CUSTOMER stops)
+            if (stop.getStopType() == StopType.CUSTOMER) {
+                ParcelDao parcel = new ParcelDao();
+                parcel.setName("Parcel for Route " + routeNumber + " Stop " + stopIndex);
+                parcel.setWarehouse(warehouse);
+                parcel.setDeliveryLocation(location);
+                parcel.setWeight(5.5 + (stopIndex * 0.5)); // Vary weight slightly
+                parcel.setVolume(0.3 + (stopIndex * 0.1)); // Vary volume slightly
+                parcel.setStatus(StatusEnum.PLANNED); // Status for assigned parcels
+                parcel.setDeliveryInstructions("Leave at the front door");
+                parcel.setRecipientName("Customer " + routeNumber + "-" + stopIndex);
+                parcel.setRecipientPhone("+3161234567" + stopIndex);
+                parcel.setPlannedDeliveryDate(route.getScheduleDate());
+                parcel.setStop(stop);
+                
+                parcelRepository.save(parcel);
+            }
+            
+            stops.add(stop);
+        }
+        
+        return stops;
     }
 }
