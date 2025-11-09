@@ -1,5 +1,3 @@
-// Type definitions for the TFMS application
-
 export interface Package {
   id: string;
   name: string;
@@ -37,6 +35,7 @@ export interface RouteBreak {
 
 export interface Route {
   id: string;
+  routeId?: number;
   truckId: string;
   driverId: string;
   packages: Package[];
@@ -88,5 +87,64 @@ export interface TruckResponse {
   success: boolean;
   message: string;
   data: Truck[];
+  timestamp: string;
+}
+
+export interface Parcel {
+  parcelId: number;
+  name: string;
+  weight: number;
+  volume: number;
+  status: string;
+  createdAt: string | null;
+  recipientName: string;
+  recipientPhone: string;
+  deliveryInstructions: string;
+  deliveryAddress: string;
+  deliveryPostalCode: string;
+  deliveryCity: string;
+  deliveryLatitude: number;
+  deliveryLongitude: number;
+  warehouseId: number;
+  warehouseAddress: string;
+  warehousePostalCode: string;
+  warehouseCity: string;
+  warehouseLatitude: number;
+  warehouseLongitude: number;
+}
+
+export interface RouteStop {
+  stopId: number;
+  parcelsToDeliver: Parcel[];
+  priority: number;
+  stopType: string;
+}
+
+export interface RouteData {
+  routeId?: number;
+  driverId: number;
+  driverUserName: string;
+  driverEmail: string;
+  truckId: number;
+  truckPlateNumber: string;
+  depotId: number | null;
+  depotName: string | null;
+  routeStops: RouteStop[];
+  totalDistance: number;
+  totalTransportTime: number;
+  note: string;
+  startTime: string;
+  status: string;
+  estimatedFuelCost: number;
+  duration: string;
+  driverAvailable: boolean;
+}
+
+export interface RouteByDriverResponse {
+  success: boolean;
+  message: string;
+  data: {
+    routes: RouteData[];
+  };
   timestamp: string;
 }

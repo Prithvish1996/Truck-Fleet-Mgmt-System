@@ -31,7 +31,6 @@ export default function PlannerDashboard() {
   };
 
   useEffect(() => {
-    // Check if user is authenticated and is planner
     if (!authService.isAuthenticated() || authService.getUserRole() !== 'PLANNER') {
       navigate('/');
     }

@@ -71,7 +71,20 @@ public class JwtUtil {
 
     // Extract userId from token
     public Long getUserIdFromToken(String token) {
-        return getClaimFromToken(token, claims -> (Long) claims.get("userID"));
+        return getClaimFromToken(token, claims -> {
+            Object userId = claims.get("userID");
+            if (userId == null) {
+                return null;
+            }
+            if (userId instanceof Long) {
+                return (Long) userId;
+            } else if (userId instanceof Integer) {
+                return ((Integer) userId).longValue();
+            } else if (userId instanceof Number) {
+                return ((Number) userId).longValue();
+            }
+            throw new IllegalArgumentException("userID claim is not a number: " + userId.getClass());
+        });
     }
     
     // Get expiration date

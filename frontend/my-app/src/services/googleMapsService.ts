@@ -6,11 +6,11 @@ const USE_GOOGLE_MAPS_API = false;
 export interface GoogleMapsRouteEstimate {
   distance: {
     text: string;
-    value: number; // in meters
+    value: number;
   };
   duration: {
     text: string;
-    value: number; // in seconds
+    value: number;
   };
   status: string;
 }
@@ -37,7 +37,7 @@ class GoogleMapsService {
   }
 
   private calculateDistance(origin: [number, number], destination: [number, number]): number {
-    const R = 6371e3; // Earth's radius in meters
+    const R = 6371e3;
     const φ1 = origin[0] * Math.PI / 180;
     const φ2 = destination[0] * Math.PI / 180;
     const Δφ = (destination[0] - origin[0]) * Math.PI / 180;
@@ -48,12 +48,12 @@ class GoogleMapsService {
               Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-    return R * c; // Distance in meters
+    return R * c;
   }
 
   async getTimeEstimate(
-    origin: [number, number], // [lat, lng]
-    destination: [number, number], // [lat, lng]
+    origin: [number, number],
+    destination: [number, number],
     mode: 'driving' | 'walking' | 'bicycling' | 'transit' = 'driving'
   ): Promise<{ durationInSeconds: number; distanceInMeters: number; durationText: string; distanceText: string }> {
     if (this.useApi) {
@@ -115,13 +115,13 @@ class GoogleMapsService {
     const distanceInMeters = this.calculateDistance(origin, destination);
     
     const averageSpeed: { [key: string]: number } = {
-      driving: 50, // km/h
+      driving: 50,
       walking: 5,
       bicycling: 15,
       transit: 30
     };
     
-    const speed = averageSpeed[mode] || 50; // default to driving
+    const speed = averageSpeed[mode] || 50;
     const distanceInKm = distanceInMeters / 1000;
     const durationInHours = distanceInKm / speed;
     const durationInSeconds = Math.round(durationInHours * 3600);
@@ -197,7 +197,7 @@ class GoogleMapsService {
   }
 
   generateNavigationDeepLink(
-    destination: [number, number], // [lat, lng]
+    destination: [number, number],
     destinationAddress?: string
   ): string {
     const lat = destination[0];

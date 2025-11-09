@@ -31,7 +31,6 @@ export default function AdminDashboard() {
   };
 
   useEffect(() => {
-    // Check if user is authenticated and is admin
     if (!authService.isAuthenticated() || authService.getUserRole() !== 'ADMIN') {
       navigate('/');
     }

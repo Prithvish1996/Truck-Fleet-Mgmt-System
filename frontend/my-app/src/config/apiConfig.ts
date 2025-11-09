@@ -1,4 +1,3 @@
-// Environment configuration for API endpoints
 interface ApiConfig {
   baseURL: string;
   useHTTPS: boolean;
@@ -25,7 +24,6 @@ const getApiConfig = (): ApiConfig => {
 
 export const apiConfig = getApiConfig();
 
-// Helper function to create fetch options with proper configuration
 export const createFetchOptions = (options: RequestInit = {}): RequestInit => {
   const config = getApiConfig();
   

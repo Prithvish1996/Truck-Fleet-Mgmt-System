@@ -27,7 +27,6 @@ function RouteOverview({ routeId: propRouteId }: RouteOverviewProps = {} as Rout
 
     useEffect(() => {
         loadRoute();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [routeId]);
 
     const loadRoute = async () => {

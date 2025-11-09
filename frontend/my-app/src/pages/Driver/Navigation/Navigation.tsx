@@ -12,7 +12,7 @@ const Navigation: React.FC<NavigationProps> = ({ navigate }) => {
   useEffect(() => {
     const loadCurrentRoute = async () => {
       try {
-        const routes = await routeService.getDriverRoutes();
+        const routes = await routeService.getDriverRoutes(false);
         const inProgressRoute = routes.find(route => route.status === 'in_progress');
         if (inProgressRoute) {
           setRouteId(inProgressRoute.id);

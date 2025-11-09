@@ -1,13 +1,10 @@
-// Utility for persisting delivery state locally (as backup/optimization)
-// The primary source of truth should be the database
-
 const STORAGE_KEY_PREFIX = 'delivery_state_';
 
 export interface DeliveryStateData {
   routeId: string;
   currentPackageIndex: number;
   deliveryState: string;
-  timestamp: number; // When this state was saved
+  timestamp: number;
 }
 
 export const saveDeliveryState = (routeId: string, data: Partial<DeliveryStateData>): void => {
@@ -34,7 +31,7 @@ export const loadDeliveryState = (routeId: string): DeliveryStateData | null => 
 
     const stateData = JSON.parse(data) as DeliveryStateData;
     
-    const maxAge = 24 * 60 * 60 * 1000; // 24 hours
+    const maxAge = 24 * 60 * 60 * 1000;
     if (Date.now() - stateData.timestamp > maxAge) {
       clearDeliveryState(routeId);
       return null;

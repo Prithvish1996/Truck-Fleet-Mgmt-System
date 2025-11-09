@@ -3,10 +3,9 @@ import { authService } from './authService';
 import { processRouteWithBreaks } from './breakCalculationService';
 import { IoHome } from "react-icons/io5";
 
-// Mock data for drivers - using backend default users
 const mockDrivers: Driver[] = [
   {
-    id: 'driver@tfms.com', // Using email as ID to match backend
+    id: 'driver@tfms.com',
     name: 'Driver User',
     email: 'driver@tfms.com',
     phone: '+31 6 1234 5678',
@@ -16,7 +15,7 @@ const mockDrivers: Driver[] = [
     currentRouteId: 'R1223-01'
   },
   {
-    id: 'test@example.com', // Using email as ID to match backend
+    id: 'test@example.com',
     name: 'Test Driver',
     email: 'test@example.com',
     phone: '+31 6 2345 6789',
@@ -36,7 +35,6 @@ const mockDrivers: Driver[] = [
   }
 ];
 
-// Mock data for trucks
 const mockTrucks: Truck[] = [
   {
     id: 'T321',
@@ -80,9 +78,7 @@ const mockTrucks: Truck[] = [
   }
 ];
 
-// Mock data for packages
 const mockPackages: Package[] = [
-  // Packages for Route R1223-01
   {
     id: 'P001',
     name: 'Electronics Package',
@@ -96,7 +92,7 @@ const mockPackages: Package[] = [
     deliveryInstructions: 'Leave at front door if no answer',
     recipientName: 'Jan de Vries',
     recipientPhone: '+31 6 1111 2222',
-    estimatedTravelTime: 2400 // 40 min
+    estimatedTravelTime: 2400
   },
   {
     id: 'P002',
@@ -111,7 +107,7 @@ const mockPackages: Package[] = [
     deliveryInstructions: 'Call recipient before delivery',
     recipientName: 'Maria Garcia',
     recipientPhone: '+31 6 3333 4444',
-    estimatedTravelTime: 2100 // 35 min
+    estimatedTravelTime: 2100
   },
   {
     id: 'P003',
@@ -126,7 +122,7 @@ const mockPackages: Package[] = [
     deliveryInstructions: 'Deliver to reception',
     recipientName: 'Ahmed Hassan',
     recipientPhone: '+31 6 5555 6666',
-    estimatedTravelTime: 1800 // 30 min
+    estimatedTravelTime: 1800
   },
   {
     id: 'P004',
@@ -141,7 +137,7 @@ const mockPackages: Package[] = [
     deliveryInstructions: 'Handle with care',
     recipientName: 'Lisa Anderson',
     recipientPhone: '+31 6 7777 8888',
-    estimatedTravelTime: 2700 // 45 min
+    estimatedTravelTime: 2700
   },
   {
     id: 'P005',
@@ -156,9 +152,8 @@ const mockPackages: Package[] = [
     deliveryInstructions: 'Deliver to side entrance',
     recipientName: 'Tom Brown',
     recipientPhone: '+31 6 9999 0000',
-    estimatedTravelTime: 3000 // 50 min
+    estimatedTravelTime: 3000
   },
-  // Packages for Route R3213-03
   {
     id: 'P006',
     name: 'Office Supplies',
@@ -206,7 +201,6 @@ const mockPackages: Package[] = [
   }
 ];
 
-// Mock data for routes (breaks will be calculated automatically)
 const rawMockRoutes: Omit<Route, 'breaks'>[] = [
   {
     id: 'R1223-01',
@@ -249,7 +243,6 @@ const rawMockRoutes: Omit<Route, 'breaks'>[] = [
   }
 ];
 
-// Process routes to add automatically calculated breaks
 const mockRoutes: Route[] = rawMockRoutes.map(processRouteWithBreaks);
 
 class MockDataService {
@@ -258,7 +251,6 @@ class MockDataService {
   private drivers: Driver[] = [...mockDrivers];
   private packages: Package[] = [...mockPackages];
 
-  // Get routes for a specific driver
   async getRoutesByDriverId(driverId: string): Promise<RouteResponse> {
     const driverRoutes = this.routes.filter(route => route.driverId === driverId);
     
@@ -270,7 +262,6 @@ class MockDataService {
     };
   }
 
-  // Get all routes
   async getAllRoutes(): Promise<RouteResponse> {
     return {
       success: true,
@@ -280,12 +271,10 @@ class MockDataService {
     };
   }
 
-  // Get a specific route by ID
   async getRouteById(routeId: string): Promise<Route | null> {
     return this.routes.find(route => route.id === routeId) || null;
   }
 
-  // Get trucks
   async getTrucks(): Promise<TruckResponse> {
     return {
       success: true,
@@ -295,7 +284,6 @@ class MockDataService {
     };
   }
 
-  // Get trucks by driver ID
   async getTrucksByDriverId(driverId: string): Promise<TruckResponse> {
     const driverTrucks = this.trucks.filter(truck => truck.driverId === driverId);
     
@@ -307,13 +295,11 @@ class MockDataService {
     };
   }
 
-  // Get packages for a specific route
   async getPackagesByRouteId(routeId: string): Promise<Package[]> {
     const route = this.routes.find(r => r.id === routeId);
     return route ? route.packages : [];
   }
 
-  // Update route status
   async updateRouteStatus(routeId: string, status: Route['status']): Promise<boolean> {
     const route = this.routes.find(r => r.id === routeId);
     if (route) {
@@ -323,7 +309,6 @@ class MockDataService {
     return false;
   }
 
-  // Update package status
   async updatePackageStatus(packageId: string, status: Package['status']): Promise<boolean> {
     const package_ = this.packages.find(p => p.id === packageId);
     if (package_) {
@@ -333,24 +318,19 @@ class MockDataService {
     return false;
   }
 
-  // Get driver by ID
   async getDriverById(driverId: string): Promise<Driver | null> {
     return this.drivers.find(driver => driver.id === driverId) || null;
   }
 
-  // Get current user ID (mock implementation)
   getCurrentUserId(): string {
-    // Try to get user from auth service
     const userEmail = authService.getUserEmail();
     if (userEmail) {
       return userEmail;
     }
     
-    // Fallback to default driver for development
     return 'driver@tfms.com';
   }
 
-  // Add a new route (for testing)
   async addRoute(route: Omit<Route, 'id'>): Promise<Route> {
     const newRoute: Route = {
       ...route,
@@ -360,7 +340,6 @@ class MockDataService {
     return newRoute;
   }
 
-  // Add a new package to a route
   async addPackageToRoute(routeId: string, package_: Omit<Package, 'id'>): Promise<Package> {
     const newPackage: Package = {
       ...package_,

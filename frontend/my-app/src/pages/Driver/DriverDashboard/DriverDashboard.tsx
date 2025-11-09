@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { authService } from '../../../services/authService';
 import { routeService } from '../../../services/routeService';
 import { Route } from '../../../types';
@@ -12,6 +12,7 @@ import Suggestions from '../Suggestions/Suggestions';
 
 export default function DriverDashboard() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [routes, setRoutes] = useState<Route[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<'home' | 'agenda' | 'suggestions'>('home');
@@ -20,16 +21,16 @@ export default function DriverDashboard() {
     try {
       await routeService.startRoute(routeId);
       sessionStorage.removeItem('currentRouteId');
-      navigate('/driver/route-overview');
+      navigate('/driver/route-overview', { state: { routeId } });
     } catch (error) {
       console.error('Error starting route:', error);
     }
   };
 
-  const loadRoutes = async () => {
+  const loadRoutes = async (forceRefresh: boolean = false) => {
     try {
       setLoading(true);
-      const driverRoutes = await routeService.getDriverRoutes();
+      const driverRoutes = await routeService.getDriverRoutes(forceRefresh);
       setRoutes(driverRoutes);
 
     } catch (error) {
@@ -43,9 +44,10 @@ export default function DriverDashboard() {
     if (!authService.isAuthenticated() || authService.getUserRole() !== 'DRIVER') {
       navigate('/');
     } else {
-      loadRoutes();
+      const shouldRefresh = location.pathname === '/driver/dashboard' && location.state?.refresh;
+      loadRoutes(shouldRefresh);
     }
-  }, [navigate]);
+  }, [navigate, location.pathname, location.state]);
 
   return (
     <div className="driver-dashboard">

@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react';
 import './AgendaPlanner.css';
 
-//TODO: This is a mock component for the agenda planner. This needs to be refactored to use the backend and actual data.
-
 interface AvailabilitySlot {
   id: string;
   date: string;
@@ -33,7 +31,6 @@ export default function AgendaPlanner() {
 
   const loadAvailability = async () => {
     setLoading(true);
-    // Mock data - in real app, this would fetch from backend
     const weekDates = getWeekDates(currentWeek);
     const mockAvailability: WeeklyAvailability = {};
     
@@ -63,15 +60,10 @@ export default function AgendaPlanner() {
   };
 
   const getWeekNumber = (date: Date): number => {
-    // ISO week number calculation (week starts on Monday, week 1 contains the first Thursday)
     const d = new Date(date);
     d.setHours(0, 0, 0, 0);
-    // Set to nearest Thursday: current date + 4 - current day number
-    // Make Sunday's day number 7
     d.setDate(d.getDate() + 4 - (d.getDay() || 7));
-    // Get first day of year
     const yearStart = new Date(d.getFullYear(), 0, 1);
-    // Calculate full weeks to nearest Thursday
     return Math.ceil((((d.getTime() - yearStart.getTime()) / 86400000) + 1) / 7);
   };
 
@@ -179,7 +171,6 @@ export default function AgendaPlanner() {
 
   const saveAvailability = async () => {
     setLoading(true);
-    // Mock save - in real app, this would send to backend
     console.log('Saving availability:', availability);
     setTimeout(() => {
       setLoading(false);

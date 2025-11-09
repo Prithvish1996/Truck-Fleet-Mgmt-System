@@ -176,7 +176,7 @@ public class ParcelController {
             return ApiResponse.error("Invalid token");
         }
 
-        if (!Objects.equals(user.getRole(), "PLANNER")) {
+        if (!Objects.equals(user.getRole(), "PLANNER" or "DRIVER")) {
             return ApiResponse.error("Not Authorized");
         }
 

@@ -33,10 +33,16 @@ export default function Login() {
       });
 
       if (response.success) {
-        authService.setToken(response.accessToken);
-        authService.setUserRole(response.userType);
-        authService.setUserEmail(response.email);
-        navigate('/dashboard');
+        console.log('Login response:', response);
+        console.log('Access token from response:', response.accessToken);
+        if (response.accessToken) {
+          authService.setToken(response.accessToken);
+          authService.setUserRole(response.userType);
+          authService.setUserEmail(response.email);
+          navigate('/dashboard');
+        } else {
+          setError('Access token not found in response');
+        }
       } else {
         setError(response.message || 'Login failed');
       }

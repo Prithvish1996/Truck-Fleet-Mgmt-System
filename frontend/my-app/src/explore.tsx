@@ -31,7 +31,6 @@ export default function Explore() {
   };
 
   useEffect(() => {
-    // Check if user is authenticated
     if (!authService.isAuthenticated()) {
       navigate('/');
     }

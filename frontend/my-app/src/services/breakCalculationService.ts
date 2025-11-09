@@ -17,7 +17,6 @@ function calculateCumulativeTimes(
     const cumulativeTime = cumulativeSeconds;
     const travelTime = pkg.estimatedTravelTime || 0;
     
-    // Add delivery time (assume 5 minutes per delivery)
     const deliveryTime = 300;
     
     cumulativeSeconds += travelTime + deliveryTime;

@@ -10,11 +10,12 @@ import DeliveryNavigationControls from '../components/navigation/DeliveryNavigat
 import CompletedState from '../components/navigation/CompletedState';
 import RouteOverviewButton from '../components/navigation/RouteOverviewButton';
 import { deliveryService, DeliveryState } from '../../../services/deliveryService';
+import { routeService } from '../../../services/routeService';
 import { Package } from '../../../types';
 import './PackageDeliveryNavigation.css';
 
 interface PackageDeliveryNavigationProps {
-  navigate: (path: string) => void;
+  navigate: (path: string, state?: any) => void;
   routeId?: string;
 }
 
@@ -29,7 +30,8 @@ const PackageDeliveryNavigation: React.FC<PackageDeliveryNavigationProps> = ({
   const [error, setError] = useState<string | null>(null);
   const [currentDestination, setCurrentDestination] = useState<[number, number] | null>(null);
 
-  const currentPackage = packages.length > 0 ? packages[currentPackageIndex] : null;
+  const undeliveredPackages = packages.filter(pkg => pkg.status !== 'delivered');
+  const currentPackage = undeliveredPackages.length > 0 ? undeliveredPackages[currentPackageIndex] : null;
 
   useEffect(() => {
     const loadPackages = async () => {
@@ -43,7 +45,9 @@ const PackageDeliveryNavigation: React.FC<PackageDeliveryNavigationProps> = ({
         setDeliveryState('loading');
         const loadedPackages = await deliveryService.loadPackages(routeId);
         
-        if (loadedPackages.length === 0) {
+        const undelivered = loadedPackages.filter(pkg => pkg.status !== 'delivered');
+        
+        if (undelivered.length === 0) {
           setDeliveryState('completed');
           setError('No packages to deliver');
           return;
@@ -92,12 +96,18 @@ const PackageDeliveryNavigation: React.FC<PackageDeliveryNavigationProps> = ({
     if (!currentPackage || !routeId) return;
 
     try {
-      await deliveryService.handleDeliveryResult(currentPackage.id, confirmed);
+      await deliveryService.handleDeliveryResult(currentPackage.id, confirmed, routeId);
 
       if (confirmed) {
-        if (currentPackageIndex < packages.length - 1) {
-          const nextIndex = currentPackageIndex + 1;
-          setCurrentPackageIndex(nextIndex);
+        const updatedPackages = packages.map(pkg => 
+          pkg.id === currentPackage.id ? { ...pkg, status: 'delivered' as const } : pkg
+        );
+        setPackages(updatedPackages);
+        
+        const remainingUndelivered = updatedPackages.filter(pkg => pkg.status !== 'delivered');
+        
+        if (remainingUndelivered.length > 0) {
+          setCurrentPackageIndex(0);
           setDeliveryState('waiting_location');
           
           if (userLocation) {
@@ -150,12 +160,25 @@ const PackageDeliveryNavigation: React.FC<PackageDeliveryNavigationProps> = ({
     );
   }
 
+  const handleCompleteRoute = async () => {
+    if (!routeId) return;
+    
+    try {
+      await routeService.completeRoute(routeId);
+      await routeService.getDriverRoutes(true);
+      navigate('/driver/dashboard', { state: { refresh: true } });
+    } catch (err) {
+      console.error('Error completing route:', err);
+      setError(err instanceof Error ? err.message : 'Failed to complete route');
+    }
+  };
+
   if (deliveryState === 'completed') {
     return (
       <div className="package-delivery-navigation">
         <DriverHeader navigate={handleBackToDashboard} />
         <div className="package-delivery-navigation__content">
-          <CompletedState onReturnToDashboard={() => navigate('/driver/dashboard')} />
+          <CompletedState onComplete={handleCompleteRoute} />
         </div>
       </div>
     );
@@ -191,7 +214,7 @@ const PackageDeliveryNavigation: React.FC<PackageDeliveryNavigationProps> = ({
         {currentPackage && (
           <PackageInfo
             package={currentPackage}
-            packageNumber={currentPackageIndex + 1}
+            packageNumber={packages.findIndex(p => p.id === currentPackage.id) + 1}
             totalPackages={packages.length}
             estimatedTime={currentPackage.estimatedTravelTime}
           />
