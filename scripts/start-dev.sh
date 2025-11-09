@@ -73,8 +73,13 @@ echo -e "${BLUE}LOG_PATH set to: $LOG_PATH${NC}"
 echo -e "\n${BLUE}� Building Backend...${NC}"
 cd "$PROJECT_ROOT/tfms-starter"
 
-# Start backend in background (spring-boot:run will handle compilation)
-echo -e "${YELLOW}Building and starting backend...${NC}"
+# Build backend first
+echo -e "${YELLOW}Running Maven clean install (skipping tests)...${NC}"
+../mvnw clean install -DskipTests
+echo -e "${GREEN}Backend build completed${NC}"
+
+# Start backend in background
+echo -e "${YELLOW}Starting backend...${NC}"
 # ----- START HERE TO UNCOMMENT IF YOU WANT TO RUN ON DIRECT MODE -----
 #../mvnw spring-boot:run -Dspring-boot.run.profiles=dev -Dspring-boot.run.jvmArguments="-DLOG_PATH=$LOG_PATH" > backend.log 2>&1 &
 #BACKEND_PID=$!
@@ -122,11 +127,10 @@ fi
 
 cd "$PROJECT_ROOT/frontend/my-app"
 
-# Check if node_modules exists
-if [ ! -d "node_modules" ]; then
-    echo -e "${YELLOW}Installing frontend dependencies...${NC}"
-    npm install
-fi
+# Install frontend dependencies
+echo -e "${YELLOW}Installing frontend dependencies...${NC}"
+npm install
+echo -e "${GREEN}Frontend dependencies installed${NC}"
 
 # Start frontend in background
 echo -e "${YELLOW}Starting React development server...${NC}"
