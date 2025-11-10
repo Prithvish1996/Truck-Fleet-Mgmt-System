@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { authService } from '../../services/authService';
-import RoutePlanningModal from '../../components/RoutePlanningModal';
-import RouteAssignmentPage from '../../components/RouteAssignmentPage';
-import RouteTrackingPage from '../../components/RouteTrackingPage';
-import TruckDetailPage from '../../components/TruckDetailPage';
-import ParcelDetailPage from '../../components/ParcelDetailPage';
-import { RouteAssignment } from '../../types';
-import homeIcon from '../../assets/home icon.png';
-import scheduleIcon from '../../assets/schedule icon.png';
-import smallLogo from '../../assets/small logo.png';
+import { authService } from '../../../services/authService';
+import RoutePlanningModal from '../components/RoutePlanningModal';
+import RouteAssignmentPage from '../routeAssignment/RouteAssignmentPage';
+import RouteTrackingPage from '../routeTracking/RouteTrackingPage';
+import TruckDetailPage from '../truckDetail/TruckDetailPage';
+import ParcelDetailPage from '../parcelDetail/ParcelDetailPage';
+import { RouteAssignment } from '../../../types/index';
+import homeIcon from '../../../assets/home icon.png';
+import scheduleIcon from '../../../assets/schedule icon.png';
+import smallLogo from '../../../assets/small logo.png';
 import './PlannerDashboard.css';
 
 type PriorityLevel = 'High' | 'Medium' | 'Low';

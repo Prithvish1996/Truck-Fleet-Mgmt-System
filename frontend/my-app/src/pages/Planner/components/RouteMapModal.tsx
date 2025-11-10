@@ -1,5 +1,5 @@
 import React from 'react';
-import { RouteAssignment } from '../types';
+import { RouteAssignment } from '../../../types/index';
 import './RouteMapModal.css';
 
 interface RouteMapModalProps {

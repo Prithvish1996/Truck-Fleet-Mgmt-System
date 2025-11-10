@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { TruckParcel } from '../types';
+import { TruckParcel } from '../../../types/index';
 import './TruckDetailPage.css';
 
 interface TruckDetailPageProps {

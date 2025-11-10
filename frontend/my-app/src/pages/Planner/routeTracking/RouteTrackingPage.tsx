@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { RouteAssignment } from '../types';
-import RouteMapModal from './RouteMapModal';
+import { RouteAssignment } from '../../../types/index';
+import RouteMapModal from '../components/RouteMapModal';
 import './RouteTrackingPage.css';
 
 interface RouteTrackingPageProps {
