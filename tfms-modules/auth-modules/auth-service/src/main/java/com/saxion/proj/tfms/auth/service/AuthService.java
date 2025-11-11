@@ -38,7 +38,7 @@ public class AuthService implements IAuthService {
             logger.infoOp(ServiceName.SECURITY_SERVICE, "LOGIN", "Authentication attempt for user: {}", request.getEmail());
 
             UserDao user = getUser(request);
-            String token = jwtUtil.generateToken(user.getEmail(), user.getUserType().name());
+            String token = jwtUtil.generateTokenWithId(user.getEmail(), user.getUserType().name(), user.getId());
             LoginResponseDto responseData = getLoginResponseDto(token, user);
             
             logger.infoOp(ServiceName.SECURITY_SERVICE, "LOGIN", "Authentication successful for user: {}", request.getEmail());

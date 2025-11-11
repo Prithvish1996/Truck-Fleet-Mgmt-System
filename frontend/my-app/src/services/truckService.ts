@@ -2,9 +2,6 @@ import { mockDataService } from './mockDataService';
 import { Truck, TruckResponse } from '../types';
 
 class TruckService {
-  /**
-   * Get all trucks
-   */
   async getAllTrucks(): Promise<Truck[]> {
     try {
       const response = await mockDataService.getTrucks();
@@ -18,9 +15,6 @@ class TruckService {
     }
   }
 
-  /**
-   * Get trucks assigned to the current driver
-   */
   async getDriverTrucks(): Promise<Truck[]> {
     try {
       const currentUserId = mockDataService.getCurrentUserId();
@@ -36,9 +30,6 @@ class TruckService {
     }
   }
 
-  /**
-   * Get truck by ID
-   */
   async getTruckById(truckId: string): Promise<Truck | null> {
     try {
       const trucks = await this.getAllTrucks();
@@ -49,9 +40,6 @@ class TruckService {
     }
   }
 
-  /**
-   * Get trucks by status
-   */
   async getTrucksByStatus(status: Truck['status']): Promise<Truck[]> {
     try {
       const allTrucks = await this.getAllTrucks();
@@ -62,9 +50,6 @@ class TruckService {
     }
   }
 
-  /**
-   * Get available trucks
-   */
   async getAvailableTrucks(): Promise<Truck[]> {
     try {
       return await this.getTrucksByStatus('available');
@@ -74,9 +59,6 @@ class TruckService {
     }
   }
 
-  /**
-   * Get trucks in use
-   */
   async getTrucksInUse(): Promise<Truck[]> {
     try {
       return await this.getTrucksByStatus('in_use');
@@ -86,9 +68,6 @@ class TruckService {
     }
   }
 
-  /**
-   * Get trucks in maintenance
-   */
   async getTrucksInMaintenance(): Promise<Truck[]> {
     try {
       return await this.getTrucksByStatus('maintenance');
@@ -98,9 +77,6 @@ class TruckService {
     }
   }
 
-  /**
-   * Get trucks out of service
-   */
   async getTrucksOutOfService(): Promise<Truck[]> {
     try {
       return await this.getTrucksByStatus('out_of_service');
@@ -110,9 +86,6 @@ class TruckService {
     }
   }
 
-  /**
-   * Get trucks by fuel type
-   */
   async getTrucksByFuelType(fuelType: Truck['fuelType']): Promise<Truck[]> {
     try {
       const allTrucks = await this.getAllTrucks();
@@ -123,9 +96,6 @@ class TruckService {
     }
   }
 
-  /**
-   * Get trucks by capacity range
-   */
   async getTrucksByCapacity(minCapacity: number, maxCapacity: number): Promise<Truck[]> {
     try {
       const allTrucks = await this.getAllTrucks();
@@ -138,9 +108,6 @@ class TruckService {
     }
   }
 
-  /**
-   * Get trucks needing maintenance soon (within specified days)
-   */
   async getTrucksNeedingMaintenance(daysAhead: number = 30): Promise<Truck[]> {
     try {
       const allTrucks = await this.getAllTrucks();
@@ -157,9 +124,6 @@ class TruckService {
     }
   }
 
-  /**
-   * Get truck statistics
-   */
   async getTruckStatistics(): Promise<{
     total: number;
     available: number;

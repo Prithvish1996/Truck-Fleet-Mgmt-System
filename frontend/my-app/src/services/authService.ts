@@ -1,5 +1,6 @@
-// API service for authentication
-const API_BASE_URL = 'http://localhost:8080/api';
+import { apiConfig } from '../config/apiConfig';
+
+const API_BASE_URL = apiConfig.baseURL;
 
 export interface LoginRequest {
   email: string;
@@ -40,6 +41,8 @@ class AuthService {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(credentials),
+        mode: 'cors',
+        credentials: 'include',
       });
 
       if (!response.ok) {
@@ -53,7 +56,6 @@ class AuthService {
         throw new Error(apiResponse.message || 'Login failed');
       }
 
-      // Store user email for mock service
       if (apiResponse.data.email) {
         this.setUserEmail(apiResponse.data.email);
       }
@@ -84,13 +86,24 @@ class AuthService {
     }
   }
 
-  // Token management
   setToken(token: string): void {
-    localStorage.setItem('authToken', token);
+    if (!token || token.trim() === '') {
+      console.error('Attempted to store empty token');
+      return;
+    }
+    const trimmedToken = token.trim();
+    localStorage.setItem('authToken', trimmedToken);
+    console.log('Token stored successfully. Length:', trimmedToken.length);
   }
 
   getToken(): string | null {
-    return localStorage.getItem('authToken');
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      console.log('Token retrieved. Length:', token.length, 'First 50 chars:', token.substring(0, 50));
+    } else {
+      console.warn('No token found in localStorage');
+    }
+    return token;
   }
 
   removeToken(): void {
@@ -99,7 +112,6 @@ class AuthService {
     localStorage.removeItem('userEmail');
   }
 
-  // User role management
   setUserRole(role: string): void {
     localStorage.setItem('userRole', role);
   }
@@ -108,7 +120,6 @@ class AuthService {
     return localStorage.getItem('userRole');
   }
 
-  // User email management
   setUserEmail(email: string): void {
     localStorage.setItem('userEmail', email);
   }
@@ -122,12 +133,35 @@ class AuthService {
     if (!token) return false;
 
     try {
-      // Check if token is expired
       const payload = JSON.parse(atob(token.split('.')[1]));
       const currentTime = Date.now() / 1000;
       return payload.exp > currentTime;
     } catch {
       return false;
+    }
+  }
+
+  getDriverId(): number | null {
+    const token = this.getToken();
+    if (!token) return null;
+
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      const userId = payload.userID || payload.driverId || payload.userId || payload.id;
+      
+      if (userId !== null && userId !== undefined) {
+        const numId = typeof userId === 'number' ? userId : parseInt(userId, 10);
+        if (!isNaN(numId)) {
+          return numId;
+        }
+      }
+      
+      console.warn('Driver ID not found in token. Token payload:', payload);
+      console.warn('Available fields:', Object.keys(payload));
+      return null;
+    } catch (error) {
+      console.error('Error parsing token:', error);
+      return null;
     }
   }
 }

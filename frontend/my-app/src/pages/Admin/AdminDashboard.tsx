@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { authService } from '../services/authService';
+import { authService } from '../../services/authService';
 import './AdminDashboard.css';
 
 export default function AdminDashboard() {
@@ -31,7 +31,6 @@ export default function AdminDashboard() {
   };
 
   useEffect(() => {
-    // Check if user is authenticated and is admin
     if (!authService.isAuthenticated() || authService.getUserRole() !== 'ADMIN') {
       navigate('/');
     }

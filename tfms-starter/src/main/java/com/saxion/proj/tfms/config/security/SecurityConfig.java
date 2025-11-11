@@ -9,6 +9,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter;
+import org.springframework.web.cors.CorsConfigurationSource;
 
 /**
  * Security configuration for TFMS application
@@ -21,9 +22,19 @@ public class SecurityConfig {
     @Autowired
     private JwtAuthenticationFilter jwtAuthenticationFilter;
 
+    @Autowired(required = false)
+    private CorsConfigurationSource corsConfigurationSource;
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+            // Configure CORS if configuration source is available
+            .cors(cors -> {
+                if (corsConfigurationSource != null) {
+                    cors.configurationSource(corsConfigurationSource);
+                }
+            })
+            
             // Disable CSRF for REST API
             .csrf(csrf -> csrf.disable())
             

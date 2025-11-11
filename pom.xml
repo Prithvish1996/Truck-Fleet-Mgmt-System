@@ -24,6 +24,7 @@
 
     <properties>
         <java.version>17</java.version>
+        <lombok.version>1.18.30</lombok.version>
     </properties>
 
     <!-- Modules for Modular Monolithic Architecture -->
@@ -87,6 +88,13 @@
                         <source>17</source>
                         <target>17</target>
                         <release>17</release>
+                        <annotationProcessorPaths>
+                            <path>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok</artifactId>
+                                <version>${lombok.version}</version>
+                            </path>
+                        </annotationProcessorPaths>
                     </configuration>
                 </plugin>
                 <plugin>
