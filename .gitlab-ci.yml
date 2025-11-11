@@ -6,12 +6,15 @@ variables:
   MAVEN_CLI_OPTS: "-B -e -U"
   MAVEN_OPTS: "-Dmaven.test.failure.ignore=false"
 
+# Run only when merge request targets 'dev' branch
 workflow:
   rules:
     - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "dev"'
 
+# Use Maven image
 image: maven:3.9.6-eclipse-temurin-17
 
+# Cache dependencies to speed up builds
 cache:
   key: "${CI_PROJECT_NAME}"
   paths:
@@ -22,11 +25,14 @@ build_backend:
   stage: build
   script:
     - echo "Building backend modules..."
-    - mvn $MAVEN_CLI_OPTS clean install -pl tfms-modules/common-modules,tfms-modules/auth-modules/auth-service,tfms-modules/planner-modules/planner-service,tfms-starter -am -DskipTests
-artifacts:
-  paths:
-    - tfms-starter/target/
-  expire_in: 1 week
+    - |
+      mvn $MAVEN_CLI_OPTS clean install \
+        -pl tfms-modules/common-modules,tfms-modules/auth-modules/auth-service,tfms-modules/planner-modules/planner-service,tfms-starter \
+        -am -DskipTests
+  artifacts:
+    paths:
+      - tfms-starter/target/
+    expire_in: 1 week
 
 # Step 2: Run tests for auth-service
 test_auth_service:
@@ -35,7 +41,8 @@ test_auth_service:
     - echo "Running tests for auth-service..."
     - mvn $MAVEN_CLI_OPTS test -pl tfms-modules/auth-modules/auth-service -am
   needs:
-    - build_backend
+    - job: build_backend
+      artifacts: true
 
 # Step 3: Run tests for planner-service
 test_planner_service:
@@ -44,4 +51,5 @@ test_planner_service:
     - echo "Running tests for planner-service..."
     - mvn $MAVEN_CLI_OPTS test -pl tfms-modules/planner-modules/planner-service -am
   needs:
-    - build_backend
+    - job: build_backend
+      artifacts: true
