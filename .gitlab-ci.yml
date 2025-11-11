@@ -53,3 +53,8 @@ test_planner_service:
   needs:
     - job: build_backend
       artifacts: true
+  artifacts:
+    when: always
+    paths:
+      - tfms-modules/planner-modules/planner-service/target/surefire-reports/
+    expire_in: 2 days
