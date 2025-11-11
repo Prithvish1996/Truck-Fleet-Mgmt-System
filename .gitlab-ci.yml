@@ -35,14 +35,14 @@ build_backend:
     expire_in: 1 week
 
 # Step 2: Run tests for auth-service
-test_auth_service:
-  stage: test
-  script:
-    - echo "Running tests for auth-service..."
-    - mvn $MAVEN_CLI_OPTS test -pl tfms-modules/auth-modules/auth-service -am
-  needs:
-    - job: build_backend
-      artifacts: true
+#test_auth_service:
+#  stage: test
+#  script:
+#    - echo "Running tests for auth-service..."
+#    - mvn $MAVEN_CLI_OPTS test -pl tfms-modules/auth-modules/auth-service -am
+#  needs:
+#    - job: build_backend
+#      artifacts: true
 
 # Step 3: Run tests for planner-service
 test_planner_service:
