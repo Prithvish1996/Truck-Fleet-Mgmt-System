@@ -16,7 +16,7 @@ const getApiConfig = (): ApiConfig => {
   }
   
   return {
-    baseURL: 'https://your-production-domain.com/api',
+    baseURL: 'https://localhost:8443/api', //JUST FOR NOW WHEN USING DOCKER COMPOSE
     useHTTPS: true,
     allowSelfSignedCerts: false
   };
