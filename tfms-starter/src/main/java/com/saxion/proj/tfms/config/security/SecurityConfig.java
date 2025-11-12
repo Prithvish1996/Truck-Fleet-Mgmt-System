@@ -70,8 +70,20 @@ public class SecurityConfig {
                 // All other API endpoints require authentication
                 .requestMatchers("/api/**").authenticated()
                 
-                // Static resources (if serving frontend)
-                .requestMatchers("/static/**", "/", "/index.html").permitAll()
+                // Static resources and React SPA routes (if serving frontend)
+                .requestMatchers(
+                    "/static/**", 
+                    "/", 
+                    "/index.html",
+                    "/favicon.ico",
+                    "/manifest.json",
+                    "/robots.txt",
+                    "/logo*.png",
+                    "/dashboard",
+                    "/driver/**",
+                    "/planner/**",
+                    "/admin/**"
+                ).permitAll()
                 
                 // All other requests require authentication
                 .anyRequest().authenticated()
