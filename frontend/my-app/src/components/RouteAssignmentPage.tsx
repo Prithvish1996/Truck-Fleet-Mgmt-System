@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { RouteAssignment } from '../../../types/index';
-import { Driver } from '../../../types/index';
+import { RouteAssignment, Driver } from '../types';
 
 import './RouteAssignmentPage.css';
 

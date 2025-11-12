@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ParcelDetail } from '../../../types/index';
+import { ParcelDetail } from '../types';
 import './ParcelDetailPage.css';
 
 interface ParcelDetailPageProps {
