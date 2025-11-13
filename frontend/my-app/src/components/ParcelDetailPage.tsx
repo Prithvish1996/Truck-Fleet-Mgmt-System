@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ParcelDetail } from '../types';
+import { plannerService } from '../services/plannerService';
+import { extractParcelId } from '../utils/dataTransformers';
 import './ParcelDetailPage.css';
 
 interface ParcelDetailPageProps {
@@ -7,63 +9,104 @@ interface ParcelDetailPageProps {
   onReturn: () => void;
 }
 
-// Mock function to generate parcel detail
-const generateParcelDetail = (parcelId: string): ParcelDetail => {
-  // Generate mock data based on parcel ID
-  const mockDetails: { [key: string]: ParcelDetail } = {
-    'P1223-01': {
-      parcelId: 'P1223-01',
-      internalId: 'P-001',
-      contactPerson: 'Kevin Wang',
-      phone: '0617331229',
-      email: 'kevinwang22@gmail.com',
-      streetName: 'Liguster',
-      houseNumber: '202',
-      zipCode: '2262 AC',
-      city: 'Leidschendam',
-      country: 'Netherlands',
-      typesOfItems: 'Fragile goods',
-      specialInstructions: 'Special Instructions / Delivery Notes (e.g. doorbell, preferred delivery time, unloading method, etc.)',
-      remarks: 'Call to notify delivery upon arrival'
+export default function ParcelDetailPage({ parcelId, onReturn }: ParcelDetailPageProps) {
+  const [parcelDetail, setParcelDetail] = useState<ParcelDetail | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    loadParcelDetail();
+  }, [parcelId]);
+
+  const loadParcelDetail = async () => {
+    setLoading(true);
+    setError('');
+    try {
+      // Extract numeric parcel ID from string format (e.g., "P1223-01" -> 1223)
+      const parcelIdNum = extractParcelId(parcelId);
+      
+      if (!parcelIdNum || parcelIdNum === 0) {
+        setError('Invalid parcel ID format.');
+        return;
+      }
+
+      const parcel = await plannerService.getParcelById(parcelIdNum);
+      
+      // Parse address components
+      const addressParts = parcel.deliveryAddress?.split(/\s+/) || [];
+      let streetName = '';
+      let houseNumber = '';
+      
+      // Try to extract house number (usually a number at the end of the address)
+      const lastPart = addressParts[addressParts.length - 1];
+      if (/^\d+/.test(lastPart)) {
+        houseNumber = lastPart;
+        streetName = addressParts.slice(0, -1).join(' ');
+      } else {
+        streetName = parcel.deliveryAddress || '';
+        houseNumber = '';
+      }
+
+      const detail: ParcelDetail = {
+        parcelId: parcelId,
+        internalId: `P-${parcel.parcelId}`,
+        contactPerson: parcel.recipientName || 'Unknown',
+        phone: parcel.recipientPhone || 'N/A',
+        email: '', // Backend doesn't provide email in ParcelResponse
+        streetName: streetName,
+        houseNumber: houseNumber,
+        zipCode: parcel.deliveryPostalCode || 'N/A',
+        city: parcel.deliveryCity || 'Unknown',
+        country: 'Netherlands',
+        typesOfItems: parcel.weight ? `Weight: ${parcel.weight}kg, Volume: ${parcel.volume || 'N/A'}` : 'N/A',
+        specialInstructions: parcel.deliveryInstructions || 'No special instructions',
+        remarks: `Status: ${parcel.status || 'Unknown'}`
+      };
+
+      setParcelDetail(detail);
+    } catch (err: any) {
+      console.error('Error loading parcel detail:', err);
+      setError(err.message || 'Failed to load parcel details.');
+    } finally {
+      setLoading(false);
     }
   };
 
-  // If parcel ID exists in mock data, return it, otherwise generate a default
-  if (mockDetails[parcelId]) {
-    return mockDetails[parcelId];
+  if (loading) {
+    return (
+      <div className="parcel-detail-page">
+        <div className="parcel-detail-container">
+          <div>Loading...</div>
+        </div>
+      </div>
+    );
   }
 
-  // Generate default data for other parcels
-  return {
-    parcelId: parcelId,
-    internalId: `P-${parcelId.split('-')[1]}`,
-    contactPerson: 'Customer Name',
-    phone: '0612345678',
-    email: 'customer@example.com',
-    streetName: 'Street Name',
-    houseNumber: '123',
-    zipCode: '1234 AB',
-    city: 'City',
-    country: 'Netherlands',
-    typesOfItems: 'General goods',
-    specialInstructions: 'Special Instructions / Delivery Notes (e.g. doorbell, preferred delivery time, unloading method, etc.)',
-    remarks: 'Please handle with care'
-  };
-};
-
-export default function ParcelDetailPage({ parcelId, onReturn }: ParcelDetailPageProps) {
-  const [parcelDetail, setParcelDetail] = useState<ParcelDetail | null>(null);
-
-  useEffect(() => {
-    const detail = generateParcelDetail(parcelId);
-    setParcelDetail(detail);
-  }, [parcelId]);
+  if (error) {
+    return (
+      <div className="parcel-detail-page">
+        <div className="parcel-detail-container">
+          <div style={{ color: 'red', padding: '20px' }}>{error}</div>
+          <div className="return-button-container">
+            <button className="return-button" onClick={onReturn}>
+              Return
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (!parcelDetail) {
     return (
       <div className="parcel-detail-page">
         <div className="parcel-detail-container">
-          <div>Loading...</div>
+          <div>No parcel details available</div>
+          <div className="return-button-container">
+            <button className="return-button" onClick={onReturn}>
+              Return
+            </button>
+          </div>
         </div>
       </div>
     );
@@ -92,7 +135,7 @@ export default function ParcelDetailPage({ parcelId, onReturn }: ParcelDetailPag
           
           <div className="info-row">
             <div className="info-label">Email Address</div>
-            <div className="info-value">{parcelDetail.email}</div>
+            <div className="info-value">{parcelDetail.email || 'N/A'}</div>
           </div>
           
           <div className="info-row">
@@ -102,7 +145,7 @@ export default function ParcelDetailPage({ parcelId, onReturn }: ParcelDetailPag
           
           <div className="info-row">
             <div className="info-label">House Number</div>
-            <div className="info-value">{parcelDetail.houseNumber}</div>
+            <div className="info-value">{parcelDetail.houseNumber || 'N/A'}</div>
           </div>
           
           <div className="info-row">

@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { RouteAssignment } from '../types';
+import { plannerService, DriverResponse } from '../services/plannerService';
 import RouteMapModal from './RouteMapModal';
 import './RouteTrackingPage.css';
 
@@ -10,24 +11,25 @@ interface RouteTrackingPageProps {
   onTruckClick?: (truckPlateNo: string) => void;
 }
 
-// Get driver name from assignment
-const getDriverName = (driverId: string | null): string => {
-  if (!driverId) return 'Unassigned';
-  const driverMap: { [key: string]: string } = {
-    'tom': 'Tom',
-    'jack': 'Jack',
-    'frank': 'Frank',
-    'bob': 'Bob'
-  };
-  return driverMap[driverId] || 'Tom'; // Default to Tom if not found
-};
-
 export default function RouteTrackingPage({ assignments, onReturn, onTrack, onTruckClick }: RouteTrackingPageProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [isMapModalOpen, setIsMapModalOpen] = useState(false);
   const [selectedAssignment, setSelectedAssignment] = useState<RouteAssignment | null>(null);
+  const [drivers, setDrivers] = useState<DriverResponse[]>([]);
   const itemsPerPage = 12;
   const totalPages = Math.ceil(assignments.length / itemsPerPage);
+
+  useEffect(() => {
+    const loadDrivers = async () => {
+      try {
+        const driverList = await plannerService.getAvailableDrivers();
+        setDrivers(driverList);
+      } catch (error) {
+        console.error('Error loading drivers:', error);
+      }
+    };
+    loadDrivers();
+  }, []);
 
   // Filter out assignments without drivers
   const assignedRoutes = assignments.filter(a => a.driverId !== null);
@@ -53,6 +55,12 @@ export default function RouteTrackingPage({ assignments, onReturn, onTrack, onTr
   const handleCloseMap = () => {
     setIsMapModalOpen(false);
     setSelectedAssignment(null);
+  };
+
+  const getDriverName = (driverId: string | null): string => {
+    if (!driverId) return 'Unassigned';
+    const driver = drivers.find(d => d.id.toString() === driverId);
+    return driver ? (driver.userName || driver.Name || `Driver ${driver.id}`) : 'Unknown';
   };
 
   return (
@@ -117,7 +125,7 @@ export default function RouteTrackingPage({ assignments, onReturn, onTrack, onTr
           >
             Previous page
           </button>
-                    <div className="pagination-numbers">
+          <div className="pagination-numbers">
             {Array.from({ length: Math.min(7, totalPages) }, (_, i) => {     
               let pageNum: number;
               if (totalPages <= 7) {

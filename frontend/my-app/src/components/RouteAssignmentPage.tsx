@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { RouteAssignment, Driver } from '../types';
-
+import { RouteAssignment } from '../types';
+import { plannerService, RouteResponse, DriverResponse } from '../services/plannerService';
+import { formatDate, countParcelsInRoute, extractParcelId } from '../utils/dataTransformers';
 import './RouteAssignmentPage.css';
 
 interface RouteAssignmentPageProps {
@@ -10,72 +11,69 @@ interface RouteAssignmentPageProps {
   onTruckClick?: (truckPlateNo: string) => void;
 }
 
-// Mock drivers for dropdown
-const mockDrivers: Driver[] = [
-  { id: 'tom', name: 'Tom', email: 'tom@example.com', phone: '', licenseNumber: '', licenseExpiry: '', status: 'active' },
-  { id: 'jack', name: 'Jack', email: 'jack@example.com', phone: '', licenseNumber: '', licenseExpiry: '', status: 'active' },
-  { id: 'frank', name: 'Frank', email: 'frank@example.com', phone: '', licenseNumber: '', licenseExpiry: '', status: 'active' },
-  { id: 'bob', name: 'Bob', email: 'bob@example.com', phone: '', licenseNumber: '', licenseExpiry: '', status: 'active' }
-];
-
-// Generate mock truck plate numbers (deterministic based on index)
-const generateTruckPlateNo = (index: number): string => {
-  const prefixes = ['R', 'K', 'T', 'H', 'B', 'V', 'N', 'P', 'Z', 'J', 'D'];
-  // Use deterministic values based on index to ensure consistency
-  const numbers = [965, 381, 947, 520, 194, 803, 672, 415, 209, 738, 856, 852];
-  const letters = [
-    ['F', 'K'], ['L', 'P'], ['M', 'J'], ['Z', 'R'], ['X', 'N'], ['G', 'C'],
-    ['F', 'D'], ['H', 'V'], ['K', 'R'], ['L', 'S'], ['W', 'T'], ['W', 'X']
-  ];
-  
-  const prefix = prefixes[index % prefixes.length];
-  const number = numbers[index % numbers.length];
-  const letterPair = letters[index % letters.length];
-  
-  return `${prefix}-${number}-${letterPair[0]}${letterPair[1]}`;
-};
-
 export default function RouteAssignmentPage({ selectedParcelIds, onReturn, onSubmit, onTruckClick }: RouteAssignmentPageProps) {
   const [assignments, setAssignments] = useState<RouteAssignment[]>([]);
+  const [availableDrivers, setAvailableDrivers] = useState<DriverResponse[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const itemsPerPage = 12;
 
   useEffect(() => {
-    // Generate route assignments based on selected parcels
-    // For demo, we'll generate 12 assignments (matching the image)
-    const generateAssignments = (): RouteAssignment[] => {
-      const count = 12; // Total assignments to show
-      const tomorrow = new Date();
-      tomorrow.setDate(tomorrow.getDate() + 1);
-      tomorrow.setHours(17, 0, 0, 0); // Set to 17:00
-      const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-      const month = monthNames[tomorrow.getMonth()];
-      const day = tomorrow.getDate();
-      const dateStr = `${month} ${day}, 17:00`;
-
-      const newAssignments: RouteAssignment[] = [];
-      
-      // First 4 assignments have pre-assigned drivers
-      const preAssignedDrivers = ['tom', 'jack', 'frank', 'bob'];
-      
-      for (let i = 0; i < count; i++) {
-        newAssignments.push({
-          id: `assignment-${i + 1}`,
-          truckPlateNo: generateTruckPlateNo(i),
-          date: dateStr,
-          numberOfParcels: 25,
-          driverId: i < 4 ? preAssignedDrivers[i] : null
-        });
-      }
-      
-      return newAssignments;
-    };
-
-    const generated = generateAssignments();
-    setAssignments(generated);
-    setTotalPages(Math.ceil(generated.length / itemsPerPage));
+    loadUnassignedRoutes();
+    loadAvailableDrivers();
   }, [selectedParcelIds]);
+
+  const loadUnassignedRoutes = async () => {
+    setLoading(true);
+    setError('');
+    try {
+      const data = await plannerService.getUnassignedRoutes();
+      
+      // Convert RouteResponse[] to RouteAssignment[]
+      // Use unAssignedRoute (status=PLANNED) from the response
+      const routesToAssign = data.unAssignedRoute || [];
+      
+      if (routesToAssign.length === 0) {
+        setError('No unassigned routes available. Routes may have already been generated.');
+        setLoading(false);
+        return;
+      }
+
+      const routeAssignments: RouteAssignment[] = routesToAssign.map((route, index) => {
+        const numberOfParcels = countParcelsInRoute(route);
+        const date = route.startTime ? formatDate(route.startTime) : 'TBD';
+        
+        return {
+          id: `assignment-${route.routeId || index}`,
+          truckPlateNo: route.truckPlateNumber || `Truck-${route.truckId || index}`,
+          date,
+          numberOfParcels,
+          driverId: route.driverId?.toString() || null,
+          routeId: route.routeId,
+          truckId: route.truckId
+        };
+      });
+
+      setAssignments(routeAssignments);
+      setTotalPages(Math.ceil(routeAssignments.length / itemsPerPage));
+    } catch (err: any) {
+      console.error('Error loading unassigned routes:', err);
+      setError(err.message || 'Failed to load routes. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const loadAvailableDrivers = async () => {
+    try {
+      const drivers = await plannerService.getAvailableDrivers();
+      setAvailableDrivers(drivers);
+    } catch (err: any) {
+      console.error('Error loading available drivers:', err);
+    }
+  };
 
   const handleDriverChange = (assignmentId: string, driverId: string | null) => {
     setAssignments(prev =>
@@ -87,8 +85,40 @@ export default function RouteAssignmentPage({ selectedParcelIds, onReturn, onSub
     );
   };
 
-  const handleSubmit = () => {
-    onSubmit(assignments);
+  const handleSubmit = async () => {
+    setLoading(true);
+    setError('');
+
+    try {
+      // Filter assignments that have drivers selected and required IDs
+      const assignmentsToSubmit = assignments.filter(
+        assignment => assignment.driverId && assignment.routeId && assignment.truckId
+      );
+
+      if (assignmentsToSubmit.length === 0) {
+        setError('Please select at least one driver for the routes.');
+        setLoading(false);
+        return;
+      }
+
+      // Assign drivers to all routes
+      const assignmentPromises = assignmentsToSubmit.map(assignment =>
+        plannerService.assignDriverToRoute({
+          routId: assignment.routeId!,
+          truckId: assignment.truckId!,
+          driverId: parseInt(assignment.driverId!, 10)
+        })
+      );
+
+      await Promise.all(assignmentPromises);
+      
+      // Pass only the assignments with drivers assigned to parent
+      onSubmit(assignmentsToSubmit);
+    } catch (err: any) {
+      console.error('Error assigning drivers:', err);
+      setError(err.message || 'Failed to assign drivers. Please try again.');
+      setLoading(false);
+    }
   };
 
   const handlePageChange = (page: number) => {
@@ -105,8 +135,8 @@ export default function RouteAssignmentPage({ selectedParcelIds, onReturn, onSub
 
   const getDriverName = (driverId: string | null): string => {
     if (!driverId) return '';
-    const driver = mockDrivers.find(d => d.id === driverId);
-    return driver ? driver.name : '';
+    const driver = availableDrivers.find(d => d.id.toString() === driverId);
+    return driver ? (driver.userName || driver.Name || `Driver ${driver.id}`) : '';
   };
 
   return (
@@ -114,108 +144,129 @@ export default function RouteAssignmentPage({ selectedParcelIds, onReturn, onSub
       <div className="assignment-container">
         <h2 className="assignment-title">Route Assignment</h2>
         
-        <div className="assignment-table-container">
-          <table className="assignment-table">
-            <thead>
-              <tr>
-                <th>No.</th>
-                <th>Truck Plate ID</th>
-                <th>Date</th>
-                <th>No. of Parcels</th>
-                <th>Driver</th>
-              </tr>
-            </thead>
-            <tbody>
-              {getCurrentPageAssignments().map((assignment, index) => {
-                const rowNumber = (currentPage - 1) * itemsPerPage + index + 1;
-                return (
-                  <tr key={assignment.id}>
-                    <td>{rowNumber}</td>
-                    <td>
-                      {onTruckClick ? (
-                        <button
-                          className="truck-plate-link"
-                          onClick={() => onTruckClick(assignment.truckPlateNo)}
-                        >
-                          {assignment.truckPlateNo}
-                        </button>
-                      ) : (
-                        assignment.truckPlateNo
-                      )}
-                    </td>
-                    <td>{assignment.date}</td>
-                    <td>{assignment.numberOfParcels}</td>
-                    <td>
-                      <select
-                        className="driver-select"
-                        value={assignment.driverId || ''}
-                        onChange={(e) => handleDriverChange(assignment.id, e.target.value === '' ? null : e.target.value)}
-                      >
-                        <option value=""></option>
-                        {mockDrivers.map(driver => (
-                          <option key={driver.id} value={driver.id}>
-                            {driver.name}
-                          </option>
-                        ))}
-                      </select>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
+        {loading && !assignments.length && (
+          <div style={{ padding: '20px', textAlign: 'center' }}>Loading routes...</div>
+        )}
 
-        {/* Pagination */}
-        <div className="pagination">
-          <button
-            className="pagination-button"
-            onClick={() => handlePageChange(currentPage - 1)}
-            disabled={currentPage === 1}
-          >
-            Previous page
-          </button>
-                    <div className="pagination-numbers">
-            {Array.from({ length: Math.min(7, totalPages) }, (_, i) => {     
-              let pageNum: number;
-              if (totalPages <= 7) {
-                pageNum = i + 1;
-              } else if (currentPage <= 4) {
-                pageNum = i + 1;
-              } else if (currentPage >= totalPages - 3) {
-                pageNum = totalPages - 6 + i;
-              } else {
-                pageNum = currentPage - 3 + i;
-              }
-              
-              return (
-                <button
-                  key={pageNum}
-                  className={`pagination-number ${currentPage === pageNum ? 'active' : ''}`}
-                  onClick={() => handlePageChange(pageNum)}
-                >
-                  {pageNum}
-                </button>
-              );
-            })}
-            {totalPages > 7 && <span className="pagination-ellipsis">...</span>}
-          </div>
-          <button
-            className="pagination-button"
-            onClick={() => handlePageChange(currentPage + 1)}
-            disabled={currentPage === totalPages}
-          >
-            Next page
-          </button>
-        </div>
+        {error && (
+          <div style={{ padding: '20px', color: 'red', textAlign: 'center' }}>{error}</div>
+        )}
+
+        {!loading && assignments.length === 0 && !error && (
+          <div style={{ padding: '20px', textAlign: 'center' }}>No unassigned routes available.</div>
+        )}
+
+        {assignments.length > 0 && (
+          <>
+            <div className="assignment-table-container">
+              <table className="assignment-table">
+                <thead>
+                  <tr>
+                    <th>No.</th>
+                    <th>Truck Plate ID</th>
+                    <th>Date</th>
+                    <th>No. of Parcels</th>
+                    <th>Driver</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {getCurrentPageAssignments().map((assignment, index) => {
+                    const rowNumber = (currentPage - 1) * itemsPerPage + index + 1;
+                    return (
+                      <tr key={assignment.id}>
+                        <td>{rowNumber}</td>
+                        <td>
+                          {onTruckClick ? (
+                            <button
+                              className="truck-plate-link"
+                              onClick={() => onTruckClick(assignment.truckPlateNo)}
+                            >
+                              {assignment.truckPlateNo}
+                            </button>
+                          ) : (
+                            assignment.truckPlateNo
+                          )}
+                        </td>
+                        <td>{assignment.date}</td>
+                        <td>{assignment.numberOfParcels}</td>
+                        <td>
+                          <select
+                            className="driver-select"
+                            value={assignment.driverId || ''}
+                            onChange={(e) => handleDriverChange(assignment.id, e.target.value === '' ? null : e.target.value)}
+                            disabled={loading}
+                          >
+                            <option value="">Select Driver</option>
+                            {availableDrivers.map(driver => (
+                              <option key={driver.id} value={driver.id.toString()}>
+                                {driver.userName || driver.Name || `Driver ${driver.id}`}
+                              </option>
+                            ))}
+                          </select>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Pagination */}
+            <div className="pagination">
+              <button
+                className="pagination-button"
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+              >
+                Previous page
+              </button>
+              <div className="pagination-numbers">
+                {Array.from({ length: Math.min(7, totalPages) }, (_, i) => {     
+                  let pageNum: number;
+                  if (totalPages <= 7) {
+                    pageNum = i + 1;
+                  } else if (currentPage <= 4) {
+                    pageNum = i + 1;
+                  } else if (currentPage >= totalPages - 3) {
+                    pageNum = totalPages - 6 + i;
+                  } else {
+                    pageNum = currentPage - 3 + i;
+                  }
+                  
+                  return (
+                    <button
+                      key={pageNum}
+                      className={`pagination-number ${currentPage === pageNum ? 'active' : ''}`}
+                      onClick={() => handlePageChange(pageNum)}
+                    >
+                      {pageNum}
+                    </button>
+                  );
+                })}
+                {totalPages > 7 && <span className="pagination-ellipsis">...</span>}
+              </div>
+              <button
+                className="pagination-button"
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+              >
+                Next page
+              </button>
+            </div>
+          </>
+        )}
 
         {/* Action Buttons */}
         <div className="action-buttons">
-          <button className="return-home-button" onClick={onReturn}>
+          <button className="return-home-button" onClick={onReturn} disabled={loading}>
             Return
           </button>
-          <button className="submit-button" onClick={handleSubmit}>
-            Submit
+          <button 
+            className="submit-button" 
+            onClick={handleSubmit}
+            disabled={loading || assignments.length === 0 || !assignments.some(a => a.driverId)}
+          >
+            {loading ? 'Submitting...' : 'Submit'}
           </button>
         </div>
       </div>
