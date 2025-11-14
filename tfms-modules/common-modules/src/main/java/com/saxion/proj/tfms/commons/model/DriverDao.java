@@ -43,4 +43,12 @@ public class DriverDao extends BaseEntity {
     // assignment to this driver
     @OneToMany(mappedBy = "driver", cascade = CascadeType.ALL, orphanRemoval = false)
     private List<DriverTruckAssignmentDao> assignments = new ArrayList<>();
+
+    // availability date
+    @OneToMany(mappedBy = "driver", cascade = CascadeType.ALL, orphanRemoval = false)
+    private List<DriverAvailabilityDao> availabilities = new ArrayList<>();
+
+    // availability date
+    @OneToMany(mappedBy = "driver", cascade = CascadeType.ALL, orphanRemoval = false)
+    private List<DriverSuggestionDao> suggestions = new ArrayList<>();
 }

@@ -37,6 +37,10 @@ public class RouteDao extends BaseEntity {
     @JoinColumn(name = "depot_id")
     private DepotDao depot;
 
+    @OneToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "warehouse_id")
+    private WareHouseDao warehouse;
+
     @Column(nullable = false)
     private Long totalDistance;
 

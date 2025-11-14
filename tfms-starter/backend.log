@@ -51,30 +51,30 @@ Listening for transport dt_socket at address: 5005
 
  :: Spring Boot ::                (v3.5.5)
 
-2025-11-11 15:35:13.606 [background-preinit] INFO  [] [] org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.3.Final
-2025-11-11 15:35:13.654 [main] INFO  [tfms-truck-fleet-management-system] [] com.saxion.proj.tfms.TfmsApplication - Starting TfmsApplication using Java 17.0.16 with PID 18785 (/Users/abuchi/IdeaProjects/SaxionProject/02/tfms-starter/target/classes started by abuchi in /Users/abuchi/IdeaProjects/SaxionProject/02/tfms-starter)
-2025-11-11 15:35:13.661 [main] DEBUG [tfms-truck-fleet-management-system] [] com.saxion.proj.tfms.TfmsApplication - Running with Spring Boot v3.5.5, Spring v6.2.10
-2025-11-11 15:35:13.662 [main] INFO  [tfms-truck-fleet-management-system] [] com.saxion.proj.tfms.TfmsApplication - The following 1 profile is active: "dev"
-2025-11-11 15:35:14.816 [main] INFO  [tfms-truck-fleet-management-system] [] org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-11-11 15:35:14.913 [main] INFO  [tfms-truck-fleet-management-system] [] org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 87 ms. Found 10 JPA repository interfaces.
-2025-11-11 15:35:15.624 [main] INFO  [tfms-truck-fleet-management-system] [] org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8443 (https)
-2025-11-11 15:35:15.636 [main] INFO  [tfms-truck-fleet-management-system] [] org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["https-jsse-nio-8443"]
-2025-11-11 15:35:15.643 [main] INFO  [tfms-truck-fleet-management-system] [] org.apache.catalina.core.StandardService - Starting service [Tomcat]
-2025-11-11 15:35:15.643 [main] INFO  [tfms-truck-fleet-management-system] [] org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.44]
-2025-11-11 15:35:15.691 [main] INFO  [tfms-truck-fleet-management-system] [] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-2025-11-11 15:35:15.693 [main] INFO  [tfms-truck-fleet-management-system] [] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1992 ms
-2025-11-11 15:35:15.809 [main] INFO  [tfms-truck-fleet-management-system] [] com.saxion.proj.tfms.config.security.RateLimitingFilter - Rate limiting filter initialized with limit: 60 requests per minute
-2025-11-11 15:35:15.846 [main] DEBUG [tfms-truck-fleet-management-system] [] com.saxion.proj.tfms.config.security.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
-2025-11-11 15:35:15.848 [main] DEBUG [tfms-truck-fleet-management-system] [] com.saxion.proj.tfms.config.security.RateLimitingFilter - Filter 'rateLimitingFilter' configured for use
-2025-11-11 15:35:15.966 [main] INFO  [tfms-truck-fleet-management-system] [] org.hibernate.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-11-11 15:35:16.014 [main] INFO  [tfms-truck-fleet-management-system] [] org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.26.Final
-2025-11-11 15:35:16.044 [main] INFO  [tfms-truck-fleet-management-system] [] org.hibernate.cache.internal.RegionFactoryInitiator - HHH000026: Second-level cache disabled
-2025-11-11 15:35:16.306 [main] INFO  [tfms-truck-fleet-management-system] [] org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-11-11 15:35:16.340 [main] INFO  [tfms-truck-fleet-management-system] [] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-2025-11-11 15:35:16.542 [main] INFO  [tfms-truck-fleet-management-system] [] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@3050d479
-2025-11-11 15:35:16.544 [main] INFO  [tfms-truck-fleet-management-system] [] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-2025-11-11 15:35:16.572 [main] WARN  [tfms-truck-fleet-management-system] [] org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2025-11-11 15:35:16.593 [main] INFO  [tfms-truck-fleet-management-system] [] org.hibernate.orm.connections.pooling - HHH10001005: Database info:
+2025-11-14 07:05:56.009 [background-preinit] INFO  [] [] org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.3.Final
+2025-11-14 07:05:56.054 [main] INFO  [tfms-truck-fleet-management-system] [] com.saxion.proj.tfms.TfmsApplication - Starting TfmsApplication using Java 17.0.16 with PID 27796 (/Users/abuchi/IdeaProjects/SaxionProject/02/tfms-starter/target/classes started by abuchi in /Users/abuchi/IdeaProjects/SaxionProject/02/tfms-starter)
+2025-11-14 07:05:56.061 [main] DEBUG [tfms-truck-fleet-management-system] [] com.saxion.proj.tfms.TfmsApplication - Running with Spring Boot v3.5.5, Spring v6.2.10
+2025-11-14 07:05:56.062 [main] INFO  [tfms-truck-fleet-management-system] [] com.saxion.proj.tfms.TfmsApplication - The following 1 profile is active: "dev"
+2025-11-14 07:05:57.203 [main] INFO  [tfms-truck-fleet-management-system] [] org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-11-14 07:05:57.290 [main] INFO  [tfms-truck-fleet-management-system] [] org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 78 ms. Found 12 JPA repository interfaces.
+2025-11-14 07:05:57.938 [main] INFO  [tfms-truck-fleet-management-system] [] org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8443 (https)
+2025-11-14 07:05:57.950 [main] INFO  [tfms-truck-fleet-management-system] [] org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["https-jsse-nio-8443"]
+2025-11-14 07:05:57.955 [main] INFO  [tfms-truck-fleet-management-system] [] org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2025-11-14 07:05:57.956 [main] INFO  [tfms-truck-fleet-management-system] [] org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.44]
+2025-11-14 07:05:58.006 [main] INFO  [tfms-truck-fleet-management-system] [] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-11-14 07:05:58.008 [main] INFO  [tfms-truck-fleet-management-system] [] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1905 ms
+2025-11-14 07:05:58.127 [main] INFO  [tfms-truck-fleet-management-system] [] com.saxion.proj.tfms.config.security.RateLimitingFilter - Rate limiting filter initialized with limit: 60 requests per minute
+2025-11-14 07:05:58.161 [main] DEBUG [tfms-truck-fleet-management-system] [] com.saxion.proj.tfms.config.security.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+2025-11-14 07:05:58.163 [main] DEBUG [tfms-truck-fleet-management-system] [] com.saxion.proj.tfms.config.security.RateLimitingFilter - Filter 'rateLimitingFilter' configured for use
+2025-11-14 07:05:58.282 [main] INFO  [tfms-truck-fleet-management-system] [] org.hibernate.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-11-14 07:05:58.332 [main] INFO  [tfms-truck-fleet-management-system] [] org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.26.Final
+2025-11-14 07:05:58.369 [main] INFO  [tfms-truck-fleet-management-system] [] org.hibernate.cache.internal.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-11-14 07:05:58.649 [main] INFO  [tfms-truck-fleet-management-system] [] org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-11-14 07:05:58.681 [main] INFO  [tfms-truck-fleet-management-system] [] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-11-14 07:05:58.885 [main] INFO  [tfms-truck-fleet-management-system] [] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7c857e8f
+2025-11-14 07:05:58.887 [main] INFO  [tfms-truck-fleet-management-system] [] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-11-14 07:05:58.920 [main] WARN  [tfms-truck-fleet-management-system] [] org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-11-14 07:05:58.943 [main] INFO  [tfms-truck-fleet-management-system] [] org.hibernate.orm.connections.pooling - HHH10001005: Database info:
 	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
 	Database driver: undefined/unknown
 	Database version: 17.6
@@ -82,184 +82,210 @@ Listening for transport dt_socket at address: 5005
 	Isolation level: undefined/unknown
 	Minimum pool size: undefined/unknown
 	Maximum pool size: undefined/unknown
-2025-11-11 15:35:17.786 [main] INFO  [tfms-truck-fleet-management-system] [] org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-11-11 15:35:17.800 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.163 [main] INFO  [tfms-truck-fleet-management-system] [] org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-11-14 07:06:00.178 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     set client_min_messages = WARNING
 Hibernate: 
     set client_min_messages = WARNING
-2025-11-11 15:35:17.803 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.180 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists depot 
        drop constraint if exists FKe301iowoaqjm6tyewp59qfwar
 Hibernate: 
     alter table if exists depot 
        drop constraint if exists FKe301iowoaqjm6tyewp59qfwar
-2025-11-11 15:35:17.809 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.191 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    alter table if exists driver_availability 
+       drop constraint if exists FKpmbvukj9cxp3gh1k5qef2wlgc
+Hibernate: 
+    alter table if exists driver_availability 
+       drop constraint if exists FKpmbvukj9cxp3gh1k5qef2wlgc
+2025-11-14 07:06:00.192 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    alter table if exists driver_feedback 
+       drop constraint if exists FK14bs22seumen5ujybvhbiqgid
+Hibernate: 
+    alter table if exists driver_feedback 
+       drop constraint if exists FK14bs22seumen5ujybvhbiqgid
+2025-11-14 07:06:00.193 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists driver_truck_assignment 
        drop constraint if exists FKcsuas72gnx4wiys76lfr3frx9
 Hibernate: 
     alter table if exists driver_truck_assignment 
        drop constraint if exists FKcsuas72gnx4wiys76lfr3frx9
-2025-11-11 15:35:17.810 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.194 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists driver_truck_assignment 
        drop constraint if exists FKojdwijoc98dbfltpsl4ptifvr
 Hibernate: 
     alter table if exists driver_truck_assignment 
        drop constraint if exists FKojdwijoc98dbfltpsl4ptifvr
-2025-11-11 15:35:17.812 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.196 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists drivers 
        drop constraint if exists FKpm96np638t9xhgj0cpbd80so2
 Hibernate: 
     alter table if exists drivers 
        drop constraint if exists FKpm96np638t9xhgj0cpbd80so2
-2025-11-11 15:35:17.813 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.197 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists drivers 
        drop constraint if exists FKfscpnjt46gco44xh86l99rxh7
 Hibernate: 
     alter table if exists drivers 
        drop constraint if exists FKfscpnjt46gco44xh86l99rxh7
-2025-11-11 15:35:17.814 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.198 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists maintenance_records 
        drop constraint if exists FKfxk5kmlv4sota7yuut3e445ey
 Hibernate: 
     alter table if exists maintenance_records 
        drop constraint if exists FKfxk5kmlv4sota7yuut3e445ey
-2025-11-11 15:35:17.816 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.199 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists maintenance_records 
        drop constraint if exists FK44jqd9qs4v5yaok9mnbw7odh6
 Hibernate: 
     alter table if exists maintenance_records 
        drop constraint if exists FK44jqd9qs4v5yaok9mnbw7odh6
-2025-11-11 15:35:17.817 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.200 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists maintenance_records 
        drop constraint if exists FK3nnro82drqwl32kixdi26b0eh
 Hibernate: 
     alter table if exists maintenance_records 
        drop constraint if exists FK3nnro82drqwl32kixdi26b0eh
-2025-11-11 15:35:17.818 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.201 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists parcel_stop 
        drop constraint if exists FKkvedi2peoy3kemqqstjb4xy4x
 Hibernate: 
     alter table if exists parcel_stop 
        drop constraint if exists FKkvedi2peoy3kemqqstjb4xy4x
-2025-11-11 15:35:17.819 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.202 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists parcel_stop 
        drop constraint if exists FKkj3ptd9rut8iej1miysqgvw99
 Hibernate: 
     alter table if exists parcel_stop 
        drop constraint if exists FKkj3ptd9rut8iej1miysqgvw99
-2025-11-11 15:35:17.820 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.203 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists parcels 
        drop constraint if exists FKnv2yi0jrhhk8ggr7xs3gvkwts
 Hibernate: 
     alter table if exists parcels 
        drop constraint if exists FKnv2yi0jrhhk8ggr7xs3gvkwts
-2025-11-11 15:35:17.821 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.204 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists parcels 
        drop constraint if exists FKgi5727h7aynukv9c4hqt89k58
 Hibernate: 
     alter table if exists parcels 
        drop constraint if exists FKgi5727h7aynukv9c4hqt89k58
-2025-11-11 15:35:17.822 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.205 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists parcels 
        drop constraint if exists FK1n63sg4bq9lpaxdsvx4w6cgp5
 Hibernate: 
     alter table if exists parcels 
        drop constraint if exists FK1n63sg4bq9lpaxdsvx4w6cgp5
-2025-11-11 15:35:17.823 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.206 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists route_computations 
        drop constraint if exists FK3c01sxk46leij2gki1cnnsi9o
 Hibernate: 
     alter table if exists route_computations 
        drop constraint if exists FK3c01sxk46leij2gki1cnnsi9o
-2025-11-11 15:35:17.824 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.207 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists route_stops 
        drop constraint if exists FKp1fka8xfu6pf91algbjueupey
 Hibernate: 
     alter table if exists route_stops 
        drop constraint if exists FKp1fka8xfu6pf91algbjueupey
-2025-11-11 15:35:17.825 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.208 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists route_stops 
        drop constraint if exists FK63y33daxb1qs5nbnkuicbpkej
 Hibernate: 
     alter table if exists route_stops 
        drop constraint if exists FK63y33daxb1qs5nbnkuicbpkej
-2025-11-11 15:35:17.826 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.209 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists routes 
        drop constraint if exists FK1et1n18fssg80csy4xlp5yeha
 Hibernate: 
     alter table if exists routes 
        drop constraint if exists FK1et1n18fssg80csy4xlp5yeha
-2025-11-11 15:35:17.827 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.210 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists routes 
        drop constraint if exists FKop0qr5t6dwfrb9sg8x25o5ivd
 Hibernate: 
     alter table if exists routes 
        drop constraint if exists FKop0qr5t6dwfrb9sg8x25o5ivd
-2025-11-11 15:35:17.828 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.211 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists routes 
        drop constraint if exists FKjasq7qb9iqn2ym54o4kfmafac
 Hibernate: 
     alter table if exists routes 
        drop constraint if exists FKjasq7qb9iqn2ym54o4kfmafac
-2025-11-11 15:35:17.829 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.212 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    alter table if exists routes 
+       drop constraint if exists FK622q1farflqa2gr7c5oo767jw
+Hibernate: 
+    alter table if exists routes 
+       drop constraint if exists FK622q1farflqa2gr7c5oo767jw
+2025-11-14 07:06:00.213 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists warehouse 
        drop constraint if exists FKm7is2pg5vfxb3iqrhs1741fa
 Hibernate: 
     alter table if exists warehouse 
        drop constraint if exists FKm7is2pg5vfxb3iqrhs1741fa
-2025-11-11 15:35:17.830 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.214 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     drop table if exists depot cascade
 Hibernate: 
     drop table if exists depot cascade
-2025-11-11 15:35:17.837 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.227 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    drop table if exists driver_availability cascade
+Hibernate: 
+    drop table if exists driver_availability cascade
+2025-11-14 07:06:00.230 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    drop table if exists driver_feedback cascade
+Hibernate: 
+    drop table if exists driver_feedback cascade
+2025-11-14 07:06:00.232 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     drop table if exists driver_truck_assignment cascade
 Hibernate: 
     drop table if exists driver_truck_assignment cascade
-2025-11-11 15:35:17.839 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.235 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     drop table if exists drivers cascade
 Hibernate: 
     drop table if exists drivers cascade
-2025-11-11 15:35:17.842 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.239 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     drop table if exists locations cascade
 Hibernate: 
     drop table if exists locations cascade
-2025-11-11 15:35:17.844 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.241 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     drop table if exists maintenance_records cascade
 Hibernate: 
     drop table if exists maintenance_records cascade
-2025-11-11 15:35:17.846 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.243 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     drop table if exists parcel_stop cascade
 Hibernate: 
     drop table if exists parcel_stop cascade
-2025-11-11 15:35:17.847 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.245 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     drop table if exists parcels cascade
 Hibernate: 
     drop table if exists parcels cascade
-2025-11-11 15:35:17.850 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.249 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     drop table if exists route_computations cascade
 Hibernate: 
     drop table if exists route_computations cascade
-2025-11-11 15:35:17.852 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.252 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     drop table if exists route_stops cascade
 Hibernate: 
     drop table if exists route_stops cascade
-2025-11-11 15:35:17.854 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.255 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     drop table if exists routes cascade
 Hibernate: 
     drop table if exists routes cascade
-2025-11-11 15:35:17.857 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.259 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     drop table if exists trucks cascade
 Hibernate: 
     drop table if exists trucks cascade
-2025-11-11 15:35:17.859 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.262 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     drop table if exists users cascade
 Hibernate: 
     drop table if exists users cascade
-2025-11-11 15:35:17.862 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.266 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     drop table if exists warehouse cascade
 Hibernate: 
     drop table if exists warehouse cascade
-2025-11-11 15:35:17.870 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.274 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     create table depot (
         capacity float(53) not null,
         is_active boolean not null,
@@ -281,7 +307,49 @@ Hibernate:
         name varchar(255) not null,
         primary key (id)
     )
-2025-11-11 15:35:17.877 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.283 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    create table driver_availability (
+        is_active boolean not null,
+        available_at timestamp(6) with time zone,
+        created_at timestamp(6) with time zone,
+        driver_id bigint,
+        id bigint generated by default as identity,
+        updated_at timestamp(6) with time zone,
+        status varchar(255) not null check (status in ('AVAILABLE','PENDING','SCHEDULED','DELIVERED','RETURNED','PLANNED','ASSIGNED','COMPLETED')),
+        primary key (id)
+    )
+Hibernate: 
+    create table driver_availability (
+        is_active boolean not null,
+        available_at timestamp(6) with time zone,
+        created_at timestamp(6) with time zone,
+        driver_id bigint,
+        id bigint generated by default as identity,
+        updated_at timestamp(6) with time zone,
+        status varchar(255) not null check (status in ('AVAILABLE','PENDING','SCHEDULED','DELIVERED','RETURNED','PLANNED','ASSIGNED','COMPLETED')),
+        primary key (id)
+    )
+2025-11-14 07:06:00.287 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    create table driver_feedback (
+        is_active boolean not null,
+        created_at timestamp(6) with time zone,
+        driver_id bigint,
+        id bigint generated by default as identity,
+        updated_at timestamp(6) with time zone,
+        suggestion varchar(255),
+        primary key (id)
+    )
+Hibernate: 
+    create table driver_feedback (
+        is_active boolean not null,
+        created_at timestamp(6) with time zone,
+        driver_id bigint,
+        id bigint generated by default as identity,
+        updated_at timestamp(6) with time zone,
+        suggestion varchar(255),
+        primary key (id)
+    )
+2025-11-14 07:06:00.290 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     create table driver_truck_assignment (
         is_active boolean not null,
         created_at timestamp(6) with time zone,
@@ -290,7 +358,7 @@ Hibernate:
         id bigint generated by default as identity,
         truck_id bigint,
         updated_at timestamp(6) with time zone,
-        "assignment-status" varchar(255) not null check ("assignment-status" in ('PENDING','SCHEDULED','DELIVERED','RETURNED','PLANNED','ASSIGNED','COMPLETED')),
+        "assignment-status" varchar(255) not null check ("assignment-status" in ('AVAILABLE','PENDING','SCHEDULED','DELIVERED','RETURNED','PLANNED','ASSIGNED','COMPLETED')),
         primary key (id)
     )
 Hibernate: 
@@ -302,10 +370,10 @@ Hibernate:
         id bigint generated by default as identity,
         truck_id bigint,
         updated_at timestamp(6) with time zone,
-        "assignment-status" varchar(255) not null check ("assignment-status" in ('PENDING','SCHEDULED','DELIVERED','RETURNED','PLANNED','ASSIGNED','COMPLETED')),
+        "assignment-status" varchar(255) not null check ("assignment-status" in ('AVAILABLE','PENDING','SCHEDULED','DELIVERED','RETURNED','PLANNED','ASSIGNED','COMPLETED')),
         primary key (id)
     )
-2025-11-11 15:35:17.880 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.295 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     create table drivers (
         is_active boolean not null,
         is_available boolean not null,
@@ -327,7 +395,7 @@ Hibernate:
         user_id bigint not null unique,
         primary key (id)
     )
-2025-11-11 15:35:17.883 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.301 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     create table locations (
         is_active boolean not null,
         latitude float(53) not null,
@@ -353,7 +421,7 @@ Hibernate:
         postal_code varchar(255) not null,
         primary key (id)
     )
-2025-11-11 15:35:17.888 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.306 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     create table maintenance_records (
         cost float(53),
         is_active boolean not null,
@@ -383,7 +451,7 @@ Hibernate:
         service_type varchar(255) not null,
         primary key (id)
     )
-2025-11-11 15:35:17.891 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.310 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     create table parcel_stop (
         is_active boolean not null,
         created_at timestamp(6) with time zone,
@@ -403,7 +471,7 @@ Hibernate:
         updated_at timestamp(6) with time zone,
         primary key (id)
     )
-2025-11-11 15:35:17.894 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.314 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     create table parcels (
         active boolean not null,
         estimated_travel_time integer,
@@ -420,7 +488,7 @@ Hibernate:
         name varchar(255) not null,
         recipient_name varchar(255),
         recipient_phone varchar(255) not null,
-        status varchar(255) not null check (status in ('PENDING','SCHEDULED','DELIVERED','RETURNED','PLANNED','ASSIGNED','COMPLETED')),
+        status varchar(255) not null check (status in ('AVAILABLE','PENDING','SCHEDULED','DELIVERED','RETURNED','PLANNED','ASSIGNED','COMPLETED')),
         primary key (id)
     )
 Hibernate: 
@@ -440,10 +508,10 @@ Hibernate:
         name varchar(255) not null,
         recipient_name varchar(255),
         recipient_phone varchar(255) not null,
-        status varchar(255) not null check (status in ('PENDING','SCHEDULED','DELIVERED','RETURNED','PLANNED','ASSIGNED','COMPLETED')),
+        status varchar(255) not null check (status in ('AVAILABLE','PENDING','SCHEDULED','DELIVERED','RETURNED','PLANNED','ASSIGNED','COMPLETED')),
         primary key (id)
     )
-2025-11-11 15:35:17.897 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.323 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     create table route_computations (
         is_active boolean not null,
         success boolean not null,
@@ -487,7 +555,7 @@ Hibernate:
         route_geometry TEXT,
         primary key (id)
     )
-2025-11-11 15:35:17.901 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.329 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     create table route_stops (
         is_active boolean not null,
         priority integer not null,
@@ -515,7 +583,7 @@ Hibernate:
         stop_type varchar(255) not null check (stop_type in ('WAREHOUSE','CUSTOMER','DEPOT')),
         primary key (id)
     )
-2025-11-11 15:35:17.905 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.336 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     create table routes (
         is_active boolean not null,
         created_at timestamp(6) with time zone,
@@ -528,9 +596,10 @@ Hibernate:
         total_transport_time bigint not null,
         truck_id bigint,
         updated_at timestamp(6) with time zone,
+        warehouse_id bigint unique,
         duration varchar(255) not null,
         note varchar(255) not null,
-        status varchar(255) not null check (status in ('PENDING','SCHEDULED','DELIVERED','RETURNED','PLANNED','ASSIGNED','COMPLETED')),
+        status varchar(255) not null check (status in ('AVAILABLE','PENDING','SCHEDULED','DELIVERED','RETURNED','PLANNED','ASSIGNED','COMPLETED')),
         primary key (id)
     )
 Hibernate: 
@@ -546,12 +615,13 @@ Hibernate:
         total_transport_time bigint not null,
         truck_id bigint,
         updated_at timestamp(6) with time zone,
+        warehouse_id bigint unique,
         duration varchar(255) not null,
         note varchar(255) not null,
-        status varchar(255) not null check (status in ('PENDING','SCHEDULED','DELIVERED','RETURNED','PLANNED','ASSIGNED','COMPLETED')),
+        status varchar(255) not null check (status in ('AVAILABLE','PENDING','SCHEDULED','DELIVERED','RETURNED','PLANNED','ASSIGNED','COMPLETED')),
         primary key (id)
     )
-2025-11-11 15:35:17.909 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.346 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     create table trucks (
         is_active boolean not null,
         is_available boolean not null,
@@ -581,7 +651,7 @@ Hibernate:
         truck_type varchar(255) not null check (truck_type in ('SMALL','MEDIUM','LARGE','ELECTRIC','REFRIGERATED')),
         primary key (id)
     )
-2025-11-11 15:35:17.916 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.351 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     create table users (
         active boolean not null,
         created_at timestamp(6) with time zone,
@@ -607,7 +677,7 @@ Hibernate:
         username varchar(255) not null unique,
         primary key (id)
     )
-2025-11-11 15:35:17.921 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.359 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     create table warehouse (
         active boolean not null,
         created_at timestamp(6) with time zone,
@@ -627,7 +697,7 @@ Hibernate:
         name varchar(255),
         primary key (id)
     )
-2025-11-11 15:35:17.924 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.363 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists depot 
        add constraint FKe301iowoaqjm6tyewp59qfwar 
        foreign key (location_id) 
@@ -637,7 +707,27 @@ Hibernate:
        add constraint FKe301iowoaqjm6tyewp59qfwar 
        foreign key (location_id) 
        references locations
-2025-11-11 15:35:17.927 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.365 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    alter table if exists driver_availability 
+       add constraint FKpmbvukj9cxp3gh1k5qef2wlgc 
+       foreign key (driver_id) 
+       references drivers
+Hibernate: 
+    alter table if exists driver_availability 
+       add constraint FKpmbvukj9cxp3gh1k5qef2wlgc 
+       foreign key (driver_id) 
+       references drivers
+2025-11-14 07:06:00.368 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    alter table if exists driver_feedback 
+       add constraint FK14bs22seumen5ujybvhbiqgid 
+       foreign key (driver_id) 
+       references drivers
+Hibernate: 
+    alter table if exists driver_feedback 
+       add constraint FK14bs22seumen5ujybvhbiqgid 
+       foreign key (driver_id) 
+       references drivers
+2025-11-14 07:06:00.370 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists driver_truck_assignment 
        add constraint FKcsuas72gnx4wiys76lfr3frx9 
        foreign key (driver_id) 
@@ -647,7 +737,7 @@ Hibernate:
        add constraint FKcsuas72gnx4wiys76lfr3frx9 
        foreign key (driver_id) 
        references drivers
-2025-11-11 15:35:17.928 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.373 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists driver_truck_assignment 
        add constraint FKojdwijoc98dbfltpsl4ptifvr 
        foreign key (truck_id) 
@@ -657,7 +747,7 @@ Hibernate:
        add constraint FKojdwijoc98dbfltpsl4ptifvr 
        foreign key (truck_id) 
        references trucks
-2025-11-11 15:35:17.930 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.375 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists drivers 
        add constraint FKpm96np638t9xhgj0cpbd80so2 
        foreign key (location_id) 
@@ -667,7 +757,7 @@ Hibernate:
        add constraint FKpm96np638t9xhgj0cpbd80so2 
        foreign key (location_id) 
        references locations
-2025-11-11 15:35:17.931 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.377 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists drivers 
        add constraint FKfscpnjt46gco44xh86l99rxh7 
        foreign key (user_id) 
@@ -677,7 +767,7 @@ Hibernate:
        add constraint FKfscpnjt46gco44xh86l99rxh7 
        foreign key (user_id) 
        references users
-2025-11-11 15:35:17.933 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.379 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists maintenance_records 
        add constraint FKfxk5kmlv4sota7yuut3e445ey 
        foreign key (serviced_by_user_id) 
@@ -687,7 +777,7 @@ Hibernate:
        add constraint FKfxk5kmlv4sota7yuut3e445ey 
        foreign key (serviced_by_user_id) 
        references users
-2025-11-11 15:35:17.934 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.381 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists maintenance_records 
        add constraint FK44jqd9qs4v5yaok9mnbw7odh6 
        foreign key (truck_id) 
@@ -697,7 +787,7 @@ Hibernate:
        add constraint FK44jqd9qs4v5yaok9mnbw7odh6 
        foreign key (truck_id) 
        references trucks
-2025-11-11 15:35:17.936 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.383 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists maintenance_records 
        add constraint FK3nnro82drqwl32kixdi26b0eh 
        foreign key (user_id) 
@@ -707,7 +797,7 @@ Hibernate:
        add constraint FK3nnro82drqwl32kixdi26b0eh 
        foreign key (user_id) 
        references users
-2025-11-11 15:35:17.937 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.384 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists parcel_stop 
        add constraint FKkvedi2peoy3kemqqstjb4xy4x 
        foreign key (parcel_id) 
@@ -717,7 +807,7 @@ Hibernate:
        add constraint FKkvedi2peoy3kemqqstjb4xy4x 
        foreign key (parcel_id) 
        references parcels
-2025-11-11 15:35:17.939 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.386 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists parcel_stop 
        add constraint FKkj3ptd9rut8iej1miysqgvw99 
        foreign key (route_stop_id) 
@@ -727,7 +817,7 @@ Hibernate:
        add constraint FKkj3ptd9rut8iej1miysqgvw99 
        foreign key (route_stop_id) 
        references route_stops
-2025-11-11 15:35:17.940 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.388 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists parcels 
        add constraint FKnv2yi0jrhhk8ggr7xs3gvkwts 
        foreign key (delivery_location_id) 
@@ -737,7 +827,7 @@ Hibernate:
        add constraint FKnv2yi0jrhhk8ggr7xs3gvkwts 
        foreign key (delivery_location_id) 
        references locations
-2025-11-11 15:35:17.941 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.390 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists parcels 
        add constraint FKgi5727h7aynukv9c4hqt89k58 
        foreign key (stop_id) 
@@ -747,7 +837,7 @@ Hibernate:
        add constraint FKgi5727h7aynukv9c4hqt89k58 
        foreign key (stop_id) 
        references route_stops
-2025-11-11 15:35:17.943 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.392 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists parcels 
        add constraint FK1n63sg4bq9lpaxdsvx4w6cgp5 
        foreign key (warehouse_id) 
@@ -757,7 +847,7 @@ Hibernate:
        add constraint FK1n63sg4bq9lpaxdsvx4w6cgp5 
        foreign key (warehouse_id) 
        references warehouse
-2025-11-11 15:35:17.944 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.393 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists route_computations 
        add constraint FK3c01sxk46leij2gki1cnnsi9o 
        foreign key (route_id) 
@@ -767,7 +857,7 @@ Hibernate:
        add constraint FK3c01sxk46leij2gki1cnnsi9o 
        foreign key (route_id) 
        references routes
-2025-11-11 15:35:17.946 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.395 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists route_stops 
        add constraint FKp1fka8xfu6pf91algbjueupey 
        foreign key (location_id) 
@@ -777,7 +867,7 @@ Hibernate:
        add constraint FKp1fka8xfu6pf91algbjueupey 
        foreign key (location_id) 
        references locations
-2025-11-11 15:35:17.947 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.397 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists route_stops 
        add constraint FK63y33daxb1qs5nbnkuicbpkej 
        foreign key (route_id) 
@@ -787,7 +877,7 @@ Hibernate:
        add constraint FK63y33daxb1qs5nbnkuicbpkej 
        foreign key (route_id) 
        references routes
-2025-11-11 15:35:17.949 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.398 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists routes 
        add constraint FK1et1n18fssg80csy4xlp5yeha 
        foreign key (depot_id) 
@@ -797,7 +887,7 @@ Hibernate:
        add constraint FK1et1n18fssg80csy4xlp5yeha 
        foreign key (depot_id) 
        references depot
-2025-11-11 15:35:17.950 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.400 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists routes 
        add constraint FKop0qr5t6dwfrb9sg8x25o5ivd 
        foreign key (driver_id) 
@@ -807,7 +897,7 @@ Hibernate:
        add constraint FKop0qr5t6dwfrb9sg8x25o5ivd 
        foreign key (driver_id) 
        references drivers
-2025-11-11 15:35:17.951 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.401 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists routes 
        add constraint FKjasq7qb9iqn2ym54o4kfmafac 
        foreign key (truck_id) 
@@ -817,7 +907,17 @@ Hibernate:
        add constraint FKjasq7qb9iqn2ym54o4kfmafac 
        foreign key (truck_id) 
        references trucks
-2025-11-11 15:35:17.953 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:00.403 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    alter table if exists routes 
+       add constraint FK622q1farflqa2gr7c5oo767jw 
+       foreign key (warehouse_id) 
+       references warehouse
+Hibernate: 
+    alter table if exists routes 
+       add constraint FK622q1farflqa2gr7c5oo767jw 
+       foreign key (warehouse_id) 
+       references warehouse
+2025-11-14 07:06:00.404 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     alter table if exists warehouse 
        add constraint FKm7is2pg5vfxb3iqrhs1741fa 
        foreign key (location_id) 
@@ -827,23 +927,23 @@ Hibernate:
        add constraint FKm7is2pg5vfxb3iqrhs1741fa 
        foreign key (location_id) 
        references locations
-2025-11-11 15:35:17.957 [main] INFO  [tfms-truck-fleet-management-system] [] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-11-11 15:35:18.227 [main] INFO  [tfms-truck-fleet-management-system] [] org.springframework.data.jpa.repository.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-11-14 07:06:00.409 [main] INFO  [tfms-truck-fleet-management-system] [] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-11-14 07:06:00.678 [main] INFO  [tfms-truck-fleet-management-system] [] org.springframework.data.jpa.repository.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
 📝 Logging configured - Service: tfms-truck-fleet-management-system, Environment: dev
-2025-11-11 15:35:20.086 [main] INFO  [tfms-truck-fleet-management-system] [] org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver - Exposing 3 endpoints beneath base path '/actuator'
-2025-11-11 15:35:20.145 [main] INFO  [tfms-truck-fleet-management-system] [] org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping - Adding welcome page: class path resource [static/index.html]
-2025-11-11 15:35:20.327 [main] WARN  [tfms-truck-fleet-management-system] [] org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration - 
+2025-11-14 07:06:02.445 [main] INFO  [tfms-truck-fleet-management-system] [] org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver - Exposing 3 endpoints beneath base path '/actuator'
+2025-11-14 07:06:02.498 [main] INFO  [tfms-truck-fleet-management-system] [] org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping - Adding welcome page: class path resource [static/index.html]
+2025-11-14 07:06:02.666 [main] WARN  [tfms-truck-fleet-management-system] [] org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration - 
 
-Using generated security password: c785ebda-41e3-4069-b82a-203c82445255
+Using generated security password: 093f80c0-e331-41ff-b1e6-f72cc080a2ea
 
 This generated password is for development use only. Your security configuration must be updated before running your application in production.
 
-2025-11-11 15:35:20.334 [main] INFO  [tfms-truck-fleet-management-system] [] org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
-2025-11-11 15:35:20.817 [main] INFO  [tfms-truck-fleet-management-system] [] org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["https-jsse-nio-8443"]
-2025-11-11 15:35:21.149 [main] INFO  [tfms-truck-fleet-management-system] [] org.apache.tomcat.util.net.NioEndpoint.certificate - Connector [https-jsse-nio-8443], TLS virtual host [_default_], certificate type [UNDEFINED] configured from keystore [/Users/abuchi/.keystore] using alias [tfms-dev] with trust store [null]
-2025-11-11 15:35:21.164 [main] INFO  [tfms-truck-fleet-management-system] [] org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 8443 (https) with context path '/'
-2025-11-11 15:35:21.257 [main] INFO  [tfms-truck-fleet-management-system] [] com.saxion.proj.tfms.TfmsApplication - Started TfmsApplication in 8.149 seconds (process running for 8.82)
-2025-11-11 15:35:21.417 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:02.672 [main] INFO  [tfms-truck-fleet-management-system] [] org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-11-14 07:06:03.079 [main] INFO  [tfms-truck-fleet-management-system] [] org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["https-jsse-nio-8443"]
+2025-11-14 07:06:03.307 [main] INFO  [tfms-truck-fleet-management-system] [] org.apache.tomcat.util.net.NioEndpoint.certificate - Connector [https-jsse-nio-8443], TLS virtual host [_default_], certificate type [UNDEFINED] configured from keystore [/Users/abuchi/.keystore] using alias [tfms-dev] with trust store [null]
+2025-11-14 07:06:03.322 [main] INFO  [tfms-truck-fleet-management-system] [] org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 8443 (https) with context path '/'
+2025-11-14 07:06:03.341 [main] INFO  [tfms-truck-fleet-management-system] [] com.saxion.proj.tfms.TfmsApplication - Started TfmsApplication in 7.778 seconds (process running for 8.56)
+2025-11-14 07:06:03.449 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         ud1_0.id 
     from
@@ -861,11 +961,7 @@ Hibernate:
         ud1_0.email=? 
     fetch
         first ? rows only
-2025-11-11 15:35:21.512 [https-jsse-nio-8443-exec-4] INFO  [] [] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-11-11 15:35:21.513 [https-jsse-nio-8443-exec-4] INFO  [] [] org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2025-11-11 15:35:21.515 [https-jsse-nio-8443-exec-4] INFO  [] [] org.springframework.web.servlet.DispatcherServlet - Completed initialization in 2 ms
-2025-11-11 15:35:21.554 [https-jsse-nio-8443-exec-4] DEBUG [] [] com.saxion.proj.tfms.config.security.RateLimitingFilter - Rate limit check: IP=127.0.0.1, Count=1, Limit=60
-2025-11-11 15:35:21.594 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:03.604 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         users
@@ -880,7 +976,7 @@ Hibernate:
     values
         (?, ?, ?, ?, ?, ?, ?, ?)
 Default user created: admin@tfms.com (ADMIN)
-2025-11-11 15:35:21.618 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:03.628 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         ud1_0.id 
     from
@@ -898,7 +994,7 @@ Hibernate:
         ud1_0.email=? 
     fetch
         first ? rows only
-2025-11-11 15:35:21.727 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:03.731 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         users
@@ -913,7 +1009,7 @@ Hibernate:
     values
         (?, ?, ?, ?, ?, ?, ?, ?)
 Default user created: driver@tfms.com (DRIVER)
-2025-11-11 15:35:21.730 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:03.734 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         ud1_0.id 
     from
@@ -931,7 +1027,7 @@ Hibernate:
         ud1_0.email=? 
     fetch
         first ? rows only
-2025-11-11 15:35:21.841 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:03.837 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         users
@@ -946,7 +1042,7 @@ Hibernate:
     values
         (?, ?, ?, ?, ?, ?, ?, ?)
 Default user created: driver2@tfms.com (DRIVER)
-2025-11-11 15:35:21.844 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:03.839 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         ud1_0.id 
     from
@@ -964,7 +1060,7 @@ Hibernate:
         ud1_0.email=? 
     fetch
         first ? rows only
-2025-11-11 15:35:21.957 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:03.943 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         users
@@ -979,7 +1075,7 @@ Hibernate:
     values
         (?, ?, ?, ?, ?, ?, ?, ?)
 Default user created: driver3@tfms.com (DRIVER)
-2025-11-11 15:35:21.961 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:03.946 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         ud1_0.id 
     from
@@ -997,7 +1093,7 @@ Hibernate:
         ud1_0.email=? 
     fetch
         first ? rows only
-2025-11-11 15:35:22.073 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.048 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         users
@@ -1012,7 +1108,7 @@ Hibernate:
     values
         (?, ?, ?, ?, ?, ?, ?, ?)
 Default user created: planner@tfms.com (PLANNER)
-2025-11-11 15:35:22.076 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.052 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         ud1_0.id 
     from
@@ -1030,7 +1126,7 @@ Hibernate:
         ud1_0.email=? 
     fetch
         first ? rows only
-2025-11-11 15:35:22.193 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.158 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         users
@@ -1045,7 +1141,7 @@ Hibernate:
     values
         (?, ?, ?, ?, ?, ?, ?, ?)
 Default user created: test@example.com (DRIVER)
-2025-11-11 15:35:22.196 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.162 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         ld1_0.id 
     from
@@ -1063,7 +1159,7 @@ Hibernate:
         ld1_0.postal_code=? 
     fetch
         first ? rows only
-2025-11-11 15:35:22.205 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.170 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         locations
@@ -1078,7 +1174,7 @@ Hibernate:
     values
         (?, ?, ?, ?, ?, ?, ?, ?)
 Default depot created: Main Depot (LocationDao(id=1, latitude=10.0, longitude=20.0, address=Netherlands, city=Deventer, postalCode=11111, drivers=[], deliveryParcels=[], routeStops=[]))
-2025-11-11 15:35:22.218 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.182 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         dd1_0.id 
     from
@@ -1096,7 +1192,7 @@ Hibernate:
         dd1_0.name=? 
     fetch
         first ? rows only
-2025-11-11 15:35:22.220 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.184 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         depot
@@ -1111,7 +1207,7 @@ Hibernate:
     values
         (?, ?, ?, ?, ?, ?)
 Default depot created: Main Depot (LocationDao(id=1, latitude=10.0, longitude=20.0, address=Netherlands, city=Deventer, postalCode=11111, drivers=[], deliveryParcels=[], routeStops=[]))
-2025-11-11 15:35:22.227 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.193 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         ld1_0.id,
         ld1_0.address,
@@ -1141,7 +1237,7 @@ Hibernate:
         locations ld1_0 
     where
         ld1_0.postal_code=?
-2025-11-11 15:35:22.238 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.203 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         locations
@@ -1155,7 +1251,7 @@ Hibernate:
         (address, city, created_at, is_active, latitude, longitude, postal_code, updated_at) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?)
-2025-11-11 15:35:22.242 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.207 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         whd1_0.id,
         whd1_0.active,
@@ -1179,7 +1275,7 @@ Hibernate:
         warehouse whd1_0 
     where
         whd1_0.name=?
-2025-11-11 15:35:22.245 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.210 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         warehouse
@@ -1193,7 +1289,7 @@ Hibernate:
         (active, created_at, location_id, name, updated_at) 
     values
         (?, ?, ?, ?, ?)
-2025-11-11 15:35:22.248 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.214 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         ld1_0.id,
         ld1_0.address,
@@ -1223,7 +1319,7 @@ Hibernate:
         locations ld1_0 
     where
         ld1_0.postal_code=?
-2025-11-11 15:35:22.250 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.216 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         locations
@@ -1237,7 +1333,7 @@ Hibernate:
         (address, city, created_at, is_active, latitude, longitude, postal_code, updated_at) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?)
-2025-11-11 15:35:22.255 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.221 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         pd1_0.id 
     from
@@ -1255,7 +1351,7 @@ Hibernate:
         pd1_0.name=? 
     fetch
         first ? rows only
-2025-11-11 15:35:22.257 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.223 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         parcels
@@ -1269,7 +1365,7 @@ Hibernate:
         (active, created_at, delivery_instructions, delivery_location_id, estimated_travel_time, name, planned_delivery_date, recipient_name, recipient_phone, status, stop_id, updated_at, volume, warehouse_id, weight) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-2025-11-11 15:35:22.261 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.227 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         ld1_0.id,
         ld1_0.address,
@@ -1299,7 +1395,7 @@ Hibernate:
         locations ld1_0 
     where
         ld1_0.postal_code=?
-2025-11-11 15:35:22.264 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.229 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         whd1_0.id,
         whd1_0.active,
@@ -1323,7 +1419,7 @@ Hibernate:
         warehouse whd1_0 
     where
         whd1_0.name=?
-2025-11-11 15:35:22.266 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.232 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         ld1_0.id,
         ld1_0.address,
@@ -1353,7 +1449,7 @@ Hibernate:
         locations ld1_0 
     where
         ld1_0.postal_code=?
-2025-11-11 15:35:22.269 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.235 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         pd1_0.id 
     from
@@ -1371,7 +1467,7 @@ Hibernate:
         pd1_0.name=? 
     fetch
         first ? rows only
-2025-11-11 15:35:22.270 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.237 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         parcels
@@ -1385,7 +1481,7 @@ Hibernate:
         (active, created_at, delivery_instructions, delivery_location_id, estimated_travel_time, name, planned_delivery_date, recipient_name, recipient_phone, status, stop_id, updated_at, volume, warehouse_id, weight) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-2025-11-11 15:35:22.274 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.240 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         ld1_0.id,
         ld1_0.address,
@@ -1415,7 +1511,7 @@ Hibernate:
         locations ld1_0 
     where
         ld1_0.postal_code=?
-2025-11-11 15:35:22.276 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.242 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         whd1_0.id,
         whd1_0.active,
@@ -1439,7 +1535,7 @@ Hibernate:
         warehouse whd1_0 
     where
         whd1_0.name=?
-2025-11-11 15:35:22.279 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.245 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         ld1_0.id,
         ld1_0.address,
@@ -1469,7 +1565,7 @@ Hibernate:
         locations ld1_0 
     where
         ld1_0.postal_code=?
-2025-11-11 15:35:22.281 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.247 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         pd1_0.id 
     from
@@ -1487,7 +1583,7 @@ Hibernate:
         pd1_0.name=? 
     fetch
         first ? rows only
-2025-11-11 15:35:22.282 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.248 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         parcels
@@ -1501,7 +1597,7 @@ Hibernate:
         (active, created_at, delivery_instructions, delivery_location_id, estimated_travel_time, name, planned_delivery_date, recipient_name, recipient_phone, status, stop_id, updated_at, volume, warehouse_id, weight) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-2025-11-11 15:35:22.285 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.251 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         ld1_0.id,
         ld1_0.address,
@@ -1531,7 +1627,7 @@ Hibernate:
         locations ld1_0 
     where
         ld1_0.postal_code=?
-2025-11-11 15:35:22.288 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.254 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         whd1_0.id,
         whd1_0.active,
@@ -1555,7 +1651,7 @@ Hibernate:
         warehouse whd1_0 
     where
         whd1_0.name=?
-2025-11-11 15:35:22.290 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.257 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         ld1_0.id,
         ld1_0.address,
@@ -1585,7 +1681,7 @@ Hibernate:
         locations ld1_0 
     where
         ld1_0.postal_code=?
-2025-11-11 15:35:22.293 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.259 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         pd1_0.id 
     from
@@ -1603,7 +1699,7 @@ Hibernate:
         pd1_0.name=? 
     fetch
         first ? rows only
-2025-11-11 15:35:22.294 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.261 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         parcels
@@ -1617,7 +1713,7 @@ Hibernate:
         (active, created_at, delivery_instructions, delivery_location_id, estimated_travel_time, name, planned_delivery_date, recipient_name, recipient_phone, status, stop_id, updated_at, volume, warehouse_id, weight) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-2025-11-11 15:35:22.297 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.264 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         ld1_0.id,
         ld1_0.address,
@@ -1647,7 +1743,7 @@ Hibernate:
         locations ld1_0 
     where
         ld1_0.postal_code=?
-2025-11-11 15:35:22.299 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.266 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         whd1_0.id,
         whd1_0.active,
@@ -1671,7 +1767,7 @@ Hibernate:
         warehouse whd1_0 
     where
         whd1_0.name=?
-2025-11-11 15:35:22.301 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.269 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         ld1_0.id,
         ld1_0.address,
@@ -1701,7 +1797,7 @@ Hibernate:
         locations ld1_0 
     where
         ld1_0.postal_code=?
-2025-11-11 15:35:22.303 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.270 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         pd1_0.id 
     from
@@ -1719,7 +1815,9 @@ Hibernate:
         pd1_0.name=? 
     fetch
         first ? rows only
-2025-11-11 15:35:22.305 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.271 [https-jsse-nio-8443-exec-4] INFO  [] [] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-11-14 07:06:04.271 [https-jsse-nio-8443-exec-4] INFO  [] [] org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-11-14 07:06:04.272 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         parcels
@@ -1733,7 +1831,8 @@ Hibernate:
         (active, created_at, delivery_instructions, delivery_location_id, estimated_travel_time, name, planned_delivery_date, recipient_name, recipient_phone, status, stop_id, updated_at, volume, warehouse_id, weight) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-2025-11-11 15:35:22.308 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.273 [https-jsse-nio-8443-exec-4] INFO  [] [] org.springframework.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2025-11-14 07:06:04.275 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         ud1_0.id,
         ud1_0.active,
@@ -1763,7 +1862,7 @@ Hibernate:
         users ud1_0 
     where
         ud1_0.email=?
-2025-11-11 15:35:22.311 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.278 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         ld1_0.id,
         ld1_0.address,
@@ -1793,7 +1892,7 @@ Hibernate:
         locations ld1_0 
     where
         ld1_0.postal_code=?
-2025-11-11 15:35:22.312 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.280 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         locations
@@ -1807,7 +1906,7 @@ Hibernate:
         (address, city, created_at, is_active, latitude, longitude, postal_code, updated_at) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?)
-2025-11-11 15:35:22.316 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.285 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         dd1_0.id 
     from
@@ -1825,7 +1924,7 @@ Hibernate:
         dd1_0.user_id=? 
     fetch
         first ? rows only
-2025-11-11 15:35:22.318 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.287 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         drivers
@@ -1840,7 +1939,7 @@ Hibernate:
     values
         (?, ?, ?, ?, ?, ?)
 Default Driver created: driver@tfms.com
-2025-11-11 15:35:22.321 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.290 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         ud1_0.id,
         ud1_0.active,
@@ -1870,7 +1969,7 @@ Hibernate:
         users ud1_0 
     where
         ud1_0.email=?
-2025-11-11 15:35:22.324 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.293 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         ld1_0.id,
         ld1_0.address,
@@ -1900,7 +1999,7 @@ Hibernate:
         locations ld1_0 
     where
         ld1_0.postal_code=?
-2025-11-11 15:35:22.326 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.294 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         locations
@@ -1914,7 +2013,7 @@ Hibernate:
         (address, city, created_at, is_active, latitude, longitude, postal_code, updated_at) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?)
-2025-11-11 15:35:22.328 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.296 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         dd1_0.id 
     from
@@ -1932,7 +2031,7 @@ Hibernate:
         dd1_0.user_id=? 
     fetch
         first ? rows only
-2025-11-11 15:35:22.330 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.297 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         drivers
@@ -1947,7 +2046,7 @@ Hibernate:
     values
         (?, ?, ?, ?, ?, ?)
 Default Driver created: driver2@tfms.com
-2025-11-11 15:35:22.332 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.300 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         ud1_0.id,
         ud1_0.active,
@@ -1977,7 +2076,7 @@ Hibernate:
         users ud1_0 
     where
         ud1_0.email=?
-2025-11-11 15:35:22.335 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.303 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         ld1_0.id,
         ld1_0.address,
@@ -2007,7 +2106,7 @@ Hibernate:
         locations ld1_0 
     where
         ld1_0.postal_code=?
-2025-11-11 15:35:22.337 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.305 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         dd1_0.id 
     from
@@ -2025,7 +2124,7 @@ Hibernate:
         dd1_0.user_id=? 
     fetch
         first ? rows only
-2025-11-11 15:35:22.338 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.307 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         drivers
@@ -2040,7 +2139,7 @@ Hibernate:
     values
         (?, ?, ?, ?, ?, ?)
 Default Driver created: driver3@tfms.com
-2025-11-11 15:35:22.341 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.310 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         td1_0.id 
     from
@@ -2058,7 +2157,7 @@ Hibernate:
         td1_0.plate_number=? 
     fetch
         first ? rows only
-2025-11-11 15:35:22.343 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.311 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         trucks
@@ -2073,7 +2172,8 @@ Hibernate:
     values
         (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 Default Truck created: TRK-001
-2025-11-11 15:35:22.346 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.314 [https-jsse-nio-8443-exec-4] DEBUG [] [] com.saxion.proj.tfms.config.security.RateLimitingFilter - Rate limit check: IP=127.0.0.1, Count=1, Limit=60
+2025-11-14 07:06:04.314 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         td1_0.id 
     from
@@ -2091,7 +2191,7 @@ Hibernate:
         td1_0.plate_number=? 
     fetch
         first ? rows only
-2025-11-11 15:35:22.347 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.315 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         trucks
@@ -2106,7 +2206,7 @@ Hibernate:
     values
         (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 Default Truck created: TRK-002
-2025-11-11 15:35:22.349 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.317 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         td1_0.id 
     from
@@ -2124,7 +2224,7 @@ Hibernate:
         td1_0.plate_number=? 
     fetch
         first ? rows only
-2025-11-11 15:35:22.351 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.318 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         trucks
@@ -2139,7 +2239,7 @@ Hibernate:
     values
         (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 Default Truck created: TRK-003
-2025-11-11 15:35:22.353 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.321 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         td1_0.id 
     from
@@ -2157,7 +2257,7 @@ Hibernate:
         td1_0.plate_number=? 
     fetch
         first ? rows only
-2025-11-11 15:35:22.354 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.322 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         trucks
@@ -2172,7 +2272,7 @@ Hibernate:
     values
         (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 Default Truck created: TRK-004
-2025-11-11 15:35:22.356 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.324 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         td1_0.id 
     from
@@ -2190,7 +2290,7 @@ Hibernate:
         td1_0.plate_number=? 
     fetch
         first ? rows only
-2025-11-11 15:35:22.357 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.325 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         trucks
@@ -2205,7 +2305,7 @@ Hibernate:
     values
         (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 Default Truck created: TRK-005
-2025-11-11 15:35:22.368 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.337 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         dd1_0.id,
         dd1_0.capacity,
@@ -2231,7 +2331,7 @@ Hibernate:
         depot dd1_0 
     where
         dd1_0.name=?
-2025-11-11 15:35:22.372 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.340 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         td1_0.id,
         td1_0.created_at,
@@ -2261,7 +2361,7 @@ Hibernate:
         td1_0.volume 
     from
         trucks td1_0
-2025-11-11 15:35:22.382 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.348 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         rd1_0.id,
         rd1_0.created_at,
@@ -2276,7 +2376,8 @@ Hibernate:
         rd1_0.total_distance,
         rd1_0.total_transport_time,
         rd1_0.truck_id,
-        rd1_0.updated_at 
+        rd1_0.updated_at,
+        rd1_0.warehouse_id 
     from
         routes rd1_0 
     left join
@@ -2300,7 +2401,8 @@ Hibernate:
         rd1_0.total_distance,
         rd1_0.total_transport_time,
         rd1_0.truck_id,
-        rd1_0.updated_at 
+        rd1_0.updated_at,
+        rd1_0.warehouse_id 
     from
         routes rd1_0 
     left join
@@ -2309,21 +2411,21 @@ Hibernate:
     where
         d1_0.id=? 
         and rd1_0.status=?
-2025-11-11 15:35:22.385 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.352 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         routes
-        (created_at, depot_id, driver_id, duration, is_active, note, schedule_date, start_time, status, total_distance, total_transport_time, truck_id, updated_at) 
+        (created_at, depot_id, driver_id, duration, is_active, note, schedule_date, start_time, status, total_distance, total_transport_time, truck_id, updated_at, warehouse_id) 
     values
-        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 Hibernate: 
     insert 
     into
         routes
-        (created_at, depot_id, driver_id, duration, is_active, note, schedule_date, start_time, status, total_distance, total_transport_time, truck_id, updated_at) 
+        (created_at, depot_id, driver_id, duration, is_active, note, schedule_date, start_time, status, total_distance, total_transport_time, truck_id, updated_at, warehouse_id) 
     values
-        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-2025-11-11 15:35:22.388 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-11-14 07:06:04.355 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         whd1_0.id,
         whd1_0.active,
@@ -2347,7 +2449,7 @@ Hibernate:
         warehouse whd1_0 
     where
         whd1_0.name=?
-2025-11-11 15:35:22.392 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.358 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         ld1_0.id,
         ld1_0.address,
@@ -2377,7 +2479,7 @@ Hibernate:
         locations ld1_0 
     where
         ld1_0.postal_code=?
-2025-11-11 15:35:22.395 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.360 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         locations
@@ -2391,7 +2493,7 @@ Hibernate:
         (address, city, created_at, is_active, latitude, longitude, postal_code, updated_at) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?)
-2025-11-11 15:35:22.397 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.362 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         route_stops
@@ -2405,7 +2507,7 @@ Hibernate:
         (created_at, description, duration, is_active, location_id, priority, route_id, stop_type, updated_at) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?, ?)
-2025-11-11 15:35:22.400 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.365 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         ld1_0.id,
         ld1_0.address,
@@ -2435,7 +2537,7 @@ Hibernate:
         locations ld1_0 
     where
         ld1_0.postal_code=?
-2025-11-11 15:35:22.401 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.366 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         locations
@@ -2449,7 +2551,7 @@ Hibernate:
         (address, city, created_at, is_active, latitude, longitude, postal_code, updated_at) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?)
-2025-11-11 15:35:22.403 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.368 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         route_stops
@@ -2463,7 +2565,7 @@ Hibernate:
         (created_at, description, duration, is_active, location_id, priority, route_id, stop_type, updated_at) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?, ?)
-2025-11-11 15:35:22.406 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.370 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         ld1_0.id,
         ld1_0.address,
@@ -2493,7 +2595,7 @@ Hibernate:
         locations ld1_0 
     where
         ld1_0.postal_code=?
-2025-11-11 15:35:22.408 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.372 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         locations
@@ -2507,7 +2609,7 @@ Hibernate:
         (address, city, created_at, is_active, latitude, longitude, postal_code, updated_at) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?)
-2025-11-11 15:35:22.409 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.373 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         route_stops
@@ -2521,7 +2623,7 @@ Hibernate:
         (created_at, description, duration, is_active, location_id, priority, route_id, stop_type, updated_at) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?, ?)
-2025-11-11 15:35:22.411 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.376 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         parcels
@@ -2535,7 +2637,7 @@ Hibernate:
         (active, created_at, delivery_instructions, delivery_location_id, estimated_travel_time, name, planned_delivery_date, recipient_name, recipient_phone, status, stop_id, updated_at, volume, warehouse_id, weight) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-2025-11-11 15:35:22.414 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.380 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         ld1_0.id,
         ld1_0.address,
@@ -2565,7 +2667,7 @@ Hibernate:
         locations ld1_0 
     where
         ld1_0.postal_code=?
-2025-11-11 15:35:22.416 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.381 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         locations
@@ -2579,7 +2681,7 @@ Hibernate:
         (address, city, created_at, is_active, latitude, longitude, postal_code, updated_at) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?)
-2025-11-11 15:35:22.417 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.382 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         route_stops
@@ -2593,7 +2695,7 @@ Hibernate:
         (created_at, description, duration, is_active, location_id, priority, route_id, stop_type, updated_at) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?, ?)
-2025-11-11 15:35:22.419 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.384 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         parcels
@@ -2607,7 +2709,7 @@ Hibernate:
         (active, created_at, delivery_instructions, delivery_location_id, estimated_travel_time, name, planned_delivery_date, recipient_name, recipient_phone, status, stop_id, updated_at, volume, warehouse_id, weight) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-2025-11-11 15:35:22.421 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.386 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         ld1_0.id,
         ld1_0.address,
@@ -2637,7 +2739,7 @@ Hibernate:
         locations ld1_0 
     where
         ld1_0.postal_code=?
-2025-11-11 15:35:22.422 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.387 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         locations
@@ -2651,7 +2753,7 @@ Hibernate:
         (address, city, created_at, is_active, latitude, longitude, postal_code, updated_at) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?)
-2025-11-11 15:35:22.424 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.399 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         route_stops
@@ -2665,7 +2767,7 @@ Hibernate:
         (created_at, description, duration, is_active, location_id, priority, route_id, stop_type, updated_at) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?, ?)
-2025-11-11 15:35:22.426 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.401 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         parcels
@@ -2679,7 +2781,7 @@ Hibernate:
         (active, created_at, delivery_instructions, delivery_location_id, estimated_travel_time, name, planned_delivery_date, recipient_name, recipient_phone, status, stop_id, updated_at, volume, warehouse_id, weight) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-2025-11-11 15:35:22.429 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.405 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         ld1_0.id,
         ld1_0.address,
@@ -2709,7 +2811,7 @@ Hibernate:
         locations ld1_0 
     where
         ld1_0.postal_code=?
-2025-11-11 15:35:22.430 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.406 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         locations
@@ -2723,7 +2825,7 @@ Hibernate:
         (address, city, created_at, is_active, latitude, longitude, postal_code, updated_at) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?)
-2025-11-11 15:35:22.431 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.407 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         route_stops
@@ -2737,7 +2839,7 @@ Hibernate:
         (created_at, description, duration, is_active, location_id, priority, route_id, stop_type, updated_at) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?, ?)
-2025-11-11 15:35:22.433 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.409 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         parcels
@@ -2751,7 +2853,7 @@ Hibernate:
         (active, created_at, delivery_instructions, delivery_location_id, estimated_travel_time, name, planned_delivery_date, recipient_name, recipient_phone, status, stop_id, updated_at, volume, warehouse_id, weight) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-2025-11-11 15:35:22.435 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.412 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         ld1_0.id,
         ld1_0.address,
@@ -2781,7 +2883,7 @@ Hibernate:
         locations ld1_0 
     where
         ld1_0.postal_code=?
-2025-11-11 15:35:22.437 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.413 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         locations
@@ -2795,7 +2897,7 @@ Hibernate:
         (address, city, created_at, is_active, latitude, longitude, postal_code, updated_at) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?)
-2025-11-11 15:35:22.438 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.415 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         route_stops
@@ -2810,21 +2912,21 @@ Hibernate:
     values
         (?, ?, ?, ?, ?, ?, ?, ?, ?)
 Default Route 1 created for driver ID 2 with 7 stops
-2025-11-11 15:35:22.442 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.419 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         routes
-        (created_at, depot_id, driver_id, duration, is_active, note, schedule_date, start_time, status, total_distance, total_transport_time, truck_id, updated_at) 
+        (created_at, depot_id, driver_id, duration, is_active, note, schedule_date, start_time, status, total_distance, total_transport_time, truck_id, updated_at, warehouse_id) 
     values
-        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 Hibernate: 
     insert 
     into
         routes
-        (created_at, depot_id, driver_id, duration, is_active, note, schedule_date, start_time, status, total_distance, total_transport_time, truck_id, updated_at) 
+        (created_at, depot_id, driver_id, duration, is_active, note, schedule_date, start_time, status, total_distance, total_transport_time, truck_id, updated_at, warehouse_id) 
     values
-        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-2025-11-11 15:35:22.446 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-11-14 07:06:04.423 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         whd1_0.id,
         whd1_0.active,
@@ -2848,7 +2950,7 @@ Hibernate:
         warehouse whd1_0 
     where
         whd1_0.name=?
-2025-11-11 15:35:22.448 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.426 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         ld1_0.id,
         ld1_0.address,
@@ -2878,7 +2980,7 @@ Hibernate:
         locations ld1_0 
     where
         ld1_0.postal_code=?
-2025-11-11 15:35:22.449 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.427 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         locations
@@ -2892,7 +2994,7 @@ Hibernate:
         (address, city, created_at, is_active, latitude, longitude, postal_code, updated_at) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?)
-2025-11-11 15:35:22.450 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.428 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         route_stops
@@ -2906,7 +3008,7 @@ Hibernate:
         (created_at, description, duration, is_active, location_id, priority, route_id, stop_type, updated_at) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?, ?)
-2025-11-11 15:35:22.452 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.431 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         ld1_0.id,
         ld1_0.address,
@@ -2936,7 +3038,7 @@ Hibernate:
         locations ld1_0 
     where
         ld1_0.postal_code=?
-2025-11-11 15:35:22.453 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.432 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         locations
@@ -2950,7 +3052,7 @@ Hibernate:
         (address, city, created_at, is_active, latitude, longitude, postal_code, updated_at) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?)
-2025-11-11 15:35:22.455 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.433 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         route_stops
@@ -2964,7 +3066,7 @@ Hibernate:
         (created_at, description, duration, is_active, location_id, priority, route_id, stop_type, updated_at) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?, ?)
-2025-11-11 15:35:22.457 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.436 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         ld1_0.id,
         ld1_0.address,
@@ -2994,7 +3096,7 @@ Hibernate:
         locations ld1_0 
     where
         ld1_0.postal_code=?
-2025-11-11 15:35:22.458 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.437 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         locations
@@ -3008,7 +3110,7 @@ Hibernate:
         (address, city, created_at, is_active, latitude, longitude, postal_code, updated_at) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?)
-2025-11-11 15:35:22.460 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.438 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         route_stops
@@ -3022,7 +3124,7 @@ Hibernate:
         (created_at, description, duration, is_active, location_id, priority, route_id, stop_type, updated_at) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?, ?)
-2025-11-11 15:35:22.461 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.440 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         parcels
@@ -3036,7 +3138,7 @@ Hibernate:
         (active, created_at, delivery_instructions, delivery_location_id, estimated_travel_time, name, planned_delivery_date, recipient_name, recipient_phone, status, stop_id, updated_at, volume, warehouse_id, weight) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-2025-11-11 15:35:22.463 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.444 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         ld1_0.id,
         ld1_0.address,
@@ -3066,7 +3168,7 @@ Hibernate:
         locations ld1_0 
     where
         ld1_0.postal_code=?
-2025-11-11 15:35:22.464 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.445 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         locations
@@ -3080,7 +3182,7 @@ Hibernate:
         (address, city, created_at, is_active, latitude, longitude, postal_code, updated_at) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?)
-2025-11-11 15:35:22.466 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.447 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         route_stops
@@ -3094,7 +3196,7 @@ Hibernate:
         (created_at, description, duration, is_active, location_id, priority, route_id, stop_type, updated_at) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?, ?)
-2025-11-11 15:35:22.467 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.448 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         parcels
@@ -3108,7 +3210,7 @@ Hibernate:
         (active, created_at, delivery_instructions, delivery_location_id, estimated_travel_time, name, planned_delivery_date, recipient_name, recipient_phone, status, stop_id, updated_at, volume, warehouse_id, weight) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-2025-11-11 15:35:22.470 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.452 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         ld1_0.id,
         ld1_0.address,
@@ -3138,7 +3240,7 @@ Hibernate:
         locations ld1_0 
     where
         ld1_0.postal_code=?
-2025-11-11 15:35:22.471 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.453 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         locations
@@ -3152,7 +3254,7 @@ Hibernate:
         (address, city, created_at, is_active, latitude, longitude, postal_code, updated_at) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?)
-2025-11-11 15:35:22.472 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.455 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         route_stops
@@ -3166,7 +3268,7 @@ Hibernate:
         (created_at, description, duration, is_active, location_id, priority, route_id, stop_type, updated_at) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?, ?)
-2025-11-11 15:35:22.473 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.457 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         parcels
@@ -3180,7 +3282,7 @@ Hibernate:
         (active, created_at, delivery_instructions, delivery_location_id, estimated_travel_time, name, planned_delivery_date, recipient_name, recipient_phone, status, stop_id, updated_at, volume, warehouse_id, weight) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-2025-11-11 15:35:22.476 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.460 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         ld1_0.id,
         ld1_0.address,
@@ -3210,7 +3312,7 @@ Hibernate:
         locations ld1_0 
     where
         ld1_0.postal_code=?
-2025-11-11 15:35:22.477 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.465 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         locations
@@ -3224,7 +3326,7 @@ Hibernate:
         (address, city, created_at, is_active, latitude, longitude, postal_code, updated_at) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?)
-2025-11-11 15:35:22.478 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.467 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         route_stops
@@ -3239,21 +3341,21 @@ Hibernate:
     values
         (?, ?, ?, ?, ?, ?, ?, ?, ?)
 Default Route 2 created for driver ID 2 with 6 stops
-2025-11-11 15:35:22.480 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.470 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         routes
-        (created_at, depot_id, driver_id, duration, is_active, note, schedule_date, start_time, status, total_distance, total_transport_time, truck_id, updated_at) 
+        (created_at, depot_id, driver_id, duration, is_active, note, schedule_date, start_time, status, total_distance, total_transport_time, truck_id, updated_at, warehouse_id) 
     values
-        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 Hibernate: 
     insert 
     into
         routes
-        (created_at, depot_id, driver_id, duration, is_active, note, schedule_date, start_time, status, total_distance, total_transport_time, truck_id, updated_at) 
+        (created_at, depot_id, driver_id, duration, is_active, note, schedule_date, start_time, status, total_distance, total_transport_time, truck_id, updated_at, warehouse_id) 
     values
-        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-2025-11-11 15:35:22.483 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-11-14 07:06:04.474 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         whd1_0.id,
         whd1_0.active,
@@ -3277,7 +3379,7 @@ Hibernate:
         warehouse whd1_0 
     where
         whd1_0.name=?
-2025-11-11 15:35:22.485 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.478 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         ld1_0.id,
         ld1_0.address,
@@ -3307,7 +3409,7 @@ Hibernate:
         locations ld1_0 
     where
         ld1_0.postal_code=?
-2025-11-11 15:35:22.487 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.479 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         locations
@@ -3321,7 +3423,7 @@ Hibernate:
         (address, city, created_at, is_active, latitude, longitude, postal_code, updated_at) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?)
-2025-11-11 15:35:22.488 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.481 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         route_stops
@@ -3335,7 +3437,7 @@ Hibernate:
         (created_at, description, duration, is_active, location_id, priority, route_id, stop_type, updated_at) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?, ?)
-2025-11-11 15:35:22.491 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.484 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         ld1_0.id,
         ld1_0.address,
@@ -3365,7 +3467,7 @@ Hibernate:
         locations ld1_0 
     where
         ld1_0.postal_code=?
-2025-11-11 15:35:22.492 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.486 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         locations
@@ -3379,7 +3481,7 @@ Hibernate:
         (address, city, created_at, is_active, latitude, longitude, postal_code, updated_at) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?)
-2025-11-11 15:35:22.493 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.487 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         route_stops
@@ -3393,7 +3495,7 @@ Hibernate:
         (created_at, description, duration, is_active, location_id, priority, route_id, stop_type, updated_at) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?, ?)
-2025-11-11 15:35:22.496 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.490 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         ld1_0.id,
         ld1_0.address,
@@ -3423,7 +3525,7 @@ Hibernate:
         locations ld1_0 
     where
         ld1_0.postal_code=?
-2025-11-11 15:35:22.497 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.491 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         locations
@@ -3437,7 +3539,7 @@ Hibernate:
         (address, city, created_at, is_active, latitude, longitude, postal_code, updated_at) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?)
-2025-11-11 15:35:22.499 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.492 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         route_stops
@@ -3451,7 +3553,7 @@ Hibernate:
         (created_at, description, duration, is_active, location_id, priority, route_id, stop_type, updated_at) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?, ?)
-2025-11-11 15:35:22.500 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.494 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         parcels
@@ -3465,7 +3567,7 @@ Hibernate:
         (active, created_at, delivery_instructions, delivery_location_id, estimated_travel_time, name, planned_delivery_date, recipient_name, recipient_phone, status, stop_id, updated_at, volume, warehouse_id, weight) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-2025-11-11 15:35:22.503 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.498 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         ld1_0.id,
         ld1_0.address,
@@ -3495,7 +3597,7 @@ Hibernate:
         locations ld1_0 
     where
         ld1_0.postal_code=?
-2025-11-11 15:35:22.505 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.500 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         locations
@@ -3509,7 +3611,7 @@ Hibernate:
         (address, city, created_at, is_active, latitude, longitude, postal_code, updated_at) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?)
-2025-11-11 15:35:22.506 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.501 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         route_stops
@@ -3523,7 +3625,7 @@ Hibernate:
         (created_at, description, duration, is_active, location_id, priority, route_id, stop_type, updated_at) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?, ?)
-2025-11-11 15:35:22.507 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.543 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         parcels
@@ -3537,7 +3639,7 @@ Hibernate:
         (active, created_at, delivery_instructions, delivery_location_id, estimated_travel_time, name, planned_delivery_date, recipient_name, recipient_phone, status, stop_id, updated_at, volume, warehouse_id, weight) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-2025-11-11 15:35:22.510 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.546 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         ld1_0.id,
         ld1_0.address,
@@ -3567,7 +3669,7 @@ Hibernate:
         locations ld1_0 
     where
         ld1_0.postal_code=?
-2025-11-11 15:35:22.511 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.548 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         locations
@@ -3581,7 +3683,7 @@ Hibernate:
         (address, city, created_at, is_active, latitude, longitude, postal_code, updated_at) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?)
-2025-11-11 15:35:22.512 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.549 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         route_stops
@@ -3595,7 +3697,7 @@ Hibernate:
         (created_at, description, duration, is_active, location_id, priority, route_id, stop_type, updated_at) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?, ?)
-2025-11-11 15:35:22.513 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.550 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         parcels
@@ -3609,7 +3711,7 @@ Hibernate:
         (active, created_at, delivery_instructions, delivery_location_id, estimated_travel_time, name, planned_delivery_date, recipient_name, recipient_phone, status, stop_id, updated_at, volume, warehouse_id, weight) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-2025-11-11 15:35:22.515 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.553 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         ld1_0.id,
         ld1_0.address,
@@ -3639,7 +3741,7 @@ Hibernate:
         locations ld1_0 
     where
         ld1_0.postal_code=?
-2025-11-11 15:35:22.517 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.554 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         locations
@@ -3653,7 +3755,7 @@ Hibernate:
         (address, city, created_at, is_active, latitude, longitude, postal_code, updated_at) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?)
-2025-11-11 15:35:22.518 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.556 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         route_stops
@@ -3667,7 +3769,7 @@ Hibernate:
         (created_at, description, duration, is_active, location_id, priority, route_id, stop_type, updated_at) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?, ?)
-2025-11-11 15:35:22.519 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.557 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         parcels
@@ -3681,7 +3783,7 @@ Hibernate:
         (active, created_at, delivery_instructions, delivery_location_id, estimated_travel_time, name, planned_delivery_date, recipient_name, recipient_phone, status, stop_id, updated_at, volume, warehouse_id, weight) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-2025-11-11 15:35:22.522 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.561 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     select
         ld1_0.id,
         ld1_0.address,
@@ -3711,7 +3813,7 @@ Hibernate:
         locations ld1_0 
     where
         ld1_0.postal_code=?
-2025-11-11 15:35:22.522 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.562 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         locations
@@ -3725,7 +3827,7 @@ Hibernate:
         (address, city, created_at, is_active, latitude, longitude, postal_code, updated_at) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?)
-2025-11-11 15:35:22.524 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.563 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     insert 
     into
         route_stops
@@ -3741,7 +3843,7 @@ Hibernate:
         (?, ?, ?, ?, ?, ?, ?, ?, ?)
 Default Route 3 created for driver ID 2 with 7 stops
 Default users initialization completed.
-2025-11-11 15:35:22.530 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.570 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     update
         routes 
     set
@@ -3757,7 +3859,8 @@ Default users initialization completed.
         total_distance=?,
         total_transport_time=?,
         truck_id=?,
-        updated_at=? 
+        updated_at=?,
+        warehouse_id=? 
     where
         id=?
 Hibernate: 
@@ -3776,10 +3879,11 @@ Hibernate:
         total_distance=?,
         total_transport_time=?,
         truck_id=?,
-        updated_at=? 
+        updated_at=?,
+        warehouse_id=? 
     where
         id=?
-2025-11-11 15:35:22.533 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+2025-11-14 07:06:04.614 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
     update
         routes 
     set
@@ -3795,45 +3899,8 @@ Hibernate:
         total_distance=?,
         total_transport_time=?,
         truck_id=?,
-        updated_at=? 
-    where
-        id=?
-Hibernate: 
-    update
-        routes 
-    set
-        created_at=?,
-        depot_id=?,
-        driver_id=?,
-        duration=?,
-        is_active=?,
-        note=?,
-        schedule_date=?,
-        start_time=?,
-        status=?,
-        total_distance=?,
-        total_transport_time=?,
-        truck_id=?,
-        updated_at=? 
-    where
-        id=?
-2025-11-11 15:35:22.535 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
-    update
-        routes 
-    set
-        created_at=?,
-        depot_id=?,
-        driver_id=?,
-        duration=?,
-        is_active=?,
-        note=?,
-        schedule_date=?,
-        start_time=?,
-        status=?,
-        total_distance=?,
-        total_transport_time=?,
-        truck_id=?,
-        updated_at=? 
+        updated_at=?,
+        warehouse_id=? 
     where
         id=?
 Hibernate: 
@@ -3852,7 +3919,48 @@ Hibernate:
         total_distance=?,
         total_transport_time=?,
         truck_id=?,
-        updated_at=? 
+        updated_at=?,
+        warehouse_id=? 
+    where
+        id=?
+2025-11-14 07:06:04.615 [main] DEBUG [tfms-truck-fleet-management-system] [] org.hibernate.SQL - 
+    update
+        routes 
+    set
+        created_at=?,
+        depot_id=?,
+        driver_id=?,
+        duration=?,
+        is_active=?,
+        note=?,
+        schedule_date=?,
+        start_time=?,
+        status=?,
+        total_distance=?,
+        total_transport_time=?,
+        truck_id=?,
+        updated_at=?,
+        warehouse_id=? 
+    where
+        id=?
+Hibernate: 
+    update
+        routes 
+    set
+        created_at=?,
+        depot_id=?,
+        driver_id=?,
+        duration=?,
+        is_active=?,
+        note=?,
+        schedule_date=?,
+        start_time=?,
+        status=?,
+        total_distance=?,
+        total_transport_time=?,
+        truck_id=?,
+        updated_at=?,
+        warehouse_id=? 
     where
         id=?
 
@@ -3870,8 +3978,8 @@ H2 Console: http://localhost:8443/h2-console
 Application started successfully!
 ============================================================
 
-2025-11-11 15:36:01.212 [SpringApplicationShutdownHook] INFO  [] [] org.springframework.boot.web.embedded.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
-2025-11-11 15:36:01.220 [tomcat-shutdown] INFO  [] [] org.springframework.boot.web.embedded.tomcat.GracefulShutdown - Graceful shutdown complete
-2025-11-11 15:36:01.235 [SpringApplicationShutdownHook] INFO  [] [] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-2025-11-11 15:36:01.238 [SpringApplicationShutdownHook] INFO  [] [] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-2025-11-11 15:36:01.240 [SpringApplicationShutdownHook] INFO  [] [] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-11-14 07:06:40.249 [SpringApplicationShutdownHook] INFO  [] [] org.springframework.boot.web.embedded.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-11-14 07:06:40.256 [tomcat-shutdown] INFO  [] [] org.springframework.boot.web.embedded.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-11-14 07:06:40.269 [SpringApplicationShutdownHook] INFO  [] [] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-11-14 07:06:40.271 [SpringApplicationShutdownHook] INFO  [] [] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-11-14 07:06:40.274 [SpringApplicationShutdownHook] INFO  [] [] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.

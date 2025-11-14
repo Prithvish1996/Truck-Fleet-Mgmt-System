@@ -1,9 +1,13 @@
 package com.saxion.proj.tfms.planner.dto;
 
 import com.saxion.proj.tfms.commons.model.DriverDao;
+import com.saxion.proj.tfms.commons.model.DriverSuggestionDao;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.ZonedDateTime;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -20,6 +24,12 @@ public class DriverResponseDto {
     private String address;
     private Double latitude;
     private Double longitude;
+
+    // Driver availability List
+    private List<DriverAvailabilityResponseDto> availability;
+
+    // Driver suggestion List
+    private List<String> suggestions;
 
     public DriverResponseDto(Long id, String userName, String email, boolean isAvailable, String city, String address) {
         this.id = id;
@@ -39,7 +49,7 @@ public class DriverResponseDto {
         String city = driver.getLocation() != null ? driver.getLocation().getCity() : null;
         String address = driver.getLocation() != null ? driver.getLocation().getAddress() : null;
 
-        return new DriverResponseDto(
+        DriverResponseDto dto = new DriverResponseDto(
                 driver.getId(),
                 driver.getUser().getUsername(),
                 driver.getUser().getEmail(),
@@ -47,5 +57,34 @@ public class DriverResponseDto {
                 city,
                 address
         );
+
+        // Map availability (ONLY future dates)
+        ZonedDateTime now = ZonedDateTime.now();
+
+        List<DriverAvailabilityResponseDto> availabilityDtos = driver.getAvailabilities()
+                .stream()
+                .filter(a -> a.getAvailableAt() != null && !a.getAvailableAt().isBefore(now))
+                .map(a -> new DriverAvailabilityResponseDto(
+                        a.getId(),
+                        a.getAvailableAt(),
+                        a.getStatus().name()
+                ))
+                .toList();
+
+        dto.setAvailability(availabilityDtos);
+
+        // ---- Suggestions ----
+        List<String> suggestions =
+                driver.getSuggestions() == null ? List.of() :
+                        driver.getSuggestions()
+                                .stream()
+                                .map(DriverSuggestionDao::getSuggestion) // cleaner
+                                .filter(s -> s != null && !s.isBlank())
+                                .toList();
+
+        dto.setSuggestions(suggestions);
+
+        return dto;
     }
+
 }

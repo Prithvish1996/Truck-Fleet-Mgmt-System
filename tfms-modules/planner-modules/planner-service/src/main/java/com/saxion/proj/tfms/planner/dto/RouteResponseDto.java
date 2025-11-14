@@ -20,6 +20,7 @@ public class RouteResponseDto {
     private String truckPlateNumber;
     private Long depotId;
     private String depotName;
+    private LocationResponseDto depotLocation;
     private List<StopDto> routeStops;
     private Long totalDistance;
     private Long totalTransportTime;
@@ -28,6 +29,7 @@ public class RouteResponseDto {
     private String status;
     private Double estimatedFuelCost;
     private String duration;
+    private LocationResponseDto warehouseLocation;
 
     public static RouteResponseDto fromEntity(RouteDao r) {
         RouteResponseDto dto = new RouteResponseDto();
@@ -40,6 +42,9 @@ public class RouteResponseDto {
         dto.setTruckPlateNumber(r.getTruck() != null ? r.getTruck().getPlateNumber() : null);
         dto.setDepotId(r.getDepot() != null ? r.getDepot().getId() : null);
         dto.setDepotName(r.getDepot() != null ? r.getDepot().getName() : null);
+
+        dto.setDepotLocation(r.getDepot() != null ? LocationResponseDto.fromEntity(r.getDepot().getLocation()) : null);
+
         dto.setTotalDistance(r.getTotalDistance());
         dto.setTotalTransportTime(r.getTotalTransportTime());
         dto.setNote(r.getNote());
