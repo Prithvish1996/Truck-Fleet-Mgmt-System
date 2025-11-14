@@ -29,7 +29,7 @@ public class DriverResponseDto {
     private List<DriverAvailabilityResponseDto> availability;
 
     // Driver suggestion List
-    private List<String> suggestions;
+    private List<DriverSuggestionResponseDto> suggestions;
 
     public DriverResponseDto(Long id, String userName, String email, boolean isAvailable, String city, String address) {
         this.id = id;
@@ -74,15 +74,17 @@ public class DriverResponseDto {
         dto.setAvailability(availabilityDtos);
 
         // ---- Suggestions ----
-        List<String> suggestions =
-                driver.getSuggestions() == null ? List.of() :
-                        driver.getSuggestions()
-                                .stream()
-                                .map(DriverSuggestionDao::getSuggestion) // cleaner
-                                .filter(s -> s != null && !s.isBlank())
-                                .toList();
+        List<DriverSuggestionResponseDto> driverSuggestions = driver.getSuggestions()
+                .stream()
+                .filter(a -> a.getSuggestion() != null)
+                .map(a -> new DriverSuggestionResponseDto(
+                        a.getId(),
+                        a.getSuggestion(),
+                        a.getCreatedAt()
+                ))
+                .toList();
 
-        dto.setSuggestions(suggestions);
+        dto.setSuggestions(driverSuggestions);
 
         return dto;
     }

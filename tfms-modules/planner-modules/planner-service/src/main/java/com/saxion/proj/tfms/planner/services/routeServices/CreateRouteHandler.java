@@ -258,6 +258,7 @@ public class CreateRouteHandler implements ICreateRoute {
     //DTO Mappers
     private RouteResponseDto mapRouteToResponse(RouteDao route) {
         RouteResponseDto dto = new RouteResponseDto();
+        dto.setRouteId(route.getId());
         dto.setTruckId(route.getTruck() != null ? route.getTruck().getId() : null);
         dto.setTruckPlateNumber(route.getTruck() != null ? route.getTruck().getPlateNumber() : null);
         dto.setDepotId(route.getDepot() != null ? route.getDepot().getId() : null);

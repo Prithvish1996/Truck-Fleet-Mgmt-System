@@ -44,6 +44,7 @@ public class RouteResponseDto {
         dto.setDepotName(r.getDepot() != null ? r.getDepot().getName() : null);
 
         dto.setDepotLocation(r.getDepot() != null ? LocationResponseDto.fromEntity(r.getDepot().getLocation()) : null);
+        dto.setWarehouseLocation(r.getWarehouse() != null ? LocationResponseDto.fromEntity(r.getWarehouse().getLocation()) : null);
 
         dto.setTotalDistance(r.getTotalDistance());
         dto.setTotalTransportTime(r.getTotalTransportTime());
