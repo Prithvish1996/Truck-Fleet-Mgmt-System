@@ -2,191 +2,21 @@
 > my-app@0.1.0 start
 > react-scripts start
 
-(node:69923) [DEP0176] DeprecationWarning: fs.F_OK is deprecated, use fs.constants.F_OK instead
+(node:38413) [DEP_WEBPACK_DEV_SERVER_ON_AFTER_SETUP_MIDDLEWARE] DeprecationWarning: 'onAfterSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:69923) [DEP_WEBPACK_DEV_SERVER_ON_AFTER_SETUP_MIDDLEWARE] DeprecationWarning: 'onAfterSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
-(node:69923) [DEP_WEBPACK_DEV_SERVER_ON_BEFORE_SETUP_MIDDLEWARE] DeprecationWarning: 'onBeforeSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
+(node:38413) [DEP_WEBPACK_DEV_SERVER_ON_BEFORE_SETUP_MIDDLEWARE] DeprecationWarning: 'onBeforeSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
 Starting the development server...
 
-Failed to compile.
+Compiled successfully!
 
-Module not found: Error: Can't resolve '../services/authService' in '/Users/duncanbraakhekke/Documents/School/02/frontend/my-app/src/pages/Planner'
-ERROR in ./src/pages/Planner/PlannerDashboard.tsx 7:0-54
-Module not found: Error: Can't resolve '../services/authService' in '/Users/duncanbraakhekke/Documents/School/02/frontend/my-app/src/pages/Planner'
+You can now view my-app in the browser.
 
-ERROR in ./src/pages/Planner/PlannerDashboard.tsx 8:0-54
-Module not found: Error: Can't resolve './RoutePlanningModal' in '/Users/duncanbraakhekke/Documents/School/02/frontend/my-app/src/pages/Planner'
+  http://localhost:3000
 
-ERROR in ./src/pages/Planner/PlannerDashboard.tsx 9:0-56
-Module not found: Error: Can't resolve './RouteAssignmentPage' in '/Users/duncanbraakhekke/Documents/School/02/frontend/my-app/src/pages/Planner'
+Note that the development build is not optimized.
+To create a production build, use npm run build.
 
-ERROR in ./src/pages/Planner/PlannerDashboard.tsx 10:0-52
-Module not found: Error: Can't resolve './RouteTrackingPage' in '/Users/duncanbraakhekke/Documents/School/02/frontend/my-app/src/pages/Planner'
-
-ERROR in ./src/pages/Planner/PlannerDashboard.tsx 11:0-48
-Module not found: Error: Can't resolve './TruckDetailPage' in '/Users/duncanbraakhekke/Documents/School/02/frontend/my-app/src/pages/Planner'
-
-ERROR in ./src/pages/Planner/PlannerDashboard.tsx 12:0-50
-Module not found: Error: Can't resolve './ParcelDetailPage' in '/Users/duncanbraakhekke/Documents/School/02/frontend/my-app/src/pages/Planner'
-
-ERROR in ./src/pages/Planner/PlannerDashboard.tsx 13:0-47
-Module not found: Error: Can't resolve '../assets/home icon.png' in '/Users/duncanbraakhekke/Documents/School/02/frontend/my-app/src/pages/Planner'
-
-ERROR in ./src/pages/Planner/PlannerDashboard.tsx 14:0-55
-Module not found: Error: Can't resolve '../assets/schedule icon.png' in '/Users/duncanbraakhekke/Documents/School/02/frontend/my-app/src/pages/Planner'
-
-ERROR in ./src/pages/Planner/PlannerDashboard.tsx 15:0-49
-Module not found: Error: Can't resolve '../assets/small logo.png' in '/Users/duncanbraakhekke/Documents/School/02/frontend/my-app/src/pages/Planner'
-
-webpack compiled with 9 errors
-ERROR in src/pages/Planner/PlannerDashboard.tsx:3:29
-TS2307: Cannot find module '../services/authService' or its corresponding type declarations.
-    1 | import React, { useState, useEffect } from 'react';
-    2 | import { useNavigate } from 'react-router-dom';
-  > 3 | import { authService } from '../services/authService';
-      |                             ^^^^^^^^^^^^^^^^^^^^^^^^^
-    4 | import RoutePlanningModal from './RoutePlanningModal';
-    5 | import RouteAssignmentPage from './RouteAssignmentPage';
-    6 | import RouteTrackingPage from './RouteTrackingPage';
-
-ERROR in src/pages/Planner/PlannerDashboard.tsx:4:32
-TS2307: Cannot find module './RoutePlanningModal' or its corresponding type declarations.
-    2 | import { useNavigate } from 'react-router-dom';
-    3 | import { authService } from '../services/authService';
-  > 4 | import RoutePlanningModal from './RoutePlanningModal';
-      |                                ^^^^^^^^^^^^^^^^^^^^^^
-    5 | import RouteAssignmentPage from './RouteAssignmentPage';
-    6 | import RouteTrackingPage from './RouteTrackingPage';
-    7 | import TruckDetailPage from './TruckDetailPage';
-
-ERROR in src/pages/Planner/PlannerDashboard.tsx:5:33
-TS2307: Cannot find module './RouteAssignmentPage' or its corresponding type declarations.
-    3 | import { authService } from '../services/authService';
-    4 | import RoutePlanningModal from './RoutePlanningModal';
-  > 5 | import RouteAssignmentPage from './RouteAssignmentPage';
-      |                                 ^^^^^^^^^^^^^^^^^^^^^^^
-    6 | import RouteTrackingPage from './RouteTrackingPage';
-    7 | import TruckDetailPage from './TruckDetailPage';
-    8 | import ParcelDetailPage from './ParcelDetailPage';
-
-ERROR in src/pages/Planner/PlannerDashboard.tsx:6:31
-TS2307: Cannot find module './RouteTrackingPage' or its corresponding type declarations.
-    4 | import RoutePlanningModal from './RoutePlanningModal';
-    5 | import RouteAssignmentPage from './RouteAssignmentPage';
-  > 6 | import RouteTrackingPage from './RouteTrackingPage';
-      |                               ^^^^^^^^^^^^^^^^^^^^^
-    7 | import TruckDetailPage from './TruckDetailPage';
-    8 | import ParcelDetailPage from './ParcelDetailPage';
-    9 | import { RouteAssignment } from '../types';
-
-ERROR in src/pages/Planner/PlannerDashboard.tsx:7:29
-TS2307: Cannot find module './TruckDetailPage' or its corresponding type declarations.
-     5 | import RouteAssignmentPage from './RouteAssignmentPage';
-     6 | import RouteTrackingPage from './RouteTrackingPage';
-  >  7 | import TruckDetailPage from './TruckDetailPage';
-       |                             ^^^^^^^^^^^^^^^^^^^
-     8 | import ParcelDetailPage from './ParcelDetailPage';
-     9 | import { RouteAssignment } from '../types';
-    10 | import homeIcon from '../assets/home icon.png';
-
-ERROR in src/pages/Planner/PlannerDashboard.tsx:8:30
-TS2307: Cannot find module './ParcelDetailPage' or its corresponding type declarations.
-     6 | import RouteTrackingPage from './RouteTrackingPage';
-     7 | import TruckDetailPage from './TruckDetailPage';
-  >  8 | import ParcelDetailPage from './ParcelDetailPage';
-       |                              ^^^^^^^^^^^^^^^^^^^^
-     9 | import { RouteAssignment } from '../types';
-    10 | import homeIcon from '../assets/home icon.png';
-    11 | import scheduleIcon from '../assets/schedule icon.png';
-
-ERROR in src/pages/Planner/PlannerDashboard.tsx:9:33
-TS2307: Cannot find module '../types' or its corresponding type declarations.
-     7 | import TruckDetailPage from './TruckDetailPage';
-     8 | import ParcelDetailPage from './ParcelDetailPage';
-  >  9 | import { RouteAssignment } from '../types';
-       |                                 ^^^^^^^^^^
-    10 | import homeIcon from '../assets/home icon.png';
-    11 | import scheduleIcon from '../assets/schedule icon.png';
-    12 | import smallLogo from '../assets/small logo.png';
-
-ERROR in src/services/authService.ts:38:9
-TS2304: Cannot find name 'USE_MOCK_AUTH'.
-    36 |   async login(credentials: LoginRequest): Promise<LoginResponse> {
-    37 |     // Use mock authentication if enabled
-  > 38 |     if (USE_MOCK_AUTH) {
-       |         ^^^^^^^^^^^^^
-    39 |       return this.mockLogin(credentials);
-    40 |     }
-    41 |
-
-Compiling...
-Failed to compile.
-
-Module not found: Error: Can't resolve '../assets/home icon.png' in '/Users/duncanbraakhekke/Documents/School/02/frontend/my-app/src/pages/Planner'
-WARNING in [eslint] 
-src/components/RouteAssignmentPage.tsx
-  Line 106:9:  'getDriverName' is assigned a value but never used  @typescript-eslint/no-unused-vars
-
-ERROR in ./src/pages/Planner/PlannerDashboard.tsx 13:0-47
-Module not found: Error: Can't resolve '../assets/home icon.png' in '/Users/duncanbraakhekke/Documents/School/02/frontend/my-app/src/pages/Planner'
-
-ERROR in ./src/pages/Planner/PlannerDashboard.tsx 14:0-55
-Module not found: Error: Can't resolve '../assets/schedule icon.png' in '/Users/duncanbraakhekke/Documents/School/02/frontend/my-app/src/pages/Planner'
-
-ERROR in ./src/pages/Planner/PlannerDashboard.tsx 15:0-49
-Module not found: Error: Can't resolve '../assets/small logo.png' in '/Users/duncanbraakhekke/Documents/School/02/frontend/my-app/src/pages/Planner'
-
-webpack compiled with 3 errors and 1 warning
-ERROR in src/services/authService.ts:38:9
-TS2304: Cannot find name 'USE_MOCK_AUTH'.
-    36 |   async login(credentials: LoginRequest): Promise<LoginResponse> {
-    37 |     // Use mock authentication if enabled
-  > 38 |     if (USE_MOCK_AUTH) {
-       |         ^^^^^^^^^^^^^
-    39 |       return this.mockLogin(credentials);
-    40 |     }
-    41 |
-
-Compiling...
-Compiled with warnings.
-
-[eslint] 
-src/components/RouteAssignmentPage.tsx
-  Line 106:9:  'getDriverName' is assigned a value but never used  @typescript-eslint/no-unused-vars
-
-Search for the keywords to learn more about each warning.
-To ignore, add // eslint-disable-next-line to the line before.
-
-WARNING in [eslint] 
-src/components/RouteAssignmentPage.tsx
-  Line 106:9:  'getDriverName' is assigned a value but never used  @typescript-eslint/no-unused-vars
-
-webpack compiled with 1 warning
-ERROR in src/services/authService.ts:38:9
-TS2304: Cannot find name 'USE_MOCK_AUTH'.
-    36 |   async login(credentials: LoginRequest): Promise<LoginResponse> {
-    37 |     // Use mock authentication if enabled
-  > 38 |     if (USE_MOCK_AUTH) {
-       |         ^^^^^^^^^^^^^
-    39 |       return this.mockLogin(credentials);
-    40 |     }
-    41 |
-
-Compiling...
-Compiled with warnings.
-
-[eslint] 
-src/components/RouteAssignmentPage.tsx
-  Line 106:9:  'getDriverName' is assigned a value but never used  @typescript-eslint/no-unused-vars
-
-Search for the keywords to learn more about each warning.
-To ignore, add // eslint-disable-next-line to the line before.
-
-WARNING in [eslint] 
-src/components/RouteAssignmentPage.tsx
-  Line 106:9:  'getDriverName' is assigned a value but never used  @typescript-eslint/no-unused-vars
-
-webpack compiled with 1 warning
+webpack compiled successfully
 Files successfully emitted, waiting for typecheck results...
 Issues checking in progress...
 No issues found.

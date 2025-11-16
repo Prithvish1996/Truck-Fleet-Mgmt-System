@@ -28,13 +28,15 @@ public class CreateRouteHandler implements ICreateRoute {
     private final DepotRepository depotRepository;
     private final LocationRepository locationRepository;
     private final RouteStopRepository routeStopRepository;
+    private final WarehouseRepository warehouseRepository;
 
     public CreateRouteHandler(RouteRepository routeRepository,
                               ParcelRepository parcelRepository,
                               TruckRepository truckRepository,
                               DriverRepository driverRepository,
                               DepotRepository depotRepository,
-                              LocationRepository locationRepository, RouteStopRepository routeStopRepository) {
+                              LocationRepository locationRepository, RouteStopRepository routeStopRepository,
+                              WarehouseRepository warehouseRepository) {
         this.routeRepository = routeRepository;
         this.parcelRepository = parcelRepository;
         this.truckRepository = truckRepository;
@@ -42,6 +44,7 @@ public class CreateRouteHandler implements ICreateRoute {
         this.depotRepository = depotRepository;
         this.locationRepository = locationRepository;
         this.routeStopRepository = routeStopRepository;
+        this.warehouseRepository = warehouseRepository;
     }
 
     @Override
@@ -71,6 +74,10 @@ public class CreateRouteHandler implements ICreateRoute {
                 depotEntity.getLocation() != null ? depotEntity.getLocation().getLatitude() : 0.0,
                 depotEntity.getLocation() != null ? depotEntity.getLocation().getLongitude() : 0.0
         );
+
+        //2b. Validate warehouse
+        WareHouseDao warehouseEntity = warehouseRepository.findById(request.getWarehouse_id())
+                .orElseThrow(() -> new RuntimeException("Warehouse not found for ID: " + request.getWarehouse_id()));
 
         //3. Prepare VRP parcels
         List<Parcel> vrpParcels = selectedParcels.stream().map(p -> {
@@ -116,6 +123,7 @@ public class CreateRouteHandler implements ICreateRoute {
                     RouteDao route = new RouteDao();
                     route.setTruck(truck);
                     route.setDepot(depotEntity);
+                    route.setWarehouse(warehouseEntity);
                     route.setTotalDistance(Optional.ofNullable(tri.getTotalDistance()).orElse(0L));
                     route.setTotalTransportTime(Optional.ofNullable(tri.getTotalTransportTime()).orElse(0L));
                     route.setNote(vrpResponse.getNotes());
@@ -208,7 +216,7 @@ public class CreateRouteHandler implements ICreateRoute {
     }
 
     //Stub VRP
-    private VRPResponse callExternalVrpService(VRPRequest vrpRequest) {
+    protected VRPResponse callExternalVrpService(VRPRequest vrpRequest) {
         TruckRouteInfo tri = new TruckRouteInfo();
         tri.setTruckPlateNumber("TRK-001");
         tri.setDepotId(vrpRequest.getDepot().getDepotId());
@@ -250,6 +258,7 @@ public class CreateRouteHandler implements ICreateRoute {
     //DTO Mappers
     private RouteResponseDto mapRouteToResponse(RouteDao route) {
         RouteResponseDto dto = new RouteResponseDto();
+        dto.setRouteId(route.getId());
         dto.setTruckId(route.getTruck() != null ? route.getTruck().getId() : null);
         dto.setTruckPlateNumber(route.getTruck() != null ? route.getTruck().getPlateNumber() : null);
         dto.setDepotId(route.getDepot() != null ? route.getDepot().getId() : null);
