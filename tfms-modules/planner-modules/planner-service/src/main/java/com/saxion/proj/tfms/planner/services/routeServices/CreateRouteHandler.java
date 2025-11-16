@@ -65,10 +65,7 @@ public class CreateRouteHandler implements ICreateRoute {
             return ApiResponse.error("No valid parcels found for the provided IDs.");
         }
 
-        List<Long> invalidStatusParcelIds = selectedParcels.stream()
-                .filter(p -> p.getStatus() != StatusEnum.SCHEDULED)
-                .map(ParcelDao::getId)
-                .collect(Collectors.toList());
+        List<Long> invalidStatusParcelIds = getInvalidStatusParcelIds(selectedParcels);
         if (!invalidStatusParcelIds.isEmpty()) {
             return ApiResponse.error("Only parcels with status 'SCHEDULED' can be planned. Invalid IDs: " + invalidStatusParcelIds);
         }
@@ -77,37 +74,14 @@ public class CreateRouteHandler implements ICreateRoute {
         DepotDao depotEntity = depotRepository.findById(request.getDepot_id())
                 .orElseThrow(() -> new RuntimeException("Depot not found for ID: " + request.getDepot_id()));
 
-        DepotInfo depotInfo = new DepotInfo(
-                depotEntity.getId(),
-                depotEntity.getName(),
-                depotEntity.getLocation() != null ? depotEntity.getLocation().getLatitude() : 0.0,
-                depotEntity.getLocation() != null ? depotEntity.getLocation().getLongitude() : 0.0
-        );
+        DepotInfo depotInfo = getDepotInfo(depotEntity);
 
         //2b. Validate warehouse
         WareHouseDao warehouseEntity = warehouseRepository.findById(request.getWarehouse_id())
                 .orElseThrow(() -> new RuntimeException("Warehouse not found for ID: " + request.getWarehouse_id()));
 
         //3. Prepare VRP parcels
-        List<Parcel> vrpParcels = selectedParcels.stream().map(p -> {
-            Parcel rp = new Parcel();
-            rp.setParcelId(p.getId());
-            rp.setParcelName(p.getName());
-            rp.setVolume(p.getVolume() != null ? p.getVolume() : 0.0);
-            if (p.getWarehouse() != null && p.getWarehouse().getLocation() != null) {
-                rp.setWarehouseLatitude(p.getWarehouse().getLocation().getLatitude());
-                rp.setWarehouseLongitude(p.getWarehouse().getLocation().getLongitude());
-            }
-            if (p.getDeliveryLocation() != null) {
-                rp.setDeliveryLatitude(p.getDeliveryLocation().getLatitude());
-                rp.setDeliveryLongitude(p.getDeliveryLocation().getLongitude());
-            }
-            rp.setRecipientName(p.getRecipientName());
-            rp.setWarehouseId( request.getWarehouse_id());
-            rp.setRecipientPhone(p.getRecipientPhone());
-            rp.setDeliveryInstructions(p.getDeliveryInstructions());
-            return rp;
-        }).collect(Collectors.toList());
+        List<Parcel> vrpParcels = getParcels(request, selectedParcels);
 
         if (vrpParcels.isEmpty()) {
             return ApiResponse.error("No valid parcel coordinates found for routing.");
@@ -128,75 +102,8 @@ public class CreateRouteHandler implements ICreateRoute {
 
                 for (TruckRouteInfo tri : wr.getTruckRoutes()) {
                     TruckDao truck = truckRepository.findByPlateNumber(tri.getTruckPlateNumber()).orElse(null);
-
                     // Step 5a: Persist route first
-                    RouteDao route = new RouteDao();
-                    route.setTruck(truck);
-                    route.setDepot(depotEntity);
-                    route.setWarehouse(warehouseEntity);
-                    route.setTotalDistance(Long.valueOf(Optional.ofNullable(tri.getTotalDistance()).orElse(0)));
-                    route.setTotalTransportTime(Optional.ofNullable(tri.getTotalTransportTime()).orElse(0L));
-                    route.setNote("");
-                    route.setStatus(StatusEnum.PLANNED);
-                    route.setStartTime(ZonedDateTime.now());
-                    route.setScheduleDate(ZonedDateTime.now());
-                    route.setDuration(duration);
-                    route = routeRepository.save(route); // persist first
-
-                    // Step 5b: Persist each stop individually
-                    List<RouteStopDao> persistedStops = new ArrayList<>();
-                    int priority = 1;
-
-                    if (tri.getRouteStops() != null) {
-                        for (Stop s : tri.getRouteStops()) {
-                            RouteStopDao stop = new RouteStopDao();
-                            stop.setDescription("Auto-generated stop");
-                            stop.setPriority(priority++);
-                            stop.setDuration(duration);
-                            stop.setStopType(s.getStopType() == null ? StopType.CUSTOMER :
-                                    StopType.valueOf(s.getStopType().name()));
-                            stop.setRoute(route);
-
-                            // Persist location
-                            if (s.getCoordinates() != null) {
-                                double lat = s.getCoordinates().getLatitude();
-                                double lon = s.getCoordinates().getLongitude();
-                                LocationDao location = locationRepository.findByLatitudeAndLongitude(lat, lon)
-                                        .orElseGet(() -> {
-                                            LocationDao loc = new LocationDao();
-                                            loc.setLatitude(lat);
-                                            loc.setLongitude(lon);
-                                            loc.setAddress("Auto-generated");
-                                            loc.setCity("Auto");
-                                            loc.setPostalCode("Auto");
-                                            return locationRepository.save(loc);
-                                        });
-                                stop.setLocation(location);
-                            }
-
-                            // Persist stop first
-                            stop = routeStopRepository.save(stop);
-                            persistedStops.add(stop);
-
-                            final RouteStopDao finalStop = stop;
-                            // Step 5c: Update parcels to reference persisted stop
-                            if (s.getParcelsToDeliver() != null) {
-                                for (Parcel rp : s.getParcelsToDeliver()) {
-                                    parcelRepository.findById(rp.getParcelId()).ifPresent(parcel -> {
-                                        parcel.setStop(finalStop);
-                                        parcel.setStatus(StatusEnum.PLANNED);
-                                        parcelRepository.save(parcel);
-                                        assignedParcelIds.add(parcel.getId());
-                                    });
-                                }
-                            }
-                        }
-                    }
-
-                    // Step 5d: Link stops back to route and update
-                    route.setStops(persistedStops);
-                    routeRepository.save(route);
-                    savedRoutes.add(route);
+                    updateRoute(tri, truck, depotEntity, warehouseEntity, duration, assignedParcelIds, savedRoutes);
                 }
             }
         }
@@ -207,6 +114,12 @@ public class CreateRouteHandler implements ICreateRoute {
                 .toList();
 
         //7 Build response DTO
+        GenerateRouteResponseDto responseDto = getGenerateRouteResponseDto(savedRoutes, unassigned);
+
+        return ApiResponse.success(responseDto);
+    }
+
+    private GenerateRouteResponseDto getGenerateRouteResponseDto(List<RouteDao> savedRoutes, List<ParcelDao> unassigned) {
         GenerateRouteResponseDto responseDto = new GenerateRouteResponseDto();
         responseDto.setAssignRoutes(savedRoutes.stream().map(this::mapRouteToResponse).toList());
         responseDto.setUnAssignedRoute(
@@ -221,8 +134,118 @@ public class CreateRouteHandler implements ICreateRoute {
                 .stream().map(this::mapTruck).toList());
         responseDto.setDrivers(driverRepository.findByIsAvailableTrue()
                 .stream().map(this::mapDriver).toList());
+        return responseDto;
+    }
 
-        return ApiResponse.success(responseDto);
+    private void updateRoute(TruckRouteInfo tri, TruckDao truck, DepotDao depotEntity, WareHouseDao warehouseEntity, String duration, Set<Long> assignedParcelIds, List<RouteDao> savedRoutes) {
+        RouteDao route = new RouteDao();
+        route.setTruck(truck);
+        route.setDepot(depotEntity);
+        route.setWarehouse(warehouseEntity);
+        route.setTotalDistance(Long.valueOf(Optional.ofNullable(tri.getTotalDistance()).orElse(0)));
+        route.setTotalTransportTime(Optional.ofNullable(tri.getTotalTransportTime()).orElse(0L));
+        route.setNote("");
+        route.setStatus(StatusEnum.PLANNED);
+        route.setStartTime(ZonedDateTime.now());
+        route.setScheduleDate(ZonedDateTime.now());
+        route.setDuration(duration);
+        route = routeRepository.save(route); // persist first
+
+        // Step 5b: Persist each stop individually
+        List<RouteStopDao> persistedStops = new ArrayList<>();
+        int priority = 1;
+
+        if (tri.getRouteStops() != null) {
+            for (Stop s : tri.getRouteStops()) {
+                RouteStopDao stop = new RouteStopDao();
+                stop.setDescription("Auto-generated stop");
+                stop.setPriority(priority++);
+                stop.setDuration(duration);
+                stop.setStopType(s.getStopType() == null ? StopType.CUSTOMER :
+                        StopType.valueOf(s.getStopType().name()));
+                stop.setRoute(route);
+
+                // Persist location
+                if (s.getCoordinates() != null) {
+                    double lat = s.getCoordinates().getLatitude();
+                    double lon = s.getCoordinates().getLongitude();
+                    LocationDao location = locationRepository.findByLatitudeAndLongitude(lat, lon)
+                            .orElseGet(() -> {
+                                LocationDao loc = new LocationDao();
+                                loc.setLatitude(lat);
+                                loc.setLongitude(lon);
+                                loc.setAddress("Auto-generated");
+                                loc.setCity("Auto");
+                                loc.setPostalCode("Auto");
+                                return locationRepository.save(loc);
+                            });
+                    stop.setLocation(location);
+                }
+
+                // Persist stop first
+                stop = routeStopRepository.save(stop);
+                persistedStops.add(stop);
+
+                final RouteStopDao finalStop = stop;
+                // Step 5c: Update parcels to reference persisted stop
+                if (s.getParcelsToDeliver() != null) {
+                    for (Parcel rp : s.getParcelsToDeliver()) {
+                        parcelRepository.findById(rp.getParcelId()).ifPresent(parcel -> {
+                            parcel.setStop(finalStop);
+                            parcel.setStatus(StatusEnum.PLANNED);
+                            parcelRepository.save(parcel);
+                            assignedParcelIds.add(parcel.getId());
+                        });
+                    }
+                }
+            }
+        }
+
+        // Step 5d: Link stops back to route and update
+        route.setStops(persistedStops);
+        routeRepository.save(route);
+        savedRoutes.add(route);
+    }
+
+    private List<Parcel> getParcels(GenerateRouteRequestDto request, List<ParcelDao> selectedParcels) {
+        List<Parcel> vrpParcels = selectedParcels.stream().map(p -> {
+            Parcel rp = new Parcel();
+            rp.setParcelId(p.getId());
+            rp.setParcelName(p.getName());
+            rp.setVolume(p.getVolume() != null ? p.getVolume() : 0.0);
+            if (p.getWarehouse() != null && p.getWarehouse().getLocation() != null) {
+                rp.setWarehouseLatitude(p.getWarehouse().getLocation().getLatitude());
+                rp.setWarehouseLongitude(p.getWarehouse().getLocation().getLongitude());
+            }
+            if (p.getDeliveryLocation() != null) {
+                rp.setDeliveryLatitude(p.getDeliveryLocation().getLatitude());
+                rp.setDeliveryLongitude(p.getDeliveryLocation().getLongitude());
+            }
+            rp.setRecipientName(p.getRecipientName());
+            rp.setWarehouseId( request.getWarehouse_id());
+            rp.setRecipientPhone(p.getRecipientPhone());
+            rp.setDeliveryInstructions(p.getDeliveryInstructions());
+            return rp;
+        }).collect(Collectors.toList());
+        return vrpParcels;
+    }
+
+    private DepotInfo getDepotInfo(DepotDao depotEntity) {
+        DepotInfo depotInfo = new DepotInfo(
+                depotEntity.getId(),
+                depotEntity.getName(),
+                depotEntity.getLocation() != null ? depotEntity.getLocation().getLatitude() : 0.0,
+                depotEntity.getLocation() != null ? depotEntity.getLocation().getLongitude() : 0.0
+        );
+        return depotInfo;
+    }
+
+    private List<Long> getInvalidStatusParcelIds(List<ParcelDao> selectedParcels) {
+        List<Long> invalidStatusParcelIds = selectedParcels.stream()
+                .filter(p -> p.getStatus() != StatusEnum.SCHEDULED)
+                .map(ParcelDao::getId)
+                .collect(Collectors.toList());
+        return invalidStatusParcelIds;
     }
 
     //Stub VRP
