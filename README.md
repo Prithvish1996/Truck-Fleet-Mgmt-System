@@ -1,137 +1,74 @@
-# TFMS Spring Boot Application
+## Docker Deployment
 
-## Project Overview
+### Quick Start with Docker Compose
 
-This is a **multi-module Spring Boot project** with the following structure:
+The easiest way to run the full application (frontend + backend + database) is using Docker Compose:
 
+#### Start the Application
+```bash
+docker-compose up -d
+```
 
-- `tfms-starter` – Main Spring Boot backend application.
-- `common-modules` – Shared modules and utilities.
-- `auth-service` – Authentication service module.
-- `frontend` – Frontend application (if applicable).
-- `scripts/start-dev.sh` – Script to build and start the backend in dev mode.
+This will:
+- Start PostgreSQL database
+- Build the TFMS application (frontend + backend)
+- Start the application
+- Wait for database to be ready before starting the app
+
+#### Access the Application
+- **Application**: https://localhost:8443
+- **API Endpoints**: https://localhost:8443/api
+- **Health Check**: https://localhost:8443/actuator/health
+
+> **Note**: The application uses HTTPS with a self-signed certificate. Your browser will show a security warning - this is normal for development. Click "Advanced" and "Proceed to localhost" to continue.
+
+#### View Logs
+```bash
+# All services
+docker-compose logs -f
+
+# Application only
+docker-compose logs -f tfms-app
+
+# Database only
+docker-compose logs -f postgres
+```
+
+#### Stop Services
+```bash
+# Stop all services
+docker-compose down
+
+# Stop and remove volumes (clears database data)
+docker-compose down -v
+```
+
+#### Rebuild After Code Changes
+```bash
+docker-compose down
+docker-compose build tfms-app
+docker-compose up -d
+```
+
+### Important Notes
+
+#### Database Reset
+If you encounter database initialization errors (duplicate records), clear the database and restart:
+```bash
+docker-compose down -v
+docker-compose up -d
+```
+
+**Reason**: The `-v` flag removes the database volume, clearing all data. This is necessary when the database initialization code encounters duplicate records from previous runs. The application will recreate the database schema and seed data on the next startup.
+
+#### Location Permissions
+If you experience issues with location permissions in the browser:
+- The browser may require you to **manually allow location access** for `localhost:8443`
+- Go to your browser settings → Site Settings → Location
+- Find `https://localhost:8443` and ensure it's set to "Allow"
+- You may need to refresh the page after changing the permission
 
 ---
-
-## Documentation
-
-For detailed information about specific topics, refer to the following documentation:
-
-- **[Logging & Monitoring Guide](docs/monitor-logging.md)** - Comprehensive guide on Log4j2 logging system, service-based log file separation, and monitoring
-- **[Security Documentation](docs/Security.md)** - Security implementation details including JWT authentication, HTTPS/TLS configuration, and security best practices
-- **[Deployment Guide](docs/DEPLOYMENT.md)** - Complete deployment guide for development and production modes
-
----
-
-## Prerequisites
-
-Before running the application, make sure you have the following installed:
-
-- **Java JDK 17+**
-- **Maven 3.8+**
-- **PostgreSQL 15**
-- **Git Bash** (for running shell scripts on Windows)
-- **IntelliJ IDEA** (recommended)
-
----
-
-## Step 1: Enable Git Bash in IntelliJ (Windows)
-
-1. Open **File → Settings → Tools → Terminal**.
-2. Set **Shell path** to your Git Bash executable:
-3. Click **Apply → OK**.  
-4. Open the IntelliJ terminal (`Alt+F12`) to use Git Bash.  
-5. You can now run scripts like:
-
-```
-bash scripts/start-dev.sh
-```
-
-## Step 2: Setup PostgreSQL Database
-
-1. Open psql or pgAdmin and run:
-```
-CREATE DATABASE tfmsdb;
-CREATE USER tfms_user WITH PASSWORD 'tfms_pass';
-GRANT ALL PRIVILEGES ON DATABASE tfms_db TO tfms_user;
-```
-
-2. Verify the connection:
-```
-psql -U tfms_user -d tfms_db -h localhost -p 5432
-```
-
-## Step 3: Configure Spring Boot
-Edit tfms-starter/src/main/resources/application-dev.properties:
-```
-# PostgreSQL 15 connection
-spring.datasource.url=jdbc:postgresql://localhost:5432/tfms_db?ssl=false
-spring.datasource.username=tfms_user
-spring.datasource.password=tfms_pass
-spring.datasource.driver-class-name=org.postgresql.Driver
-
-# Hibernate / JPA
-spring.jpa.hibernate.ddl-auto=update
-spring.jpa.show-sql=true
-spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
-
-# Dev server
-server.port=8080
-server.ssl.enabled=false
-```
-
-## Step 4: Install Maven Dependencies
-From the project root:
-```
-# Download all dependencies
-mvn dependency:go-offline
-
-# Build and install all modules locally (skip tests if necessary)
-mvn clean install -DskipTests
-
-Ensures common-modules and auth-service are available to tfms-starter.
-```
-
-## Step 5: Run the Dev Script
-
-From IntelliJ terminal (Git Bash) or any Git Bash window:
-```
-bash scripts/start-dev.sh
-```
-
-1. Builds and starts the backend.
-2. Backend connects to PostgreSQL 15. 
-3. Access APIs at:
-```
-http://localhost:8080/api/
-```
-## Step 6: Verify Backend
-
-1. Check backend.log for startup errors.
-2. Verify database tables are created by Hibernate:
-```
-psql -U tfms_user -d tfms_db -h localhost -p 5432
-\dt
-```
-3. In your browser, access the APIs:
-```
-http://localhost:8080/api/
-```
-## Step 7: Notes and Troubleshooting
-
-1. Maven build errors due to tests: use -DskipTests to bypass.
-2. Database connection issues: verify spring.datasource.url, username, password, and that PostgreSQL is running.
-3. SSL warnings in browser: disabled for dev with server.ssl.enabled=false.
-4. Backend startup timeout: increase the timeout variable in start-dev.sh if PostgreSQL is slow.
-5. IntelliJ driver warning: safe to ignore if PostgreSQL dependency is in Maven and build succeeds.
-
-## ✅ Result
-1. All modules are built.
-2. Backend (tfms-starter) is running locally.
-3. PostgreSQL 15 is connected.
-4. APIs are accessible via HTTP without SSL warnings.
-5. start-dev.sh can be run directly from IntelliJ terminal (Git Bash enabled).
-
 
 ## Modules/ Services
 
