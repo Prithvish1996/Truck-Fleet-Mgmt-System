@@ -81,24 +81,16 @@ public class DefaultUserDataInitializer {
         // Create default warehouse
         createDepotIfNotExists("Main Depot", 500.0);
 
-        // Create default parcels
-        createDefaultWarehouseAndParcel("Parcel A", "Deventer","Central Warehouse","22222");
-        createDefaultWarehouseAndParcel("Parcel B", "Deventer","Central Warehouse","22222");
-        createDefaultWarehouseAndParcel("Parcel C", "Deventer","Central Warehouse","22222");
-        createDefaultWarehouseAndParcel("Parcel D", "Deventer","Central Warehouse","22222");
-        createDefaultWarehouseAndParcel("Parcel E", "Deventer","Central Warehouse","22222");
+        // Create 200 parcels from 10 different warehouses (20 parcels per warehouse)
+        create200ParcelsFrom10Warehouses();
 
         // Create default drivers
         createDefaultDriver("driver@tfms.com", "Deventer", "22222");
         createDefaultDriver("driver2@tfms.com", "Utrecht", "44444");
         createDefaultDriver("driver3@tfms.com", "Arnhem", "66666");
 
-        // Create default trucks
-        createDefaultTruck("TRK-001", TruckType.SMALL, 20000.0);
-        createDefaultTruck("TRK-002", TruckType.SMALL, 20000.0);
-        createDefaultTruck("TRK-003", TruckType.MEDIUM, 50000.0);
-        createDefaultTruck("TRK-004", TruckType.MEDIUM, 50000.0);
-        createDefaultTruck("TRK-005", TruckType.LARGE, 100000.0);
+        // Create 10 trucks with varying capacities
+        create10Trucks();
 
         // Create default routes for driver ID 2
         createDefaultRoutesForDriver(2L);
@@ -258,6 +250,50 @@ public class DefaultUserDataInitializer {
             truckRepository.save(truck);
             System.out.println("Default Truck created: " + plateNumber);
         }
+    }
+
+    /**
+     * Create 10 trucks with varying capacities and types
+     */
+    private void create10Trucks() {
+        System.out.println("Creating 10 trucks with varying capacities...");
+
+        // Define 10 trucks with different sizes and capacities
+        Object[][] truckData = {
+            {"TRK-001", TruckType.SMALL, 15.0, "Ford Transit"},
+            {"TRK-002", TruckType.SMALL, 18.0, "Mercedes Sprinter"},
+            {"TRK-003", TruckType.SMALL, 20.0, "Iveco Daily"},
+            {"TRK-004", TruckType.MEDIUM, 35.0, "MAN TGL"},
+            {"TRK-005", TruckType.MEDIUM, 40.0, "DAF LF"},
+            {"TRK-006", TruckType.MEDIUM, 45.0, "Volvo FL"},
+            {"TRK-007", TruckType.LARGE, 65.0, "Scania P-Series"},
+            {"TRK-008", TruckType.LARGE, 75.0, "Mercedes Actros"},
+            {"TRK-009", TruckType.LARGE, 85.0, "Volvo FH"},
+            {"TRK-010", TruckType.LARGE, 90.0, "DAF XF"}
+        };
+
+        for (Object[] truck : truckData) {
+            String plateNumber = (String) truck[0];
+            TruckType type = (TruckType) truck[1];
+            Double volume = (Double) truck[2];
+            String make = (String) truck[3];
+
+            if (!truckRepository.existsByPlateNumber(plateNumber)) {
+                TruckDao truckDao = new TruckDao();
+                truckDao.setPlateNumber(plateNumber);
+                truckDao.setType(type);
+                truckDao.setMake(make);
+                truckDao.setLastServiceDate(LocalDate.now().minusMonths(1 + (plateNumber.charAt(4) - '0')));
+                truckDao.setLastServicedBy("Service Team " + (plateNumber.charAt(4) - '0'));
+                truckDao.setVolume(volume);
+                truckDao.setIsAvailable(true);
+                truckRepository.save(truckDao);
+
+                System.out.println("Created truck: " + plateNumber + " (" + type + ", " + volume + "m³, " + make + ")");
+            }
+        }
+
+        System.out.println("✅ Successfully created 10 trucks with varying capacities!");
     }
 
     // Create Default Routes for Driver
@@ -427,5 +463,112 @@ public class DefaultUserDataInitializer {
         }
         
         return stops;
+    }
+
+    /**
+     * Create 200 parcels from 10 different warehouses (20 parcels per warehouse)
+     */
+    private void create200ParcelsFrom10Warehouses() {
+        System.out.println("Creating 200 parcels from 10 warehouses...");
+
+        // Define 10 warehouse locations across Netherlands
+        String[][] warehouseData = {
+            {"Warehouse-Amsterdam", "Amsterdam", "1000AA", "52.3676", "4.9041"},
+            {"Warehouse-Rotterdam", "Rotterdam", "3000AA", "51.9244", "4.4777"},
+            {"Warehouse-Utrecht", "Utrecht", "3500AA", "52.0907", "5.1214"},
+            {"Warehouse-Eindhoven", "Eindhoven", "5600AA", "51.4416", "5.4697"},
+            {"Warehouse-Groningen", "Groningen", "9700AA", "53.2194", "6.5665"},
+            {"Warehouse-Tilburg", "Tilburg", "5000AA", "51.5555", "5.0913"},
+            {"Warehouse-Almere", "Almere", "1300AA", "52.3508", "5.2647"},
+            {"Warehouse-Breda", "Breda", "4800AA", "51.5719", "4.7683"},
+            {"Warehouse-Nijmegen", "Nijmegen", "6500AA", "51.8426", "5.8518"},
+            {"Warehouse-Apeldoorn", "Apeldoorn", "7300AA", "52.2112", "5.9699"}
+        };
+
+        // Create 20 parcels for each warehouse
+        for (int warehouseIndex = 0; warehouseIndex < warehouseData.length; warehouseIndex++) {
+            String[] warehouse = warehouseData[warehouseIndex];
+            String warehouseName = warehouse[0];
+            String city = warehouse[1];
+            String postalCode = warehouse[2];
+            double latitude = Double.parseDouble(warehouse[3]);
+            double longitude = Double.parseDouble(warehouse[4]);
+
+            // Make effectively final copies for lambda expressions
+            final int finalWarehouseIndex = warehouseIndex;
+            final String finalCity = city;
+            final String finalPostalCode = postalCode;
+            final double finalLatitude = latitude;
+            final double finalLongitude = longitude;
+
+            // Create warehouse location
+            LocationDao warehouseLocation = locationRepository
+                    .findByPostalCode(finalPostalCode)
+                    .orElseGet(() -> {
+                        LocationDao loc = new LocationDao();
+                        loc.setPostalCode(finalPostalCode);
+                        loc.setCity(finalCity);
+                        loc.setAddress("Warehouse Street " + (finalWarehouseIndex + 1));
+                        loc.setLatitude(finalLatitude);
+                        loc.setLongitude(finalLongitude);
+                        return locationRepository.save(loc);
+                    });
+
+            // Create warehouse
+            WareHouseDao warehouseDao = wareHouseRepository
+                    .findByName(warehouseName)
+                    .orElseGet(() -> {
+                        WareHouseDao w = new WareHouseDao();
+                        w.setName(warehouseName);
+                        w.setLocation(warehouseLocation);
+                        return wareHouseRepository.save(w);
+                    });
+
+            // Create 20 parcels for this warehouse
+            for (int parcelIndex = 1; parcelIndex <= 20; parcelIndex++) {
+                String parcelName = String.format("P%02d-%02d", finalWarehouseIndex + 1, parcelIndex);
+
+                // Create varied delivery locations around Netherlands
+                String deliveryPostalCode = String.format("%d%03d", 2000 + finalWarehouseIndex, parcelIndex);
+
+                // Make effectively final copies for lambda expressions
+                final int finalParcelIndex = parcelIndex;
+                final String finalDeliveryPostalCode = deliveryPostalCode;
+
+                LocationDao deliveryLocation = locationRepository
+                        .findByPostalCode(finalDeliveryPostalCode)
+                        .orElseGet(() -> {
+                            LocationDao loc = new LocationDao();
+                            loc.setPostalCode(finalDeliveryPostalCode);
+                            loc.setCity("DeliveryCity-" + (finalWarehouseIndex + 1));
+                            loc.setAddress("Delivery Street " + finalParcelIndex);
+                            // Vary delivery coordinates around warehouse location
+                            loc.setLatitude(finalLatitude + ((finalParcelIndex % 10 - 5) * 0.01));
+                            loc.setLongitude(finalLongitude + ((finalParcelIndex % 10 - 5) * 0.01));
+                            return locationRepository.save(loc);
+                        });
+
+                // Create parcel if it doesn't exist
+                if (!parcelRepository.existsByName(parcelName)) {
+                    ParcelDao parcel = new ParcelDao();
+                    parcel.setName(parcelName);
+                    parcel.setWarehouse(warehouseDao);
+                    parcel.setDeliveryLocation(deliveryLocation);
+                    parcel.setWeight(1.0 + (finalParcelIndex % 10)); // Weight 1-10 kg
+                    parcel.setVolume(0.1 + (finalParcelIndex % 5) * 0.1); // Volume 0.1-0.5 m³
+                    parcel.setStatus(StatusEnum.PENDING);
+                    parcel.setDeliveryInstructions("Delivery instructions for " + parcelName);
+                    parcel.setRecipientName("Customer-" + finalWarehouseIndex + "-" + finalParcelIndex);
+                    parcel.setRecipientPhone("+3161234" + String.format("%04d", finalWarehouseIndex * 100 + finalParcelIndex));
+                    parcel.setPlannedDeliveryDate(ZonedDateTime.now().plusDays(1 + (finalParcelIndex % 7))); // Spread over week
+
+                    parcelRepository.save(parcel);
+                }
+            }
+
+            System.out.println("Created 20 parcels for " + warehouseName + " in " + city);
+        }
+
+        System.out.println("✅ Successfully created 200 parcels from 10 warehouses!");
     }
 }

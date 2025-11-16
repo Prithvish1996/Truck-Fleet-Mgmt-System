@@ -36,12 +36,20 @@ public class TruckRouteFactory {
             logger.debugOp(ServiceName.ROUTING_SERVICE, "CREATE_TRUCK_ROUTE",
                     "Coordinates prepared for truck: {}", assignment.getTruckPlateNumber());
 
-            // Commenting for now to mock behaviour
-            //        List<Stop> stops = routingProvider.calculateRoute(routeCoordinatesGroup);
 
-            List<Stop> stops = dataPreparer.createUnoptimizedStops(coords, assignment, vrpRequest);
-            logger.debugOp(ServiceName.ROUTING_SERVICE, "CREATE_TRUCK_ROUTE",
-                    "Created {} stops for truck: {}", stops.size(), assignment.getTruckPlateNumber());
+
+            List<Stop> stops = routingProvider.calculateRoute(coords);
+
+            // Check if the route contains only depot and warehouse stops, don't create route info for such routes
+            boolean hasCustomerDeliveries = stops.stream()
+                    .anyMatch(stop -> stop.getStopType() == com.saxion.proj.tfms.commons.constants.StopType.CUSTOMER);
+
+            if (!hasCustomerDeliveries) {
+                logger.warnOp(ServiceName.ROUTING_SERVICE, "CREATE_TRUCK_ROUTE",
+                        "Skipping route creation for truck: {} - no customer deliveries found, only depot/warehouse stops",
+                        assignment.getTruckPlateNumber());
+                return null; // Don't create route info for empty routes
+            }
 
             TruckRouteInfo routeInfo = TruckRouteInfo.builder()
                     .truckPlateNumber(assignment.getTruckPlateNumber())

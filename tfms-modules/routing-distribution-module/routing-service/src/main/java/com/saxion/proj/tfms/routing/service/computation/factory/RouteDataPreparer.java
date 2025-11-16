@@ -36,10 +36,13 @@ public class RouteDataPreparer {
                     "Successfully prepared coordinates: depot, warehouse, and {} parcel locations",
                     parcels.size());
 
+            List<Parcel> parcelObjects = getParcelsToDeliver(assignment.getParcels(), vrpRequest.getParcels());
+
             return RouteCoordinatesGroup.builder()
                     .depot(depot)
                     .warehouse(warehouse)
                     .parcels(parcels)
+                    .parcelList(parcelObjects)
                     .build();
         } catch (Exception e) {
             logger.errorOp(ServiceName.ROUTING_SERVICE, "PREPARE_COORDINATES",
@@ -48,34 +51,7 @@ public class RouteDataPreparer {
         }
     }
 
-    public List<Stop> createUnoptimizedStops(RouteCoordinatesGroup coords, TruckAssignment assignment, VRPRequest vrpRequest) {
-        logger.debugOp(ServiceName.ROUTING_SERVICE, "CREATE_STOPS",
-                "Creating unoptimized stops for truck with {} assigned parcels",
-                assignment.getParcels().size());
 
-        try {
-            List<Parcel> parcels = getParcelsToDeliver(assignment.getParcels(), vrpRequest.getParcels());
-            List<Stop> stops = new ArrayList<>();
-            Stop.addOrUpdateStop(stops, new Stop(coords.getDepot(), new ArrayList<>(), StopType.DEPOT));
-            Stop.addOrUpdateStop(stops, new Stop(coords.getWarehouse(), new ArrayList<>(), StopType.WAREHOUSE));
-
-            for (Parcel p : parcels) {
-                List<Parcel> parcelList = new ArrayList<>();
-                parcelList.add(p);
-                Stop.addOrUpdateStop(stops, new Stop(new Coordinates(p.getDeliveryLatitude(), p.getDeliveryLongitude()), parcelList, StopType.CUSTOMER));
-            }
-
-            logger.debugOp(ServiceName.ROUTING_SERVICE, "CREATE_STOPS",
-                    "Successfully created {} unoptimized stops (including depot and warehouse)",
-                    stops.size());
-
-            return stops;
-        } catch (Exception e) {
-            logger.errorOp(ServiceName.ROUTING_SERVICE, "CREATE_STOPS",
-                    "Failed to create unoptimized stops - Error: {}", e.getMessage());
-            throw new RuntimeException("Failed to create unoptimized stops", e);
-        }
-    }
 
     private List<Parcel> getParcelsToDeliver(List<TruckAssignment.ParcelInfo> assignedParcels, List<Parcel> allParcels) {
         logger.debugOp(ServiceName.ROUTING_SERVICE, "PARCEL_MAPPING",

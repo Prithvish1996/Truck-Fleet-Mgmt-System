@@ -1,90 +1,148 @@
 package com.saxion.proj.tfms.routing.service.computation.helper.tomtom;
 
-import com.saxion.proj.tfms.routing.model.ClusterResult;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.saxion.proj.tfms.routing.model.Coordinates;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
+/**
+ * Clean TomTom Route Calculator
+ * Uses TomTom Routing API with computeBestOrder=true for TSP optimization
+ */
 @Service
 public class TomTomRouteCalculator {
 
-    private static final String TOMTOM_ROUTE_URL = "https://api.tomtom.com/routing/1/calculateRoute/{locations}/json";
-    private static final String API_KEY = "YOUR_TOMTOM_API_KEY";
+    private static final Logger log = LoggerFactory.getLogger(TomTomRouteCalculator.class);
+    private static final String TOMTOM_API_BASE_URL = "https://api.tomtom.com/routing/1/calculateRoute";
+    
+    @Value("${tomtom.api.key:GkSRasdpaBrnBwHN5aO5uhj2hFsR6YHy}")
+    private String apiKey = "GkSRasdpaBrnBwHN5aO5uhj2hFsR6YHy";
 
     private final RestTemplate restTemplate;
+    private final ObjectMapper objectMapper;
 
     public TomTomRouteCalculator() {
         this.restTemplate = new RestTemplate();
+        this.objectMapper = new ObjectMapper();
+    }
+
+
+    /**
+     * Get optimized route from TomTom API
+     * @return JsonNode containing the response with optimizedWaypoints
+     */
+    public JsonNode getOptimizedRoute(Coordinates warehouse, List<Coordinates> deliveries) {
+        if (deliveries == null || deliveries.isEmpty()) {
+            log.warn("No deliveries provided");
+            return null;
+        }
+
+        try {
+            String locations = buildLocationsString(warehouse, deliveries);
+            String uri = buildApiUri(locations);
+
+            log.debug("Calling TomTom API for {} deliveries", deliveries.size());
+            String response = restTemplate.getForObject(uri, String.class);
+
+            JsonNode jsonResponse = objectMapper.readTree(response);
+
+            if (jsonResponse.has("routes") && jsonResponse.get("routes").size() > 0) {
+                JsonNode route = jsonResponse.get("routes").get(0);
+                int distanceMeters = route.get("summary").get("lengthInMeters").asInt();
+                int timeSeconds = route.get("summary").get("travelTimeInSeconds").asInt();
+
+                log.info("Route calculated: {} km, {} minutes",
+                    String.format("%.2f", distanceMeters / 1000.0), timeSeconds / 60);
+            }
+
+            return jsonResponse;
+
+        } catch (Exception e) {
+            log.error("TomTom API call failed: {}", e.getMessage(), e);
+            return null;
+        }
     }
 
     /**
-     * Compute best route for each cluster and return total distance & time.
+     * Build locations string for TomTom API
+     * Format: warehouse:delivery1:delivery2:...:warehouse
      */
-    public void computeBestRoutePerCluster(Coordinates warehouse, ClusterResult clusterResult) {
+    private String buildLocationsString(Coordinates warehouse, List<Coordinates> deliveries) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(warehouse.getLatitude()).append(",").append(warehouse.getLongitude());
 
-        Map<Integer, List<Coordinates>> clusters = clusterResult.getShiftClusters();
-
-        for (Map.Entry<Integer, List<Coordinates>> entry : clusters.entrySet()) {
-            int shiftIndex = entry.getKey();
-            List<Coordinates> deliveries = entry.getValue();
-
-            // Skip empty clusters
-            if (deliveries.isEmpty()) continue;
-
-            // Build locations string for TomTom API: start;via;via;...;end
-            StringBuilder locationsBuilder = new StringBuilder();
-            locationsBuilder.append(warehouse.getLatitude()).append(",").append(warehouse.getLongitude()); // start
-            for (Coordinates c : deliveries) {
-                locationsBuilder.append(":").append(c.getLatitude()).append(",").append(c.getLongitude());
-            }
-            locationsBuilder.append(":").append(warehouse.getLatitude()).append(",").append(warehouse.getLongitude()); // return to warehouse if needed
-
-            // Build URI with API key
-            String uri = UriComponentsBuilder.fromUriString(TOMTOM_ROUTE_URL)
-                    .buildAndExpand(locationsBuilder.toString())
-                    .toUriString() + "?key=" + API_KEY;
-
-            // Call TomTom API
-            TomTomRouteResponse response = restTemplate.getForObject(uri, TomTomRouteResponse.class);
-
-            if (response != null && !response.getRoutes().isEmpty()) {
-                int totalDistanceMeters = response.getRoutes().get(0).getSummary().getLengthInMeters();
-                int totalTimeSeconds = response.getRoutes().get(0).getSummary().getTravelTimeInSeconds();
-
-                System.out.println("Shift " + shiftIndex + ":");
-                System.out.println("  Deliveries: " + deliveries.size());
-                System.out.println("  Total Distance (m): " + totalDistanceMeters);
-                System.out.println("  Total Time (sec): " + totalTimeSeconds);
-            }
+        for (Coordinates c : deliveries) {
+            sb.append(":").append(c.getLatitude()).append(",").append(c.getLongitude());
         }
+
+        sb.append(":").append(warehouse.getLatitude()).append(",").append(warehouse.getLongitude());
+        return sb.toString();
     }
 
-    // DTO for TomTom response (simplified)
-    public static class TomTomRouteResponse {
-        private List<Route> routes;
+    /**
+     * Build TomTom API URI with parameters
+     */
+    private String buildApiUri(String locations) {
+        return UriComponentsBuilder.fromUriString(TOMTOM_API_BASE_URL + "/" + locations + "/json")
+                .queryParam("key", apiKey)
+                .queryParam("computeBestOrder", "true")
+                .queryParam("routeRepresentation", "summaryOnly")
+                .queryParam("traffic", "true")
+                .queryParam("routeType", "fastest")
+                .toUriString();
+    }
 
-        public List<Route> getRoutes() { return routes; }
-        public void setRoutes(List<Route> routes) { this.routes = routes; }
+    /**
+     * Extract optimized delivery sequence from TomTom response
+     * Uses optimizedWaypoints array to reorder deliveries
+     *
+     * @param response TomTom API JSON response
+     * @param originalDeliveries Original delivery coordinates
+     * @return Coordinates reordered according to TomTom's optimization
+     */
+    public List<Coordinates> getOptimizedSequence(JsonNode response, List<Coordinates> originalDeliveries) {
+        if (response == null || !response.has("optimizedWaypoints")) {
+            log.warn("No optimization data in TomTom response, returning original order");
+            return new ArrayList<>(originalDeliveries);
+        }
 
-        public static class Route {
-            private Summary summary;
-            public Summary getSummary() { return summary; }
-            public void setSummary(Summary summary) { this.summary = summary; }
+        JsonNode optimizedWaypoints = response.get("optimizedWaypoints");
+        if (optimizedWaypoints.size() != originalDeliveries.size()) {
+            log.warn("Optimized waypoints count mismatch: {} vs {}",
+                optimizedWaypoints.size(), originalDeliveries.size());
+            return new ArrayList<>(originalDeliveries);
+        }
 
-            public static class Summary {
-                private int lengthInMeters;
-                private int travelTimeInSeconds;
+        // Create array indexed by optimizedIndex
+        Coordinates[] orderedDeliveries = new Coordinates[optimizedWaypoints.size()];
 
-                public int getLengthInMeters() { return lengthInMeters; }
-                public void setLengthInMeters(int lengthInMeters) { this.lengthInMeters = lengthInMeters; }
+        for (JsonNode waypoint : optimizedWaypoints) {
+            int providedIndex = waypoint.get("providedIndex").asInt();
+            int optimizedIndex = waypoint.get("optimizedIndex").asInt();
 
-                public int getTravelTimeInSeconds() { return travelTimeInSeconds; }
-                public void setTravelTimeInSeconds(int travelTimeInSeconds) { this.travelTimeInSeconds = travelTimeInSeconds; }
+            if (providedIndex >= 0 && providedIndex < originalDeliveries.size() &&
+                optimizedIndex >= 0 && optimizedIndex < orderedDeliveries.length) {
+                orderedDeliveries[optimizedIndex] = originalDeliveries.get(providedIndex);
             }
         }
+
+        // Convert array to list
+        List<Coordinates> result = new ArrayList<>();
+        for (Coordinates coord : orderedDeliveries) {
+            if (coord != null) {
+                result.add(coord);
+            }
+        }
+
+        log.debug("Optimized {} deliveries", result.size());
+        return result;
     }
 }

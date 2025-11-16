@@ -36,7 +36,14 @@ public class TruckRouteBuilderImpl implements TruckRouteBuilder {
                             "Building route for truck ID: {} in warehouse: {}",
                             truck.getTruckPlateNumber(), warehouseId);
                     TruckRouteInfo route = truckRouteFactory.createRouteForTruck(vrpRequest, truck, warehouseId);
-                    truckRoutes.add(route);
+                    route.getTotalDistance();
+                    if (route != null) {
+                        truckRoutes.add(route);
+                    } else {
+                        logger.debugOp(ServiceName.ROUTING_SERVICE, "BUILD_ROUTE",
+                                "Skipped adding route for truck ID: {} - no customer deliveries",
+                                truck.getTruckPlateNumber());
+                    }
                 } catch (Exception e) {
                     logger.errorOp(ServiceName.ROUTING_SERVICE, "BUILD_ROUTE",
                             "Failed to create route for truck ID: {} in warehouse: {} - Error: {}",
@@ -48,6 +55,7 @@ public class TruckRouteBuilderImpl implements TruckRouteBuilder {
             logger.infoOp(ServiceName.ROUTING_SERVICE, "BUILD_ROUTE",
                     "Successfully built {} routes for warehouse ID: {}",
                     truckRoutes.size(), warehouseId);
+
 
             return WarehouseRoutingResult.builder()
                     .generatedForWarehouse(warehouseId)

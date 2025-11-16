@@ -18,7 +18,13 @@ public class Patterns {
     }
 
     // Constant shift pattern
-    public static final List<ShiftBlock> PATTERN = Arrays.asList(
+    public static final List<ShiftBlock> PATTERN_HEURISTIC = Arrays.asList(
+            new ShiftBlock(250, 30, 10),
+            new ShiftBlock(250, 30, 10),
+            new ShiftBlock(120, 0, 10)
+    );
+
+    public static final List<ShiftBlock> PATTERN_REALISTIC = Arrays.asList(
             new ShiftBlock(150, 30, 10),  // 2h30 + 30 min break, 10 min traffic/hour
             new ShiftBlock(150, 30, 10),  // 2h30 + 30 min break, 10 min traffic/hour
             new ShiftBlock(60, 0, 10)     // 1h return leg, 10 min traffic/hour
