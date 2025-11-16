@@ -9,15 +9,14 @@
         <outputRelativeToContentRoot value="true" />
         <module name="log-monitoring" />
         <module name="maintenance-service" />
+        <module name="payment-service" />
+        <module name="gateway-service" />
         <module name="document-mgmt-service" />
         <module name="chat-service" />
         <module name="call-service" />
         <module name="discovery-service" />
-        <module name="billing-service" />
-        <module name="payment-service" />
-        <module name="gateway-service" />
-        <module name="tfms-starter" />
         <module name="assignment-service" />
+        <module name="billing-service" />
       </profile>
       <profile name="Annotation profile for Truck Fleet Management System" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -29,6 +28,8 @@
         <module name="planner-service" />
         <module name="auth-service" />
         <module name="common-modules" />
+        <module name="routing-service" />
+        <module name="tfms-starter" />
         <module name="tfms" />
       </profile>
     </annotationProcessing>
@@ -67,6 +68,7 @@
       <module name="planner-module" options="-parameters" />
       <module name="planner-modules" options="-parameters" />
       <module name="planner-service" options="-parameters" />
+      <module name="routing-service" options="-parameters" />
       <module name="tfms" options="-parameters" />
       <module name="tfms-analytics" options="-parameters" />
       <module name="tfms-customer" options="-parameters" />

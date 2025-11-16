@@ -21,15 +21,19 @@ import java.util.Map;
 public class RoutingOptimizerImpl implements OptimizeRouting {
     private static final ServiceLogger logger = ServiceLogger.getLogger(RoutingOptimizerImpl.class);
 
-    @Autowired
-    @Qualifier("TruckAssignment")
-    private TruckAssignmentService truckAssignmentService;
+    private final TruckAssignmentService truckAssignmentService;
+    private final TruckRouteBuilder truckRouteBuilder;
+    private final VrpResponseBuilderService vrpResponseBuilderService;
 
     @Autowired
-    private TruckRouteBuilder truckRouteBuilder;
-
-    @Autowired
-    private VrpResponseBuilderService vrpResponseBuilderService;
+    public RoutingOptimizerImpl(
+            @Qualifier("TruckAssignment") TruckAssignmentService truckAssignmentService,
+            TruckRouteBuilder truckRouteBuilder,
+            VrpResponseBuilderService vrpResponseBuilderService) {
+        this.truckAssignmentService = truckAssignmentService;
+        this.truckRouteBuilder = truckRouteBuilder;
+        this.vrpResponseBuilderService = vrpResponseBuilderService;
+    }
 
     @Override
     public VRPResponse optimize(VRPRequest request) {
