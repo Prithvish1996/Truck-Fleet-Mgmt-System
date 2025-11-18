@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -23,6 +24,12 @@ public interface LocationRepository extends JpaRepository<LocationDao, Long> {
      */
     @Query("SELECT l FROM LocationDao l WHERE l.latitude = :latitude AND l.longitude = :longitude")
     Optional<LocationDao> findByLatitudeAndLongitude(
+            @Param("latitude") double latitude,
+            @Param("longitude") double longitude
+    );
+
+    @Query("SELECT l FROM LocationDao l WHERE l.latitude = :latitude AND l.longitude = :longitude")
+    List<LocationDao> findByLatAndLong(
             @Param("latitude") double latitude,
             @Param("longitude") double longitude
     );

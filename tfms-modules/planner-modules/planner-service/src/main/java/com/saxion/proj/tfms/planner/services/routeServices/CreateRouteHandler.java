@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -100,10 +101,14 @@ public class CreateRouteHandler implements ICreateRoute {
             for (WarehouseRoutingResult wr : vrpResponse.getWarehouseRoutingResults()) {
                 if (wr.getTruckRoutes() == null) continue;
 
+                // Returned warehouseId
+                RouteDao savedRoute = new RouteDao();
                 for (TruckRouteInfo tri : wr.getTruckRoutes()) {
                     TruckDao truck = truckRepository.findByPlateNumber(tri.getTruckPlateNumber()).orElse(null);
                     // Step 5a: Persist route first
-                    updateRoute(tri, truck, depotEntity, warehouseEntity, duration, assignedParcelIds, savedRoutes);
+                    Long routeId = updateRoute(tri, truck, depotEntity, warehouseEntity, duration, assignedParcelIds);
+                    savedRoute = routeRepository.findById(routeId).orElse(null);
+                    savedRoutes.add(savedRoute);
                 }
             }
         }
@@ -121,7 +126,14 @@ public class CreateRouteHandler implements ICreateRoute {
 
     private GenerateRouteResponseDto getGenerateRouteResponseDto(List<RouteDao> savedRoutes, List<ParcelDao> unassigned) {
         GenerateRouteResponseDto responseDto = new GenerateRouteResponseDto();
-        responseDto.setAssignRoutes(savedRoutes.stream().map(this::mapRouteToResponse).toList());
+
+        // Map RouteDao → RouteResponseDto
+        List<RouteResponseDto> mappedRoutes = savedRoutes.stream()
+                .map(RouteResponseDto::fromEntity)
+                .collect(Collectors.toList());
+
+        responseDto.setAssignRoutes(mappedRoutes);
+
         responseDto.setUnAssignedRoute(
                 unassigned.stream().map(p -> {
                     RouteResponseDto dto = new RouteResponseDto();
@@ -137,7 +149,8 @@ public class CreateRouteHandler implements ICreateRoute {
         return responseDto;
     }
 
-    private void updateRoute(TruckRouteInfo tri, TruckDao truck, DepotDao depotEntity, WareHouseDao warehouseEntity, String duration, Set<Long> assignedParcelIds, List<RouteDao> savedRoutes) {
+    private Long updateRoute(TruckRouteInfo tri, TruckDao truck, DepotDao depotEntity, WareHouseDao warehouseEntity, String duration, Set<Long> assignedParcelIds) {
+
         RouteDao route = new RouteDao();
         route.setTruck(truck);
         route.setDepot(depotEntity);
@@ -169,16 +182,20 @@ public class CreateRouteHandler implements ICreateRoute {
                 if (s.getCoordinates() != null) {
                     double lat = s.getCoordinates().getLatitude();
                     double lon = s.getCoordinates().getLongitude();
-                    LocationDao location = locationRepository.findByLatitudeAndLongitude(lat, lon)
-                            .orElseGet(() -> {
-                                LocationDao loc = new LocationDao();
-                                loc.setLatitude(lat);
-                                loc.setLongitude(lon);
-                                loc.setAddress("Auto-generated");
-                                loc.setCity("Auto");
-                                loc.setPostalCode("Auto");
-                                return locationRepository.save(loc);
-                            });
+
+                    List<LocationDao> matches = locationRepository.findByLatAndLong(lat, lon);
+                    LocationDao location;
+                    if (!matches.isEmpty()) {
+                        location = matches.get(0);  // pick the first match
+                    } else {
+                        location = new LocationDao();
+                        location.setLatitude(lat);
+                        location.setLongitude(lon);
+                        location.setAddress("Auto-generated");
+                        location.setCity("Auto");
+                        location.setPostalCode("Auto");
+                        location = locationRepository.save(location);
+                    }
                     stop.setLocation(location);
                 }
 
@@ -203,8 +220,9 @@ public class CreateRouteHandler implements ICreateRoute {
 
         // Step 5d: Link stops back to route and update
         route.setStops(persistedStops);
-        routeRepository.save(route);
-        savedRoutes.add(route);
+        route = routeRepository.save(route);
+
+        return route.getId();
     }
 
     private List<Parcel> getParcels(GenerateRouteRequestDto request, List<ParcelDao> selectedParcels) {
@@ -222,7 +240,7 @@ public class CreateRouteHandler implements ICreateRoute {
                 rp.setDeliveryLongitude(p.getDeliveryLocation().getLongitude());
             }
             rp.setRecipientName(p.getRecipientName());
-            rp.setWarehouseId( request.getWarehouse_id());
+            rp.setWarehouseId(request.getWarehouse_id());
             rp.setRecipientPhone(p.getRecipientPhone());
             rp.setDeliveryInstructions(p.getDeliveryInstructions());
             return rp;

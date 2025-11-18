@@ -13,5 +13,7 @@ public class DriverAvailabilityResponseDto {
 
     private Long id;
     private ZonedDateTime availableAt;
+    private String startTime;
+    private String endTime;
     private String status;
 }

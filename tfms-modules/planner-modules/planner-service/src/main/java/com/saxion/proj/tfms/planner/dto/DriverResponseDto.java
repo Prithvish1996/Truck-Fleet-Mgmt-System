@@ -67,6 +67,8 @@ public class DriverResponseDto {
                 .map(a -> new DriverAvailabilityResponseDto(
                         a.getId(),
                         a.getAvailableAt(),
+                        a.getStartTime(),
+                        a.getEndTime(),
                         a.getStatus().name()
                 ))
                 .toList();

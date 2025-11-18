@@ -4,6 +4,7 @@ import com.saxion.proj.tfms.commons.dto.ApiResponse;
 import com.saxion.proj.tfms.commons.security.UserContext;
 import com.saxion.proj.tfms.commons.security.annotations.CurrentUser;
 import com.saxion.proj.tfms.planner.abstractions.driverServices.*;
+import com.saxion.proj.tfms.planner.dto.DriverAvailabilityRequestDto;
 import com.saxion.proj.tfms.planner.dto.DriverResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -128,7 +129,7 @@ public class DriverController {
     public ResponseEntity<ApiResponse<String>> createAvailability(
             @CurrentUser UserContext user,
             @PathVariable Long driverId,
-            @RequestBody List<ZonedDateTime> availabilityDates
+            @RequestBody List<DriverAvailabilityRequestDto> availabilityDates
     ) {
         if (!user.isValid()) {
             return ResponseEntity.status(401).body(ApiResponse.error("Invalid token"));

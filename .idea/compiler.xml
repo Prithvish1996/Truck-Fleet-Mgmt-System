@@ -27,9 +27,9 @@
         </processorPath>
         <module name="planner-service" />
         <module name="auth-service" />
+        <module name="tfms-starter" />
         <module name="common-modules" />
         <module name="routing-service" />
-        <module name="tfms-starter" />
         <module name="tfms" />
       </profile>
     </annotationProcessing>
