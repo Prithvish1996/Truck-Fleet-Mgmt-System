@@ -28,6 +28,7 @@ public class CreateDriverAvailabilityHandler implements ICreateDriverAvailabilit
                                            DriverAvailabilityRepository availabilityRepository) {
         this.driverRepository = driverRepository;
         this.availabilityRepository = availabilityRepository;
+        
     }
 
     @Override
