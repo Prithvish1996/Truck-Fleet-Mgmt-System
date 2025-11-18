@@ -21,23 +21,27 @@ public class ProdCorsConfiguration {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         
-        // Production domains only
         configuration.setAllowedOriginPatterns(Arrays.asList(
             "https://yourdomain.com",
             "https://www.yourdomain.com",
-            "https://api.yourdomain.com"
+            "https://api.yourdomain.com",
+            "http://localhost:3000",
+            "https://localhost:3000",
+            "http://localhost:4200",
+            "https://localhost:4200"
         ));
         
-        // Essential methods only
         configuration.setAllowedMethods(Arrays.asList(
-            "GET", "POST", "PUT", "DELETE"
+            "GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"
         ));
         
         // Specific headers for security
         configuration.setAllowedHeaders(Arrays.asList(
             "Content-Type", 
             "Authorization",
-            "X-Requested-With"
+            "X-Requested-With",
+            "Accept",
+            "Origin"
         ));
         
         configuration.setAllowCredentials(true);

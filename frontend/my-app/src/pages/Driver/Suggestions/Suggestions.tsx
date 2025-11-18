@@ -1,13 +1,33 @@
 import React, { useState } from 'react';
 import './Suggestions.css';
+import { suggestionService } from '../../../services/suggestionService';
 
 export default function Suggestions() {
   const [feedback, setFeedback] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
-  const handleFeedbackSubmit = () => {
-    if (feedback.trim()) {
-      console.log('Feedback submitted:', feedback);
+  const handleFeedbackSubmit = async () => {
+    if (!feedback.trim()) {
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitMessage(null);
+
+    try {
+      const message = await suggestionService.submitSuggestion(feedback);
+      setSubmitMessage({ type: 'success', text: message });
       setFeedback('');
+      
+      setTimeout(() => {
+        setSubmitMessage(null);
+      }, 3000);
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Failed to submit suggestion. Please try again.';
+      setSubmitMessage({ type: 'error', text: errorMessage });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -41,19 +61,25 @@ export default function Suggestions() {
                   value={feedback}
                   onChange={(e) => setFeedback(e.target.value)}
                   onKeyPress={(e) => {
-                    if (e.key === 'Enter') {
+                    if (e.key === 'Enter' && !isSubmitting && feedback.trim()) {
                       handleFeedbackSubmit();
                     }
                   }}
+                  disabled={isSubmitting}
                 />
                 <button 
                   className="feedback-submit"
                   onClick={handleFeedbackSubmit}
-                  disabled={!feedback.trim()}
+                  disabled={!feedback.trim() || isSubmitting}
                 >
-                  →
+                  {isSubmitting ? '...' : '→'}
                 </button>
               </div>
+              {submitMessage && (
+                <div className={`submit-message ${submitMessage.type}`}>
+                  {submitMessage.text}
+                </div>
+              )}
             </div>
           </div>
         </div>
