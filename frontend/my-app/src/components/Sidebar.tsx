@@ -1,62 +1,59 @@
-import React from 'react';
-import logo from '../assets/logo.png';
-import './Sidebar.css';
-
-export type PlannerSection = 'overview' | 'parcels' | 'drivers' | 'routes';
+import React from "react";
+import "./Sidebar.css";
+import logo from "../assets/logo.png";
 
 interface SidebarProps {
-  activeSection: PlannerSection;
-  onSectionChange: (section: PlannerSection) => void;
+  active: string;
+  onChange: (section: string) => void;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ activeSection, onSectionChange }) => {
-  const itemClass = (section: PlannerSection) =>
-    `sidebar-item ${activeSection === section ? 'active' : ''}`;
-
+const Sidebar: React.FC<SidebarProps> = ({ active, onChange }) => {
   return (
-    <div className="sidebar">
-      <div className="sidebar-header">
-        <img src={logo} alt="EcoFlow Logo" className="sidebar-logo" />
-        <div className="sidebar-brand">
-          <span className="sidebar-brand-title">EcoFlow</span>
-          <span className="sidebar-brand-subtitle">Planner</span>
+    <aside className="sidebar">
+
+      <div className="sidebar-logo-wrapper">
+        <div className="sidebar-logo-bg">
+          <img src={logo} className="sidebar-logo" alt="EcoFlow Logo" />
         </div>
       </div>
 
       <nav className="sidebar-menu">
-        <div className="sidebar-section-label">Dashboard</div>
-        <button
-          type="button"
-          className={itemClass('overview')}
-          onClick={() => onSectionChange('overview')}
+        <div
+          className={`sidebar-item ${active === "dashboard" ? "active" : ""}`}
+          onClick={() => onChange("dashboard")}
         >
-          Overview
-        </button>
+          Dashboard Overview
+        </div>
 
-        <div className="sidebar-section-label">Planning</div>
-        <button
-          type="button"
-          className={itemClass('parcels')}
-          onClick={() => onSectionChange('parcels')}
+        <div
+          className={`sidebar-item ${active === "parcels" ? "active" : ""}`}
+          onClick={() => onChange("parcels")}
         >
           Warehouse Parcels
-        </button>
-        <button
-          type="button"
-          className={itemClass('drivers')}
-          onClick={() => onSectionChange('drivers')}
+        </div>
+
+        <div
+          className={`sidebar-item ${active === "drivers" ? "active" : ""}`}
+          onClick={() => onChange("drivers")}
         >
           Available Drivers
-        </button>
-        <button
-          type="button"
-          className={itemClass('routes')}
-          onClick={() => onSectionChange('routes')}
+        </div>
+
+        <div
+          className={`sidebar-item ${active === "routes" ? "active" : ""}`}
+          onClick={() => onChange("routes")}
         >
           Routes by Truck
-        </button>
+        </div>
+
+        <div
+          className={`sidebar-item ${active === "warehouses" ? "active" : ""}`}
+          onClick={() => onChange("warehouses")}
+        >
+          Warehouses
+        </div>
       </nav>
-    </div>
+    </aside>
   );
 };
 

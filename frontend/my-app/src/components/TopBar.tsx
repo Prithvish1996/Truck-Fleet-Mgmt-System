@@ -1,29 +1,47 @@
-import React from 'react';
-import { authService } from '../services/authService';
-import './TopBar.css';
+import React from "react";
+import "./TopBar.css";
+import logoSmall from "../assets/logo.png";
+import { authService } from "../services/authService";
+import { useNavigate } from "react-router-dom";
 
-const TopBar: React.FC = () => {
-  const email = authService.getUserEmail();
+interface TopBarProps {
+  title: string;
+}
 
-  const handleLogout = () => {
+const TopBar: React.FC<TopBarProps> = ({ title }) => {
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      const token = authService.getToken();
+      if (token) {
+        await authService.logout(token);
+      }
+    } catch (e) {
+      console.warn("Logout API error:", e);
+    }
+
     authService.removeToken();
-    window.location.href = '/';
+    navigate("/");
   };
 
   return (
-    <div className="topbar">
+    <header className="topbar">
+      {/* LEFT SIDE */}
       <div className="topbar-left">
-        <h1>EcoFlow Planner Dashboard</h1>
-        <span className="topbar-subtitle">
-          Plan sustainable routes, assign drivers, and monitor warehouse parcels.
-        </span>
+        <img src={logoSmall} className="topbar-logo" alt="EcoFlow Small Logo" />
+        <h1>{title}</h1>
       </div>
 
-      <div className="topbar-user">
-        <span>{email ?? 'Planner'}</span>
-        <button onClick={handleLogout}>Logout</button>
+      {/* RIGHT SIDE */}
+      <div className="topbar-right">
+
+        <button className="logout-btn" onClick={handleLogout}>
+          Logout
+        </button>
+
       </div>
-    </div>
+    </header>
   );
 };
 
