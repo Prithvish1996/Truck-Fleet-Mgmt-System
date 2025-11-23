@@ -1,5 +1,5 @@
-import { apiConfig } from '../config/apiConfig';
-import { authService, ApiResponse } from './authService';
+import apiClient from './apiClient';
+import { ApiResponse } from './authService';
 
 export interface PlannerDriver {
   id: number;
@@ -17,32 +17,15 @@ export interface PlannerDriver {
 
 class PlannerDriverService {
   async getAvailableDrivers(): Promise<PlannerDriver[]> {
-    const token = authService.getToken();
-    if (!token) {
-      throw new Error('Authentication token not found');
+    const response = await apiClient.get<ApiResponse<PlannerDriver[]>>(
+      '/planner/drivers/available'
+    );
+
+    if (!response.data.success) {
+      throw new Error(response.data.message || 'Failed to fetch drivers');
     }
 
-    const response = await fetch(`${apiConfig.baseURL}/planner/drivers/available`, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${token.trim()}`,
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({ message: 'Failed to fetch drivers' }));
-      throw new Error(errorData.message || `Failed to fetch drivers (status ${response.status})`);
-    }
-
-    const apiResponse: ApiResponse<PlannerDriver[]> = await response.json();
-
-    if (!apiResponse.success) {
-      throw new Error(apiResponse.message || 'Failed to fetch drivers');
-    }
-
-    return apiResponse.data;
+    return response.data.data;
   }
 }
 
