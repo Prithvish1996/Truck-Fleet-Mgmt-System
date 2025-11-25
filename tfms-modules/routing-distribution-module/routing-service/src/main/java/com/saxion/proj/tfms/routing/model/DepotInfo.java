@@ -1,4 +1,4 @@
-package com.saxion.proj.tfms.planner.dto.routing.model;
+package com.saxion.proj.tfms.routing.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

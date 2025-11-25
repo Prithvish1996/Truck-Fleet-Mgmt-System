@@ -4,13 +4,15 @@ import com.saxion.proj.tfms.commons.constants.StatusEnum;
 import com.saxion.proj.tfms.commons.dto.ApiResponse;
 import com.saxion.proj.tfms.commons.model.DriverAvailabilityDao;
 import com.saxion.proj.tfms.commons.model.DriverDao;
+import com.saxion.proj.tfms.planner.dto.DriverAvailabilityRequestDto;
 import com.saxion.proj.tfms.planner.repository.DriverAvailabilityRepository;
 import com.saxion.proj.tfms.planner.repository.DriverRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -30,26 +32,32 @@ class CreateDriverAvailabilityTest {
     }
 
     // ---------------------------------------------------------
-    // 1. DRIVER ID VALIDATION (MC/DC)
+    // 1. DRIVER ID VALIDATION
     // ---------------------------------------------------------
 
     @Test
     void handleInvalidDriverId_null() {
-        ApiResponse<String> res = handler.Handle(null, List.of(ZonedDateTime.now().plusDays(1)));
+        ApiResponse<String> res = handler.Handle(null, List.of(
+                new DriverAvailabilityRequestDto(LocalDate.now().plusDays(1), "08:00", "17:00")
+        ));
         assertFalse(res.isSuccess());
         assertEquals("Invalid driver ID", res.getMessage());
     }
 
     @Test
     void handle_InvalidDriverId_zero() {
-        ApiResponse<String> res = handler.Handle(0L, List.of(ZonedDateTime.now().plusDays(1)));
+        ApiResponse<String> res = handler.Handle(0L, List.of(
+                new DriverAvailabilityRequestDto(LocalDate.now().plusDays(1), "08:00", "17:00")
+        ));
         assertFalse(res.isSuccess());
         assertEquals("Invalid driver ID", res.getMessage());
     }
 
     @Test
     void handle_InvalidDriverId_negative() {
-        ApiResponse<String> res = handler.Handle(-1L, List.of(ZonedDateTime.now().plusDays(1)));
+        ApiResponse<String> res = handler.Handle(-1L, List.of(
+                new DriverAvailabilityRequestDto(LocalDate.now().plusDays(1), "08:00", "17:00")
+        ));
         assertFalse(res.isSuccess());
         assertEquals("Invalid driver ID", res.getMessage());
     }
@@ -62,7 +70,9 @@ class CreateDriverAvailabilityTest {
     void handle_DriverNotFound() {
         when(driverRepository.findById(1L)).thenReturn(Optional.empty());
 
-        ApiResponse<String> res = handler.Handle(1L, List.of(ZonedDateTime.now().plusDays(1)));
+        ApiResponse<String> res = handler.Handle(1L, List.of(
+                new DriverAvailabilityRequestDto(LocalDate.now().plusDays(1), "08:00", "17:00")
+        ));
 
         assertFalse(res.isSuccess());
         assertEquals("Driver not found", res.getMessage());
@@ -73,7 +83,7 @@ class CreateDriverAvailabilityTest {
     // ---------------------------------------------------------
 
     @Test
-    void handle_atesNull() {
+    void handle_datesNull() {
         when(driverRepository.findById(1L)).thenReturn(Optional.of(new DriverDao()));
 
         ApiResponse<String> res = handler.Handle(1L, null);
@@ -100,9 +110,13 @@ class CreateDriverAvailabilityTest {
     void handle_PastDateRejected() {
         when(driverRepository.findById(1L)).thenReturn(Optional.of(new DriverDao()));
 
-        ZonedDateTime past = ZonedDateTime.now().minusDays(1);
+        DriverAvailabilityRequestDto pastDto = new DriverAvailabilityRequestDto(
+                LocalDate.now().minusDays(1),
+                "08:00",
+                "17:00"
+        );
 
-        ApiResponse<String> res = handler.Handle(1L, List.of(past));
+        ApiResponse<String> res = handler.Handle(1L, List.of(pastDto));
 
         assertFalse(res.isSuccess());
         assertTrue(res.getMessage().contains("Date must not be in the past"));
@@ -117,19 +131,24 @@ class CreateDriverAvailabilityTest {
         DriverDao driver = new DriverDao();
         when(driverRepository.findById(1L)).thenReturn(Optional.of(driver));
 
-        ZonedDateTime future = ZonedDateTime.now().plusDays(1);
+        LocalDate futureDate = LocalDate.now().plusDays(1);
+        DriverAvailabilityRequestDto dto = new DriverAvailabilityRequestDto(
+                futureDate,
+                "08:00",
+                "17:00"
+        );
 
-        ApiResponse<String> res = handler.Handle(1L, List.of(future));
+        ApiResponse<String> res = handler.Handle(1L, List.of(dto));
 
         assertTrue(res.isSuccess());
-        assertEquals("Operation successful", res.getMessage());
+        assertEquals("1 availability dates saved successfully", res.getData());
 
         ArgumentCaptor<List<DriverAvailabilityDao>> captor = ArgumentCaptor.forClass(List.class);
         verify(availabilityRepository, times(1)).saveAll(captor.capture());
 
         List<DriverAvailabilityDao> saved = captor.getValue();
         assertEquals(1, saved.size());
-        assertEquals(future, saved.get(0).getAvailableAt());
+        assertEquals(futureDate.atStartOfDay(ZoneId.systemDefault()), saved.get(0).getAvailableAt());
         assertEquals(driver, saved.get(0).getDriver());
         assertEquals(StatusEnum.AVAILABLE, saved.get(0).getStatus());
     }
@@ -143,12 +162,16 @@ class CreateDriverAvailabilityTest {
         DriverDao driver = new DriverDao();
         when(driverRepository.findById(1L)).thenReturn(Optional.of(driver));
 
-        ZonedDateTime d = ZonedDateTime.now().plusDays(2);
+        LocalDate d = LocalDate.now().plusDays(2);
 
-        ApiResponse<String> res = handler.Handle(1L, List.of(d, d, d));
+        DriverAvailabilityRequestDto dto1 = new DriverAvailabilityRequestDto(d, "08:00", "17:00");
+        DriverAvailabilityRequestDto dto2 = new DriverAvailabilityRequestDto(d, "08:00", "17:00");
+        DriverAvailabilityRequestDto dto3 = new DriverAvailabilityRequestDto(d, "08:00", "17:00");
+
+        ApiResponse<String> res = handler.Handle(1L, List.of(dto1, dto2, dto3));
 
         assertTrue(res.isSuccess());
-        assertEquals("Operation successful", res.getMessage());
+        assertEquals("1 availability dates saved successfully", res.getData());
 
         ArgumentCaptor<List<DriverAvailabilityDao>> captor = ArgumentCaptor.forClass(List.class);
         verify(availabilityRepository).saveAll(captor.capture());

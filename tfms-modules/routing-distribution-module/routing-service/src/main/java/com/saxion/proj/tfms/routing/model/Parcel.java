@@ -1,4 +1,4 @@
-package com.saxion.proj.tfms.planner.dto.routing.model;
+package com.saxion.proj.tfms.routing.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,6 +25,7 @@ public class Parcel {
     private String recipientName;
     private String recipientPhone;
     private String deliveryInstructions;
+
 
     public static Parcel findByParcelName(List<Parcel> parcels, String name) {
         if (parcels == null || name == null) return null;

@@ -1,5 +1,7 @@
-package com.saxion.proj.tfms.planner.dto.routing.model;
+package com.saxion.proj.tfms.routing.request;
 
+import com.saxion.proj.tfms.routing.model.DepotInfo;
+import com.saxion.proj.tfms.routing.model.Parcel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

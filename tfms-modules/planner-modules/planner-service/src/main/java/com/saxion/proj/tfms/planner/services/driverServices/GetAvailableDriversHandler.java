@@ -25,19 +25,13 @@ public class GetAvailableDriversHandler implements IGetAvailableDrivers {
 
     @Override
     public ApiResponse<List<DriverResponseDto>> Handle() {
+        // 1. Fetch available drivers
         List<DriverDao> availableDrivers = driverRepository.findByIsAvailableTrue();
 
-        //Long id, String userName, String email, String city, boolean isAvailable
+        // 2. Map to DTO using your static mapper
         List<DriverResponseDto> response = availableDrivers.stream()
-                .map(driver -> new DriverResponseDto(
-                        driver.getId(),
-                        driver.getUser().getUsername(),
-                        driver.getUser().getEmail(),
-                        driver.getIsAvailable(),
-                        driver.getLocation() != null ? driver.getLocation().getCity() : null,
-                        driver.getLocation() != null ? driver.getLocation().getAddress() : null)
-                )
-                .collect(Collectors.toList());
+                .map(DriverResponseDto::fromEntity)
+                .toList();
 
         return ApiResponse.success(response, "Available drivers retrieved successfully");
     }

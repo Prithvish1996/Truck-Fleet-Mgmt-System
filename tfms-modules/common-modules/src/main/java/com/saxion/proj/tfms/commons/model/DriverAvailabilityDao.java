@@ -28,6 +28,12 @@ public class DriverAvailabilityDao  extends BaseEntity {
     @Column(name = "available_at")
     private ZonedDateTime availableAt;
 
+    @Column(name = "start_time")
+    private String startTime;
+
+    @Column(name = "end_time")
+    private String endTime;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private StatusEnum Status;

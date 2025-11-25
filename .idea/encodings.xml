@@ -48,6 +48,8 @@
     <file url="file://$PROJECT_DIR$/tfms-modules/planner-modules/planner-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/tfms-modules/planner-modules/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/tfms-modules/platform-modules/log-modules/monitoring-module/analytics-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tfms-modules/routing-distribution-module/routing-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tfms-modules/routing-distribution-module/truck-assignment-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/tfms-modules/shared-modules/common-utils/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/tfms-modules/tfms-analytics/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/tfms-modules/tfms-customer/src/main/java" charset="UTF-8" />
