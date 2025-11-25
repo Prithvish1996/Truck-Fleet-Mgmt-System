@@ -129,37 +129,64 @@ export default function PlannerDashboard() {
         setLoading(true);
         setScheduleError('');
         try {
-          console.log('Calling plannerService.getAllParcels...');
-          const data = await plannerService.getAllParcels(
+          console.log('Calling plannerService.getAllParcels (first page to get total count)...');
+          
+          // 先获取第一页以了解总数
+          const firstPageData = await plannerService.getAllParcels(
             selectedWarehouseId, 
             0, 
-            100, 
+            1, 
             searchText || undefined
           );
-          console.log('Parcels API response:', data);
-          console.log('Parcels data structure:', {
-            hasData: !!data,
-            hasDataData: !!(data && data.data),
-            isArray: Array.isArray(data?.data),
-            dataLength: data?.data?.length
-          });
           
-          if (!data || !data.data) {
-            console.warn('Invalid parcels data structure:', data);
+          console.log('First page parcels API response:', firstPageData);
+          console.log('Total items:', firstPageData.totalItems, 'Total pages:', firstPageData.totalPages);
+          
+          if (!firstPageData || !firstPageData.data) {
+            console.warn('Invalid parcels data structure:', firstPageData);
             setScheduleError('Invalid data format received from server.');
             setScheduleParcels([]);
             return;
           }
           
-          console.log(`Received ${data.data.length} parcels from API`);
-          console.log('Parcels status breakdown:', {
-            PENDING: data.data.filter(p => p.status === 'PENDING').length,
-            SCHEDULED: data.data.filter(p => p.status === 'SCHEDULED').length,
-            DELIVERED: data.data.filter(p => p.status === 'DELIVERED').length,
-            OTHER: data.data.filter(p => !['PENDING', 'SCHEDULED', 'DELIVERED'].includes(p.status)).length
+          // 使用 totalItems 作为 size 来一次性获取所有数据
+          const totalItems = firstPageData.totalItems || 0;
+          const fetchSize = totalItems > 0 ? totalItems : 100000; // 如果 totalItems 为 0，使用一个很大的值
+          
+          console.log(`Fetching all ${totalItems} parcels with size ${fetchSize}...`);
+          
+          const allParcelsData = await plannerService.getAllParcels(
+            selectedWarehouseId,
+            0,
+            fetchSize,
+            searchText || undefined
+          );
+          
+          console.log('Parcels data structure:', {
+            hasData: !!allParcelsData,
+            hasDataData: !!(allParcelsData && allParcelsData.data),
+            isArray: Array.isArray(allParcelsData?.data),
+            dataLength: allParcelsData?.data?.length
           });
           
-          const parcels: ScheduleParcel[] = (data.data || [])
+          if (!allParcelsData || !allParcelsData.data) {
+            console.warn('Invalid parcels data structure:', allParcelsData);
+            setScheduleError('Invalid data format received from server.');
+            setScheduleParcels([]);
+            return;
+          }
+          
+          const allParcels = allParcelsData.data;
+          
+          console.log(`Received total ${allParcels.length} parcels from API (across ${firstPageData.totalPages} pages)`);
+          console.log('Parcels status breakdown:', {
+            PENDING: allParcels.filter(p => p.status === 'PENDING').length,
+            SCHEDULED: allParcels.filter(p => p.status === 'SCHEDULED').length,
+            DELIVERED: allParcels.filter(p => p.status === 'DELIVERED').length,
+            OTHER: allParcels.filter(p => !['PENDING', 'SCHEDULED', 'DELIVERED'].includes(p.status)).length
+          });
+          
+          const parcels: ScheduleParcel[] = allParcels
             .map((p, index) => ({
               id: formatParcelId(p.parcelId, index),
               parcelId: p.parcelId,
@@ -267,13 +294,35 @@ export default function PlannerDashboard() {
         if (selectedWarehouseId) {
           try {
             console.log('Trying to load scheduled parcels from getAllParcels...');
-            const allParcelsData = await plannerService.getAllParcels(selectedWarehouseId, 0, 1000);
-            console.log('All parcels data:', allParcelsData);
             
-            if (allParcelsData && allParcelsData.data && Array.isArray(allParcelsData.data)) {
+            // 先获取第一页以了解总数
+            const firstPageData = await plannerService.getAllParcels(selectedWarehouseId, 0, 1);
+            console.log('First page parcels data:', firstPageData);
+            console.log('Total items:', firstPageData.totalItems, 'Total pages:', firstPageData.totalPages);
+            
+            if (!firstPageData || !firstPageData.data) {
+              throw new Error('Invalid data structure from getAllParcels');
+            }
+            
+            // 使用 totalItems 作为 size 来一次性获取所有数据
+            const totalItems = firstPageData.totalItems || 0;
+            const fetchSize = totalItems > 0 ? totalItems : 100000; // 如果 totalItems 为 0，使用一个很大的值
+            
+            console.log(`Fetching all ${totalItems} parcels with size ${fetchSize} for scheduled deliveries...`);
+            
+            const allParcelsData = await plannerService.getAllParcels(selectedWarehouseId, 0, fetchSize);
+            
+            if (!allParcelsData || !allParcelsData.data) {
+              throw new Error('Invalid data structure from getAllParcels');
+            }
+            
+            const allParcels = allParcelsData.data;
+            console.log(`Fetched all parcels. Total parcels collected: ${allParcels.length}`);
+            
+            if (Array.isArray(allParcels)) {
               // 过滤出 SCHEDULED 状态的 parcels
-              const scheduledParcels = allParcelsData.data.filter(p => p.status === 'SCHEDULED');
-              console.log(`Found ${scheduledParcels.length} scheduled parcels from getAllParcels`);
+              const scheduledParcels = allParcels.filter(p => p.status === 'SCHEDULED');
+              console.log(`Found ${scheduledParcels.length} scheduled parcels from getAllParcels (across ${firstPageData.totalPages} pages)`);
               
               if (scheduledParcels.length > 0) {
                 const grouped = new Map<string, ParcelResponse[]>();
