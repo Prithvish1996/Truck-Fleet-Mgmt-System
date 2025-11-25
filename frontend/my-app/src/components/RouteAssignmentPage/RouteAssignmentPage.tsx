@@ -35,7 +35,7 @@ export default function RouteAssignmentPage({ selectedParcelIds, onReturn, onSub
       const routesToAssign = data.unAssignedRoute || [];
       
       if (routesToAssign.length === 0) {
-        setError('No unassigned routes available. Routes may have already been generated.');
+        setError('No request can be assigned a driver');
         setLoading(false);
         return;
       }
@@ -59,7 +59,11 @@ export default function RouteAssignmentPage({ selectedParcelIds, onReturn, onSub
       setTotalPages(Math.ceil(routeAssignments.length / itemsPerPage));
     } catch (err: any) {
       console.error('Error loading unassigned routes:', err);
-      setError(err.message || 'Failed to load routes. Please try again.');
+      if (err.message && err.message.includes('No unassign route available')) {
+        setError('No request can be assigned a driver');
+      } else {
+        setError(err.message || 'Failed to load routes. Please try again.');
+      }
     } finally {
       setLoading(false);
     }
@@ -142,7 +146,7 @@ export default function RouteAssignmentPage({ selectedParcelIds, onReturn, onSub
         )}
 
         {!loading && assignments.length === 0 && !error && (
-          <div style={{ padding: '20px', textAlign: 'center' }}>No unassigned routes available.</div>
+          <div style={{ padding: '20px', textAlign: 'center' }}>No request can be assigned a driver</div>
         )}
 
         {assignments.length > 0 && (
@@ -172,7 +176,7 @@ export default function RouteAssignmentPage({ selectedParcelIds, onReturn, onSub
           <button 
             className="submit-button" 
             onClick={handleSubmit}
-            disabled={loading || assignments.length === 0 || !assignments.some(a => a.driverId)}
+            disabled={loading || assignments.length === 0 || !assignments.some(a => a.driverId) || error === 'No request can be assigned a driver'}
           >
             {loading ? 'Submitting...' : 'Submit'}
           </button>

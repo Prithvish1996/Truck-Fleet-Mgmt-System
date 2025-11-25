@@ -19,9 +19,10 @@ interface ScheduleTableProps {
   parcels: ScheduleParcel[];
   selectedParcels: string[];
   onParcelToggle: (parcelId: string) => void;
+  onSelectAll?: (selected: boolean) => void;
 }
 
-export default function ScheduleTable({ parcels, selectedParcels, onParcelToggle }: ScheduleTableProps) {
+export default function ScheduleTable({ parcels, selectedParcels, onParcelToggle, onSelectAll }: ScheduleTableProps) {
   if (parcels.length === 0) {
     return (
       <div className="schedule-message" style={{ 
@@ -34,12 +35,40 @@ export default function ScheduleTable({ parcels, selectedParcels, onParcelToggle
     );
   }
 
+  const selectableParcels = parcels.filter(p => p.selectable);
+  const selectedSelectableParcels = selectedParcels.filter(id => {
+    const parcel = parcels.find(p => p.id === id);
+    return parcel && parcel.selectable;
+  });
+  const isAllSelected = selectableParcels.length > 0 && selectedSelectableParcels.length === selectableParcels.length;
+  const isIndeterminate = selectedSelectableParcels.length > 0 && selectedSelectableParcels.length < selectableParcels.length;
+
+  const handleSelectAllChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (onSelectAll) {
+      onSelectAll(e.target.checked);
+    }
+  };
+
   return (
     <div className="schedule-table-wrapper">
       <table className="schedule-table">
         <thead>
           <tr>
-            <th aria-label="Select parcel" />
+            <th aria-label="Select all parcels">
+              {onSelectAll && (
+                <input
+                  type="checkbox"
+                  checked={isAllSelected}
+                  onChange={handleSelectAllChange}
+                  ref={(input) => {
+                    if (input) {
+                      input.indeterminate = isIndeterminate;
+                    }
+                  }}
+                  aria-label="Select all parcels"
+                />
+              )}
+            </th>
             <th>Parcel ID</th>
             <th>Receiver</th>
             <th>Delivery Location</th>

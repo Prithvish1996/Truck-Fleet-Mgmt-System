@@ -7,6 +7,7 @@ import RouteAssignmentPage from '../../components/RouteAssignmentPage/RouteAssig
 import RouteTrackingPage from '../../components/RouteTrackingPage/RouteTrackingPage';
 import TruckDetailPage from '../../components/TruckDetailPage/TruckDetailPage';
 import ParcelDetailPage from '../../components/ParcelDetailPage/ParcelDetailPage';
+import RouteMapModal from '../../components/RouteMapModal/RouteMapModal';
 import { RouteAssignment } from '../../types';
 import DashboardHeader from './components/DashboardHeader';
 import DashboardSidebar from './components/DashboardSidebar';
@@ -53,9 +54,10 @@ export default function PlannerDashboard() {
   const [submittedAssignments, setSubmittedAssignments] = useState<RouteAssignment[]>([]);
   const [selectedTruckPlateNo, setSelectedTruckPlateNo] = useState<string>('');
   const [selectedParcelId, setSelectedParcelId] = useState<string>('');
-  const [truckDetailPreviousPage, setTruckDetailPreviousPage] = useState<'assignment' | 'tracking' | null>(null);
+  const [truckDetailPreviousPage, setTruckDetailPreviousPage] = useState<'assignment' | 'tracking' | 'truck-detail' | null>(null);
+  const [selectedRouteAssignment, setSelectedRouteAssignment] = useState<RouteAssignment | null>(null);
 
-  const [activeView, setActiveView] = useState<'dashboard' | 'schedule'>('dashboard');
+  const [activeView, setActiveView] = useState<'dashboard' | 'schedule' | 'route-assignment' | 'route-tracking' | 'truck-detail' | 'route-map'>('dashboard');
   const [newRequests, setNewRequests] = useState<DashboardRequest[]>([]);
   const [scheduleParcels, setScheduleParcels] = useState<ScheduleParcel[]>([]);
   const [selectedScheduleParcels, setSelectedScheduleParcels] = useState<string[]>([]);
@@ -129,36 +131,12 @@ export default function PlannerDashboard() {
         setLoading(true);
         setScheduleError('');
         try {
-          console.log('Calling plannerService.getAllParcels (first page to get total count)...');
-          
-          // 先获取第一页以了解总数
-          const firstPageData = await plannerService.getAllParcels(
-            selectedWarehouseId, 
-            0, 
-            1, 
-            searchText || undefined
-          );
-          
-          console.log('First page parcels API response:', firstPageData);
-          console.log('Total items:', firstPageData.totalItems, 'Total pages:', firstPageData.totalPages);
-          
-          if (!firstPageData || !firstPageData.data) {
-            console.warn('Invalid parcels data structure:', firstPageData);
-            setScheduleError('Invalid data format received from server.');
-            setScheduleParcels([]);
-            return;
-          }
-          
-          // 使用 totalItems 作为 size 来一次性获取所有数据
-          const totalItems = firstPageData.totalItems || 0;
-          const fetchSize = totalItems > 0 ? totalItems : 100000; // 如果 totalItems 为 0，使用一个很大的值
-          
-          console.log(`Fetching all ${totalItems} parcels with size ${fetchSize}...`);
+          console.log('Calling plannerService.getAllParcels...');
           
           const allParcelsData = await plannerService.getAllParcels(
             selectedWarehouseId,
             0,
-            fetchSize,
+            10000,
             searchText || undefined
           );
           
@@ -178,7 +156,7 @@ export default function PlannerDashboard() {
           
           const allParcels = allParcelsData.data;
           
-          console.log(`Received total ${allParcels.length} parcels from API (across ${firstPageData.totalPages} pages)`);
+          console.log(`Received total ${allParcels.length} parcels from API`);
           console.log('Parcels status breakdown:', {
             PENDING: allParcels.filter(p => p.status === 'PENDING').length,
             SCHEDULED: allParcels.filter(p => p.status === 'SCHEDULED').length,
@@ -283,34 +261,18 @@ export default function PlannerDashboard() {
     loadStatusMonitoring();
   }, [activeView]);
 
-  const loadScheduledDeliveries = async () => {
+  const loadScheduledDeliveries = async (retryCount = 0): Promise<void> => {
     if (activeView === 'dashboard') {
       setLoading(true);
       try {
         console.log('Loading scheduled deliveries...');
         
-        // 使用 getAllParcels 获取所有 parcels，然后过滤 SCHEDULED 状态
-        // 这样可以获取所有日期的 scheduled parcels，而不只是"明天"的
         if (selectedWarehouseId) {
           try {
             console.log('Trying to load scheduled parcels from getAllParcels...');
             
-            // 先获取第一页以了解总数
-            const firstPageData = await plannerService.getAllParcels(selectedWarehouseId, 0, 1);
-            console.log('First page parcels data:', firstPageData);
-            console.log('Total items:', firstPageData.totalItems, 'Total pages:', firstPageData.totalPages);
-            
-            if (!firstPageData || !firstPageData.data) {
-              throw new Error('Invalid data structure from getAllParcels');
-            }
-            
-            // 使用 totalItems 作为 size 来一次性获取所有数据
-            const totalItems = firstPageData.totalItems || 0;
-            const fetchSize = totalItems > 0 ? totalItems : 100000; // 如果 totalItems 为 0，使用一个很大的值
-            
-            console.log(`Fetching all ${totalItems} parcels with size ${fetchSize} for scheduled deliveries...`);
-            
-            const allParcelsData = await plannerService.getAllParcels(selectedWarehouseId, 0, fetchSize);
+            const size = retryCount > 0 ? 100 : 10000;
+            const allParcelsData = await plannerService.getAllParcels(selectedWarehouseId, 0, size);
             
             if (!allParcelsData || !allParcelsData.data) {
               throw new Error('Invalid data structure from getAllParcels');
@@ -320,9 +282,8 @@ export default function PlannerDashboard() {
             console.log(`Fetched all parcels. Total parcels collected: ${allParcels.length}`);
             
             if (Array.isArray(allParcels)) {
-              // 过滤出 SCHEDULED 状态的 parcels
               const scheduledParcels = allParcels.filter(p => p.status === 'SCHEDULED');
-              console.log(`Found ${scheduledParcels.length} scheduled parcels from getAllParcels (across ${firstPageData.totalPages} pages)`);
+              console.log(`Found ${scheduledParcels.length} scheduled parcels from getAllParcels`);
               
               if (scheduledParcels.length > 0) {
                 const grouped = new Map<string, ParcelResponse[]>();
@@ -362,9 +323,36 @@ export default function PlannerDashboard() {
                 });
 
                 console.log('Final requests:', requests);
-                setNewRequests(requests);
                 
-                // 加载 trucks
+                // 合并现有的 requests 和新的 requests，去重
+                setNewRequests(prevRequests => {
+                  const existingKeys = new Set<string>();
+                  prevRequests.forEach(req => {
+                    const key = `${req.warehouseId}-${req.deliveryDate}`;
+                    existingKeys.add(key);
+                  });
+                  
+                  // 添加新的 requests，避免重复
+                  const mergedRequests = [...prevRequests];
+                  requests.forEach(newReq => {
+                    const key = `${newReq.warehouseId}-${newReq.deliveryDate}`;
+                    if (!existingKeys.has(key)) {
+                      mergedRequests.push(newReq);
+                      existingKeys.add(key);
+                    } else {
+                      // 如果已存在，更新它（使用新的数据）
+                      const index = mergedRequests.findIndex(r => 
+                        r.warehouseId === newReq.warehouseId && r.deliveryDate === newReq.deliveryDate
+                      );
+                      if (index >= 0) {
+                        mergedRequests[index] = newReq;
+                      }
+                    }
+                  });
+                  
+                  return mergedRequests;
+                });
+                
                 try {
                   const routeData = await plannerService.getUnassignedRoutes();
                   const trucks = routeData.trucks
@@ -379,13 +367,39 @@ export default function PlannerDashboard() {
                 return;
               }
             }
-          } catch (error) {
+          } catch (error: any) {
+            if (error.message && error.message.includes('Too many requests') && retryCount < 3) {
+              if (activeView !== 'dashboard') {
+                return;
+              }
+              const delay = (retryCount + 1) * 2000;
+              console.log(`Rate limited. Retrying after ${delay}ms (attempt ${retryCount + 1}/3)...`);
+              await new Promise(resolve => setTimeout(resolve, delay));
+              if (activeView === 'dashboard') {
+                return loadScheduledDeliveries(retryCount + 1);
+              }
+            }
             console.warn('Failed to load scheduled parcels from getAllParcels, trying getScheduledDeliveries:', error);
           }
         }
         
-        // 回退到原来的方法
-        const data = await plannerService.getScheduledDeliveries(undefined, 1, 100);
+        let data;
+        try {
+          data = await plannerService.getScheduledDeliveries(undefined, 1, 100);
+        } catch (err: any) {
+          if (err.message && err.message.includes('Too many requests') && retryCount < 3) {
+            if (activeView !== 'dashboard') {
+              return;
+            }
+            const delay = (retryCount + 1) * 2000;
+            console.log(`Rate limited. Retrying after ${delay}ms (attempt ${retryCount + 1}/3)...`);
+            await new Promise(resolve => setTimeout(resolve, delay));
+            if (activeView === 'dashboard') {
+              return loadScheduledDeliveries(retryCount + 1);
+            }
+          }
+          throw err;
+        }
         
         console.log('Scheduled deliveries data:', data);
         console.log('Data structure check:', {
@@ -441,7 +455,35 @@ export default function PlannerDashboard() {
         });
 
         console.log('Final requests:', requests);
-        setNewRequests(requests);
+        
+        // 合并现有的 requests 和新的 requests，去重
+        setNewRequests(prevRequests => {
+          const existingKeys = new Set<string>();
+          prevRequests.forEach(req => {
+            const key = `${req.warehouseId}-${req.deliveryDate}`;
+            existingKeys.add(key);
+          });
+          
+          // 添加新的 requests，避免重复
+          const mergedRequests = [...prevRequests];
+          requests.forEach(newReq => {
+            const key = `${newReq.warehouseId}-${newReq.deliveryDate}`;
+            if (!existingKeys.has(key)) {
+              mergedRequests.push(newReq);
+              existingKeys.add(key);
+            } else {
+              // 如果已存在，更新它（使用新的数据）
+              const index = mergedRequests.findIndex(r => 
+                r.warehouseId === newReq.warehouseId && r.deliveryDate === newReq.deliveryDate
+              );
+              if (index >= 0) {
+                mergedRequests[index] = newReq;
+              }
+            }
+          });
+          
+          return mergedRequests;
+        });
 
         try {
           const routeData = await plannerService.getUnassignedRoutes();
@@ -455,7 +497,7 @@ export default function PlannerDashboard() {
       } catch (error: any) {
         console.error('Error loading scheduled deliveries:', error);
         console.error('Error details:', error?.message, error?.stack);
-        setNewRequests([]);
+        // 不要清空现有的 requests，只记录错误
       } finally {
         setLoading(false);
       }
@@ -467,6 +509,10 @@ export default function PlannerDashboard() {
   }, [activeView]);
 
   const handleGenerateRouteClick = async () => {
+    if (isOptimizing) {
+      return;
+    }
+
     if (newRequests.length === 0) {
       setScheduleError('No requests available to generate routes.');
       return;
@@ -476,86 +522,176 @@ export default function PlannerDashboard() {
     setScheduleError('');
 
     try {
-      const allParcelIds: number[] = [];
-      let warehouseId: number | null = null;
-
+      // 按 warehouseId 分组 requests
+      const requestsByWarehouse = new Map<number, DashboardRequest[]>();
       newRequests.forEach(request => {
-        allParcelIds.push(...request.parcelIds);
-        if (!warehouseId) {
-          warehouseId = request.warehouseId;
+        if (!requestsByWarehouse.has(request.warehouseId)) {
+          requestsByWarehouse.set(request.warehouseId, []);
         }
+        requestsByWarehouse.get(request.warehouseId)!.push(request);
       });
+
+      const allParcelIds: number[] = [];
+      const warehouseEntries = Array.from(requestsByWarehouse.entries());
+      const processedRequests: DashboardRequest[] = [];
+
+      // 串行为每个 warehouseId 生成路由，避免 429 错误
+      for (let i = 0; i < warehouseEntries.length; i++) {
+        const [warehouseId, requests] = warehouseEntries[i];
+        const parcelIds: number[] = [];
+        requests.forEach((request: DashboardRequest) => {
+          parcelIds.push(...request.parcelIds);
+        });
+
+        if (parcelIds.length === 0) {
+          continue;
+        }
+
+        allParcelIds.push(...parcelIds);
+
+        // 为每个 warehouse 生成路由，添加重试逻辑
+        let retryCount = 0;
+        const maxRetries = 3;
+        let success = false;
+
+        while (retryCount < maxRetries && !success) {
+          try {
+            console.log(`Generating routes for warehouse ${warehouseId} (attempt ${retryCount + 1}/${maxRetries})...`);
+            console.log(`Parcel IDs for warehouse ${warehouseId}:`, parcelIds);
+            
+            await plannerService.generateRoutes({
+              depot_id: warehouseId,
+              warehouse_id: warehouseId,
+              parcelIds: parcelIds
+            });
+
+            success = true;
+            console.log(`Successfully generated routes for warehouse ${warehouseId}`);
+            
+            // 记录成功处理的 requests
+            processedRequests.push(...requests);
+
+            // 如果不是最后一个 warehouse，添加延迟避免 429 错误
+            if (i < warehouseEntries.length - 1) {
+              await new Promise(resolve => setTimeout(resolve, 1500)); // 1.5秒延迟
+            }
+
+          } catch (err: any) {
+            console.error(`Error generating routes for warehouse ${warehouseId}:`, err);
+            
+            if (err.message && err.message.includes('Too many requests') && retryCount < maxRetries - 1) {
+              retryCount++;
+              const delay = retryCount * 2000; // 2s, 4s, 6s
+              console.log(`Rate limited for warehouse ${warehouseId}. Retrying after ${delay}ms...`);
+              await new Promise(resolve => setTimeout(resolve, delay));
+              continue;
+            }
+            
+            // 如果是 500 错误且还有重试次数，也重试
+            if (err.message && (err.message.includes('Server error') || err.message.includes('500') || err.message.includes('Please try again later')) && retryCount < maxRetries - 1) {
+              retryCount++;
+              const delay = retryCount * 2000;
+              console.log(`Server error for warehouse ${warehouseId}. Retrying after ${delay}ms...`);
+              await new Promise(resolve => setTimeout(resolve, delay));
+              continue;
+            }
+            
+            // 重试次数用完或不可重试的错误，抛出异常
+            throw err;
+          }
+        }
+
+        if (!success) {
+          throw new Error(`Failed to generate routes for warehouse ${warehouseId} after ${maxRetries} attempts`);
+        }
+      }
 
       if (allParcelIds.length === 0) {
         throw new Error('No parcels found in requests');
       }
 
-      if (!warehouseId) {
-        throw new Error('No warehouse ID found');
+      // 从 newRequests 中移除已成功处理的 requests
+      if (processedRequests.length > 0) {
+        setNewRequests(prevRequests => {
+          const processedKeys = new Set<string>();
+          processedRequests.forEach(req => {
+            const key = `${req.warehouseId}-${req.deliveryDate}`;
+            processedKeys.add(key);
+          });
+          
+          return prevRequests.filter(req => {
+            const key = `${req.warehouseId}-${req.deliveryDate}`;
+            return !processedKeys.has(key);
+          });
+        });
       }
 
-      console.log('Generating routes for parcels:', { parcelIds: allParcelIds, warehouseId });
-
-      const result = await plannerService.generateRoutes({
-        depot_id: warehouseId,
-        warehouse_id: warehouseId,
-        parcelIds: allParcelIds
-      });
-
       setSelectedParcelIds(allParcelIds.map(id => id.toString()));
-      setShowRouteAssignment(true);
-      setActiveView('dashboard');
+      setActiveView('route-assignment');
       setScheduleError('');
+      setIsOptimizing(false);
 
     } catch (err: any) {
       console.error('Error generating routes:', err);
-      setScheduleError(err.message || 'Failed to generate routes. Please try again.');
-    } finally {
+      console.error('Error details:', {
+        message: err.message,
+        stack: err.stack,
+        name: err.name
+      });
+      
+      let errorMessage = 'Failed to generate routes. ';
+      if (err.message && err.message.includes('Too many requests')) {
+        errorMessage += 'Please wait a moment and try again.';
+      } else if (err.message && (err.message.includes('Server error') || err.message.includes('500'))) {
+        errorMessage += err.message || 'Server error occurred. Please check if all parcels are scheduled and have valid delivery locations.';
+      } else {
+        errorMessage += err.message || 'Please try again.';
+      }
+      setScheduleError(errorMessage);
       setIsOptimizing(false);
     }
   };
 
   const handleGenerateRoute = async (selectedParcelIds: string[]) => {
     setSelectedParcelIds(selectedParcelIds);
-    setShowRouteAssignment(true);
+    setActiveView('route-assignment');
   };
 
   const handleReturnFromAssignment = () => {
-    setShowRouteAssignment(false);
+    setActiveView('dashboard');
   };
 
   const handleSubmitAssignments = (assignments: RouteAssignment[]) => {
     setSubmittedAssignments(assignments);
-    setShowRouteAssignment(false);
-    setShowRouteTracking(true);
+    setActiveView('route-tracking');
   };
 
   const handleReturnFromTracking = () => {
-    setShowRouteTracking(false);
-    setShowRouteAssignment(true);
+    setActiveView('route-assignment');
   };
 
   const handleTrackRoute = (assignment: RouteAssignment) => {
+    setSelectedRouteAssignment(assignment);
+    setActiveView('route-map');
   };
 
   const handleTruckClick = (truckPlateNo: string) => {
     setSelectedTruckPlateNo(truckPlateNo);
-    if (showRouteAssignment) {
+    if (activeView === 'route-assignment') {
       setTruckDetailPreviousPage('assignment');
-      setShowRouteAssignment(false);
-    } else if (showRouteTracking) {
+    } else if (activeView === 'route-tracking') {
       setTruckDetailPreviousPage('tracking');
-      setShowRouteTracking(false);
     }
-    setShowTruckDetail(true);
+    setActiveView('truck-detail');
   };
 
   const handleReturnFromTruckDetail = () => {
-    setShowTruckDetail(false);
     if (truckDetailPreviousPage === 'assignment') {
-      setShowRouteAssignment(true);
+      setActiveView('route-assignment');
     } else if (truckDetailPreviousPage === 'tracking') {
-      setShowRouteTracking(true);
+      setActiveView('route-tracking');
+    } else {
+      setActiveView('dashboard');
     }
     setTruckDetailPreviousPage(null);
     setSelectedTruckPlateNo('');
@@ -563,13 +699,17 @@ export default function PlannerDashboard() {
 
   const handleParcelClick = (parcelId: string) => {
     setSelectedParcelId(parcelId);
-    setShowTruckDetail(false);
+    if (activeView === 'truck-detail') {
+      setTruckDetailPreviousPage('truck-detail');
+    }
     setShowParcelDetail(true);
   };
 
   const handleReturnFromParcelDetail = () => {
     setShowParcelDetail(false);
-    setShowTruckDetail(true);
+    if (truckDetailPreviousPage === 'truck-detail') {
+      setActiveView('truck-detail');
+    }
     setSelectedParcelId('');
   };
 
@@ -649,8 +789,7 @@ export default function PlannerDashboard() {
       });
       
       setSelectedParcelIds(selectedParcelIds.map(id => id.toString()));
-      setShowRouteAssignment(true);
-      setActiveView('dashboard');
+      setActiveView('route-assignment');
       setScheduleError('');
       
     } catch (err: any) {
@@ -665,6 +804,18 @@ export default function PlannerDashboard() {
     setSelectedScheduleParcels(prev =>
       prev.includes(parcelId) ? prev.filter(id => id !== parcelId) : [...prev, parcelId]
     );
+    setScheduleError('');
+  };
+
+  const handleSelectAll = (selected: boolean) => {
+    if (selected) {
+      const selectableParcelIds = filteredAndSortedParcels
+        .filter(p => p.selectable)
+        .map(p => p.id);
+      setSelectedScheduleParcels(selectableParcelIds);
+    } else {
+      setSelectedScheduleParcels([]);
+    }
     setScheduleError('');
   };
 
@@ -706,21 +857,30 @@ export default function PlannerDashboard() {
       console.log('Scheduled parcels response:', scheduledParcels);
       console.log('Number of parcels scheduled:', scheduledParcels?.length || 0);
 
-    resetScheduleForm();
-    setActiveView('dashboard');
+      resetScheduleForm();
+      setActiveView('dashboard');
       
-      // 增加延迟并重试，确保后端数据已保存
+      // 立即刷新 New Requests
+      await loadScheduledDeliveries(0);
+      
+      // 如果第一次加载失败，使用重试机制
       let retryCount = 0;
       const maxRetries = 3;
-      const retryDelay = 1500;
+      const retryDelay = 2000;
       
       const retryLoad = async () => {
+        if (activeView !== 'dashboard') {
+          return;
+        }
         await new Promise(resolve => setTimeout(resolve, retryDelay));
+        if (activeView !== 'dashboard') {
+          return;
+        }
         console.log(`Retrying load scheduled deliveries (attempt ${retryCount + 1}/${maxRetries})...`);
-        await loadScheduledDeliveries();
+        await loadScheduledDeliveries(retryCount);
         retryCount++;
         
-        if (retryCount < maxRetries) {
+        if (retryCount < maxRetries && activeView === 'dashboard') {
           setTimeout(retryLoad, retryDelay);
         }
       };
@@ -745,38 +905,6 @@ export default function PlannerDashboard() {
       <ParcelDetailPage
         parcelId={selectedParcelId}
         onReturn={handleReturnFromParcelDetail}
-      />
-    );
-  }
-
-  if (showTruckDetail) {
-    return (
-      <TruckDetailPage
-        truckPlateNo={selectedTruckPlateNo}
-        onReturn={handleReturnFromTruckDetail}
-        onParcelClick={handleParcelClick}
-      />
-    );
-  }
-
-  if (showRouteTracking) {
-    return (
-      <RouteTrackingPage
-        assignments={submittedAssignments}
-        onReturn={handleReturnFromTracking}
-        onTrack={handleTrackRoute}
-        onTruckClick={handleTruckClick}
-      />
-    );
-  }
-
-  if (showRouteAssignment) {
-    return (
-      <RouteAssignmentPage
-        selectedParcelIds={selectedParcelIds}
-        onReturn={handleReturnFromAssignment}
-        onSubmit={handleSubmitAssignments}
-        onTruckClick={handleTruckClick}
       />
     );
   }
@@ -842,9 +970,15 @@ export default function PlannerDashboard() {
     }
   };
 
-  const handleViewChange = (view: 'dashboard' | 'schedule') => {
+  const handleViewChange = (view: 'dashboard' | 'schedule' | 'route-assignment' | 'route-tracking') => {
     setActiveView(view);
     setScheduleError('');
+    setShowTruckDetail(false);
+  };
+
+  const handleReturnFromRouteMap = () => {
+    setActiveView('route-tracking');
+    setSelectedRouteAssignment(null);
   };
 
   return (
@@ -862,7 +996,8 @@ export default function PlannerDashboard() {
               <section className="dashboard-grid">
                 <NewRequestsPanel 
                   requests={newRequests} 
-                  onGenerateRouteClick={handleGenerateRouteClick} 
+                  onGenerateRouteClick={handleGenerateRouteClick}
+                  isGenerating={isOptimizing}
                 />
                 <AvailableDriversPanel drivers={availableDrivers} />
               </section>
@@ -886,6 +1021,7 @@ export default function PlannerDashboard() {
               scheduleError={scheduleError}
               onScheduleSubmit={handleScheduleSubmit}
               onParcelToggle={handleScheduleParcelToggle}
+              onSelectAll={handleSelectAll}
               onSearchChange={setSearchText}
               onFilterStatusChange={setFilterStatus}
               onSortByChange={setSortBy}
@@ -894,6 +1030,31 @@ export default function PlannerDashboard() {
                 setSelectedWarehouseId(id);
                 setScheduleError('');
               }}
+            />
+          ) : activeView === 'route-assignment' ? (
+            <RouteAssignmentPage
+              selectedParcelIds={selectedParcelIds}
+              onReturn={() => setActiveView('dashboard')}
+              onSubmit={handleSubmitAssignments}
+              onTruckClick={handleTruckClick}
+            />
+          ) : activeView === 'route-tracking' ? (
+            <RouteTrackingPage
+              assignments={submittedAssignments}
+              onReturn={() => setActiveView('dashboard')}
+              onTrack={handleTrackRoute}
+              onTruckClick={handleTruckClick}
+            />
+          ) : activeView === 'truck-detail' ? (
+            <TruckDetailPage
+              truckPlateNo={selectedTruckPlateNo}
+              onReturn={handleReturnFromTruckDetail}
+              onParcelClick={handleParcelClick}
+            />
+          ) : activeView === 'route-map' ? (
+            <RouteMapModal
+              assignment={selectedRouteAssignment}
+              onReturn={handleReturnFromRouteMap}
             />
           ) : null}
         </main>

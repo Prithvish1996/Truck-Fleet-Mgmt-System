@@ -128,6 +128,10 @@ class PlannerService {
         credentials: 'include',
       });
 
+      if (response.status === 429) {
+        throw new Error('Too many requests. Please wait a moment and try again.');
+      }
+
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({ message: 'Failed to fetch parcels' }));
         throw new Error(errorData.message || `Failed to fetch parcels (Status: ${response.status})`);
@@ -188,14 +192,16 @@ class PlannerService {
         credentials: 'include',
       });
 
+      if (response.status === 429) {
+        throw new Error('Too many requests. Please wait a moment and try again.');
+      }
+
       if (!response.ok) {
-        // Try to get error message from response
         let errorMessage = `Failed to fetch scheduled deliveries (Status: ${response.status})`;
         try {
           const errorData = await response.json();
           errorMessage = errorData.message || errorData.error || errorMessage;
         } catch (e) {
-          // If response is not JSON, use status text
           errorMessage = response.statusText || errorMessage;
         }
         throw new Error(errorMessage);
@@ -243,6 +249,13 @@ class PlannerService {
   async generateRoutes(request: GenerateRouteRequest): Promise<GenerateRouteResponse> {
     try {
       const headers = await this.getAuthHeaders();
+      console.log('Generating routes with request:', {
+        depot_id: request.depot_id,
+        warehouse_id: request.warehouse_id,
+        parcelCount: request.parcelIds.length,
+        parcelIds: request.parcelIds
+      });
+      
       const response = await fetch(`${apiConfig.baseURL}/planner/routes/generate`, {
         method: 'POST',
         headers,
@@ -250,9 +263,31 @@ class PlannerService {
         body: JSON.stringify(request),
       });
 
+      if (response.status === 429) {
+        throw new Error('Too many requests. Please wait a moment and try again.');
+      }
+
+      if (response.status === 500) {
+        let errorMessage = 'Server error: Failed to generate routes.';
+        try {
+          const errorData = await response.json();
+          console.error('Server error response:', errorData);
+          errorMessage = errorData.message || errorData.error || errorData.details || errorMessage;
+        } catch (e) {
+          console.error('Could not parse error response:', e);
+        }
+        throw new Error(`${errorMessage} Please check if all parcels are scheduled and have valid delivery locations.`);
+      }
+
       if (!response.ok) {
-        const errorData = await response.json().catch(() => ({ message: 'Failed to generate routes' }));
-        throw new Error(errorData.message || `Failed to generate routes (Status: ${response.status})`);
+        let errorMessage = `Failed to generate routes (Status: ${response.status})`;
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.message || errorData.error || errorMessage;
+        } catch (e) {
+          console.error('Could not parse error response:', e);
+        }
+        throw new Error(errorMessage);
       }
 
       const apiResponse = await response.json();
@@ -260,6 +295,7 @@ class PlannerService {
         throw new Error(apiResponse.message || 'Failed to generate routes');
       }
 
+      console.log('Successfully generated routes:', apiResponse.data);
       return apiResponse.data;
     } catch (error) {
       console.error('Error generating routes:', error);
@@ -275,6 +311,10 @@ class PlannerService {
         headers,
         credentials: 'include',
       });
+
+      if (response.status === 429) {
+        throw new Error('Too many requests. Please wait a moment and try again.');
+      }
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({ message: 'Failed to fetch unassigned routes' }));
@@ -302,6 +342,10 @@ class PlannerService {
         credentials: 'include',
       });
 
+      if (response.status === 429) {
+        throw new Error('Too many requests. Please wait a moment and try again.');
+      }
+
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({ message: 'Failed to fetch available drivers' }));
         throw new Error(errorData.message || `Failed to fetch available drivers (Status: ${response.status})`);
@@ -327,6 +371,10 @@ class PlannerService {
         headers,
         credentials: 'include',
       });
+
+      if (response.status === 429) {
+        throw new Error('Too many requests. Please wait a moment and try again.');
+      }
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({ message: 'Failed to fetch route by driver' }));
@@ -355,6 +403,10 @@ class PlannerService {
         body: JSON.stringify(request),
       });
 
+      if (response.status === 429) {
+        throw new Error('Too many requests. Please wait a moment and try again.');
+      }
+
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({ message: 'Failed to assign driver' }));
         throw new Error(errorData.message || `Failed to assign driver (Status: ${response.status})`);
@@ -380,6 +432,10 @@ class PlannerService {
         headers,
         credentials: 'include',
       });
+
+      if (response.status === 429) {
+        throw new Error('Too many requests. Please wait a moment and try again.');
+      }
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({ message: 'Failed to fetch route' }));

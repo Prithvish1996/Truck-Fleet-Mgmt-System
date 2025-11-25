@@ -1,27 +1,34 @@
 import React, { useState, useEffect } from 'react';
 import { RouteAssignment } from '../../types';
-import { plannerService, RouteResponse } from '../../services/plannerService';
+import { plannerService, RouteResponse, ParcelResponse } from '../../services/plannerService';
 import RouteStopsList from './RouteStopsList';
 import RouteInfo from './RouteInfo';
-import MapPlaceholder from './MapPlaceholder';
 import '../RouteMapModal.css';
 
 interface RouteMapModalProps {
-  isOpen: boolean;
   assignment: RouteAssignment | null;
-  onClose: () => void;
+  onReturn: () => void;
 }
 
-export default function RouteMapModal({ isOpen, assignment, onClose }: RouteMapModalProps) {
+export default function RouteMapModal({ assignment, onReturn }: RouteMapModalProps) {
   const [routeDetails, setRouteDetails] = useState<RouteResponse | null>(null);
+  const [parcelStatuses, setParcelStatuses] = useState<Map<number, string>>(new Map());
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
   useEffect(() => {
-    if (isOpen && assignment?.routeId) {
+    if (assignment?.routeId) {
       loadRouteDetails();
     }
-  }, [isOpen, assignment?.routeId]);
+  }, [assignment?.routeId]);
+
+  useEffect(() => {
+    if (routeDetails && routeDetails.routeStops) {
+      refreshParcelStatuses();
+      const interval = setInterval(refreshParcelStatuses, 5000);
+      return () => clearInterval(interval);
+    }
+  }, [routeDetails]);
 
   const loadRouteDetails = async () => {
     if (!assignment?.routeId) return;
@@ -39,18 +46,54 @@ export default function RouteMapModal({ isOpen, assignment, onClose }: RouteMapM
     }
   };
 
-  if (!isOpen || !assignment) return null;
+  const refreshParcelStatuses = async () => {
+    if (!routeDetails || !routeDetails.routeStops) return;
+
+    const parcelIds: number[] = [];
+    routeDetails.routeStops.forEach(stop => {
+      if (stop.parcelsToDeliver) {
+        stop.parcelsToDeliver.forEach(parcel => {
+          parcelIds.push(parcel.parcelId);
+        });
+      }
+    });
+
+    const statusMap = new Map<number, string>();
+    await Promise.all(
+      parcelIds.map(async (parcelId) => {
+        try {
+          const parcel = await plannerService.getParcelById(parcelId);
+          statusMap.set(parcelId, parcel.status);
+        } catch (err) {
+          console.error(`Error fetching parcel ${parcelId}:`, err);
+        }
+      })
+    );
+    setParcelStatuses(statusMap);
+  };
+
+  if (!assignment) {
+    return (
+      <div className="route-map-page">
+        <div className="route-map-container-page">
+          <div style={{ padding: '40px', textAlign: 'center' }}>No assignment selected</div>
+          <div className="return-button-container">
+            <button className="return-button" onClick={onReturn}>
+              Return
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="route-map-modal-overlay" onClick={onClose}>
-      <div className="route-map-modal-content" onClick={(e) => e.stopPropagation()}>
-        <div className="route-map-header">
+    <div className="route-map-page">
+      <div className="route-map-container-page">
+        <div className="route-map-header-page">
           <div className="route-map-truck-plate">{assignment.truckPlateNo}</div>
-          <button className="route-map-close-button" onClick={onClose}>
-            ×
-          </button>
         </div>
-        <div className="route-map-container">
+        <div className="route-map-content">
           {loading && (
             <div style={{ padding: '40px', textAlign: 'center' }}>Loading route...</div>
           )}
@@ -58,16 +101,21 @@ export default function RouteMapModal({ isOpen, assignment, onClose }: RouteMapM
             <div style={{ padding: '40px', color: 'red', textAlign: 'center' }}>{error}</div>
           )}
           {!loading && !error && routeDetails && (
-            <>
-              <MapPlaceholder />
-              <RouteStopsList routeStops={routeDetails.routeStops} />
-            </>
+            <RouteStopsList 
+              routeStops={routeDetails.routeStops} 
+              parcelStatuses={parcelStatuses}
+            />
           )}
           {!loading && !error && !routeDetails && (
             <div style={{ padding: '40px', textAlign: 'center' }}>No route details available</div>
           )}
         </div>
         {routeDetails && <RouteInfo routeDetails={routeDetails} />}
+        <div className="return-button-container">
+          <button className="return-button" onClick={onReturn}>
+            Return
+          </button>
+        </div>
       </div>
     </div>
   );

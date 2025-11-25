@@ -12,9 +12,10 @@ interface DashboardRequest {
 interface NewRequestsPanelProps {
   requests: DashboardRequest[];
   onGenerateRouteClick: () => void;
+  isGenerating?: boolean;
 }
 
-export default function NewRequestsPanel({ requests, onGenerateRouteClick }: NewRequestsPanelProps) {
+export default function NewRequestsPanel({ requests, onGenerateRouteClick, isGenerating = false }: NewRequestsPanelProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
   const totalPages = Math.ceil(requests.length / itemsPerPage);
@@ -139,8 +140,9 @@ export default function NewRequestsPanel({ requests, onGenerateRouteClick }: New
           className="primary-action"
           type="button"
           onClick={onGenerateRouteClick}
+          disabled={isGenerating || requests.length === 0}
         >
-          Generate Route
+          {isGenerating ? 'Generating...' : 'Generate Route'}
         </button>
       </div>
     </div>

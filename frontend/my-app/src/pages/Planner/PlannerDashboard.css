@@ -176,6 +176,11 @@
   color: #ffffff;
   font-weight: 600;
   font-size: 13px;
+  white-space: nowrap;
+}
+
+.user-pill span {
+  white-space: nowrap;
 }
 
 .user-avatar {

@@ -32,6 +32,7 @@ interface SchedulePageProps {
   scheduleError: string;
   onScheduleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
   onParcelToggle: (parcelId: string) => void;
+  onSelectAll?: (selected: boolean) => void;
   onSearchChange: (value: string) => void;
   onFilterStatusChange: (value: 'All' | 'Pending' | 'Scheduled') => void;
   onSortByChange: (value: 'id' | 'receiver' | 'location' | 'warehouse') => void;
@@ -52,6 +53,7 @@ export default function SchedulePage({
   scheduleError,
   onScheduleSubmit,
   onParcelToggle,
+  onSelectAll,
   onSearchChange,
   onFilterStatusChange,
   onSortByChange,
@@ -179,6 +181,7 @@ export default function SchedulePage({
             parcels={filteredAndSortedParcels}
             selectedParcels={selectedScheduleParcels}
             onParcelToggle={onParcelToggle}
+            onSelectAll={onSelectAll}
           />
         )}
 

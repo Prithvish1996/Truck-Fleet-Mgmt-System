@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { RouteAssignment } from '../../types';
 import { plannerService, DriverResponse } from '../../services/plannerService';
-import RouteMapModal from '../RouteMapModal/RouteMapModal';
 import TrackingTable from './TrackingTable';
 import Pagination from '../common/Pagination';
 import '../RouteTrackingPage.css';
@@ -15,8 +14,6 @@ interface RouteTrackingPageProps {
 
 export default function RouteTrackingPage({ assignments, onReturn, onTrack, onTruckClick }: RouteTrackingPageProps) {
   const [currentPage, setCurrentPage] = useState(1);
-  const [isMapModalOpen, setIsMapModalOpen] = useState(false);
-  const [selectedAssignment, setSelectedAssignment] = useState<RouteAssignment | null>(null);
   const [drivers, setDrivers] = useState<DriverResponse[]>([]);
   const itemsPerPage = 12;
   const assignedRoutes = assignments.filter(a => a.driverId !== null);
@@ -47,14 +44,7 @@ export default function RouteTrackingPage({ assignments, onReturn, onTrack, onTr
   };
 
   const handleTrackClick = (assignment: RouteAssignment) => {
-    setSelectedAssignment(assignment);
-    setIsMapModalOpen(true);
     onTrack(assignment);
-  };
-
-  const handleCloseMap = () => {
-    setIsMapModalOpen(false);
-    setSelectedAssignment(null);
   };
 
   return (
@@ -83,12 +73,6 @@ export default function RouteTrackingPage({ assignments, onReturn, onTrack, onTr
           </button>
         </div>
       </div>
-
-      <RouteMapModal
-        isOpen={isMapModalOpen}
-        assignment={selectedAssignment}
-        onClose={handleCloseMap}
-      />
     </div>
   );
 }

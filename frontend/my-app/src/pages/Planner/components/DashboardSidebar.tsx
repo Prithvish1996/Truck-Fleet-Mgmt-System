@@ -1,10 +1,12 @@
 import React from 'react';
 import homeIcon from '../../../assets/home icon.png';
 import scheduleIcon from '../../../assets/schedule icon.png';
+import taskIcon from '../../../assets/task icon.png';
+import routeIcon from '../../../assets/route icon.png';
 
 interface DashboardSidebarProps {
-  activeView: 'dashboard' | 'schedule';
-  onViewChange: (view: 'dashboard' | 'schedule') => void;
+  activeView: 'dashboard' | 'schedule' | 'route-assignment' | 'route-tracking' | 'truck-detail' | 'route-map';
+  onViewChange: (view: 'dashboard' | 'schedule' | 'route-assignment' | 'route-tracking') => void;
 }
 
 export default function DashboardSidebar({ activeView, onViewChange }: DashboardSidebarProps) {
@@ -26,6 +28,22 @@ export default function DashboardSidebar({ activeView, onViewChange }: Dashboard
         >
           <img src={scheduleIcon} alt="" aria-hidden className="nav-icon" />
           <span className="nav-label">Schedule</span>
+        </button>
+        <button
+          type="button"
+          className={`nav-item ${activeView === 'route-assignment' ? 'active' : ''}`}
+          onClick={() => onViewChange('route-assignment')}
+        >
+          <img src={taskIcon} alt="" aria-hidden className="nav-icon" />
+          <span className="nav-label">Assignment</span>
+        </button>
+        <button
+          type="button"
+          className={`nav-item ${activeView === 'route-tracking' ? 'active' : ''}`}
+          onClick={() => onViewChange('route-tracking')}
+        >
+          <img src={routeIcon} alt="" aria-hidden className="nav-icon" />
+          <span className="nav-label">Tracking</span>
         </button>
       </nav>
     </aside>
