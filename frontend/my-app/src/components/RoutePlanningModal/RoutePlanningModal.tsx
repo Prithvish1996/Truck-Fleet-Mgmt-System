@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { plannerService, ParcelResponse } from '../services/plannerService';
-import { formatDate } from '../utils/dataTransformers';
-import './RoutePlanningModal.css';
+import { plannerService, ParcelResponse } from '../../services/plannerService';
+import { formatDate } from '../../utils/dataTransformers';
+import RequestTable from './RequestTable';
+import '../RoutePlanningModal.css';
 
 interface RoutePlanningModalProps {
   isOpen: boolean;
@@ -38,7 +39,6 @@ export default function RoutePlanningModal({ isOpen, onClose, onGenerateRoute }:
     try {
       const data = await plannerService.getScheduledDeliveries(undefined, 0, 100);
       
-      // Group parcels by warehouse and planned delivery date
       const grouped = new Map<string, ParcelResponse[]>();
       data.data.forEach(parcel => {
         const key = `${parcel.warehouseId}-${parcel.plannedDeliveryDate || 'no-date'}`;
@@ -48,7 +48,6 @@ export default function RoutePlanningModal({ isOpen, onClose, onGenerateRoute }:
         grouped.get(key)!.push(parcel);
       });
 
-      // Convert to RequestItem format
       const requestItems: RequestItem[] = Array.from(grouped.entries()).map(([key, parcels], index) => {
         const firstParcel = parcels[0];
         const deliveryDate = firstParcel.plannedDeliveryDate 
@@ -61,7 +60,7 @@ export default function RoutePlanningModal({ isOpen, onClose, onGenerateRoute }:
           deliveryDate,
           parcels: parcels.length,
           warehouse: firstParcel.warehouseCity || 'Unknown',
-          priority: 'Medium' as const, // Default priority
+          priority: 'Medium' as const,
           parcelIds: parcels.map(p => p.parcelId)
         };
       });
@@ -100,7 +99,6 @@ export default function RoutePlanningModal({ isOpen, onClose, onGenerateRoute }:
       setLoading(true);
       setError('');
       try {
-        // Collect all parcel IDs from selected requests
         const selectedRequestItems = requests.filter(r => selectedRequests.has(r.id));
         const allParcelIds = selectedRequestItems.flatMap(r => r.parcelIds);
         
@@ -109,17 +107,13 @@ export default function RoutePlanningModal({ isOpen, onClose, onGenerateRoute }:
           return;
         }
 
-        // Get depot_id - use default depot_id = 1 (you may need to adjust this based on your backend setup)
-        // Or get from first parcel's warehouse if available
-        const depotId = 1; // Default depot ID - may need to be configurable
+        const depotId = 1;
 
-        // Call generate routes API
         await plannerService.generateRoutes({
           depot_id: depotId,
           parcelIds: allParcelIds
         });
 
-        // Generate route was successful, pass parcel IDs to parent
         const parcelIdStrings = allParcelIds.map(id => `P${id}`);
         onGenerateRoute(parcelIdStrings);
         onClose();
@@ -129,19 +123,6 @@ export default function RoutePlanningModal({ isOpen, onClose, onGenerateRoute }:
       } finally {
         setLoading(false);
       }
-    }
-  };
-
-  const getPriorityColor = (priority: string) => {
-    switch (priority) {
-      case 'High':
-        return '#ff4444';
-      case 'Medium':
-        return '#2f8b56';
-      case 'Low':
-        return '#2196F3';
-      default:
-        return '#666';
     }
   };
 
@@ -165,53 +146,12 @@ export default function RoutePlanningModal({ isOpen, onClose, onGenerateRoute }:
           )}
 
           {!loading && !error && (
-            <div className="parcel-table-container">
-              <table className="parcel-table">
-                <thead>
-                  <tr>
-                    <th className="checkbox-column">
-                      <input
-                        type="checkbox"
-                        checked={selectedRequests.size === requests.length && requests.length > 0}
-                        onChange={handleSelectAll}
-                        className="select-all-checkbox"
-                      />
-                    </th>
-                    <th>Truck Plate ID</th>
-                    <th>Delivery Date</th>
-                    <th>No. of Parcels</th>
-                    <th>Warehouse</th>
-                    <th>Priority</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {requests.map((request) => (
-                    <tr key={request.id} className={selectedRequests.has(request.id) ? 'selected' : ''}>
-                      <td className="checkbox-column">
-                        <input
-                          type="checkbox"
-                          checked={selectedRequests.has(request.id)}
-                          onChange={() => handleCheckboxChange(request.id)}
-                          className="parcel-checkbox"
-                        />
-                      </td>
-                      <td>{request.truckPlateId}</td>
-                      <td>{request.deliveryDate}</td>
-                      <td>{request.parcels}</td>
-                      <td>{request.warehouse}</td>
-                      <td>
-                        <span 
-                          className="priority-badge"
-                          style={{ color: getPriorityColor(request.priority) }}
-                        >
-                          {request.priority}
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+            <RequestTable
+              requests={requests}
+              selectedRequests={selectedRequests}
+              onCheckboxChange={handleCheckboxChange}
+              onSelectAll={handleSelectAll}
+            />
           )}
           
           <div className="modal-footer">
@@ -228,3 +168,4 @@ export default function RoutePlanningModal({ isOpen, onClose, onGenerateRoute }:
     </div>
   );
 }
+

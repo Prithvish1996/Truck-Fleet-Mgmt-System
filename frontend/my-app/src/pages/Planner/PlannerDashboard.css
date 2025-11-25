@@ -307,7 +307,6 @@
   font-weight: 600;
 }
 
-/* Filter and Sort Controls */
 .schedule-controls {
   display: flex;
   gap: 16px;
@@ -395,12 +394,11 @@
   border-color: #82c885;
 }
 
-/* Action Buttons */
 .schedule-actions {
   display: flex;
   gap: 12px;
   padding: 20px;
-  justify-content: flex-end;
+  justify-content: center;
   border-top: 1px solid #e5ebe6;
   margin-top: 0;
 }

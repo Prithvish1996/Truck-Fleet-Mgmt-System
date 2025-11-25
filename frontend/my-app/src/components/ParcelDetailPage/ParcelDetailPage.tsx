@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { ParcelDetail } from '../types';
-import { plannerService } from '../services/plannerService';
-import { extractParcelId } from '../utils/dataTransformers';
-import './ParcelDetailPage.css';
+import { ParcelDetail } from '../../types';
+import { plannerService } from '../../services/plannerService';
+import { extractParcelId } from '../../utils/dataTransformers';
+import ParcelDetailInfo from './ParcelDetailInfo';
+import '../ParcelDetailPage.css';
 
 interface ParcelDetailPageProps {
   parcelId: string;
@@ -22,7 +23,6 @@ export default function ParcelDetailPage({ parcelId, onReturn }: ParcelDetailPag
     setLoading(true);
     setError('');
     try {
-      // Extract numeric parcel ID from string format (e.g., "P1223-01" -> 1223)
       const parcelIdNum = extractParcelId(parcelId);
       
       if (!parcelIdNum || parcelIdNum === 0) {
@@ -32,12 +32,10 @@ export default function ParcelDetailPage({ parcelId, onReturn }: ParcelDetailPag
 
       const parcel = await plannerService.getParcelById(parcelIdNum);
       
-      // Parse address components
       const addressParts = parcel.deliveryAddress?.split(/\s+/) || [];
       let streetName = '';
       let houseNumber = '';
       
-      // Try to extract house number (usually a number at the end of the address)
       const lastPart = addressParts[addressParts.length - 1];
       if (/^\d+/.test(lastPart)) {
         houseNumber = lastPart;
@@ -52,7 +50,7 @@ export default function ParcelDetailPage({ parcelId, onReturn }: ParcelDetailPag
         internalId: `P-${parcel.parcelId}`,
         contactPerson: parcel.recipientName || 'Unknown',
         phone: parcel.recipientPhone || 'N/A',
-        email: '', // Backend doesn't provide email in ParcelResponse
+        email: '',
         streetName: streetName,
         houseNumber: houseNumber,
         zipCode: parcel.deliveryPostalCode || 'N/A',
@@ -117,69 +115,8 @@ export default function ParcelDetailPage({ parcelId, onReturn }: ParcelDetailPag
       <div className="parcel-detail-container">
         <h2 className="parcel-detail-title">{parcelId} Information</h2>
         
-        <div className="parcel-detail-info">
-          <div className="info-row">
-            <div className="info-label">Parcel</div>
-            <div className="info-value">{parcelDetail.internalId}</div>
-          </div>
-          
-          <div className="info-row">
-            <div className="info-label">Contact Person</div>
-            <div className="info-value">{parcelDetail.contactPerson}</div>
-          </div>
-          
-          <div className="info-row">
-            <div className="info-label">Phone / Mobile Number</div>
-            <div className="info-value">{parcelDetail.phone}</div>
-          </div>
-          
-          <div className="info-row">
-            <div className="info-label">Email Address</div>
-            <div className="info-value">{parcelDetail.email || 'N/A'}</div>
-          </div>
-          
-          <div className="info-row">
-            <div className="info-label">Street Name</div>
-            <div className="info-value">{parcelDetail.streetName}</div>
-          </div>
-          
-          <div className="info-row">
-            <div className="info-label">House Number</div>
-            <div className="info-value">{parcelDetail.houseNumber || 'N/A'}</div>
-          </div>
-          
-          <div className="info-row">
-            <div className="info-label">ZIP Code</div>
-            <div className="info-value">{parcelDetail.zipCode}</div>
-          </div>
-          
-          <div className="info-row">
-            <div className="info-label">City</div>
-            <div className="info-value">{parcelDetail.city}</div>
-          </div>
-          
-          <div className="info-row">
-            <div className="info-label">Country</div>
-            <div className="info-value">{parcelDetail.country}</div>
-          </div>
-          
-          <div className="info-row">
-            <div className="info-label">Types of items</div>
-            <div className="info-value">{parcelDetail.typesOfItems}</div>
-          </div>
-          
-          <div className="info-row">
-            <div className="info-label">Special Instructions</div>
-            <div className="info-value info-value-italic">{parcelDetail.specialInstructions}</div>
-          </div>
-          
-          <div className="info-row">
-            <div className="info-label">Remarks</div>
-            <div className="info-value info-value-italic">{parcelDetail.remarks}</div>
-          </div>
-        </div>
+        <ParcelDetailInfo parcelDetail={parcelDetail} />
 
-        {/* Return Button */}
         <div className="return-button-container">
           <button className="return-button" onClick={onReturn}>
             Return
@@ -189,3 +126,4 @@ export default function ParcelDetailPage({ parcelId, onReturn }: ParcelDetailPag
     </div>
   );
 }
+

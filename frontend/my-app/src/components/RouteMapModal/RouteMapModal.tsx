@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { RouteAssignment } from '../types';
-import { plannerService, RouteResponse, ParcelResponse } from '../services/plannerService';
-import './RouteMapModal.css';
+import { RouteAssignment } from '../../types';
+import { plannerService, RouteResponse } from '../../services/plannerService';
+import RouteStopsList from './RouteStopsList';
+import RouteInfo from './RouteInfo';
+import MapPlaceholder from './MapPlaceholder';
+import '../RouteMapModal.css';
 
 interface RouteMapModalProps {
   isOpen: boolean;
@@ -56,44 +59,17 @@ export default function RouteMapModal({ isOpen, assignment, onClose }: RouteMapM
           )}
           {!loading && !error && routeDetails && (
             <>
-              <div style={{ width: '100%', height: '400px', backgroundColor: '#f0f0f0', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '10px' }}>
-                <div>Map will be displayed here with route stops</div>
-              </div>
-              <div style={{ padding: '10px' }}>
-                <h3>Route Stops:</h3>
-                <ol>
-                  {routeDetails.routeStops?.map((stop, stopIndex) => (
-                    <li key={stop.stopId}>
-                      <strong>Stop {stopIndex + 1}</strong> (Priority: {stop.priority})
-                      <ul>
-                        {stop.parcelsToDeliver?.map((parcel: ParcelResponse) => (
-                          <li key={parcel.parcelId}>
-                            {parcel.recipientName || parcel.name} - 
-                            {parcel.deliveryAddress}, {parcel.deliveryCity}
-                            {parcel.deliveryLatitude && parcel.deliveryLongitude && (
-                              <span> (Lat: {parcel.deliveryLatitude}, Lng: {parcel.deliveryLongitude})</span>
-                            )}
-                          </li>
-                        ))}
-                      </ul>
-                    </li>
-                  ))}
-                </ol>
-              </div>
+              <MapPlaceholder />
+              <RouteStopsList routeStops={routeDetails.routeStops} />
             </>
           )}
           {!loading && !error && !routeDetails && (
             <div style={{ padding: '40px', textAlign: 'center' }}>No route details available</div>
           )}
         </div>
-        {routeDetails && (
-          <div className="route-map-info" style={{ padding: '10px', borderTop: '1px solid #e0e0e0' }}>
-            <div>Total Distance: {routeDetails.totalDistance} km</div>
-            <div>Duration: {routeDetails.duration || 'N/A'}</div>
-            <div>Number of Stops: {routeDetails.routeStops?.length || 0}</div>
-          </div>
-        )}
+        {routeDetails && <RouteInfo routeDetails={routeDetails} />}
       </div>
     </div>
   );
 }
+

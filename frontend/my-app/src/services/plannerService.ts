@@ -109,7 +109,7 @@ class PlannerService {
     };
   }
 
-  async getAllParcels(warehouseId: number, page: number = 0, size: number = 50, searchText?: string): Promise<{ content: ParcelResponse[]; totalElements: number; totalPages: number; currentPage: number; pageSize: number }> {
+  async getAllParcels(warehouseId: number, page: number = 0, size: number = 50, searchText?: string): Promise<{ data: ParcelResponse[]; totalItems: number; totalPages: number; currentPage: number; pageSize: number }> {
     try {
       const headers = await this.getAuthHeaders();
       const params = new URLSearchParams({
@@ -170,7 +170,7 @@ class PlannerService {
     }
   }
 
-  async getScheduledDeliveries(date?: string, page: number = 0, size: number = 50): Promise<{ data: ParcelResponse[]; totalItems: number; totalPages: number; currentPage: number; pageSize: number }> {
+  async getScheduledDeliveries(date?: string, page: number = 1, size: number = 100): Promise<{ data: ParcelResponse[]; totalItems: number; totalPages: number; currentPage: number; pageSize: number }> {
     try {
       const headers = await this.getAuthHeaders();
       const params = new URLSearchParams({
@@ -449,7 +449,7 @@ class PlannerService {
     }
   }
 
-  async getWarehouses(page: number = 0, size: number = 10): Promise<{ content: any[]; totalElements: number; totalPages: number }> {
+  async getWarehouses(page: number = 0, size: number = 10): Promise<{ data: any[]; totalItems: number; totalPages: number; currentPage: number; pageSize: number }> {
     try {
       const headers = await this.getAuthHeaders();
       const params = new URLSearchParams({
