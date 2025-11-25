@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { availabilityService } from '../../../services/availabilityService';
+import { authService } from '../../../services/authService';
 import './AgendaPlanner.css';
 
 interface AvailabilitySlot {
@@ -17,6 +19,8 @@ export default function AgendaPlanner() {
   const [currentWeek, setCurrentWeek] = useState(new Date());
   const [availability, setAvailability] = useState<WeeklyAvailability>({});
   const [loading, setLoading] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [showAddForm, setShowAddForm] = useState(false);
   const [newSlot, setNewSlot] = useState({
     date: new Date().toISOString().split('T')[0],
@@ -31,18 +35,31 @@ export default function AgendaPlanner() {
 
   const loadAvailability = async () => {
     setLoading(true);
-    const weekDates = getWeekDates(currentWeek);
-    const mockAvailability: WeeklyAvailability = {};
-    
-    weekDates.forEach(date => {
-      mockAvailability[date] = [
-        { id: `${date}-1`, date, startTime: '08:00', endTime: '12:00', isAvailable: true },
-        { id: `${date}-2`, date, startTime: '13:00', endTime: '17:00', isAvailable: true },
-      ];
-    });
-    
-    setAvailability(mockAvailability);
-    setLoading(false);
+    setError(null);
+    try {
+      const driverId = authService.getDriverId();
+      if (!driverId) {
+        throw new Error('Driver ID not found. Please log out and log back in.');
+      }
+
+      const backendAvailability = await availabilityService.getDriverAvailability(driverId);
+      const convertedAvailability = availabilityService.convertAvailabilityToSlots(backendAvailability);
+      
+      const weekDates = getWeekDates(currentWeek);
+      const mergedAvailability: WeeklyAvailability = {};
+      
+      weekDates.forEach(date => {
+        mergedAvailability[date] = convertedAvailability[date] || [];
+      });
+      
+      setAvailability(mergedAvailability);
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to load availability';
+      setError(errorMessage);
+      console.error('Error loading availability:', err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const getWeekDates = (date: Date): string[] => {
@@ -113,30 +130,42 @@ export default function AgendaPlanner() {
     setNewSlot(prev => ({ ...prev, [field]: value }));
   };
 
-  const saveNewSlot = () => {
+  const saveNewSlot = async () => {
     if (newSlot.startTime >= newSlot.endTime) {
       alert('End time must be after start time');
       return;
     }
 
-    const slot: AvailabilitySlot = {
-      id: `${newSlot.date}-${Date.now()}`,
-      date: newSlot.date,
-      startTime: newSlot.startTime,
-      endTime: newSlot.endTime,
-      isAvailable: true
-    };
-    
-    setAvailability(prev => ({
-      ...prev,
-      [newSlot.date]: [...(prev[newSlot.date] || []), slot]
-    }));
-    setShowAddForm(false);
-    setNewSlot({ 
-      date: new Date().toISOString().split('T')[0],
-      startTime: '09:00', 
-      endTime: '17:00' 
-    });
+    setSaving(true);
+    setError(null);
+    try {
+      const driverId = authService.getDriverId();
+      if (!driverId) {
+        throw new Error('Driver ID not found. Please log out and log back in.');
+      }
+
+      await availabilityService.createDriverAvailability(driverId, [{
+        date: newSlot.date,
+        startTime: newSlot.startTime,
+        endTime: newSlot.endTime,
+      }]);
+
+      await loadAvailability();
+      
+      setShowAddForm(false);
+      setNewSlot({ 
+        date: new Date().toISOString().split('T')[0],
+        startTime: '09:00', 
+        endTime: '17:00' 
+      });
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to save availability';
+      setError(errorMessage);
+      alert(errorMessage);
+      console.error('Error saving new slot:', err);
+    } finally {
+      setSaving(false);
+    }
   };
 
   const cancelAddSlot = () => {
@@ -170,18 +199,62 @@ export default function AgendaPlanner() {
   };
 
   const saveAvailability = async () => {
-    setLoading(true);
-    console.log('Saving availability:', availability);
-    setTimeout(() => {
-      setLoading(false);
+    setSaving(true);
+    setError(null);
+    try {
+      const driverId = authService.getDriverId();
+      if (!driverId) {
+        throw new Error('Driver ID not found. Please log out and log back in.');
+      }
+
+      const slotsToSave: Array<{ date: string; startTime: string; endTime: string }> = [];
+      Object.keys(availability).forEach(date => {
+        availability[date].forEach(slot => {
+          if (slot.isAvailable) {
+            slotsToSave.push({
+              date: slot.date,
+              startTime: slot.startTime,
+              endTime: slot.endTime,
+            });
+          }
+        });
+      });
+
+      if (slotsToSave.length === 0) {
+        alert('No availability slots to save');
+        return;
+      }
+
+      await availabilityService.createDriverAvailability(driverId, slotsToSave);
+      
+      await loadAvailability();
+      
       alert('Availability saved successfully!');
-    }, 1000);
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to save availability';
+      setError(errorMessage);
+      alert(errorMessage);
+      console.error('Error saving availability:', err);
+    } finally {
+      setSaving(false);
+    }
   };
 
   const weekDates = getWeekDatesWithInfo(currentWeek);
 
   return (
     <div className="agenda-planner">
+      {error && (
+        <div className="error-message" style={{ 
+          padding: '10px', 
+          margin: '10px', 
+          backgroundColor: '#fee', 
+          color: '#c33', 
+          borderRadius: '4px' 
+        }}>
+          {error}
+        </div>
+      )}
       <div className="agenda-header">
         <div className="header-content">
           <h2>Weekly Availability Planner</h2>
@@ -264,14 +337,32 @@ export default function AgendaPlanner() {
               <button className="cancel-btn" onClick={cancelAddSlot}>
                 Cancel
               </button>
-              <button className="save-btn" onClick={saveNewSlot}>
-                <span>✓</span> Add Availability
+              <button 
+                className="save-btn" 
+                onClick={saveNewSlot}
+                disabled={saving}
+              >
+                {saving ? (
+                  <>
+                    <div className="btn-spinner"></div>
+                    Saving...
+                  </>
+                ) : (
+                  <>
+                    <span>✓</span> Add Availability
+                  </>
+                )}
               </button>
             </div>
           </div>
         </div>
       )}
 
+      {loading && (
+        <div style={{ padding: '20px', textAlign: 'center' }}>
+          Loading availability...
+        </div>
+      )}
       <div className="weekly-overview">
         <div className="week-grid">
           {weekDates.map((dayInfo) => {
@@ -356,11 +447,11 @@ export default function AgendaPlanner() {
             <p>You have {getTotalAvailableSlots()} available time slots this week</p>
           </div>
           <button 
-            className={`save-btn ${loading ? 'loading' : ''}`}
+            className={`save-btn ${saving ? 'loading' : ''}`}
             onClick={saveAvailability}
-            disabled={loading}
+            disabled={saving || loading}
           >
-            {loading ? (
+            {saving ? (
               <>
                 <div className="btn-spinner"></div>
                 Saving...
