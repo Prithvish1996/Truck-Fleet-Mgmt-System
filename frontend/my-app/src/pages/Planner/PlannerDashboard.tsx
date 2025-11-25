@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { authService } from '../../services/authService';
 import { plannerService, ParcelResponse, DriverResponse } from '../../services/plannerService';
 import { formatDate, formatParcelId, getFullDeliveryAddress } from '../../utils/dataTransformers';
-import RoutePlanningModal from '../../components/RoutePlanningModal/RoutePlanningModal';
 import RouteAssignmentPage from '../../components/RouteAssignmentPage/RouteAssignmentPage';
 import RouteTrackingPage from '../../components/RouteTrackingPage/RouteTrackingPage';
 import TruckDetailPage from '../../components/TruckDetailPage/TruckDetailPage';
@@ -17,8 +16,6 @@ import AvailableDriversPanel from './components/AvailableDriversPanel';
 import StatusMonitoringPanel from './components/StatusMonitoringPanel';
 import SchedulePage from './components/SchedulePage';
 import './PlannerDashboard.css';
-
-type PriorityLevel = 'High' | 'Medium' | 'Low';
 
 type ScheduleParcel = {
   id: string;
@@ -40,7 +37,6 @@ type DashboardRequest = {
   deliveryDate: string;
   parcels: number;
   warehouse: string;
-  priority: PriorityLevel;
   parcelIds: number[];
   warehouseId: number;
 };
@@ -63,9 +59,6 @@ export default function PlannerDashboard() {
   const [newRequests, setNewRequests] = useState<DashboardRequest[]>([]);
   const [scheduleParcels, setScheduleParcels] = useState<ScheduleParcel[]>([]);
   const [selectedScheduleParcels, setSelectedScheduleParcels] = useState<string[]>([]);
-  const [scheduleDate, setScheduleDate] = useState('');
-  const [scheduleTruck, setScheduleTruck] = useState('');
-  const [schedulePriority, setSchedulePriority] = useState<PriorityLevel>('High');
   const [scheduleError, setScheduleError] = useState('');
   const [loading, setLoading] = useState(false);
   const [warehouses, setWarehouses] = useState<any[]>([]);
@@ -73,14 +66,13 @@ export default function PlannerDashboard() {
   const [availableTrucks, setAvailableTrucks] = useState<string[]>([]);
   const [availableDrivers, setAvailableDrivers] = useState<DriverResponse[]>([]);
   const [statusMonitoring, setStatusMonitoring] = useState<Array<{ driver: string; status: string; route: string }>>([]);
+  const [requestTrucks, setRequestTrucks] = useState<Map<string, string>>(new Map());
 
   const [filterStatus, setFilterStatus] = useState<'All' | 'Pending' | 'Scheduled'>('All');
   const [sortBy, setSortBy] = useState<'id' | 'receiver' | 'location' | 'warehouse'>('id');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
   const [searchText, setSearchText] = useState('');
   const [isOptimizing, setIsOptimizing] = useState(false);
-
-  const priorityOptions: PriorityLevel[] = ['High', 'Medium', 'Low'];
 
   useEffect(() => {
     const loadWarehouses = async () => {
@@ -297,7 +289,15 @@ export default function PlannerDashboard() {
 
                 const requests: DashboardRequest[] = Array.from(grouped.entries()).map(([key, parcels]) => {
                   const firstParcel = parcels[0];
-                  const truckPlateId = scheduleTruck || 'TBD';
+                  let requestKey = '';
+                  if (firstParcel.plannedDeliveryDate) {
+                    const dateOnly = firstParcel.plannedDeliveryDate.split('T')[0];
+                    requestKey = `${firstParcel.warehouseId}-${dateOnly}`;
+                  } else {
+                    requestKey = `${firstParcel.warehouseId}-no-date`;
+                  }
+                  const savedTruck = requestTrucks.get(requestKey);
+                  const truckPlateId = savedTruck || 'TBD';
                   const deliveryDate = firstParcel.plannedDeliveryDate 
                     ? formatDate(firstParcel.plannedDeliveryDate)
                     : 'TBD';
@@ -307,7 +307,6 @@ export default function PlannerDashboard() {
                     deliveryDate,
                     parcels: parcels.length,
                     warehouse: firstParcel.warehouseCity || 'Unknown',
-                    priority: schedulePriority,
                     parcelIds: parcels.map(p => p.parcelId),
                     warehouseId: firstParcel.warehouseId
                   };
@@ -323,9 +322,6 @@ export default function PlannerDashboard() {
                     .filter(t => t.isAvailable)
                     .map(t => t.plateNumber);
                   setAvailableTrucks(trucks);
-                  if (trucks.length > 0 && !scheduleTruck) {
-                    setScheduleTruck(trucks[0]);
-                  }
                 } catch (error) {
                   console.error('Error loading trucks:', error);
                 }
@@ -372,7 +368,15 @@ export default function PlannerDashboard() {
 
         const requests: DashboardRequest[] = Array.from(grouped.entries()).map(([key, parcels]) => {
           const firstParcel = parcels[0];
-          const truckPlateId = scheduleTruck || 'TBD';
+          let requestKey = '';
+          if (firstParcel.plannedDeliveryDate) {
+            const dateOnly = firstParcel.plannedDeliveryDate.split('T')[0];
+            requestKey = `${firstParcel.warehouseId}-${dateOnly}`;
+          } else {
+            requestKey = `${firstParcel.warehouseId}-no-date`;
+          }
+          const savedTruck = requestTrucks.get(requestKey);
+          const truckPlateId = savedTruck || 'TBD';
           const deliveryDate = firstParcel.plannedDeliveryDate 
             ? formatDate(firstParcel.plannedDeliveryDate)
             : 'TBD';
@@ -382,7 +386,6 @@ export default function PlannerDashboard() {
             deliveryDate,
             parcels: parcels.length,
             warehouse: firstParcel.warehouseCity || 'Unknown',
-            priority: schedulePriority,
             parcelIds: parcels.map(p => p.parcelId),
             warehouseId: firstParcel.warehouseId
           };
@@ -397,9 +400,6 @@ export default function PlannerDashboard() {
             .filter(t => t.isAvailable)
             .map(t => t.plateNumber);
           setAvailableTrucks(trucks);
-          if (trucks.length > 0 && !scheduleTruck) {
-            setScheduleTruck(trucks[0]);
-          }
         } catch (error) {
           console.error('Error loading trucks:', error);
         }
@@ -415,21 +415,64 @@ export default function PlannerDashboard() {
 
   useEffect(() => {
     loadScheduledDeliveries();
-  }, [activeView, scheduleTruck, schedulePriority]);
+  }, [activeView]);
 
-  const handleGenerateRouteClick = () => {
-    setIsRoutePlanningModalOpen(true);
+  const handleGenerateRouteClick = async () => {
+    if (newRequests.length === 0) {
+      setScheduleError('No requests available to generate routes.');
+      return;
+    }
+
+    setIsOptimizing(true);
+    setScheduleError('');
+
+    try {
+      const allParcelIds: number[] = [];
+      let warehouseId: number | null = null;
+
+      newRequests.forEach(request => {
+        allParcelIds.push(...request.parcelIds);
+        if (!warehouseId) {
+          warehouseId = request.warehouseId;
+        }
+      });
+
+      if (allParcelIds.length === 0) {
+        throw new Error('No parcels found in requests');
+      }
+
+      if (!warehouseId) {
+        throw new Error('No warehouse ID found');
+      }
+
+      console.log('Generating routes for parcels:', { parcelIds: allParcelIds, warehouseId });
+
+      const result = await plannerService.generateRoutes({
+        depot_id: warehouseId,
+        warehouse_id: warehouseId,
+        parcelIds: allParcelIds
+      });
+
+      setSelectedParcelIds(allParcelIds.map(id => id.toString()));
+      setShowRouteAssignment(true);
+      setActiveView('dashboard');
+      setScheduleError('');
+
+    } catch (err: any) {
+      console.error('Error generating routes:', err);
+      setScheduleError(err.message || 'Failed to generate routes. Please try again.');
+    } finally {
+      setIsOptimizing(false);
+    }
   };
 
   const handleGenerateRoute = async (selectedParcelIds: string[]) => {
     setSelectedParcelIds(selectedParcelIds);
-    setIsRoutePlanningModalOpen(false);
     setShowRouteAssignment(true);
   };
 
   const handleReturnFromAssignment = () => {
     setShowRouteAssignment(false);
-    setIsRoutePlanningModalOpen(true);
   };
 
   const handleSubmitAssignments = (assignments: RouteAssignment[]) => {
@@ -552,6 +595,7 @@ export default function PlannerDashboard() {
       
       const result = await plannerService.generateRoutes({
         depot_id: selectedWarehouseId,
+        warehouse_id: selectedWarehouseId,
         parcelIds: selectedParcelIds
       });
       
@@ -577,19 +621,14 @@ export default function PlannerDashboard() {
 
   const resetScheduleForm = () => {
     setSelectedScheduleParcels([]);
-    setScheduleDate('');
-    if (availableTrucks.length > 0) {
-      setScheduleTruck(availableTrucks[0]);
-    }
-    setSchedulePriority('High');
     setScheduleError('');
   };
 
 
   const handleScheduleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!scheduleDate || selectedScheduleParcels.length === 0) {
-      setScheduleError('Select at least one parcel and pick a delivery date.');
+    if (selectedScheduleParcels.length === 0) {
+      setScheduleError('Select at least one parcel.');
       return;
     }
 
@@ -610,18 +649,16 @@ export default function PlannerDashboard() {
         return;
       }
 
-      const deliveryDate = scheduleDate ? new Date(scheduleDate).toISOString() : undefined;
-
-      console.log('Submitting parcels:', { parcelIds, deliveryDate });
+      console.log('Submitting parcels:', { parcelIds });
+      
       const scheduledParcels = await plannerService.scheduleParcels({
-        parcelIds,
-        deliveryDate
+        parcelIds
       });
       console.log('Scheduled parcels response:', scheduledParcels);
       console.log('Number of parcels scheduled:', scheduledParcels?.length || 0);
 
-      resetScheduleForm();
-      setActiveView('dashboard');
+    resetScheduleForm();
+    setActiveView('dashboard');
       
       // 增加延迟并重试，确保后端数据已保存
       let retryCount = 0;
@@ -792,21 +829,14 @@ export default function PlannerDashboard() {
               scheduleParcels={scheduleParcels}
               filteredAndSortedParcels={filteredAndSortedParcels}
               selectedScheduleParcels={selectedScheduleParcels}
-              scheduleDate={scheduleDate}
-              scheduleTruck={scheduleTruck}
-              schedulePriority={schedulePriority}
-              availableTrucks={availableTrucks}
-              priorityOptions={priorityOptions}
               searchText={searchText}
               filterStatus={filterStatus}
               sortBy={sortBy}
               sortOrder={sortOrder}
               loading={loading}
-              isOptimizing={isOptimizing}
               scheduleError={scheduleError}
               onScheduleSubmit={handleScheduleSubmit}
               onParcelToggle={handleScheduleParcelToggle}
-              onOptimizeRoute={handleOptimizeRoute}
               onSearchChange={setSearchText}
               onFilterStatusChange={setFilterStatus}
               onSortByChange={setSortBy}
@@ -815,28 +845,11 @@ export default function PlannerDashboard() {
                 setSelectedWarehouseId(id);
                 setScheduleError('');
               }}
-              onDateChange={(date) => {
-                setScheduleDate(date);
-                setScheduleError('');
-              }}
-              onTruckChange={(truck) => {
-                setScheduleTruck(truck);
-                setScheduleError('');
-              }}
-              onPriorityChange={(priority) => {
-                setSchedulePriority(priority);
-                setScheduleError('');
-              }}
             />
           ) : null}
         </main>
       </div>
 
-      <RoutePlanningModal
-        isOpen={isRoutePlanningModalOpen}
-        onClose={() => setIsRoutePlanningModalOpen(false)}
-        onGenerateRoute={handleGenerateRoute}
-      />
     </div>
   );
 }

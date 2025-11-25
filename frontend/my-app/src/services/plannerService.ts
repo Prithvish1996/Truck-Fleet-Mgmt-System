@@ -32,6 +32,7 @@ export interface ScheduleRequest {
 
 export interface GenerateRouteRequest {
   depot_id: number;
+  warehouse_id: number;
   parcelIds: number[];
 }
 

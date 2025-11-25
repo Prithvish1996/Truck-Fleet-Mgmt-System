@@ -18,37 +18,25 @@ type ScheduleParcel = {
   createdAt?: string;
 };
 
-type PriorityLevel = 'High' | 'Medium' | 'Low';
-
 interface SchedulePageProps {
   warehouses: any[];
   selectedWarehouseId: number | null;
   scheduleParcels: ScheduleParcel[];
   filteredAndSortedParcels: ScheduleParcel[];
   selectedScheduleParcels: string[];
-  scheduleDate: string;
-  scheduleTruck: string;
-  schedulePriority: PriorityLevel;
-  availableTrucks: string[];
-  priorityOptions: PriorityLevel[];
   searchText: string;
   filterStatus: 'All' | 'Pending' | 'Scheduled';
   sortBy: 'id' | 'receiver' | 'location' | 'warehouse';
   sortOrder: 'asc' | 'desc';
   loading: boolean;
-  isOptimizing: boolean;
   scheduleError: string;
   onScheduleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
   onParcelToggle: (parcelId: string) => void;
-  onOptimizeRoute: () => void;
   onSearchChange: (value: string) => void;
   onFilterStatusChange: (value: 'All' | 'Pending' | 'Scheduled') => void;
   onSortByChange: (value: 'id' | 'receiver' | 'location' | 'warehouse') => void;
   onSortOrderToggle: () => void;
   onWarehouseChange: (warehouseId: number) => void;
-  onDateChange: (date: string) => void;
-  onTruckChange: (truck: string) => void;
-  onPriorityChange: (priority: PriorityLevel) => void;
 }
 
 export default function SchedulePage({
@@ -56,29 +44,19 @@ export default function SchedulePage({
   selectedWarehouseId,
   filteredAndSortedParcels,
   selectedScheduleParcels,
-  scheduleDate,
-  scheduleTruck,
-  schedulePriority,
-  availableTrucks,
-  priorityOptions,
   searchText,
   filterStatus,
   sortBy,
   sortOrder,
   loading,
-  isOptimizing,
   scheduleError,
   onScheduleSubmit,
   onParcelToggle,
-  onOptimizeRoute,
   onSearchChange,
   onFilterStatusChange,
   onSortByChange,
   onSortOrderToggle,
-  onWarehouseChange,
-  onDateChange,
-  onTruckChange,
-  onPriorityChange
+  onWarehouseChange
 }: SchedulePageProps) {
   return (
     <section className="schedule-page" lang="en-US" style={{ minHeight: '400px' }}>
@@ -87,6 +65,42 @@ export default function SchedulePage({
           <h1>Parcel Pool</h1>
           <p>Select Parcels for New Request</p>
         </div>
+
+        {warehouses && warehouses.length > 0 && (
+          <div className="schedule-warehouse-selector" style={{ 
+            padding: '16px 20px 8px 20px',
+            display: 'flex',
+            alignItems: 'center'
+          }}>
+            <label className="schedule-field" style={{ 
+              display: 'flex', 
+              flexDirection: 'row',
+              alignItems: 'center', 
+              gap: '12px',
+              margin: 0
+            }}>
+              <span style={{ fontWeight: '500', whiteSpace: 'nowrap' }}>Select Warehouse:</span>
+              <select
+                value={selectedWarehouseId || ''}
+                onChange={(e) => onWarehouseChange(parseInt(e.target.value, 10))}
+                required
+                style={{
+                  padding: '8px 12px',
+                  border: '1px solid #ccc',
+                  borderRadius: '4px',
+                  fontSize: '14px',
+                  minWidth: '200px'
+                }}
+              >
+                {warehouses.map(warehouse => (
+                  <option key={warehouse.id} value={warehouse.id}>
+                    {warehouse.name || `Warehouse ${warehouse.id}`}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
+        )}
 
         {warehouses.length === 0 && loading && (
           <div style={{ 
@@ -168,31 +182,12 @@ export default function SchedulePage({
           />
         )}
 
-        <div className="schedule-actions">
-          <button
-            type="button"
-            className="optimize-route-btn"
-            onClick={onOptimizeRoute}
-            disabled={isOptimizing || selectedScheduleParcels.length === 0}
-          >
-            {isOptimizing ? 'Optimizing...' : 'Optimize Route'}
-          </button>
-        </div>
-
         <ScheduleForm
           warehouses={warehouses}
           selectedWarehouseId={selectedWarehouseId}
-          scheduleDate={scheduleDate}
-          scheduleTruck={scheduleTruck}
-          schedulePriority={schedulePriority}
-          availableTrucks={availableTrucks}
-          priorityOptions={priorityOptions}
           selectedParcelsCount={selectedScheduleParcels.length}
           loading={loading}
           onWarehouseChange={onWarehouseChange}
-          onDateChange={onDateChange}
-          onTruckChange={onTruckChange}
-          onPriorityChange={onPriorityChange}
         />
       </form>
     </section>

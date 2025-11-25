@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
-import PriorityBadge from '../../../components/common/PriorityBadge';
 
 interface DashboardRequest {
   truckPlateId: string;
   deliveryDate: string;
   parcels: number;
   warehouse: string;
-  priority: 'High' | 'Medium' | 'Low';
   parcelIds: number[];
   warehouseId: number;
 }
@@ -81,7 +79,6 @@ export default function NewRequestsPanel({ requests, onGenerateRouteClick }: New
               <th>Delivery Date</th>
               <th>No. of Parcels</th>
               <th>Warehouse</th>
-              <th>Priority</th>
             </tr>
           </thead>
           <tbody>
@@ -91,9 +88,6 @@ export default function NewRequestsPanel({ requests, onGenerateRouteClick }: New
                 <td>{request.deliveryDate}</td>
                 <td>{request.parcels}</td>
                 <td>{request.warehouse}</td>
-                <td>
-                  <PriorityBadge priority={request.priority} className={`priority-badge priority-${request.priority.toLowerCase()}`} />
-                </td>
               </tr>
             ))}
           </tbody>
