@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { routeService } from './routeService';
 import { googleMapsService } from './googleMapsService';
 import { Package } from '../types';
@@ -16,8 +17,6 @@ class DeliveryService {
   async loadPackages(routeId: string, forceRefresh: boolean = true): Promise<Package[]> {
     const cacheKey = `route_packages_${routeId}`;
     
-    // Always fetch fresh data from API to ensure we have the latest package statuses
-    // The cache can become stale if packages were marked as delivered in a previous session
     const routePackages = await routeService.getRoutePackages(routeId, forceRefresh) as Package[];
     
     const packagesArray = Array.isArray(routePackages) ? routePackages : [];
@@ -69,30 +68,33 @@ class DeliveryService {
       }
 
       try {
-        const response = await fetch(`${apiConfig.baseURL}/planner/parcel/status`, {
-          method: 'PUT',
-          headers: {
-            'Authorization': `Bearer ${token.trim()}`,
-            'Content-Type': 'application/json',
-          },
-          credentials: 'include',
-          body: JSON.stringify({
+        const response = await axios.put(
+          `${apiConfig.baseURL}/planner/parcel/status`,
+          {
             parcelId: parseInt(packageId, 10),
             status: 'DELIVERED'
-          }),
-        });
+          },
+          {
+            headers: {
+              'Authorization': `Bearer ${token.trim()}`,
+              'Content-Type': 'application/json',
+            },
+            withCredentials: true,
+          }
+        );
 
-        if (!response.ok) {
-          const errorData = await response.json().catch(() => ({ message: 'Failed to update parcel status' }));
-          throw new Error(errorData.message || `Failed to update parcel status (Status: ${response.status})`);
-        }
-
-        const apiResponse = await response.json();
+        const apiResponse = response.data;
         if (!apiResponse.success) {
           throw new Error(apiResponse.message || 'Failed to update parcel status');
         }
-      } catch (error) {
+      } catch (error: any) {
         console.error('Error updating parcel status on backend:', error);
+        
+        if (axios.isAxiosError(error)) {
+          const errorMessage = error.response?.data?.message || `Failed to update parcel status (Status: ${error.response?.status})`;
+          throw new Error(errorMessage);
+        }
+        
         throw error;
       }
     }

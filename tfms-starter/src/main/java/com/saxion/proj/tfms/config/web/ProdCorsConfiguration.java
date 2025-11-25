@@ -35,7 +35,6 @@ public class ProdCorsConfiguration {
             "GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"
         ));
         
-        // Specific headers for security
         configuration.setAllowedHeaders(Arrays.asList(
             "Content-Type", 
             "Authorization",
