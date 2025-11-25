@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { apiConfig } from '../config/apiConfig';
 import { authService } from './authService';
 
@@ -34,28 +35,19 @@ class SuggestionService {
         throw new Error('Suggestion cannot be empty');
       }
 
-      const response = await fetch(`${this.baseURL}/driver/${driverId}/suggestion`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${trimmedToken}`,
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify(trimmedSuggestion),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({ message: 'Failed to submit suggestion' }));
-        const errorMessage = errorData.message || `Failed to submit suggestion (Status: ${response.status})`;
-        
-        if (response.status === 401) {
-          throw new Error(`${errorMessage}. Please log out and log back in to refresh your token.`);
+      const response = await axios.post<SuggestionResponse>(
+        `${this.baseURL}/driver/${driverId}/suggestion`,
+        trimmedSuggestion,
+        {
+          headers: {
+            'Authorization': `Bearer ${trimmedToken}`,
+            'Content-Type': 'application/json',
+          },
+          withCredentials: true,
         }
-        
-        throw new Error(errorMessage);
-      }
+      );
 
-      const apiResponse: SuggestionResponse = await response.json();
+      const apiResponse = response.data;
       
       if (!apiResponse.success) {
         throw new Error(apiResponse.message || 'Failed to submit suggestion');
@@ -64,6 +56,17 @@ class SuggestionService {
       return apiResponse.message || 'Suggestion saved successfully';
     } catch (error) {
       console.error('Error submitting suggestion:', error);
+      
+      if (axios.isAxiosError(error)) {
+        const errorMessage = error.response?.data?.message || `Failed to submit suggestion (Status: ${error.response?.status})`;
+        
+        if (error.response?.status === 401) {
+          throw new Error(`${errorMessage}. Please log out and log back in to refresh your token.`);
+        }
+        
+        throw new Error(errorMessage);
+      }
+      
       throw error;
     }
   }
