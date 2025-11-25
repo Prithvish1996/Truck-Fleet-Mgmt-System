@@ -40,6 +40,7 @@ public class RouteResponseDto {
         dto.setTruckPlateNumber(r.getTruck() != null ? r.getTruck().getPlateNumber() : null);
         dto.setDepotId(r.getDepot() != null ? r.getDepot().getId() : null);
         dto.setDepotName(r.getDepot() != null ? r.getDepot().getName() : null);
+
         dto.setTotalDistance(r.getTotalDistance());
         dto.setTotalTransportTime(r.getTotalTransportTime());
         dto.setNote(r.getNote());

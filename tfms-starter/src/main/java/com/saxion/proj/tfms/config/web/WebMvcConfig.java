@@ -18,17 +18,14 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        // Serve static resources (JS, CSS, images, etc.)
         registry.addResourceHandler("/static/**")
                 .addResourceLocations("classpath:/static/static/")
                 .setCachePeriod(3600);
 
-        // Serve other static files (favicon, manifest, etc.)
         registry.addResourceHandler("/favicon.ico", "/manifest.json", "/robots.txt", "/logo*.png")
                 .addResourceLocations("classpath:/static/")
                 .setCachePeriod(3600);
 
-        // Handle React Router - serve index.html for all non-API routes
         registry.addResourceHandler("/**")
                 .addResourceLocations("classpath:/static/")
                 .resourceChain(true)
@@ -37,18 +34,15 @@ public class WebMvcConfig implements WebMvcConfigurer {
                     protected Resource getResource(String resourcePath, Resource location) throws IOException {
                         Resource requestedResource = location.createRelative(resourcePath);
                         
-                        // If the requested resource exists, serve it
                         if (requestedResource.exists() && requestedResource.isReadable()) {
                             return requestedResource;
                         }
                         
-                        // For API routes, don't serve index.html (let Spring handle them)
                         if (resourcePath.startsWith("api/") || resourcePath.startsWith("actuator/") || 
                             resourcePath.startsWith("swagger-ui") || resourcePath.startsWith("v3/api-docs")) {
                             return null;
                         }
                         
-                        // For all other routes (React Router routes), serve index.html
                         return new ClassPathResource("/static/index.html");
                     }
                 });

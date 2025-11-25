@@ -63,12 +63,21 @@
             <artifactId>auth-service</artifactId>
             <version>${project.version}</version>
         </dependency>
+<!-- Routing Module Dependencies -->
+        <dependency>
+            <groupId>com.saxion.proj</groupId>
+            <artifactId>routing-service</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
 
         <!-- Lombok for boilerplate code reduction -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
+
+
         </dependency>
 
         <!-- Database -->
@@ -87,6 +96,16 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.logging.log4j</groupId>
+                    <artifactId>log4j-to-slf4j</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>

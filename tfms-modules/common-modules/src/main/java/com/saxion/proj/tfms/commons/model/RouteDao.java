@@ -33,9 +33,13 @@ public class RouteDao extends BaseEntity {
     @JoinColumn(name = "driver_id")
     private DriverDao driver;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = true)
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "depot_id")
     private DepotDao depot;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "warehouse_id")
+    private WareHouseDao warehouse;
 
     @Column(nullable = false)
     private Long totalDistance;

@@ -34,15 +34,8 @@ public class GetDriverHandler implements IGetDriverById {
             return ApiResponse.error("Driver not found");
         }
 
-        DriverDao driver = driverOpt.get();
-        DriverResponseDto response = new DriverResponseDto(
-                driver.getId(),
-                driver.getUser().getUsername(),
-                driver.getUser().getEmail(),
-                driver.getIsAvailable(),
-                driver.getLocation() != null ? driver.getLocation().getCity() : null,
-                driver.getLocation() != null ? driver.getLocation().getAddress() : null);
+        DriverResponseDto responseDto = DriverResponseDto.fromEntity(driverOpt.get());
 
-        return ApiResponse.success(response);
+        return ApiResponse.success(responseDto);
     }
 }

@@ -7,8 +7,7 @@ import com.saxion.proj.tfms.commons.model.RouteDao;
 import com.saxion.proj.tfms.planner.abstractions.parcelServices.IUpdateParcelStatus;
 import com.saxion.proj.tfms.planner.abstractions.routeServices.IUpdateRouteStatus;
 import com.saxion.proj.tfms.planner.dto.UpdateParcelStatusRequestDto;
-import com.saxion.proj.tfms.planner.dto.UpdateRouteStatusRequestDto;
-import com.saxion.proj.tfms.planner.dto.routing.model.Parcel;
+
 import com.saxion.proj.tfms.planner.repository.ParcelRepository;
 import com.saxion.proj.tfms.planner.repository.RouteRepository;
 import jakarta.transaction.Transactional;

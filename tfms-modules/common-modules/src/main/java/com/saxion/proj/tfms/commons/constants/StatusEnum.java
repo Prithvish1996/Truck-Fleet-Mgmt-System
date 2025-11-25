@@ -1,6 +1,7 @@
 package com.saxion.proj.tfms.commons.constants;
 
 public enum StatusEnum {
+    AVAILABLE, // When a driver is set is available
     PENDING, // When a parcel is created and pending schedule
     SCHEDULED, // When a parcel is scheduled to be delivered
     DELIVERED, // When a parcel is delivered to the customer
