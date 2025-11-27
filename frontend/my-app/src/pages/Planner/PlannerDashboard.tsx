@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authService } from '../../services/authService';
 import { plannerService, ParcelResponse, DriverResponse } from '../../services/plannerService';
 import { formatDate, formatParcelId, getFullDeliveryAddress } from '../../utils/dataTransformers';
+import { requestCache } from '../../utils/requestCache';
 import RouteAssignmentPage from '../../components/RouteAssignmentPage/RouteAssignmentPage';
 import RouteTrackingPage from '../../components/RouteTrackingPage/RouteTrackingPage';
 import TruckDetailPage from '../../components/TruckDetailPage/TruckDetailPage';
@@ -65,6 +66,8 @@ export default function PlannerDashboard() {
   const [loading, setLoading] = useState(false);
   const [warehouses, setWarehouses] = useState<any[]>([]);
   const [selectedWarehouseId, setSelectedWarehouseId] = useState<number | null>(null);
+  const [depots, setDepots] = useState<Array<{ id: number; name: string; capacity: number; location: any }>>([]);
+  const [defaultDepotId, setDefaultDepotId] = useState<number | null>(null);
   const [availableTrucks, setAvailableTrucks] = useState<string[]>([]);
   const [availableDrivers, setAvailableDrivers] = useState<DriverResponse[]>([]);
   const [statusMonitoring, setStatusMonitoring] = useState<Array<{ driver: string; status: string; route: string }>>([]);
@@ -75,8 +78,24 @@ export default function PlannerDashboard() {
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
   const [searchText, setSearchText] = useState('');
   const [isOptimizing, setIsOptimizing] = useState(false);
+  
+  const availableDriversCacheRef = useRef<{ data: DriverResponse[]; timestamp: number } | null>(null);
+  const CACHE_DURATION = 3000;
 
   useEffect(() => {
+    const loadDepots = async () => {
+      try {
+        const depotList = await plannerService.getDepots();
+        setDepots(depotList);
+        if (depotList.length > 0) {
+          setDefaultDepotId(depotList[0].id);
+        }
+      } catch (error) {
+        console.error('Error loading depots:', error);
+        setDefaultDepotId(1);
+      }
+    };
+
     const loadWarehouses = async () => {
       console.log('=== Starting to load warehouses ===');
       try {
@@ -133,11 +152,15 @@ export default function PlannerDashboard() {
         try {
           console.log('Calling plannerService.getAllParcels...');
           
-          const allParcelsData = await plannerService.getAllParcels(
-            selectedWarehouseId,
-            0,
-            10000,
-            searchText || undefined
+          const cacheKey = `getAllParcels-${selectedWarehouseId}-${searchText || 'all'}`;
+          const allParcelsData = await requestCache.get(
+            cacheKey,
+            () => plannerService.getAllParcels(
+              selectedWarehouseId,
+              0,
+              10000,
+              searchText || undefined
+            )
           );
           
           console.log('Parcels data structure:', {
@@ -210,8 +233,25 @@ export default function PlannerDashboard() {
     const loadAvailableDrivers = async () => {
       if (activeView === 'dashboard') {
         try {
-          const drivers = await plannerService.getAvailableDrivers();
-          setAvailableDrivers(drivers.filter(d => d.isAvailable));
+          const now = Date.now();
+          if (availableDriversCacheRef.current && 
+              (now - availableDriversCacheRef.current.timestamp) < CACHE_DURATION) {
+            setAvailableDrivers(availableDriversCacheRef.current.data.filter(d => d.isAvailable));
+            return;
+          }
+
+          const drivers = await requestCache.get(
+            'availableDrivers',
+            () => plannerService.getAvailableDrivers()
+          );
+          
+          const filtered = drivers.filter(d => d.isAvailable);
+          availableDriversCacheRef.current = {
+            data: drivers,
+            timestamp: now
+          };
+          
+          setAvailableDrivers(filtered);
         } catch (error) {
           console.error('Error loading available drivers:', error);
           setAvailableDrivers([]);
@@ -225,31 +265,45 @@ export default function PlannerDashboard() {
     const loadStatusMonitoring = async () => {
       if (activeView === 'dashboard') {
         try {
-          const drivers = await plannerService.getAvailableDrivers();
+          const now = Date.now();
+          let drivers: DriverResponse[];
+          
+          if (availableDriversCacheRef.current && 
+              (now - availableDriversCacheRef.current.timestamp) < CACHE_DURATION) {
+            drivers = availableDriversCacheRef.current.data;
+          } else {
+            drivers = await requestCache.get(
+              'availableDrivers',
+              () => plannerService.getAvailableDrivers()
+            );
+            availableDriversCacheRef.current = {
+              data: drivers,
+              timestamp: now
+            };
+          }
+
           const statusData: Array<{ driver: string; status: string; route: string }> = [];
           
-          await Promise.all(
-            drivers.map(async (driver) => {
-              try {
-                const routeData = await plannerService.getRouteByDriverId(driver.id);
-                
-                if (routeData.routes && Array.isArray(routeData.routes)) {
-                  routeData.routes.forEach(route => {
-                    const driverName = route.driverUserName || route.driverEmail || driver.userName || driver.email || 'Unknown Driver';
-                    statusData.push({
-                      driver: driverName,
-                      status: route.status || 'ASSIGNED',
-                      route: `Route ${route.routeId || 'N/A'} - ${route.truckPlateNumber || 'N/A'}`
-                    });
+          for (const driver of drivers) {
+            try {
+              const routeData = await plannerService.getRouteByDriverId(driver.id);
+              
+              if (routeData && routeData.routes && Array.isArray(routeData.routes) && routeData.routes.length > 0) {
+                routeData.routes.forEach(route => {
+                  const driverName = route.driverUserName || route.driverEmail || driver.userName || driver.email || 'Unknown Driver';
+                  statusData.push({
+                    driver: driverName,
+                    status: route.status || 'ASSIGNED',
+                    route: `Route ${route.routeId || 'N/A'} - ${route.truckPlateNumber || 'N/A'}`
                   });
-                }
-              } catch (error: any) {
-                if (!error.message?.includes('No assigned routes')) {
-                  console.warn(`Error loading routes for driver ${driver.id}:`, error);
-                }
+                });
               }
-            })
-          );
+            } catch (error: any) {
+              console.warn(`Error loading routes for driver ${driver.id}:`, error);
+            }
+            
+            await new Promise(resolve => setTimeout(resolve, 100));
+          }
           
           setStatusMonitoring(statusData);
         } catch (error) {
@@ -261,7 +315,7 @@ export default function PlannerDashboard() {
     loadStatusMonitoring();
   }, [activeView]);
 
-  const loadScheduledDeliveries = async (retryCount = 0): Promise<void> => {
+  const loadScheduledDeliveries = async (): Promise<void> => {
     if (activeView === 'dashboard') {
       setLoading(true);
       try {
@@ -271,8 +325,12 @@ export default function PlannerDashboard() {
           try {
             console.log('Trying to load scheduled parcels from getAllParcels...');
             
-            const size = retryCount > 0 ? 100 : 10000;
-            const allParcelsData = await plannerService.getAllParcels(selectedWarehouseId, 0, size);
+            const size = 10000;
+            const cacheKey = `getAllParcels-${selectedWarehouseId}-${size}`;
+            const allParcelsData = await requestCache.get(
+              cacheKey,
+              () => plannerService.getAllParcels(selectedWarehouseId, 0, size)
+            );
             
             if (!allParcelsData || !allParcelsData.data) {
               throw new Error('Invalid data structure from getAllParcels');
@@ -354,13 +412,21 @@ export default function PlannerDashboard() {
                 });
                 
                 try {
-                  const routeData = await plannerService.getUnassignedRoutes();
-                  const trucks = routeData.trucks
-                    .filter(t => t.isAvailable)
-                    .map(t => t.plateNumber);
-                  setAvailableTrucks(trucks);
+                  const routeData = await requestCache.get(
+                    'getUnassignedRoutes',
+                    () => plannerService.getUnassignedRoutes()
+                  );
+                  if (routeData && routeData.trucks) {
+                    const trucks = routeData.trucks
+                      .filter(t => t.isAvailable)
+                      .map(t => t.plateNumber);
+                    setAvailableTrucks(trucks);
+                  } else {
+                    setAvailableTrucks([]);
+                  }
                 } catch (error) {
                   console.error('Error loading trucks:', error);
+                  setAvailableTrucks([]);
                 }
                 
                 setLoading(false);
@@ -368,36 +434,17 @@ export default function PlannerDashboard() {
               }
             }
           } catch (error: any) {
-            if (error.message && error.message.includes('Too many requests') && retryCount < 3) {
-              if (activeView !== 'dashboard') {
-                return;
-              }
-              const delay = (retryCount + 1) * 2000;
-              console.log(`Rate limited. Retrying after ${delay}ms (attempt ${retryCount + 1}/3)...`);
-              await new Promise(resolve => setTimeout(resolve, delay));
-              if (activeView === 'dashboard') {
-                return loadScheduledDeliveries(retryCount + 1);
-              }
-            }
             console.warn('Failed to load scheduled parcels from getAllParcels, trying getScheduledDeliveries:', error);
           }
         }
         
         let data;
         try {
-          data = await plannerService.getScheduledDeliveries(undefined, 1, 100);
+          data = await requestCache.get(
+            'getScheduledDeliveries',
+            () => plannerService.getScheduledDeliveries(undefined, 1, 100)
+          );
         } catch (err: any) {
-          if (err.message && err.message.includes('Too many requests') && retryCount < 3) {
-            if (activeView !== 'dashboard') {
-              return;
-            }
-            const delay = (retryCount + 1) * 2000;
-            console.log(`Rate limited. Retrying after ${delay}ms (attempt ${retryCount + 1}/3)...`);
-            await new Promise(resolve => setTimeout(resolve, delay));
-            if (activeView === 'dashboard') {
-              return loadScheduledDeliveries(retryCount + 1);
-            }
-          }
           throw err;
         }
         
@@ -486,13 +533,21 @@ export default function PlannerDashboard() {
         });
 
         try {
-          const routeData = await plannerService.getUnassignedRoutes();
-          const trucks = routeData.trucks
-            .filter(t => t.isAvailable)
-            .map(t => t.plateNumber);
-          setAvailableTrucks(trucks);
+          const routeData = await requestCache.get(
+            'getUnassignedRoutes',
+            () => plannerService.getUnassignedRoutes()
+          );
+          if (routeData && routeData.trucks) {
+            const trucks = routeData.trucks
+              .filter(t => t.isAvailable)
+              .map(t => t.plateNumber);
+            setAvailableTrucks(trucks);
+          } else {
+            setAvailableTrucks([]);
+          }
         } catch (error) {
           console.error('Error loading trucks:', error);
+          setAvailableTrucks([]);
         }
       } catch (error: any) {
         console.error('Error loading scheduled deliveries:', error);
@@ -534,6 +589,9 @@ export default function PlannerDashboard() {
       const allParcelIds: number[] = [];
       const warehouseEntries = Array.from(requestsByWarehouse.entries());
       const processedRequests: DashboardRequest[] = [];
+      const failedRequests: DashboardRequest[] = [];
+      const errors: string[] = [];
+      let has429Error = false;
 
       // 串行为每个 warehouseId 生成路由，避免 429 错误
       for (let i = 0; i < warehouseEntries.length; i++) {
@@ -547,74 +605,45 @@ export default function PlannerDashboard() {
           continue;
         }
 
-        allParcelIds.push(...parcelIds);
+        try {
+          console.log(`Generating routes for warehouse ${warehouseId}...`);
+          console.log(`Parcel IDs for warehouse ${warehouseId}:`, parcelIds);
+          
+          await plannerService.generateRoutes({
+            depot_id: defaultDepotId || 1,
+            warehouse_id: warehouseId,
+            parcelIds: parcelIds
+          });
 
-        // 为每个 warehouse 生成路由，添加重试逻辑
-        let retryCount = 0;
-        const maxRetries = 3;
-        let success = false;
+          console.log(`Successfully generated routes for warehouse ${warehouseId}`);
+          
+          allParcelIds.push(...parcelIds);
+          processedRequests.push(...requests);
 
-        while (retryCount < maxRetries && !success) {
-          try {
-            console.log(`Generating routes for warehouse ${warehouseId} (attempt ${retryCount + 1}/${maxRetries})...`);
-            console.log(`Parcel IDs for warehouse ${warehouseId}:`, parcelIds);
-            
-            await plannerService.generateRoutes({
-              depot_id: warehouseId,
-              warehouse_id: warehouseId,
-              parcelIds: parcelIds
-            });
-
-            success = true;
-            console.log(`Successfully generated routes for warehouse ${warehouseId}`);
-            
-            // 记录成功处理的 requests
-            processedRequests.push(...requests);
-
-            // 如果不是最后一个 warehouse，添加延迟避免 429 错误
-            if (i < warehouseEntries.length - 1) {
-              await new Promise(resolve => setTimeout(resolve, 1500)); // 1.5秒延迟
-            }
-
-          } catch (err: any) {
-            console.error(`Error generating routes for warehouse ${warehouseId}:`, err);
-            
-            if (err.message && err.message.includes('Too many requests') && retryCount < maxRetries - 1) {
-              retryCount++;
-              const delay = retryCount * 2000; // 2s, 4s, 6s
-              console.log(`Rate limited for warehouse ${warehouseId}. Retrying after ${delay}ms...`);
-              await new Promise(resolve => setTimeout(resolve, delay));
-              continue;
-            }
-            
-            // 如果是 500 错误且还有重试次数，也重试
-            if (err.message && (err.message.includes('Server error') || err.message.includes('500') || err.message.includes('Please try again later')) && retryCount < maxRetries - 1) {
-              retryCount++;
-              const delay = retryCount * 2000;
-              console.log(`Server error for warehouse ${warehouseId}. Retrying after ${delay}ms...`);
-              await new Promise(resolve => setTimeout(resolve, delay));
-              continue;
-            }
-            
-            // 重试次数用完或不可重试的错误，抛出异常
-            throw err;
+          if (i < warehouseEntries.length - 1) {
+            await new Promise(resolve => setTimeout(resolve, 500));
+          }
+        } catch (err: any) {
+          console.error(`Error generating routes for warehouse ${warehouseId}:`, err);
+          const errorMsg = err.message || `Failed to generate routes for warehouse ${warehouseId}`;
+          errors.push(`Warehouse ${warehouseId}: ${errorMsg}`);
+          failedRequests.push(...requests);
+          
+          // 如果是429错误，停止处理后续warehouse
+          if (err.message && err.message.includes('Too many requests')) {
+            has429Error = true;
+            console.log('Rate limit reached. Stopping further route generation.');
+            break;
           }
         }
-
-        if (!success) {
-          throw new Error(`Failed to generate routes for warehouse ${warehouseId} after ${maxRetries} attempts`);
-        }
       }
 
-      if (allParcelIds.length === 0) {
-        throw new Error('No parcels found in requests');
-      }
-
-      // 从 newRequests 中移除已成功处理的 requests
-      if (processedRequests.length > 0) {
+      // 从 newRequests 中移除已处理的 requests（包括成功和失败的）
+      const allProcessedRequests = [...processedRequests, ...failedRequests];
+      if (allProcessedRequests.length > 0) {
         setNewRequests(prevRequests => {
           const processedKeys = new Set<string>();
-          processedRequests.forEach(req => {
+          allProcessedRequests.forEach(req => {
             const key = `${req.warehouseId}-${req.deliveryDate}`;
             processedKeys.add(key);
           });
@@ -626,9 +655,54 @@ export default function PlannerDashboard() {
         });
       }
 
-      setSelectedParcelIds(allParcelIds.map(id => id.toString()));
-      setActiveView('route-assignment');
-      setScheduleError('');
+      // 如果有成功的请求，跳转到 route-assignment 页面
+      console.log('Route generation result:', {
+        processedRequests: processedRequests.length,
+        allParcelIds: allParcelIds.length,
+        errors: errors.length,
+        failedRequests: failedRequests.length
+      });
+      
+      if (processedRequests.length > 0 && allParcelIds.length > 0) {
+        console.log('Jumping to route-assignment page');
+        setSelectedParcelIds(allParcelIds.map(id => id.toString()));
+        setActiveView('route-assignment');
+        
+        // 如果有错误，显示警告信息
+        if (errors.length > 0) {
+          if (has429Error) {
+            setScheduleError(`Some routes generated successfully, but rate limit reached. Please wait before trying again. Failed: ${errors.join('; ')}`);
+          } else {
+            setScheduleError(`Some routes generated successfully, but some failed: ${errors.join('; ')}`);
+          }
+        } else {
+          setScheduleError('');
+        }
+      } else {
+        // 全部失败
+        console.log('All requests failed - staying on dashboard');
+        console.log('Current activeView before setting:', activeView);
+        if (errors.length > 0) {
+          if (has429Error) {
+            setScheduleError(`Rate limit reached. Please wait a moment before trying again. Errors: ${errors.join('; ')}`);
+          } else {
+            setScheduleError(`Failed to generate routes for all warehouses: ${errors.join('; ')}`);
+          }
+        } else {
+          setScheduleError('No parcels found in requests');
+        }
+        // 强制设置为 dashboard，不使用条件判断
+        console.log('Forcing view back to dashboard from:', activeView);
+        setActiveView('dashboard');
+        // 清除 selectedParcelIds，防止 RouteAssignmentPage 被渲染
+        setSelectedParcelIds([]);
+      }
+
+      // 如果有429错误，延迟重置状态，防止立即重试
+      if (has429Error) {
+        await new Promise(resolve => setTimeout(resolve, 3000));
+      }
+      
       setIsOptimizing(false);
 
     } catch (err: any) {
@@ -642,6 +716,7 @@ export default function PlannerDashboard() {
       let errorMessage = 'Failed to generate routes. ';
       if (err.message && err.message.includes('Too many requests')) {
         errorMessage += 'Please wait a moment and try again.';
+        await new Promise(resolve => setTimeout(resolve, 3000));
       } else if (err.message && (err.message.includes('Server error') || err.message.includes('500'))) {
         errorMessage += err.message || 'Server error occurred. Please check if all parcels are scheduled and have valid delivery locations.';
       } else {
@@ -661,8 +736,24 @@ export default function PlannerDashboard() {
     setActiveView('dashboard');
   };
 
-  const handleSubmitAssignments = (assignments: RouteAssignment[]) => {
+  const handleSubmitAssignments = async (assignments: RouteAssignment[]) => {
     setSubmittedAssignments(assignments);
+    
+    requestCache.invalidate('availableDrivers');
+    availableDriversCacheRef.current = null;
+    
+    setTimeout(async () => {
+      try {
+        const drivers = await requestCache.get(
+          'availableDrivers',
+          () => plannerService.getAvailableDrivers()
+        );
+        setAvailableDrivers(drivers.filter(d => d.isAvailable));
+      } catch (error) {
+        console.error('Error loading available drivers:', error);
+      }
+    }, 500);
+    
     setActiveView('route-tracking');
   };
 
@@ -783,7 +874,7 @@ export default function PlannerDashboard() {
       }
       
       const result = await plannerService.generateRoutes({
-        depot_id: selectedWarehouseId,
+        depot_id: defaultDepotId || 1,
         warehouse_id: selectedWarehouseId,
         parcelIds: selectedParcelIds
       });
@@ -846,7 +937,7 @@ export default function PlannerDashboard() {
       if (parcelIds.length === 0) {
         setScheduleError('Invalid parcel IDs selected.');
         setLoading(false);
-        return;
+return;  
       }
 
       console.log('Submitting parcels:', { parcelIds });
@@ -860,32 +951,7 @@ export default function PlannerDashboard() {
       resetScheduleForm();
       setActiveView('dashboard');
       
-      // 立即刷新 New Requests
-      await loadScheduledDeliveries(0);
-      
-      // 如果第一次加载失败，使用重试机制
-      let retryCount = 0;
-      const maxRetries = 3;
-      const retryDelay = 2000;
-      
-      const retryLoad = async () => {
-        if (activeView !== 'dashboard') {
-          return;
-        }
-        await new Promise(resolve => setTimeout(resolve, retryDelay));
-        if (activeView !== 'dashboard') {
-          return;
-        }
-        console.log(`Retrying load scheduled deliveries (attempt ${retryCount + 1}/${maxRetries})...`);
-        await loadScheduledDeliveries(retryCount);
-        retryCount++;
-        
-        if (retryCount < maxRetries && activeView === 'dashboard') {
-          setTimeout(retryLoad, retryDelay);
-        }
-      };
-      
-      setTimeout(retryLoad, retryDelay);
+      await loadScheduledDeliveries();
     } catch (error: any) {
       console.error('Error scheduling parcels:', error);
       setScheduleError(error.message || 'Failed to schedule parcels. Please try again.');
@@ -971,6 +1037,11 @@ export default function PlannerDashboard() {
   };
 
   const handleViewChange = (view: 'dashboard' | 'schedule' | 'route-assignment' | 'route-tracking') => {
+    if (view === 'route-assignment' && selectedParcelIds.length === 0) {
+      console.log('Cannot switch to route-assignment: no selected parcels');
+      setScheduleError('No routes available for assignment. Please generate routes first.');
+      return;
+    }
     setActiveView(view);
     setScheduleError('');
     setShowTruckDetail(false);
@@ -986,7 +1057,11 @@ export default function PlannerDashboard() {
       <DashboardHeader isLoggingOut={isLoggingOut} onLogout={handleLogout} />
 
       <div className="content-shell">
-        <DashboardSidebar activeView={activeView} onViewChange={handleViewChange} />
+        <DashboardSidebar 
+          activeView={activeView} 
+          onViewChange={handleViewChange}
+          hasValidRoutes={selectedParcelIds.length > 0}
+        />
 
         <main className={`dashboard-main ${activeView === 'schedule' ? 'schedule-view' : ''}`}>
           {activeView === 'dashboard' ? (
@@ -1031,7 +1106,7 @@ export default function PlannerDashboard() {
                 setScheduleError('');
               }}
             />
-          ) : activeView === 'route-assignment' ? (
+          ) : activeView === 'route-assignment' && selectedParcelIds.length > 0 ? (
             <RouteAssignmentPage
               selectedParcelIds={selectedParcelIds}
               onReturn={() => setActiveView('dashboard')}
