@@ -1,5 +1,5 @@
 import React from 'react';
-import { DriverResponse } from '../../../services/plannerService';
+import { DriverResponse } from '../../services/plannerService';
 
 interface AvailableDriversPanelProps {
   drivers: DriverResponse[];

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { RouteAssignment } from '../../types';
-import { plannerService, DriverResponse } from '../../services/plannerService';
+import { RouteAssignment } from '../../../types';
+import { plannerService, DriverResponse } from '../../../services/plannerService';
+import { requestCache } from '../../../utils/requestCache';
 import TrackingTable from './TrackingTable';
-import Pagination from '../common/Pagination';
-import '../RouteTrackingPage.css';
+import Pagination from '../../../components/common/Pagination';
+import './RouteTrackingPage.css';
 
 interface RouteTrackingPageProps {
   assignments: RouteAssignment[];
@@ -22,7 +23,10 @@ export default function RouteTrackingPage({ assignments, onReturn, onTrack, onTr
   useEffect(() => {
     const loadDrivers = async () => {
       try {
-        const driverList = await plannerService.getAvailableDrivers();
+        const driverList = await requestCache.get(
+          'availableDrivers',
+          () => plannerService.getAvailableDrivers()
+        );
         setDrivers(driverList);
       } catch (error) {
         console.error('Error loading drivers:', error);

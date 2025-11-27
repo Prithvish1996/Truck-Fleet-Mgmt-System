@@ -1,7 +1,7 @@
 import React from 'react';
-import { RouteResponse, ParcelResponse } from '../../services/plannerService';
-import { formatParcelId, getFullDeliveryAddress } from '../../utils/dataTransformers';
-import '../RouteMapModal.css';
+import { RouteResponse, ParcelResponse } from '../../../services/plannerService';
+import { formatParcelId, getFullDeliveryAddress } from '../../../utils/dataTransformers';
+import './RouteMapModal.css';
 
 interface RouteStopsListProps {
   routeStops: RouteResponse['routeStops'];

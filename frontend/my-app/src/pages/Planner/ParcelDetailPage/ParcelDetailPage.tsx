@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { ParcelDetail } from '../../types';
-import { plannerService } from '../../services/plannerService';
-import { extractParcelId } from '../../utils/dataTransformers';
+import { ParcelDetail } from '../../../types';
+import { plannerService } from '../../../services/plannerService';
+import { extractParcelId } from '../../../utils/dataTransformers';
 import ParcelDetailInfo from './ParcelDetailInfo';
-import '../ParcelDetailPage.css';
+import './ParcelDetailPage.css';
 
 interface ParcelDetailPageProps {
   parcelId: string;

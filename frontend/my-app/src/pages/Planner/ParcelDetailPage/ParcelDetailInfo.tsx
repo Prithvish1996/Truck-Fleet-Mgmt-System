@@ -1,5 +1,5 @@
 import React from 'react';
-import { ParcelDetail } from '../../types';
+import { ParcelDetail } from '../../../types';
 import ParcelInfoRow from './ParcelInfoRow';
 
 interface ParcelDetailInfoProps {

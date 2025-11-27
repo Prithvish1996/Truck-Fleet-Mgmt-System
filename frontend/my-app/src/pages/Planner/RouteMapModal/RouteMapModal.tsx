@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { RouteAssignment } from '../../types';
-import { plannerService, RouteResponse, ParcelResponse } from '../../services/plannerService';
+import { RouteAssignment } from '../../../types';
+import { plannerService, RouteResponse, ParcelResponse } from '../../../services/plannerService';
 import RouteStopsList from './RouteStopsList';
 import RouteInfo from './RouteInfo';
-import '../RouteMapModal.css';
+import './RouteMapModal.css';
 
 interface RouteMapModalProps {
   assignment: RouteAssignment | null;

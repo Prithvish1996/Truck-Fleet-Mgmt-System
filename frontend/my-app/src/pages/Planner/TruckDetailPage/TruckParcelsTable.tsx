@@ -1,7 +1,7 @@
 import React from 'react';
-import { TruckParcel } from '../../types';
-import DriverNameCell from '../common/DriverNameCell';
-import { DriverResponse } from '../../services/plannerService';
+import { TruckParcel } from '../../../types';
+import DriverNameCell from '../../../components/common/DriverNameCell';
+import { DriverResponse } from '../../../services/plannerService';
 
 interface TruckParcelsTableProps {
   parcels: TruckParcel[];

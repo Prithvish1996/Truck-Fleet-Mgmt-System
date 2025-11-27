@@ -323,6 +323,19 @@ class PlannerService {
 
       const apiResponse = await response.json();
       if (!apiResponse.success) {
+        // Handle "no data" cases as normal responses, not errors
+        if (apiResponse.message && (
+          apiResponse.message.includes('No unassign route available') ||
+          apiResponse.message.includes('No unassigned route available')
+        )) {
+          // Return empty structure matching the expected response format
+          return {
+            assignRoutes: [],
+            unAssignedRoute: [],
+            trucks: [],
+            drivers: []
+          };
+        }
         throw new Error(apiResponse.message || 'Failed to fetch unassigned routes');
       }
 
@@ -383,6 +396,11 @@ class PlannerService {
 
       const apiResponse = await response.json();
       if (!apiResponse.success) {
+        // Handle "no data" cases as normal responses, not errors
+        if (apiResponse.message && apiResponse.message.includes('No assigned routes found for this driver')) {
+          // Return empty structure matching the expected response format
+          return { routes: [] };
+        }
         throw new Error(apiResponse.message || 'Failed to fetch route by driver');
       }
 
@@ -502,6 +520,32 @@ class PlannerService {
       return apiResponse.data;
     } catch (error) {
       console.error('Error fetching parcel:', error);
+      throw error;
+    }
+  }
+
+  async getDepots(): Promise<Array<{ id: number; name: string; capacity: number; location: any }>> {
+    try {
+      const headers = await this.getAuthHeaders();
+      const response = await fetch(`${apiConfig.baseURL}/planner/depot/list`, {
+        method: 'GET',
+        headers,
+        credentials: 'include',
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ message: 'Failed to fetch depots' }));
+        throw new Error(errorData.message || `Failed to fetch depots (Status: ${response.status})`);
+      }
+
+      const apiResponse = await response.json();
+      if (!apiResponse.success) {
+        throw new Error(apiResponse.message || 'Failed to fetch depots');
+      }
+
+      return apiResponse.data || [];
+    } catch (error) {
+      console.error('Error fetching depots:', error);
       throw error;
     }
   }

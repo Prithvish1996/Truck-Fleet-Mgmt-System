@@ -1,7 +1,7 @@
 import React from 'react';
-import { RouteAssignment } from '../../types';
-import DriverNameCell from '../common/DriverNameCell';
-import { DriverResponse } from '../../services/plannerService';
+import { RouteAssignment } from '../../../types';
+import DriverNameCell from '../../../components/common/DriverNameCell';
+import { DriverResponse } from '../../../services/plannerService';
 
 interface TrackingTableProps {
   assignments: RouteAssignment[];

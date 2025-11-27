@@ -1,5 +1,5 @@
 import React from 'react';
-import { RouteResponse } from '../../services/plannerService';
+import { RouteResponse } from '../../../services/plannerService';
 
 interface RouteInfoProps {
   routeDetails: RouteResponse;

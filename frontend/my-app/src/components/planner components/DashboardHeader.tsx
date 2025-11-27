@@ -1,5 +1,5 @@
 import React from 'react';
-import smallLogo from '../../../assets/small logo.png';
+import smallLogo from '../../assets/small logo.png';
 
 interface DashboardHeaderProps {
   isLoggingOut: boolean;

@@ -53,6 +53,20 @@
   filter: brightness(0) saturate(100%) invert(29%) sepia(18%) saturate(1736%) hue-rotate(82deg) brightness(86%) contrast(89%);
 }
 
+.nav-item.disabled,
+.nav-item:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: #f0f0f0;
+  color: #999999;
+}
+
+.nav-item.disabled:hover,
+.nav-item:disabled:hover {
+  background: #f0f0f0;
+  transform: none;
+}
+
 .nav-item.schedule {
   background: #f7faf8;
   color: #000000;

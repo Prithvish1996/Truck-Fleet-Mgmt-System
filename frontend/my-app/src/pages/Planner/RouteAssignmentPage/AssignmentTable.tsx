@@ -1,6 +1,6 @@
 import React from 'react';
-import { RouteAssignment } from '../../types';
-import { DriverResponse } from '../../services/plannerService';
+import { RouteAssignment } from '../../../types';
+import { DriverResponse } from '../../../services/plannerService';
 import DriverSelect from './DriverSelect';
 
 interface AssignmentTableProps {
@@ -22,6 +22,36 @@ export default function AssignmentTable({
   onTruckClick,
   onDriverChange
 }: AssignmentTableProps) {
+  const getAvailableDriversForRow = (currentAssignmentId: string) => {
+    const currentAssignment = assignments.find(a => a.id === currentAssignmentId);
+    const currentSelectedDriverId = currentAssignment?.driverId ? parseInt(currentAssignment.driverId, 10) : null;
+    
+    const otherAssignedDriverIds = assignments
+      .filter(a => a.id !== currentAssignmentId && a.driverId)
+      .map(a => parseInt(a.driverId!, 10));
+    
+    const filtered = availableDrivers.filter(driver => 
+      !otherAssignedDriverIds.includes(driver.id) && driver.isAvailable
+    );
+    
+    if (currentSelectedDriverId) {
+      const selectedDriver = availableDrivers.find(d => d.id === currentSelectedDriverId);
+      if (selectedDriver && !filtered.some(d => d.id === currentSelectedDriverId)) {
+        filtered.push(selectedDriver);
+      }
+    }
+    
+    console.log(`Available drivers for row ${currentAssignmentId}:`, {
+      totalAvailable: availableDrivers.length,
+      otherAssignedIds: otherAssignedDriverIds,
+      filteredCount: filtered.length,
+      filteredIds: filtered.map(d => d.id),
+      currentSelectedDriverId
+    });
+    
+    return filtered;
+  };
+
   return (
     <div className="assignment-table-container">
       <table className="assignment-table">
@@ -37,6 +67,8 @@ export default function AssignmentTable({
         <tbody>
           {assignments.map((assignment, index) => {
             const rowNumber = (currentPage - 1) * itemsPerPage + index + 1;
+            const driversForThisRow = getAvailableDriversForRow(assignment.id);
+            
             return (
               <tr key={assignment.id}>
                 <td>{rowNumber}</td>
@@ -57,7 +89,7 @@ export default function AssignmentTable({
                 <td>
                   <DriverSelect
                     value={assignment.driverId}
-                    drivers={availableDrivers}
+                    drivers={driversForThisRow}
                     disabled={loading}
                     onChange={(driverId) => onDriverChange(assignment.id, driverId)}
                   />

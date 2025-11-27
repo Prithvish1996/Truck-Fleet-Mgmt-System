@@ -1,19 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { RouteAssignment } from '../../types';
-import { plannerService, DriverResponse } from '../../services/plannerService';
-import { formatDate, countParcelsInRoute } from '../../utils/dataTransformers';
+import { RouteAssignment } from '../../../types';
+import { plannerService, DriverResponse } from '../../../services/plannerService';
+import { formatDate, countParcelsInRoute } from '../../../utils/dataTransformers';
+import { requestCache } from '../../../utils/requestCache';
 import AssignmentTable from './AssignmentTable';
-import Pagination from '../common/Pagination';
-import '../RouteAssignmentPage.css';
+import Pagination from '../../../components/common/Pagination';
+import './RouteAssignmentPage.css';
 
 interface RouteAssignmentPageProps {
   selectedParcelIds: string[];
   onReturn: () => void;
   onSubmit: (assignments: RouteAssignment[]) => void;
   onTruckClick?: (truckPlateNo: string) => void;
+  submittedAssignments?: RouteAssignment[];
 }
 
-export default function RouteAssignmentPage({ selectedParcelIds, onReturn, onSubmit, onTruckClick }: RouteAssignmentPageProps) {
+export default function RouteAssignmentPage({ selectedParcelIds, onReturn, onSubmit, onTruckClick, submittedAssignments = [] }: RouteAssignmentPageProps) {
   const [assignments, setAssignments] = useState<RouteAssignment[]>([]);
   const [availableDrivers, setAvailableDrivers] = useState<DriverResponse[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -23,18 +25,84 @@ export default function RouteAssignmentPage({ selectedParcelIds, onReturn, onSub
   const itemsPerPage = 12;
 
   useEffect(() => {
+    requestCache.invalidate('getUnassignedRoutes');
     loadUnassignedRoutes();
-    loadAvailableDrivers();
   }, [selectedParcelIds]);
+
+  useEffect(() => {
+    const loadDrivers = async () => {
+      try {
+        const drivers = await requestCache.get(
+          'availableDrivers',
+          () => plannerService.getAvailableDrivers()
+        );
+        
+        const assignedDriverIds = new Set<number>();
+        
+        submittedAssignments.forEach(a => {
+          if (a.driverId) {
+            assignedDriverIds.add(parseInt(a.driverId, 10));
+          }
+        });
+        
+        const filtered = drivers.filter(d => 
+          d.isAvailable && !assignedDriverIds.has(d.id)
+        );
+        
+        const currentPageSelectedDriverIds = new Set<number>();
+        assignments.forEach(a => {
+          if (a.driverId) {
+            currentPageSelectedDriverIds.add(parseInt(a.driverId, 10));
+          }
+        });
+        
+        const finalDrivers = [...filtered];
+        currentPageSelectedDriverIds.forEach(driverId => {
+          const driver = drivers.find(d => d.id === driverId);
+          if (driver && !finalDrivers.some(d => d.id === driverId)) {
+            finalDrivers.push(driver);
+          }
+        });
+        
+        console.log('Loaded available drivers for RouteAssignmentPage:', {
+          total: drivers.length,
+          submittedAssigned: Array.from(assignedDriverIds),
+          currentPageSelected: Array.from(currentPageSelectedDriverIds),
+          filtered: finalDrivers.length
+        });
+        
+        setAvailableDrivers(finalDrivers);
+      } catch (err: any) {
+        console.error('Error loading available drivers:', err);
+      }
+    };
+    
+    loadDrivers();
+  }, [selectedParcelIds, submittedAssignments, assignments]);
+
+  useEffect(() => {
+    console.log('Available drivers updated in RouteAssignmentPage:', availableDrivers.length);
+  }, [availableDrivers]);
 
   const loadUnassignedRoutes = async () => {
     setLoading(true);
     setError('');
     try {
-      const data = await plannerService.getUnassignedRoutes();
-      const routesToAssign = data.unAssignedRoute || [];
+      console.log('Loading unassigned routes...');
+      
+      const data = await requestCache.get(
+        'getUnassignedRoutes',
+        () => plannerService.getUnassignedRoutes()
+      );
+      
+      console.log('Unassigned routes data:', data);
+      console.log('unAssignedRoute count:', data.unAssignedRoute?.length || 0);
+      console.log('assignRoutes count:', data.assignRoutes?.length || 0);
+      
+      const routesToAssign = Array.isArray(data.unAssignedRoute) ? data.unAssignedRoute.filter(Boolean) : [];
       
       if (routesToAssign.length === 0) {
+        console.warn('No unassigned routes found. Full response:', data);
         setError('No request can be assigned a driver');
         setLoading(false);
         return;
@@ -69,14 +137,6 @@ export default function RouteAssignmentPage({ selectedParcelIds, onReturn, onSub
     }
   };
 
-  const loadAvailableDrivers = async () => {
-    try {
-      const drivers = await plannerService.getAvailableDrivers();
-      setAvailableDrivers(drivers);
-    } catch (err: any) {
-      console.error('Error loading available drivers:', err);
-    }
-  };
 
   const handleDriverChange = (assignmentId: string, driverId: string | null) => {
     setAssignments(prev =>
@@ -112,6 +172,20 @@ export default function RouteAssignmentPage({ selectedParcelIds, onReturn, onSub
       );
 
       await Promise.all(assignmentPromises);
+      console.log('All assignments submitted successfully');
+      
+      const assignedDriverIds = assignmentsToSubmit.map(a => parseInt(a.driverId!, 10));
+      console.log('Removing assigned drivers from local state:', assignedDriverIds);
+      setAvailableDrivers(prev => {
+        const updated = prev.filter(driver => !assignedDriverIds.includes(driver.id));
+        console.log('Updated local available drivers:', updated.length);
+        return updated;
+      });
+      
+      requestCache.invalidate('availableDrivers');
+      requestCache.invalidate('getUnassignedRoutes');
+      
+      console.log('Calling onSubmit with assignments:', assignmentsToSubmit);
       onSubmit(assignmentsToSubmit);
     } catch (err: any) {
       console.error('Error assigning drivers:', err);

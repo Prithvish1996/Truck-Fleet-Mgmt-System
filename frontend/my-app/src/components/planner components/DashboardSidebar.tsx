@@ -1,15 +1,16 @@
 import React from 'react';
-import homeIcon from '../../../assets/home icon.png';
-import scheduleIcon from '../../../assets/schedule icon.png';
-import taskIcon from '../../../assets/task icon.png';
-import routeIcon from '../../../assets/route icon.png';
+import homeIcon from '../../assets/home icon.png';
+import scheduleIcon from '../../assets/schedule icon.png';
+import taskIcon from '../../assets/task icon.png';
+import routeIcon from '../../assets/route icon.png';
 
 interface DashboardSidebarProps {
   activeView: 'dashboard' | 'schedule' | 'route-assignment' | 'route-tracking' | 'truck-detail' | 'route-map';
   onViewChange: (view: 'dashboard' | 'schedule' | 'route-assignment' | 'route-tracking') => void;
+  hasValidRoutes?: boolean;
 }
 
-export default function DashboardSidebar({ activeView, onViewChange }: DashboardSidebarProps) {
+export default function DashboardSidebar({ activeView, onViewChange, hasValidRoutes = false }: DashboardSidebarProps) {
   return (
     <aside className="dashboard-sidebar">
       <nav className="sidebar-nav">
@@ -31,8 +32,10 @@ export default function DashboardSidebar({ activeView, onViewChange }: Dashboard
         </button>
         <button
           type="button"
-          className={`nav-item ${activeView === 'route-assignment' ? 'active' : ''}`}
+          className={`nav-item ${activeView === 'route-assignment' ? 'active' : ''} ${!hasValidRoutes ? 'disabled' : ''}`}
           onClick={() => onViewChange('route-assignment')}
+          disabled={!hasValidRoutes}
+          title={!hasValidRoutes ? 'No routes available for assignment. Please generate routes first.' : ''}
         >
           <img src={taskIcon} alt="" aria-hidden className="nav-icon" />
           <span className="nav-label">Assignment</span>

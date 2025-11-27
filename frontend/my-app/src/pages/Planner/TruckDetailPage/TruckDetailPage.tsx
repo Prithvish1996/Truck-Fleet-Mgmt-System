@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { TruckParcel } from '../../types';
-import { plannerService, RouteResponse, ParcelResponse, DriverResponse } from '../../services/plannerService';
-import { formatParcelId, getFullDeliveryAddress } from '../../utils/dataTransformers';
+import { TruckParcel } from '../../../types';
+import { plannerService, RouteResponse, ParcelResponse, DriverResponse } from '../../../services/plannerService';
+import { formatParcelId, getFullDeliveryAddress } from '../../../utils/dataTransformers';
+import { requestCache } from '../../../utils/requestCache';
 import TruckParcelsTable from './TruckParcelsTable';
-import Pagination from '../common/Pagination';
-import '../TruckDetailPage.css';
+import Pagination from '../../../components/common/Pagination';
+import './TruckDetailPage.css';
 
 interface TruckDetailPageProps {
   truckPlateNo: string;
@@ -29,7 +30,10 @@ export default function TruckDetailPage({ truckPlateNo, onReturn, onParcelClick 
     setLoading(true);
     setError('');
     try {
-      const routeData = await plannerService.getUnassignedRoutes();
+      const routeData = await requestCache.get(
+        'getUnassignedRoutes',
+        () => plannerService.getUnassignedRoutes()
+      );
       const truck = routeData.trucks.find(t => t.plateNumber === truckPlateNo);
       
       if (!truck) {
@@ -86,7 +90,10 @@ export default function TruckDetailPage({ truckPlateNo, onReturn, onParcelClick 
 
   const loadDrivers = async () => {
     try {
-      const driverList = await plannerService.getAvailableDrivers();
+      const driverList = await requestCache.get(
+        'availableDrivers',
+        () => plannerService.getAvailableDrivers()
+      );
       setDrivers(driverList);
     } catch (error) {
       console.error('Error loading drivers:', error);
