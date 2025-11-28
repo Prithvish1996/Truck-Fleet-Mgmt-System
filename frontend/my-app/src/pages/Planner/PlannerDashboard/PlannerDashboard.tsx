@@ -56,6 +56,8 @@ export default function PlannerDashboard() {
   const [selectedWarehouseId, setSelectedWarehouseId] = useState<number | null>(null);
   const [depots, setDepots] = useState<Array<{ id: number; name: string; capacity: number; location: any }>>([]);
   const [defaultDepotId, setDefaultDepotId] = useState<number | null>(null);
+  const [depotLoadError, setDepotLoadError] = useState<string | null>(null);
+  const [isLoadingDepots, setIsLoadingDepots] = useState(true);
   const [availableTrucks, setAvailableTrucks] = useState<string[]>([]);
   const [availableDrivers, setAvailableDrivers] = useState<DriverResponse[]>([]);
   const [statusMonitoring, setStatusMonitoring] = useState<Array<{ driver: string; status: string; route: string }>>([]);
@@ -72,15 +74,24 @@ export default function PlannerDashboard() {
 
   useEffect(() => {
     const loadDepots = async () => {
+      setIsLoadingDepots(true);
+      setDepotLoadError(null);
       try {
         const depotList = await plannerService.getDepots();
         setDepots(depotList);
         if (depotList.length > 0) {
           setDefaultDepotId(depotList[0].id);
+        } else {
+          setDepotLoadError('No depots available. Please ensure depots are configured in the system.');
+          setDefaultDepotId(null);
         }
-      } catch (error) {
+      } catch (error: any) {
         console.error('Error loading depots:', error);
-        setDefaultDepotId(1);
+        const errorMessage = error?.message || 'Failed to load depots. Please refresh the page or contact support.';
+        setDepotLoadError(errorMessage);
+        setDefaultDepotId(null);
+      } finally {
+        setIsLoadingDepots(false);
       }
     };
 
@@ -659,6 +670,11 @@ export default function PlannerDashboard() {
       return;
     }
 
+    if (!defaultDepotId) {
+      setScheduleError('Depot information is not available. Please wait for depots to load or refresh the page.');
+      return;
+    }
+
     setIsOptimizing(true);
     setScheduleError('');
 
@@ -694,8 +710,11 @@ export default function PlannerDashboard() {
           console.log(`Parcel IDs for warehouse ${warehouseId}:`, parcelIds);
           
           try {
+            if (!defaultDepotId) {
+              throw new Error('Depot information is not available. Please ensure depots are loaded.');
+            }
             await plannerService.generateRoutes({
-              depot_id: defaultDepotId || 1,
+              depot_id: defaultDepotId,
               warehouse_id: warehouseId,
               parcelIds: parcelIds
             });
@@ -961,6 +980,11 @@ export default function PlannerDashboard() {
       setScheduleError('Please select a warehouse first.');
       return;
     }
+
+    if (!defaultDepotId) {
+      setScheduleError('Depot information is not available. Please wait for depots to load or refresh the page.');
+      return;
+    }
     
     setIsOptimizing(true);
     setScheduleError('');
@@ -978,7 +1002,7 @@ export default function PlannerDashboard() {
       }
       
       const result = await plannerService.generateRoutes({
-        depot_id: defaultDepotId || 1,
+        depot_id: defaultDepotId,
         warehouse_id: selectedWarehouseId,
         parcelIds: selectedParcelIds
       });
@@ -1167,6 +1191,43 @@ return;
   return (
     <div className="planner-dashboard">
       <DashboardHeader isLoggingOut={isLoggingOut} onLogout={handleLogout} />
+
+      {depotLoadError && (
+        <div style={{
+          backgroundColor: '#fff3cd',
+          border: '1px solid #ffc107',
+          borderRadius: '8px',
+          padding: '12px 16px',
+          margin: '16px 24px',
+          color: '#856404',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '12px'
+        }}>
+          <span style={{ fontSize: '18px' }}>⚠️</span>
+          <div style={{ flex: 1 }}>
+            <strong>Depot Loading Error:</strong> {depotLoadError}
+            {isLoadingDepots && <span style={{ marginLeft: '8px', fontSize: '14px' }}>(Loading...)</span>}
+          </div>
+        </div>
+      )}
+
+      {isLoadingDepots && !depotLoadError && (
+        <div style={{
+          backgroundColor: '#d1ecf1',
+          border: '1px solid #bee5eb',
+          borderRadius: '8px',
+          padding: '12px 16px',
+          margin: '16px 24px',
+          color: '#0c5460',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '12px'
+        }}>
+          <span style={{ fontSize: '18px' }}>⏳</span>
+          <div>Loading depot information...</div>
+        </div>
+      )}
 
       <div className="content-shell">
         <DashboardSidebar 
