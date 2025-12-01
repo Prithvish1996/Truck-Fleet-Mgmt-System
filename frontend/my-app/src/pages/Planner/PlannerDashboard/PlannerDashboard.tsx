@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authService } from '../../../services/authService';
-import { plannerService, ParcelResponse, DriverResponse } from '../../../services/plannerService';
+import { plannerService, ParcelResponse, DriverResponse, DepotResponse } from '../../../services/plannerService';
 import { formatDate, formatParcelId, getFullDeliveryAddress } from '../../../utils/dataTransformers';
 import { requestCache } from '../../../utils/requestCache';
 import ParcelDetailPage from '../ParcelDetailPage/ParcelDetailPage';
@@ -54,7 +54,7 @@ export default function PlannerDashboard() {
   const [loading, setLoading] = useState(false);
   const [warehouses, setWarehouses] = useState<any[]>([]);
   const [selectedWarehouseId, setSelectedWarehouseId] = useState<number | null>(null);
-  const [depots, setDepots] = useState<Array<{ id: number; name: string; capacity: number; location: any }>>([]);
+  const [depots, setDepots] = useState<DepotResponse[]>([]);
   const [defaultDepotId, setDefaultDepotId] = useState<number | null>(null);
   const [depotLoadError, setDepotLoadError] = useState<string | null>(null);
   const [isLoadingDepots, setIsLoadingDepots] = useState(true);
@@ -135,6 +135,8 @@ export default function PlannerDashboard() {
       }
       console.log('=== Finished loading warehouses ===');
     };
+    
+    loadDepots();
     loadWarehouses();
   }, []);
 
@@ -250,20 +252,20 @@ export default function PlannerDashboard() {
           if (!availableDriversCacheRef.current || 
               (now - availableDriversCacheRef.current.timestamp) >= CACHE_DURATION) {
             try {
-              const drivers = await requestCache.get(
-                'availableDrivers',
-                () => plannerService.getAvailableDrivers()
-              );
-              
-              const filtered = drivers.filter(d => d.isAvailable);
-              availableDriversCacheRef.current = {
-                data: drivers,
-                timestamp: now
-              };
-              
-              const finalFiltered = filtered.filter(d => !assignedDriverIds.includes(d.id));
-              setAvailableDrivers(finalFiltered);
-              console.log('Loaded available drivers for dashboard:', finalFiltered.length, 'Assigned drivers filtered:', assignedDriverIds);
+            const drivers = await requestCache.get(
+              'availableDrivers',
+              () => plannerService.getAvailableDrivers()
+            );
+            
+            const filtered = drivers.filter(d => d.isAvailable);
+            availableDriversCacheRef.current = {
+              data: drivers,
+              timestamp: now
+            };
+            
+            const finalFiltered = filtered.filter(d => !assignedDriverIds.includes(d.id));
+            setAvailableDrivers(finalFiltered);
+            console.log('Loaded available drivers for dashboard:', finalFiltered.length, 'Assigned drivers filtered:', assignedDriverIds);
             } catch (error: any) {
               if (error.message && error.message.includes('Too many requests')) {
                 console.warn('Rate limit reached when loading available drivers. Using cached data if available.');
@@ -293,7 +295,7 @@ export default function PlannerDashboard() {
                 .filter(d => d.isAvailable);
               setAvailableDrivers(filtered);
             } else {
-              setAvailableDrivers([]);
+          setAvailableDrivers([]);
             }
           } else {
             setAvailableDrivers([]);
@@ -316,14 +318,14 @@ export default function PlannerDashboard() {
             drivers = availableDriversCacheRef.current.data;
           } else {
             try {
-              drivers = await requestCache.get(
-                'availableDrivers',
-                () => plannerService.getAvailableDrivers()
-              );
-              availableDriversCacheRef.current = {
-                data: drivers,
-                timestamp: now
-              };
+            drivers = await requestCache.get(
+              'availableDrivers',
+              () => plannerService.getAvailableDrivers()
+            );
+            availableDriversCacheRef.current = {
+              data: drivers,
+              timestamp: now
+            };
             } catch (error: any) {
               if (error.message && error.message.includes('Too many requests')) {
                 console.warn('Rate limit reached when loading drivers for status monitoring. Using cached data if available.');

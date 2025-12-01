@@ -61,6 +61,13 @@ export interface StopDto {
   parcelsToDeliver: ParcelResponse[];
   priority: number;
   stopType: string;
+  location?: {
+    latitude: number;
+    longitude: number;
+    address: string;
+    city: string;
+    postcode?: string;
+  };
 }
 
 export interface GenerateRouteResponse {
@@ -89,6 +96,21 @@ export interface DriverResponse {
   address?: string;
   latitude?: number;
   longitude?: number;
+}
+
+export interface DepotResponse {
+  id: number;
+  name: string;
+  location: {
+    latitude: number;
+    longitude: number;
+    address: string;
+    city: string;
+    postcode?: string;
+  };
+  active: boolean;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface AssignRouteRequest {
@@ -524,14 +546,24 @@ class PlannerService {
     }
   }
 
-  async getDepots(): Promise<Array<{ id: number; name: string; capacity: number; location: any }>> {
+  async getDepots(): Promise<DepotResponse[]> {
     try {
       const headers = await this.getAuthHeaders();
-      const response = await fetch(`${apiConfig.baseURL}/planner/depot/list`, {
+      // 使用 paginated 端点，设置较大的 size 以获取所有 depot
+      const params = new URLSearchParams({
+        page: '0',
+        size: '1000', // 获取所有 depot
+      });
+
+      const response = await fetch(`${apiConfig.baseURL}/planner/depot/paginated?${params}`, {
         method: 'GET',
         headers,
         credentials: 'include',
       });
+
+      if (response.status === 429) {
+        throw new Error('Too many requests. Please wait a moment and try again.');
+      }
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({ message: 'Failed to fetch depots' }));
@@ -543,7 +575,10 @@ class PlannerService {
         throw new Error(apiResponse.message || 'Failed to fetch depots');
       }
 
-      return apiResponse.data || [];
+      // 后端返回的是分页格式：{ data: [...], totalItems, totalPages, currentPage, pageSize }
+      // 提取 data 数组
+      const paginatedData = apiResponse.data;
+      return paginatedData?.data || [];
     } catch (error) {
       console.error('Error fetching depots:', error);
       throw error;
