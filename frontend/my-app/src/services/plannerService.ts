@@ -549,10 +549,9 @@ class PlannerService {
   async getDepots(): Promise<DepotResponse[]> {
     try {
       const headers = await this.getAuthHeaders();
-      // 使用 paginated 端点，设置较大的 size 以获取所有 depot
       const params = new URLSearchParams({
         page: '0',
-        size: '1000', // 获取所有 depot
+        size: '1000',
       });
 
       const response = await fetch(`${apiConfig.baseURL}/planner/depot/paginated?${params}`, {
@@ -575,8 +574,6 @@ class PlannerService {
         throw new Error(apiResponse.message || 'Failed to fetch depots');
       }
 
-      // 后端返回的是分页格式：{ data: [...], totalItems, totalPages, currentPage, pageSize }
-      // 提取 data 数组
       const paginatedData = apiResponse.data;
       return paginatedData?.data || [];
     } catch (error) {

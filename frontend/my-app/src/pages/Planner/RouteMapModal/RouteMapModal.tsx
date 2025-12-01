@@ -26,8 +26,6 @@ export default function RouteMapModal({ assignment, onReturn }: RouteMapModalPro
 
   useEffect(() => {
     if (routeDetails && routeDetails.routeStops) {
-      // 从 routeDetails 中提取已有的包裹状态
-      // routeDetails 中已经包含最新的包裹状态，无需自动刷新
       const initialStatusMap = new Map<number, string>();
       routeDetails.routeStops.forEach(stop => {
         if (stop.parcelsToDeliver) {
@@ -38,26 +36,12 @@ export default function RouteMapModal({ assignment, onReturn }: RouteMapModalPro
       });
       setParcelStatuses(initialStatusMap);
       
-      // 重置 429 错误标志
       has429ErrorRef.current = false;
       
-      // 清除之前的 interval（如果存在）
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
         intervalRef.current = null;
       }
-      
-      // ✅ 最优方案：完全禁用自动刷新
-      // 原因：
-      // 1. routeDetails 中已经包含最新的包裹状态
-      // 2. 避免触发 429 错误（后端限流：60 请求/分钟）
-      // 3. 减少不必要的 API 请求
-      // 4. UI 可以正常显示，使用已有数据
-      // 
-      // 如果需要刷新状态，可以：
-      // - 添加手动刷新按钮
-      // - 在用户返回页面时刷新
-      // - 使用页面可见性 API 在页面重新聚焦时刷新
       
       return () => {
         if (intervalRef.current) {
@@ -87,7 +71,6 @@ export default function RouteMapModal({ assignment, onReturn }: RouteMapModalPro
   const refreshParcelStatuses = async () => {
     if (!routeDetails || !routeDetails.routeStops) return;
     
-    // 如果之前遇到 429 错误，跳过本次刷新
     if (has429ErrorRef.current) {
       console.warn('Skipping parcel status refresh due to previous 429 error');
       return;
@@ -107,8 +90,6 @@ export default function RouteMapModal({ assignment, onReturn }: RouteMapModalPro
     const statusMap = new Map<number, string>();
     let has429 = false;
     
-    // 使用串行请求或批量请求，避免同时发送太多请求
-    // 每批处理 5 个包裹，批次之间延迟 500ms
     const batchSize = 5;
     for (let i = 0; i < parcelIds.length; i += batchSize) {
       const batch = parcelIds.slice(i, i + batchSize);
@@ -120,15 +101,12 @@ export default function RouteMapModal({ assignment, onReturn }: RouteMapModalPro
             statusMap.set(parcelId, parcel.status);
           } catch (err: any) {
             console.error(`Error fetching parcel ${parcelId}:`, err);
-            // 如果遇到 429 错误，设置标志并停止后续请求
-            // 检查错误消息中是否包含 429 状态码或相关错误信息
             const errorMessage = err.message || '';
             if (errorMessage.includes('429') || 
                 errorMessage.includes('Too many requests') ||
                 errorMessage.includes('Please try again later')) {
               has429 = true;
               has429ErrorRef.current = true;
-              // 清除 interval，停止自动刷新
               if (intervalRef.current) {
                 clearInterval(intervalRef.current);
                 intervalRef.current = null;
@@ -138,18 +116,15 @@ export default function RouteMapModal({ assignment, onReturn }: RouteMapModalPro
         })
       );
       
-      // 如果遇到 429，停止处理剩余批次
       if (has429) {
         break;
       }
       
-      // 批次之间延迟，避免触发限流
       if (i + batchSize < parcelIds.length) {
         await new Promise(resolve => setTimeout(resolve, 500));
       }
     }
     
-    // 只更新成功获取的状态
     if (statusMap.size > 0) {
       setParcelStatuses(prev => {
         const updated = new Map(prev);
@@ -160,7 +135,6 @@ export default function RouteMapModal({ assignment, onReturn }: RouteMapModalPro
       });
     }
     
-    // 如果遇到 429，显示警告但不阻止 UI 显示
     if (has429) {
       console.warn('Rate limit reached. Parcel status refresh stopped. Using cached data.');
     }

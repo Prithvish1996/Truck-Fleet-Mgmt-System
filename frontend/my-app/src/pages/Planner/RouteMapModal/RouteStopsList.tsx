@@ -43,7 +43,7 @@ export default function RouteStopsList({
         {stopsWithParcels.map((stop, stopIndex) => {
           const firstParcel = stop.parcelsToDeliver![0];
           const stopAddress = getStopAddress(stop, firstParcel);
-          const displayPriority = stopIndex + 1; // 显示从 1 开始的 Priority
+          const displayPriority = stopIndex + 1;
           const estimatedTime = routeStartTime && routeTotalTransportTime
             ? calculateStopArrivalTime(routeStartTime, routeTotalTransportTime, displayPriority, stopsWithParcels.length)
             : 'N/A';

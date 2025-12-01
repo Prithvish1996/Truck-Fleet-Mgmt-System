@@ -48,7 +48,6 @@ export const getFullDeliveryAddress = (parcel: ParcelResponse): string => {
 };
 
 export const getStopAddress = (stop: StopDto, firstParcel: ParcelResponse): string => {
-  // 如果 stop 有 location（WAREHOUSE 或 DEPOT 类型）
   if (stop.location) {
     const parts = [];
     if (stop.location.address) parts.push(stop.location.address);
@@ -57,21 +56,17 @@ export const getStopAddress = (stop: StopDto, firstParcel: ParcelResponse): stri
     return parts.length > 0 ? parts.join(', ') : 'Address not available';
   }
   
-  // 对于 CUSTOMER 类型，使用第一个 parcel 的 delivery 地址
-  // （同一个 stop 中的所有 parcels 应该有相同的 delivery 地址）
   return getFullDeliveryAddress(firstParcel);
 };
 
 export const calculateStopArrivalTime = (
   startTime: string,
-  totalTransportTime: number, // 总时间（秒）
+  totalTransportTime: number,
   stopPriority: number,
   totalStops: number
 ): string => {
   try {
     const start = new Date(startTime);
-    // 假设每个 stop 平均分配时间，根据 priority 计算
-    // 这里简化处理，实际应该根据实际距离计算
     const timePerStop = totalTransportTime / totalStops;
     const estimatedSeconds = Math.floor(timePerStop * stopPriority);
     const arrivalTime = new Date(start.getTime() + estimatedSeconds * 1000);
