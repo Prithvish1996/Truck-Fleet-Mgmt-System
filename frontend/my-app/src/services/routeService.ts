@@ -1,10 +1,67 @@
 import { mockDataService } from './mockDataService';
-import { Route, RouteResponse, RouteByDriverResponse, RouteData, Parcel, RouteStop } from '../types';
+import { Route, RouteResponse, RouteByDriverResponse, RouteData, Parcel, RouteStop, Warehouse, Depot } from '../types';
 import { authService } from './authService';
 import { apiConfig } from '../config/apiConfig';
 import { dateTimeService } from './dateTimeService';
 
 class RouteService {
+  private extractWarehouseFromRoute(routeData: RouteData): Warehouse | undefined {
+    const sortedStops = [...routeData.routeStops].sort((a, b) => a.priority - b.priority);
+    
+    const warehouseStop = sortedStops.find(stop => stop.stopType === 'WAREHOUSE');
+    
+    if (warehouseStop && warehouseStop.location) {
+      return {
+        id: warehouseStop.stopId,
+        latitude: warehouseStop.location.latitude,
+        longitude: warehouseStop.location.longitude,
+        address: warehouseStop.location.address,
+        city: warehouseStop.location.city,
+        postalCode: warehouseStop.location.postcode,
+      };
+    }
+    
+    for (const stop of sortedStops) {
+      if (stop.parcelsToDeliver.length > 0) {
+        const firstParcel = stop.parcelsToDeliver[0];
+        return {
+          id: firstParcel.warehouseId,
+          latitude: firstParcel.warehouseLatitude,
+          longitude: firstParcel.warehouseLongitude,
+          address: firstParcel.warehouseAddress,
+          city: firstParcel.warehouseCity,
+          postalCode: firstParcel.warehousePostalCode,
+        };
+      }
+    }
+    
+    return undefined;
+  }
+
+  private extractDepotFromRoute(routeData: RouteData): Depot | undefined {
+    const sortedStops = [...routeData.routeStops].sort((a, b) => a.priority - b.priority);
+    
+    const depotStops = sortedStops.filter(stop => stop.stopType === 'DEPOT');
+    
+    if (depotStops.length > 0) {
+      const lastDepotStop = depotStops[depotStops.length - 1];
+      
+      if (lastDepotStop && lastDepotStop.location) {
+        return {
+          id: lastDepotStop.stopId,
+          latitude: lastDepotStop.location.latitude,
+          longitude: lastDepotStop.location.longitude,
+          address: lastDepotStop.location.address,
+          city: lastDepotStop.location.city,
+          postalCode: lastDepotStop.location.postcode,
+          name: routeData.depotName || undefined,
+        };
+      }
+    }
+    
+    return undefined;
+  }
+
   private mapRouteDataToRoute(routeData: RouteData, index: number): Route {
     const packages: Route['packages'] = [];
     
@@ -33,6 +90,9 @@ class RouteService {
       dateTimeService.convertTimeStringToDateTimeAndDate(routeData.startTime);
     const startTime = dateTimeService.formatTimeString(routeData.startTime);
 
+    const warehouse = this.extractWarehouseFromRoute(routeData);
+    const depot = this.extractDepotFromRoute(routeData);
+
     return {
       id: `route-${routeData.driverId}-${index}`,
       routeId: routeData.routeId,
@@ -47,6 +107,8 @@ class RouteService {
       totalDistance: routeData.totalDistance,
       estimatedFuelCost: routeData.estimatedFuelCost,
       priority: 'medium' as const,
+      warehouse,
+      depot,
     };
   }
 

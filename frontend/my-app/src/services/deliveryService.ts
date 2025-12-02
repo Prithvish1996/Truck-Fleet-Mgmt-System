@@ -16,8 +16,6 @@ class DeliveryService {
   async loadPackages(routeId: string, forceRefresh: boolean = true): Promise<Package[]> {
     const cacheKey = `route_packages_${routeId}`;
     
-    // Always fetch fresh data from API to ensure we have the latest package statuses
-    // The cache can become stale if packages were marked as delivered in a previous session
     const routePackages = await routeService.getRoutePackages(routeId, forceRefresh) as Package[];
     
     const packagesArray = Array.isArray(routePackages) ? routePackages : [];
@@ -107,6 +105,24 @@ class DeliveryService {
     }
     
     return { newStatus };
+  }
+
+  async markPackagesAsPickedUp(packageIds: string[], routeId?: string): Promise<boolean> {
+    try {
+      for (const packageId of packageIds) {
+        await routeService.updatePackageStatus(packageId, 'picked_up');
+      }
+      
+      if (routeId) {
+        const cacheKey = `route_packages_${routeId}`;
+        localStorage.removeItem(cacheKey);
+      }
+      
+      return true;
+    } catch (error) {
+      console.error('Error marking packages as picked up:', error);
+      throw error;
+    }
   }
 }
 

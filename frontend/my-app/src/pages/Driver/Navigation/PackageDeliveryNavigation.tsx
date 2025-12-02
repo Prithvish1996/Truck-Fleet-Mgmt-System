@@ -6,12 +6,17 @@ import LoadingSpinner from '../components/ui/LoadingSpinner';
 import ErrorMessage from '../components/ui/ErrorMessage';
 import DeliveryConfirmation from '../components/navigation/DeliveryConfirmation';
 import PackageInfo from '../components/navigation/PackageInfo';
+import WarehouseInfo from '../components/navigation/WarehouseInfo';
+import WarehousePackageOverview from '../components/navigation/WarehousePackageOverview';
+import WarehouseCollectionConfirmation from '../components/navigation/WarehouseCollectionConfirmation';
+import DepotInfo from '../components/navigation/DepotInfo';
+import DepotArrivalConfirmation from '../components/navigation/DepotArrivalConfirmation';
 import DeliveryNavigationControls from '../components/navigation/DeliveryNavigationControls';
 import CompletedState from '../components/navigation/CompletedState';
 import RouteOverviewButton from '../components/navigation/RouteOverviewButton';
 import { deliveryService, DeliveryState } from '../../../services/deliveryService';
 import { routeService } from '../../../services/routeService';
-import { Package } from '../../../types';
+import { Package, Route } from '../../../types';
 import './PackageDeliveryNavigation.css';
 
 interface PackageDeliveryNavigationProps {
@@ -25,16 +30,25 @@ const PackageDeliveryNavigation: React.FC<PackageDeliveryNavigationProps> = ({
 }) => {
   const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
   const [packages, setPackages] = useState<Package[]>([]);
+  const [currentRoute, setCurrentRoute] = useState<Route | null>(null);
   const [currentPackageIndex, setCurrentPackageIndex] = useState(0);
   const [deliveryState, setDeliveryState] = useState<DeliveryState>('loading');
   const [error, setError] = useState<string | null>(null);
   const [currentDestination, setCurrentDestination] = useState<[number, number] | null>(null);
+  const [warehouseCollected, setWarehouseCollected] = useState(false);
+  const [isCollectingWarehouse, setIsCollectingWarehouse] = useState(false);
+  const [isNavigatingToDepot, setIsNavigatingToDepot] = useState(false);
+  const [showWarehouseOverview, setShowWarehouseOverview] = useState(false);
 
   const undeliveredPackages = packages.filter(pkg => pkg.status !== 'delivered');
   const currentPackage = undeliveredPackages.length > 0 ? undeliveredPackages[currentPackageIndex] : null;
+  
+  const packagesPickedUp = packages.length > 0 && packages.every(pkg => 
+    pkg.status === 'picked_up' || pkg.status === 'delivered'
+  );
 
   useEffect(() => {
-    const loadPackages = async () => {
+    const loadRouteAndPackages = async () => {
       if (!routeId) {
         setError('Route ID is required');
         setDeliveryState('error');
@@ -43,6 +57,12 @@ const PackageDeliveryNavigation: React.FC<PackageDeliveryNavigationProps> = ({
 
       try {
         setDeliveryState('loading');
+        
+        const route = await routeService.getRouteById(routeId, true);
+        if (route) {
+          setCurrentRoute(route);
+        }
+        
         const loadedPackages = await deliveryService.loadPackages(routeId);
         
         const undelivered = loadedPackages.filter(pkg => pkg.status !== 'delivered');
@@ -55,7 +75,21 @@ const PackageDeliveryNavigation: React.FC<PackageDeliveryNavigationProps> = ({
         
         setPackages(loadedPackages);
         setCurrentPackageIndex(0);
-        setDeliveryState('waiting_location');
+        
+        const pickedUp = loadedPackages.every(pkg => 
+          pkg.status === 'picked_up' || pkg.status === 'delivered'
+        );
+        setWarehouseCollected(pickedUp);
+        
+        if (route?.warehouse && !pickedUp) {
+          setIsCollectingWarehouse(true);
+          setShowWarehouseOverview(false);
+          setDeliveryState('waiting_location');
+        } else {
+          setIsCollectingWarehouse(false);
+          setShowWarehouseOverview(false);
+          setDeliveryState('waiting_location');
+        }
       } catch (err) {
         console.error('Error loading packages:', err);
         setError(err instanceof Error ? err.message : 'Failed to load packages');
@@ -63,34 +97,91 @@ const PackageDeliveryNavigation: React.FC<PackageDeliveryNavigationProps> = ({
       }
     };
 
-    loadPackages();
+    loadRouteAndPackages();
   }, [routeId]);
 
   useEffect(() => {
-    if (currentPackage) {
+    if (isCollectingWarehouse && currentRoute?.warehouse) {
+      setCurrentDestination([currentRoute.warehouse.latitude, currentRoute.warehouse.longitude]);
+    } else if (isNavigatingToDepot && currentRoute?.depot) {
+      setCurrentDestination([currentRoute.depot.latitude, currentRoute.depot.longitude]);
+    } else if (currentPackage) {
       setCurrentDestination([currentPackage.latitude, currentPackage.longitude]);
     }
-  }, [currentPackage]);
+  }, [currentPackage, isCollectingWarehouse, isNavigatingToDepot, currentRoute]);
 
   const handleLocationGranted = useCallback((location: [number, number]) => {
     setUserLocation(location);
     setError(null);
     
-    if (currentPackage && deliveryState === 'waiting_location') {
+    if (deliveryState === 'waiting_location') {
       setDeliveryState('showing_navigation');
     }
-  }, [currentPackage, deliveryState]);
+  }, [deliveryState]);
 
   const handleOpenNavigation = useCallback(() => {
-    if (!currentPackage || !currentDestination) return;
+    if (!currentDestination) return;
 
-    const address = currentPackage.address 
-      ? `${currentPackage.address}, ${currentPackage.city} ${currentPackage.postalCode}`
-      : undefined;
+    let address: string | undefined;
+    
+    if (isCollectingWarehouse && currentRoute?.warehouse) {
+      address = `${currentRoute.warehouse.address}, ${currentRoute.warehouse.city} ${currentRoute.warehouse.postalCode}`;
+    } else if (isNavigatingToDepot && currentRoute?.depot) {
+      address = `${currentRoute.depot.address}, ${currentRoute.depot.city} ${currentRoute.depot.postalCode}`;
+    } else if (currentPackage) {
+      address = currentPackage.address 
+        ? `${currentPackage.address}, ${currentPackage.city} ${currentPackage.postalCode}`
+        : undefined;
+    }
 
     deliveryService.openNavigation(currentDestination, address);
+    
+    if (isCollectingWarehouse && currentRoute?.warehouse) {
+      setShowWarehouseOverview(true);
+    } else {
+      setDeliveryState('waiting_confirmation');
+    }
+  }, [currentPackage, currentDestination, isCollectingWarehouse, isNavigatingToDepot, currentRoute]);
+
+  const handleStartWarehouseNavigation = useCallback(() => {
+    setShowWarehouseOverview(false);
     setDeliveryState('waiting_confirmation');
-  }, [currentPackage, currentDestination]);
+  }, []);
+
+  const handleWarehouseCollection = async (confirmed: boolean) => {
+    if (!routeId || !currentRoute?.warehouse) return;
+
+    try {
+      if (confirmed) {
+        const pendingPackageIds = packages
+          .filter(pkg => pkg.status === 'pending')
+          .map(pkg => pkg.id);
+        
+        if (pendingPackageIds.length > 0) {
+          await deliveryService.markPackagesAsPickedUp(pendingPackageIds, routeId);
+          
+          const updatedPackages = packages.map(pkg => 
+            pkg.status === 'pending' ? { ...pkg, status: 'picked_up' as const } : pkg
+          );
+          setPackages(updatedPackages);
+          setWarehouseCollected(true);
+        }
+        
+        setIsCollectingWarehouse(false);
+        setShowWarehouseOverview(false);
+        setDeliveryState('waiting_location');
+        
+        if (userLocation) {
+          setDeliveryState('showing_navigation');
+        }
+      } else {
+        setDeliveryState('showing_navigation');
+      }
+    } catch (err) {
+      console.error('Error marking packages as picked up:', err);
+      setError(err instanceof Error ? err.message : 'Failed to mark packages as picked up');
+    }
+  };
 
   const handleDeliveryResult = async (confirmed: boolean) => {
     if (!currentPackage || !routeId) return;
@@ -114,7 +205,16 @@ const PackageDeliveryNavigation: React.FC<PackageDeliveryNavigationProps> = ({
             setDeliveryState('showing_navigation');
           }
         } else {
-          setDeliveryState('completed');
+          if (currentRoute?.depot) {
+            setIsNavigatingToDepot(true);
+            setDeliveryState('waiting_location');
+            
+            if (userLocation) {
+              setDeliveryState('showing_navigation');
+            }
+          } else {
+            setDeliveryState('completed');
+          }
         }
       } else {
         setDeliveryState('showing_navigation');
@@ -122,6 +222,23 @@ const PackageDeliveryNavigation: React.FC<PackageDeliveryNavigationProps> = ({
     } catch (err) {
       console.error('Error updating package status:', err);
       setError(err instanceof Error ? err.message : 'Failed to update package status');
+    }
+  };
+
+  const handleDepotArrival = async (confirmed: boolean) => {
+    if (!routeId) return;
+
+    try {
+      if (confirmed) {
+        await routeService.completeRoute(routeId);
+        await routeService.getDriverRoutes(true);
+        navigate('/driver/dashboard', { state: { refresh: true } });
+      } else {
+        setDeliveryState('showing_navigation');
+      }
+    } catch (err) {
+      console.error('Error completing route:', err);
+      setError(err instanceof Error ? err.message : 'Failed to complete route');
     }
   };
 
@@ -184,6 +301,25 @@ const PackageDeliveryNavigation: React.FC<PackageDeliveryNavigationProps> = ({
     );
   }
 
+  if (showWarehouseOverview && currentRoute?.warehouse) {
+    return (
+      <div className="package-delivery-navigation">
+        <DriverHeader navigate={handleBackToDashboard} />
+        <div className="package-delivery-navigation__content">
+          <WarehousePackageOverview
+            warehouse={currentRoute.warehouse}
+            packages={packages}
+            onConfirmCollection={() => handleWarehouseCollection(true)}
+            onBack={() => {
+              setShowWarehouseOverview(false);
+              setDeliveryState('showing_navigation');
+            }}
+          />
+        </div>
+      </div>
+    );
+  }
+
   if (!userLocation && deliveryState === 'waiting_location') {
     return (
       <div className="package-delivery-navigation">
@@ -211,7 +347,16 @@ const PackageDeliveryNavigation: React.FC<PackageDeliveryNavigationProps> = ({
           }} 
         />
         
-        {currentPackage && (
+        {isCollectingWarehouse && currentRoute?.warehouse ? (
+          <WarehouseInfo
+            warehouse={currentRoute.warehouse}
+            packageCount={packages.filter(pkg => pkg.status === 'pending').length}
+          />
+        ) : isNavigatingToDepot && currentRoute?.depot ? (
+          <DepotInfo
+            depot={currentRoute.depot}
+          />
+        ) : currentPackage && (
           <PackageInfo
             package={currentPackage}
             packageNumber={packages.findIndex(p => p.id === currentPackage.id) + 1}
@@ -243,7 +388,14 @@ const PackageDeliveryNavigation: React.FC<PackageDeliveryNavigationProps> = ({
           />
         )}
 
-        {deliveryState === 'waiting_confirmation' && currentPackage && (
+        {deliveryState === 'waiting_confirmation' && isNavigatingToDepot && currentRoute?.depot && (
+          <DepotArrivalConfirmation
+            depot={currentRoute.depot}
+            onConfirm={handleDepotArrival}
+          />
+        )}
+
+        {deliveryState === 'waiting_confirmation' && !isCollectingWarehouse && !isNavigatingToDepot && currentPackage && (
           <DeliveryConfirmation
             package={currentPackage}
             onConfirm={handleDeliveryResult}

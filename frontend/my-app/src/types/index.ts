@@ -33,6 +33,25 @@ export interface RouteBreak {
   };
 }
 
+export interface Warehouse {
+  id: number;
+  latitude: number;
+  longitude: number;
+  address: string;
+  city: string;
+  postalCode: string;
+}
+
+export interface Depot {
+  id: number;
+  latitude: number;
+  longitude: number;
+  address: string;
+  city: string;
+  postalCode: string;
+  name?: string;
+}
+
 export interface Route {
   id: string;
   routeId?: number;
@@ -47,6 +66,8 @@ export interface Route {
   totalDistance: number;
   estimatedFuelCost: number;
   priority: 'low' | 'medium' | 'high';
+  warehouse?: Warehouse;
+  depot?: Depot;
 }
 
 export interface Truck {
@@ -118,6 +139,13 @@ export interface RouteStop {
   parcelsToDeliver: Parcel[];
   priority: number;
   stopType: string;
+  location?: {
+    latitude: number;
+    longitude: number;
+    address: string;
+    city: string;
+    postcode: string;
+  };
 }
 
 export interface RouteData {

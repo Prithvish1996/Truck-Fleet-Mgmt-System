@@ -25,12 +25,16 @@ public class ProdCorsConfiguration {
         configuration.setAllowedOriginPatterns(Arrays.asList(
             "https://yourdomain.com",
             "https://www.yourdomain.com",
-            "https://api.yourdomain.com"
+            "https://api.yourdomain.com",
+            "https://localhost:3000",
+            "http://localhost:3000",
+            "https://localhost:4200"
         ));
         
         // Essential methods only
         configuration.setAllowedMethods(Arrays.asList(
-            "GET", "POST", "PUT", "DELETE"
+            "GET", "POST", "PUT", "DELETE", 
+            "OPTIONS", "PATCH"
         ));
         
         // Specific headers for security

@@ -6,7 +6,7 @@ import { Route, Package, RouteBreak } from "../../../types";
 import { formatTravelTime } from "../../../utils/timeFormatter";
 import "./RouteOverview.css";
 
-type RouteItem = { type: 'package'; data: Package } | { type: 'break'; data: RouteBreak };
+type RouteItem = { type: 'package'; data: Package } | { type: 'break'; data: RouteBreak } | { type: 'warehouse'; data: Route['warehouse'] } | { type: 'depot'; data: Route['depot'] };
 
 interface RouteOverviewProps {
     routeId?: string;
@@ -72,6 +72,10 @@ function RouteOverview({ routeId: propRouteId }: RouteOverviewProps = {} as Rout
         const breaks = currentRoute.breaks || [];
         const usedBreaks = new Set<string>();
         
+        if (currentRoute.warehouse) {
+            items.push({ type: 'warehouse', data: currentRoute.warehouse });
+        }
+        
         packages.forEach((pkg, index) => {
             items.push({ type: 'package', data: pkg });
             
@@ -86,6 +90,10 @@ function RouteOverview({ routeId: propRouteId }: RouteOverviewProps = {} as Rout
             }
         });
         
+        if (currentRoute.depot) {
+            items.push({ type: 'depot', data: currentRoute.depot });
+        }
+        
         return items;
     }, [currentRoute, packages]);
 
@@ -99,7 +107,41 @@ function RouteOverview({ routeId: propRouteId }: RouteOverviewProps = {} as Rout
                 ) : packages.length > 0 ? (
                     <div className="route-stops-container">
                         {routeItems.map((item, index) => {
-                            if (item.type === 'package') {
+                            if (item.type === 'warehouse') {
+                                const warehouse = item.data;
+                                if (!warehouse) return null;
+                                return (
+                                    <div key={`warehouse-${warehouse.id}`} className="route-stop-card warehouse">
+                                        <div className="stop-icon">
+                                            <div className="warehouse-icon">📦</div>
+                                        </div>
+                                        <div className="stop-content">
+                                            <div className="stop-type">Warehouse</div>
+                                            <div className="stop-name">Package Collection</div>
+                                            <div className="stop-address">{warehouse.address}</div>
+                                            <div className="stop-location">{warehouse.city} {warehouse.postalCode}</div>
+                                        </div>
+                                        <div className="stop-arrow">›</div>
+                                    </div>
+                                );
+                            } else if (item.type === 'depot') {
+                                const depot = item.data;
+                                if (!depot) return null;
+                                return (
+                                    <div key={`depot-${depot.id}`} className="route-stop-card depot">
+                                        <div className="stop-icon">
+                                            <div className="depot-icon">🏢</div>
+                                        </div>
+                                        <div className="stop-content">
+                                            <div className="stop-type">Depot</div>
+                                            <div className="stop-name">{depot.name || 'Return to Depot'}</div>
+                                            <div className="stop-address">{depot.address}</div>
+                                            <div className="stop-location">{depot.city} {depot.postalCode}</div>
+                                        </div>
+                                        <div className="stop-arrow">›</div>
+                                    </div>
+                                );
+                            } else if (item.type === 'package') {
                                 const pkg = item.data;
                                 return (
                                     <div key={pkg.id} className="route-stop-card shipping">
