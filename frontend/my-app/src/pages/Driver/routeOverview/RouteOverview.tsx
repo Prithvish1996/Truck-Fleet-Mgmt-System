@@ -57,8 +57,10 @@ function RouteOverview({ routeId: propRouteId }: RouteOverviewProps = {} as Rout
     const isFromNavigation = !!storedRouteId;
     
     const handleStartRoute = () => {
-        sessionStorage.removeItem('currentRouteId');
-        navigate('/driver/navigation');
+        if (routeId) {
+            sessionStorage.setItem('currentRouteId', routeId);
+        }
+        navigate('/driver/navigation', { state: { routeId } });
     };
 
     const handleBackToNavigation = () => {

@@ -368,6 +368,42 @@
   }
 }
 
+/* Routes Section */
+.routes-section {
+  margin-bottom: 40px;
+}
+
+.routes-section:not(:first-child) {
+  margin-top: 40px;
+  padding-top: 30px;
+  border-top: 2px solid #e0e0e0;
+}
+
+.routes-section-title {
+  color: #2D5A3D;
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0 0 15px 0;
+  padding: 0 5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.routes-section-toggle {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  margin-bottom: 15px;
+}
+
+.routes-section-toggle:hover .routes-section-title {
+  color: #1e3d2a;
+}
+
 /* Loading and empty states */
 .loading-message, .no-routes-message {
   text-align: center;

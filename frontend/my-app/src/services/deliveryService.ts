@@ -114,6 +114,44 @@ class DeliveryService {
       }
       
       if (routeId) {
+        const route = await routeService.getRouteById(routeId, true);
+        if (route && route.routeId && route.status !== 'parcels_retrieved') {
+          const token = authService.getToken();
+          if (token) {
+            try {
+              const response = await fetch(`${apiConfig.baseURL}/routes/status`, {
+                method: 'PUT',
+                headers: {
+                  'Authorization': `Bearer ${token.trim()}`,
+                  'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                body: JSON.stringify({
+                  routeId: route.routeId,
+                  status: 'PARCELS_RETRIEVED'
+                }),
+              });
+
+              if (!response.ok) {
+                const errorData = await response.json().catch(() => ({ message: 'Failed to update route status' }));
+                console.warn('Failed to update route status:', errorData.message || `Status: ${response.status}`);
+              } else {
+                const apiResponse = await response.json();
+                if (apiResponse.success) {
+                  const driverId = authService.getDriverId();
+                  if (driverId) {
+                    const cacheKey = `driver_routes_${driverId}`;
+                    localStorage.removeItem(cacheKey);
+                    localStorage.removeItem(`${cacheKey}_time`);
+                  }
+                }
+              }
+            } catch (error) {
+              console.warn('Error updating route status to PARCELS_RETRIEVED:', error);
+            }
+          }
+        }
+        
         const cacheKey = `route_packages_${routeId}`;
         localStorage.removeItem(cacheKey);
       }

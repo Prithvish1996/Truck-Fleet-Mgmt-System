@@ -62,7 +62,7 @@ export interface Route {
   startTime: string;
   duration: string;
   date: string;
-  status: 'scheduled' | 'in_progress' | 'completed' | 'cancelled';
+  status: 'scheduled' | 'in_progress' | 'completed' | 'cancelled' | 'parcels_retrieved';
   totalDistance: number;
   estimatedFuelCost: number;
   priority: 'low' | 'medium' | 'high';
@@ -177,7 +177,6 @@ export interface RouteByDriverResponse {
   timestamp: string;
 }
 
-// Parcel Request interface for route planning
 export interface ParcelRequest {
   id: string; // Parcel ID
   customer: string; // Customer name
@@ -186,7 +185,6 @@ export interface ParcelRequest {
   priority: 'Low' | 'Medium' | 'High';
 }
 
-// Route Assignment interface for assigning trucks and drivers
 export interface RouteAssignment {
   id: string;
   truckPlateNo: string;

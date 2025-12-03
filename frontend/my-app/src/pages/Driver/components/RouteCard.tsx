@@ -8,7 +8,7 @@ interface RouteCardProps {
   startTime: string;
   duration: string;
   date: string;
-  status?: 'scheduled' | 'in_progress' | 'completed' | 'cancelled';
+  status?: 'scheduled' | 'in_progress' | 'completed' | 'cancelled' | 'parcels_retrieved';
 }
 
 export default function RouteCard({ startRoute, routeId, truckId, packages, startTime, duration, date, status = 'scheduled' }: RouteCardProps) {

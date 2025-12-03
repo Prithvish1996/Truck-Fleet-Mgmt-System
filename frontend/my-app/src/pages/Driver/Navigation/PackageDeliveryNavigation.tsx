@@ -57,11 +57,24 @@ const PackageDeliveryNavigation: React.FC<PackageDeliveryNavigationProps> = ({
 
       try {
         setDeliveryState('loading');
+        setError(null);
+        setPackages([]);
+        setCurrentRoute(null);
+        setCurrentPackageIndex(0);
+        setWarehouseCollected(false);
+        setIsCollectingWarehouse(false);
+        setShowWarehouseOverview(false);
+        setIsNavigatingToDepot(false);
+        setCurrentDestination(null);
         
         const route = await routeService.getRouteById(routeId, true);
-        if (route) {
-          setCurrentRoute(route);
+        if (!route) {
+          setError('Route not found');
+          setDeliveryState('error');
+          return;
         }
+        
+        setCurrentRoute(route);
         
         const loadedPackages = await deliveryService.loadPackages(routeId);
         
@@ -76,18 +89,28 @@ const PackageDeliveryNavigation: React.FC<PackageDeliveryNavigationProps> = ({
         setPackages(loadedPackages);
         setCurrentPackageIndex(0);
         
-        const pickedUp = loadedPackages.every(pkg => 
+        const routeStatusIsParcelsRetrieved = route.status === 'parcels_retrieved';
+        const allPackagesPickedUp = loadedPackages.every(pkg => 
           pkg.status === 'picked_up' || pkg.status === 'delivered'
         );
-        setWarehouseCollected(pickedUp);
+        const parcelsRetrieved = routeStatusIsParcelsRetrieved || allPackagesPickedUp;
         
-        if (route?.warehouse && !pickedUp) {
+        setWarehouseCollected(parcelsRetrieved);
+        
+        if (route.warehouse && !parcelsRetrieved) {
           setIsCollectingWarehouse(true);
           setShowWarehouseOverview(false);
           setDeliveryState('waiting_location');
         } else {
           setIsCollectingWarehouse(false);
           setShowWarehouseOverview(false);
+          if (parcelsRetrieved && undelivered.length > 0) {
+            const firstPackage = undelivered[0];
+            setCurrentDestination([firstPackage.latitude, firstPackage.longitude]);
+          } else if (undelivered.length > 0) {
+            const firstPackage = undelivered[0];
+            setCurrentDestination([firstPackage.latitude, firstPackage.longitude]);
+          }
           setDeliveryState('waiting_location');
         }
       } catch (err) {
@@ -157,7 +180,7 @@ const PackageDeliveryNavigation: React.FC<PackageDeliveryNavigationProps> = ({
           .filter(pkg => pkg.status === 'pending')
           .map(pkg => pkg.id);
         
-        if (pendingPackageIds.length > 0) {
+        if (pendingPackageIds.length > 0 && currentRoute.routeId) {
           await deliveryService.markPackagesAsPickedUp(pendingPackageIds, routeId);
           
           const updatedPackages = packages.map(pkg => 

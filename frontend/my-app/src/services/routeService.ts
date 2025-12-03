@@ -139,9 +139,10 @@ class RouteService {
     return 'pending';
   }
 
-  private mapApiStatusToRouteStatus(apiStatus: string): 'scheduled' | 'in_progress' | 'completed' | 'cancelled' {
+  private mapApiStatusToRouteStatus(apiStatus: string): 'scheduled' | 'in_progress' | 'completed' | 'cancelled' | 'parcels_retrieved' {
     const statusLower = apiStatus.toLowerCase();
     if (statusLower === 'completed') return 'completed';
+    if (statusLower === 'parcels_retrieved') return 'parcels_retrieved';
     if (statusLower === 'in_progress' || statusLower === 'assigned') return 'in_progress';
     if (statusLower === 'cancelled') return 'cancelled';
     return 'scheduled';
