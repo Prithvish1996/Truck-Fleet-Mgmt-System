@@ -1,4 +1,5 @@
 import { apiConfig } from '../config/apiConfig';
+import axiosInstance from '../config/axiosConfig';
 
 const API_BASE_URL = apiConfig.baseURL;
 
@@ -35,22 +36,12 @@ class AuthService {
 
   async login(credentials: LoginRequest): Promise<LoginResponse> {
     try {
-      const response = await fetch(`${this.baseURL}/auth/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(credentials),
-        mode: 'cors',
-        credentials: 'include',
-      });
+      const response = await axiosInstance.post<ApiResponse<LoginResponse>>(
+        `${this.baseURL}/auth/login`,
+        credentials
+      );
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Login failed');
-      }
-
-      const apiResponse: ApiResponse<LoginResponse> = await response.json();
+      const apiResponse = response.data;
       
       if (!apiResponse.success) {
         throw new Error(apiResponse.message || 'Login failed');
@@ -61,28 +52,32 @@ class AuthService {
       }
 
       return apiResponse.data;
-    } catch (error) {
+    } catch (error: any) {
       console.error('Login error:', error);
+      if (error.response?.data?.message) {
+        throw new Error(error.response.data.message);
+      }
       throw error;
     }
   }
 
   async logout(token: string): Promise<void> {
     try {
-      const response = await fetch(`${this.baseURL}/auth/logout`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error('Logout failed');
-      }
-    } catch (error) {
+      await axiosInstance.post(
+        `${this.baseURL}/auth/logout`,
+        {},
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        }
+      );
+    } catch (error: any) {
       console.error('Logout error:', error);
-      throw error;
+      if (error.response?.data?.message) {
+        throw new Error(error.response.data.message);
+      }
+      throw new Error('Logout failed');
     }
   }
 

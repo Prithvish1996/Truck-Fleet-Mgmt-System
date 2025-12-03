@@ -3,6 +3,7 @@ import { googleMapsService } from './googleMapsService';
 import { Package } from '../types';
 import { apiConfig } from '../config/apiConfig';
 import { authService } from './authService';
+import axiosInstance from '../config/axiosConfig';
 
 export type DeliveryState = 
   | 'loading'
@@ -67,30 +68,28 @@ class DeliveryService {
       }
 
       try {
-        const response = await fetch(`${apiConfig.baseURL}/planner/parcel/status`, {
-          method: 'PUT',
-          headers: {
-            'Authorization': `Bearer ${token.trim()}`,
-            'Content-Type': 'application/json',
-          },
-          credentials: 'include',
-          body: JSON.stringify({
+        const response = await axiosInstance.put(
+          `${apiConfig.baseURL}/planner/parcel/status`,
+          {
             parcelId: parseInt(packageId, 10),
             status: 'DELIVERED'
-          }),
-        });
+          },
+          {
+            headers: {
+              'Authorization': `Bearer ${token.trim()}`,
+            },
+          }
+        );
 
-        if (!response.ok) {
-          const errorData = await response.json().catch(() => ({ message: 'Failed to update parcel status' }));
-          throw new Error(errorData.message || `Failed to update parcel status (Status: ${response.status})`);
-        }
-
-        const apiResponse = await response.json();
+        const apiResponse = response.data;
         if (!apiResponse.success) {
           throw new Error(apiResponse.message || 'Failed to update parcel status');
         }
-      } catch (error) {
+      } catch (error: any) {
         console.error('Error updating parcel status on backend:', error);
+        if (error.response?.data?.message) {
+          throw new Error(error.response.data.message);
+        }
         throw error;
       }
     }
@@ -119,35 +118,30 @@ class DeliveryService {
           const token = authService.getToken();
           if (token) {
             try {
-              const response = await fetch(`${apiConfig.baseURL}/routes/status`, {
-                method: 'PUT',
-                headers: {
-                  'Authorization': `Bearer ${token.trim()}`,
-                  'Content-Type': 'application/json',
-                },
-                credentials: 'include',
-                body: JSON.stringify({
+              const response = await axiosInstance.put(
+                `${apiConfig.baseURL}/routes/status`,
+                {
                   routeId: route.routeId,
                   status: 'PARCELS_RETRIEVED'
-                }),
-              });
+                },
+                {
+                  headers: {
+                    'Authorization': `Bearer ${token.trim()}`,
+                  },
+                }
+              );
 
-              if (!response.ok) {
-                const errorData = await response.json().catch(() => ({ message: 'Failed to update route status' }));
-                console.warn('Failed to update route status:', errorData.message || `Status: ${response.status}`);
-              } else {
-                const apiResponse = await response.json();
-                if (apiResponse.success) {
-                  const driverId = authService.getDriverId();
-                  if (driverId) {
-                    const cacheKey = `driver_routes_${driverId}`;
-                    localStorage.removeItem(cacheKey);
-                    localStorage.removeItem(`${cacheKey}_time`);
-                  }
+              const apiResponse = response.data;
+              if (apiResponse.success) {
+                const driverId = authService.getDriverId();
+                if (driverId) {
+                  const cacheKey = `driver_routes_${driverId}`;
+                  localStorage.removeItem(cacheKey);
+                  localStorage.removeItem(`${cacheKey}_time`);
                 }
               }
-            } catch (error) {
-              console.warn('Error updating route status to PARCELS_RETRIEVED:', error);
+            } catch (error: any) {
+              console.warn('Error updating route status to PARCELS_RETRIEVED:', error.response?.data?.message || error.message);
             }
           }
         }

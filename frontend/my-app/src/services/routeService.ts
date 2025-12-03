@@ -3,6 +3,7 @@ import { Route, RouteResponse, RouteByDriverResponse, RouteData, Parcel, RouteSt
 import { authService } from './authService';
 import { apiConfig } from '../config/apiConfig';
 import { dateTimeService } from './dateTimeService';
+import axiosInstance from '../config/axiosConfig';
 
 class RouteService {
   private extractWarehouseFromRoute(routeData: RouteData): Warehouse | undefined {
@@ -149,60 +150,49 @@ class RouteService {
   }
 
   async getDriverRoutes(forceRefresh: boolean = false): Promise<Route[]> {
-    try {
-      const driverId = authService.getDriverId();
-      if (!driverId) {
-        throw new Error('Driver ID not found in token. Please log out and log back in to get a new token with your user ID.');
-      }
+    const driverId = authService.getDriverId();
+    if (!driverId) {
+      throw new Error('Driver ID not found in token. Please log out and log back in to get a new token with your user ID.');
+    }
 
-      const cacheKey = `driver_routes_${driverId}`;
-      
-      if (!forceRefresh) {
-        const cached = localStorage.getItem(cacheKey);
-        if (cached) {
-          try {
-            const cachedRoutes = JSON.parse(cached) as Route[];
-            const cacheTime = localStorage.getItem(`${cacheKey}_time`);
-            if (cacheTime) {
-              const age = Date.now() - parseInt(cacheTime, 10);
-              if (age < 60000) {
-                return cachedRoutes;
-              }
+    const cacheKey = `driver_routes_${driverId}`;
+    
+    if (!forceRefresh) {
+      const cached = localStorage.getItem(cacheKey);
+      if (cached) {
+        try {
+          const cachedRoutes = JSON.parse(cached) as Route[];
+          const cacheTime = localStorage.getItem(`${cacheKey}_time`);
+          if (cacheTime) {
+            const age = Date.now() - parseInt(cacheTime, 10);
+            if (age < 60000) {
+              return cachedRoutes;
             }
-          } catch (e) {
-            console.warn('Failed to parse cached routes', e);
           }
+        } catch (e) {
+          console.warn('Failed to parse cached routes', e);
         }
       }
+    }
 
-      let token = authService.getToken();
-      if (!token) {
-        throw new Error('Authentication token not found');
-      }
+    let token = authService.getToken();
+    if (!token) {
+      throw new Error('Authentication token not found');
+    }
 
-      token = token.trim();
+    token = token.trim();
 
-      const response = await fetch(`${apiConfig.baseURL}/routes/driver/${driverId}`, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-      });
+    try {
+      const response = await axiosInstance.get<RouteByDriverResponse>(
+        `${apiConfig.baseURL}/routes/driver/${driverId}`,
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        }
+      );
       
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({ message: 'Failed to fetch routes' }));
-        const errorMessage = errorData.message || `Failed to fetch routes (Status: ${response.status})`;
-        
-        if (response.status === 401) {
-          throw new Error(`${errorMessage}. Please log out and log back in to refresh your token.`);
-        }
-        
-        throw new Error(errorMessage);
-      }
-
-      const apiResponse: RouteByDriverResponse = await response.json();
+      const apiResponse = response.data;
       
       if (!apiResponse.success) {
         throw new Error(apiResponse.message || 'Failed to fetch routes');
@@ -216,8 +206,15 @@ class RouteService {
       localStorage.setItem(`${cacheKey}_time`, Date.now().toString());
 
       return routes;
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error fetching driver routes:', error);
+      if (error.response?.status === 401) {
+        const errorMessage = error.response?.data?.message || 'Failed to fetch routes';
+        throw new Error(`${errorMessage}. Please log out and log back in to refresh your token.`);
+      }
+      if (error.response?.data?.message) {
+        throw new Error(error.response.data.message);
+      }
       throw error;
     }
   }
@@ -244,44 +241,39 @@ class RouteService {
   }
 
   async completeRoute(routeId: string): Promise<boolean> {
+    const routes = await this.getDriverRoutes(false);
+    const route = routes.find(r => r.id === routeId);
+    
+    if (!route) {
+      throw new Error(`Route ${routeId} not found`);
+    }
+
+    if (!route.routeId) {
+      throw new Error('Route ID not found. Backend needs to include routeId in RouteResponseDto');
+    }
+
+    const token = authService.getToken();
+    if (!token) {
+      throw new Error('Authentication token not found');
+    }
+
+    const backendRouteId = route.routeId;
+    
     try {
-      const routes = await this.getDriverRoutes(false);
-      const route = routes.find(r => r.id === routeId);
-      
-      if (!route) {
-        throw new Error(`Route ${routeId} not found`);
-      }
-
-      if (!route.routeId) {
-        throw new Error('Route ID not found. Backend needs to include routeId in RouteResponseDto');
-      }
-
-      const token = authService.getToken();
-      if (!token) {
-        throw new Error('Authentication token not found');
-      }
-
-      const backendRouteId = route.routeId;
-      
-      const response = await fetch(`${apiConfig.baseURL}/routes/status`, {
-        method: 'PUT',
-        headers: {
-          'Authorization': `Bearer ${token.trim()}`,
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify({
+      const response = await axiosInstance.put(
+        `${apiConfig.baseURL}/routes/status`,
+        {
           routeId: backendRouteId,
           status: 'COMPLETED'
-        }),
-      });
+        },
+        {
+          headers: {
+            'Authorization': `Bearer ${token.trim()}`,
+          },
+        }
+      );
 
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({ message: 'Failed to update route status' }));
-        throw new Error(errorData.message || `Failed to update route status (Status: ${response.status})`);
-      }
-
-      const apiResponse = await response.json();
+      const apiResponse = response.data;
       if (!apiResponse.success) {
         throw new Error(apiResponse.message || 'Failed to update route status');
       }
@@ -292,8 +284,11 @@ class RouteService {
       localStorage.removeItem(`${cacheKey}_time`);
 
       return true;
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error completing route:', error);
+      if (error.response?.data?.message) {
+        throw new Error(error.response.data.message);
+      }
       throw error;
     }
   }
@@ -352,21 +347,8 @@ class RouteService {
   async saveDeliveryProgress(routeId: string, currentPackageIndex: number): Promise<boolean> {
     try {
       const url = `${this.getBaseUrl()}/routes/${routeId}/delivery-progress`;
-      const response = await fetch(url, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ currentPackageIndex }),
-        credentials: 'include'
-      });
-
-      if (response.ok) {
-        return true;
-      } else {
-        console.warn('Failed to save delivery progress to backend, using localStorage only');
-        return false;
-      }
+      await axiosInstance.put(url, { currentPackageIndex });
+      return true;
     } catch (error) {
       console.warn('Error saving delivery progress to backend:', error);
       return false;
@@ -376,16 +358,8 @@ class RouteService {
   async getDeliveryProgress(routeId: string): Promise<number | null> {
     try {
       const url = `${this.getBaseUrl()}/routes/${routeId}/delivery-progress`;
-      const response = await fetch(url, {
-        method: 'GET',
-        credentials: 'include'
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        return data.currentPackageIndex ?? null;
-      }
-      return null;
+      const response = await axiosInstance.get(url);
+      return response.data.currentPackageIndex ?? null;
     } catch (error) {
       console.warn('Error loading delivery progress from backend:', error);
       return null;
