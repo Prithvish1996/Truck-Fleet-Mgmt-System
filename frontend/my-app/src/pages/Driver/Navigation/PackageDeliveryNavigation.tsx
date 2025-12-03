@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import DriverHeader from '../components/driverHeader';
 import MapComponent from '../components/navigation/MapComponent';
 import LocationPermission from '../components/navigation/LocationPermission';
@@ -14,9 +14,9 @@ import DepotArrivalConfirmation from '../components/navigation/DepotArrivalConfi
 import DeliveryNavigationControls from '../components/navigation/DeliveryNavigationControls';
 import CompletedState from '../components/navigation/CompletedState';
 import RouteOverviewButton from '../components/navigation/RouteOverviewButton';
-import { deliveryService, DeliveryState } from '../../../services/deliveryService';
+import { deliveryService } from '../../../services/deliveryService';
 import { routeService } from '../../../services/routeService';
-import { Package, Route } from '../../../types';
+import { useDeliveryPackages, useDestination } from '../hooks';
 import './PackageDeliveryNavigation.css';
 
 interface PackageDeliveryNavigationProps {
@@ -29,109 +29,31 @@ const PackageDeliveryNavigation: React.FC<PackageDeliveryNavigationProps> = ({
   routeId 
 }) => {
   const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
-  const [packages, setPackages] = useState<Package[]>([]);
-  const [currentRoute, setCurrentRoute] = useState<Route | null>(null);
-  const [currentPackageIndex, setCurrentPackageIndex] = useState(0);
-  const [deliveryState, setDeliveryState] = useState<DeliveryState>('loading');
-  const [error, setError] = useState<string | null>(null);
-  const [currentDestination, setCurrentDestination] = useState<[number, number] | null>(null);
-  const [warehouseCollected, setWarehouseCollected] = useState(false);
-  const [isCollectingWarehouse, setIsCollectingWarehouse] = useState(false);
-  const [isNavigatingToDepot, setIsNavigatingToDepot] = useState(false);
   const [showWarehouseOverview, setShowWarehouseOverview] = useState(false);
 
-  const undeliveredPackages = packages.filter(pkg => pkg.status !== 'delivered');
-  const currentPackage = undeliveredPackages.length > 0 ? undeliveredPackages[currentPackageIndex] : null;
-  
-  const packagesPickedUp = packages.length > 0 && packages.every(pkg => 
-    pkg.status === 'picked_up' || pkg.status === 'delivered'
+  const {
+    packages,
+    currentRoute,
+    deliveryState,
+    error,
+    currentPackage,
+    isCollectingWarehouse,
+    isNavigatingToDepot,
+    setCurrentPackageIndex,
+    setPackages,
+    setWarehouseCollected,
+    setIsCollectingWarehouse,
+    setIsNavigatingToDepot,
+    setDeliveryState,
+    setError,
+  } = useDeliveryPackages(routeId);
+
+  const { currentDestination } = useDestination(
+    currentPackage,
+    isCollectingWarehouse,
+    isNavigatingToDepot,
+    currentRoute
   );
-
-  useEffect(() => {
-    const loadRouteAndPackages = async () => {
-      if (!routeId) {
-        setError('Route ID is required');
-        setDeliveryState('error');
-        return;
-      }
-
-      try {
-        setDeliveryState('loading');
-        setError(null);
-        setPackages([]);
-        setCurrentRoute(null);
-        setCurrentPackageIndex(0);
-        setWarehouseCollected(false);
-        setIsCollectingWarehouse(false);
-        setShowWarehouseOverview(false);
-        setIsNavigatingToDepot(false);
-        setCurrentDestination(null);
-        
-        const route = await routeService.getRouteById(routeId, true);
-        if (!route) {
-          setError('Route not found');
-          setDeliveryState('error');
-          return;
-        }
-        
-        setCurrentRoute(route);
-        
-        const loadedPackages = await deliveryService.loadPackages(routeId);
-        
-        const undelivered = loadedPackages.filter(pkg => pkg.status !== 'delivered');
-        
-        if (undelivered.length === 0) {
-          setDeliveryState('completed');
-          setError('No packages to deliver');
-          return;
-        }
-        
-        setPackages(loadedPackages);
-        setCurrentPackageIndex(0);
-        
-        const routeStatusIsParcelsRetrieved = route.status === 'parcels_retrieved';
-        const allPackagesPickedUp = loadedPackages.every(pkg => 
-          pkg.status === 'picked_up' || pkg.status === 'delivered'
-        );
-        const parcelsRetrieved = routeStatusIsParcelsRetrieved || allPackagesPickedUp;
-        
-        setWarehouseCollected(parcelsRetrieved);
-        
-        if (route.warehouse && !parcelsRetrieved) {
-          setIsCollectingWarehouse(true);
-          setShowWarehouseOverview(false);
-          setDeliveryState('waiting_location');
-        } else {
-          setIsCollectingWarehouse(false);
-          setShowWarehouseOverview(false);
-          if (parcelsRetrieved && undelivered.length > 0) {
-            const firstPackage = undelivered[0];
-            setCurrentDestination([firstPackage.latitude, firstPackage.longitude]);
-          } else if (undelivered.length > 0) {
-            const firstPackage = undelivered[0];
-            setCurrentDestination([firstPackage.latitude, firstPackage.longitude]);
-          }
-          setDeliveryState('waiting_location');
-        }
-      } catch (err) {
-        console.error('Error loading packages:', err);
-        setError(err instanceof Error ? err.message : 'Failed to load packages');
-        setDeliveryState('error');
-      }
-    };
-
-    loadRouteAndPackages();
-  }, [routeId]);
-
-  useEffect(() => {
-    if (isCollectingWarehouse && currentRoute?.warehouse) {
-      setCurrentDestination([currentRoute.warehouse.latitude, currentRoute.warehouse.longitude]);
-    } else if (isNavigatingToDepot && currentRoute?.depot) {
-      setCurrentDestination([currentRoute.depot.latitude, currentRoute.depot.longitude]);
-    } else if (currentPackage) {
-      setCurrentDestination([currentPackage.latitude, currentPackage.longitude]);
-    }
-  }, [currentPackage, isCollectingWarehouse, isNavigatingToDepot, currentRoute]);
 
   const handleLocationGranted = useCallback((location: [number, number]) => {
     setUserLocation(location);
@@ -140,7 +62,7 @@ const PackageDeliveryNavigation: React.FC<PackageDeliveryNavigationProps> = ({
     if (deliveryState === 'waiting_location') {
       setDeliveryState('showing_navigation');
     }
-  }, [deliveryState]);
+  }, [deliveryState, setError, setDeliveryState]);
 
   const handleOpenNavigation = useCallback(() => {
     if (!currentDestination) return;

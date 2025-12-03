@@ -1,54 +1,18 @@
-import { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { authService } from '../../../services/authService';
-import { routeService } from '../../../services/routeService';
-import { Route } from '../../../types';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './DriverDashboard.css';
 import DriverHeader from '../components/driverHeader';
 import RoutesList from '../components/RoutesList';
 import BottomTabBar from '../components/BottomTabBar/BottomTabBar';
 import AgendaPlanner from '../AgendaPlanner/AgendaPlanner';
 import Suggestions from '../Suggestions/Suggestions';
+import { useDriverRoutes } from '../hooks';
 
 export default function DriverDashboard() {
   const navigate = useNavigate();
-  const location = useLocation();
-  const [routes, setRoutes] = useState<Route[]>([]);
-  const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<'home' | 'agenda' | 'suggestions'>('home');
   const [showOtherRoutes, setShowOtherRoutes] = useState(false);
-
-  const startRoute = async (routeId: string) => {
-    try {
-      await routeService.startRoute(routeId);
-      sessionStorage.removeItem('currentRouteId');
-      navigate('/driver/route-overview', { state: { routeId } });
-    } catch (error) {
-      console.error('Error starting route:', error);
-    }
-  };
-
-  const loadRoutes = async (forceRefresh: boolean = false) => {
-    try {
-      setLoading(true);
-      const driverRoutes = await routeService.getDriverRoutes(forceRefresh);
-      setRoutes(driverRoutes);
-
-    } catch (error) {
-      console.error('Error loading routes:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    if (!authService.isAuthenticated() || authService.getUserRole() !== 'DRIVER') {
-      navigate('/');
-    } else {
-      const shouldRefresh = location.pathname === '/driver/dashboard' && location.state?.refresh;
-      loadRoutes(shouldRefresh);
-    }
-  }, [navigate, location.pathname, location.state]);
+  const { routes, loading, startRoute } = useDriverRoutes();
 
   return (
     <div className="driver-dashboard">

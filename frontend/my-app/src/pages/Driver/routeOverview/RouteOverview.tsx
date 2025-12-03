@@ -1,12 +1,8 @@
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import DriverHeader from "../components/driverHeader";
-import { useState, useEffect, useMemo } from "react";
-import { routeService } from "../../../services/routeService";
-import { Route, Package, RouteBreak } from "../../../types";
 import { formatTravelTime } from "../../../utils/timeFormatter";
+import { useRouteById, useRouteItems } from "../hooks";
 import "./RouteOverview.css";
-
-type RouteItem = { type: 'package'; data: Package } | { type: 'break'; data: RouteBreak } | { type: 'warehouse'; data: Route['warehouse'] } | { type: 'depot'; data: Route['depot'] };
 
 interface RouteOverviewProps {
     routeId?: string;
@@ -14,46 +10,10 @@ interface RouteOverviewProps {
 
 function RouteOverview({ routeId: propRouteId }: RouteOverviewProps = {} as RouteOverviewProps) {
     const navigate = useNavigate();
-    const location = useLocation();
-    const [currentRoute, setCurrentRoute] = useState<Route | null>(null);
-    const [packages, setPackages] = useState<Package[]>([]);
-    const [loading, setLoading] = useState(true);
+    const { route: currentRoute, packages, loading, routeId } = useRouteById(propRouteId);
+    const routeItems = useRouteItems(currentRoute, packages);
     
     const storedRouteId = sessionStorage.getItem('currentRouteId');
-    const routeId = propRouteId || 
-                    (location.state as any)?.routeId || 
-                    storedRouteId ||
-                    null;
-
-    useEffect(() => {
-        loadRoute();
-    }, [routeId]);
-
-    const loadRoute = async () => {
-        try {
-            setLoading(true);
-            
-            if (routeId) {
-                const route = await routeService.getRouteById(routeId);
-                if (route) {
-                    setCurrentRoute(route);
-                    setPackages(route.packages);
-                }
-            } else {
-                const routes = await routeService.getDriverRoutes();
-                const inProgressRoute = routes.find(route => route.status === 'in_progress');
-                if (inProgressRoute) {
-                    setCurrentRoute(inProgressRoute);
-                    setPackages(inProgressRoute.packages);
-                }
-            }
-        } catch (error) {
-            console.error('Error loading route:', error);
-        } finally {
-            setLoading(false);
-        }
-    };
-
     const isFromNavigation = !!storedRouteId;
     
     const handleStartRoute = () => {
@@ -66,38 +26,6 @@ function RouteOverview({ routeId: propRouteId }: RouteOverviewProps = {} as Rout
     const handleBackToNavigation = () => {
         navigate('/driver/navigation');
     };
-
-    const routeItems = useMemo(() => {
-        if (!currentRoute) return [];
-        
-        const items: RouteItem[] = [];
-        const breaks = currentRoute.breaks || [];
-        const usedBreaks = new Set<string>();
-        
-        if (currentRoute.warehouse) {
-            items.push({ type: 'warehouse', data: currentRoute.warehouse });
-        }
-        
-        packages.forEach((pkg, index) => {
-            items.push({ type: 'package', data: pkg });
-            
-            const breakAfterPackage = breaks.find(breakItem => 
-                !usedBreaks.has(breakItem.id) &&
-                breakItem.packagesBetween?.beforePackage === pkg.id
-            );
-            
-            if (breakAfterPackage) {
-                items.push({ type: 'break', data: breakAfterPackage });
-                usedBreaks.add(breakAfterPackage.id);
-            }
-        });
-        
-        if (currentRoute.depot) {
-            items.push({ type: 'depot', data: currentRoute.depot });
-        }
-        
-        return items;
-    }, [currentRoute, packages]);
 
     return (
         <div className="route-overview">

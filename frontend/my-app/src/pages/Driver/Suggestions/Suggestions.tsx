@@ -6,7 +6,6 @@ export default function Suggestions() {
 
   const handleFeedbackSubmit = () => {
     if (feedback.trim()) {
-      console.log('Feedback submitted:', feedback);
       setFeedback('');
     }
   };
