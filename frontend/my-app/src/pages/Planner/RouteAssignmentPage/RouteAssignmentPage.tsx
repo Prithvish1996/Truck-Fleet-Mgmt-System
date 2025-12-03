@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { RouteAssignment } from '../../../types';
-import { plannerService, DriverResponse } from '../../../services/plannerService';
+import { plannerService, DriverResponse, StopDto } from '../../../services/plannerService';
 import { formatDate, countParcelsInRoute } from '../../../utils/dataTransformers';
 import { requestCache } from '../../../utils/requestCache';
 import AssignmentTable from './AssignmentTable';
@@ -13,9 +13,10 @@ interface RouteAssignmentPageProps {
   onSubmit: (assignments: RouteAssignment[]) => void;
   onTruckClick?: (truckPlateNo: string) => void;
   submittedAssignments?: RouteAssignment[];
+  routeStopOrderMap?: Map<number, StopDto[]>;
 }
 
-export default function RouteAssignmentPage({ selectedParcelIds, onReturn, onSubmit, onTruckClick, submittedAssignments = [] }: RouteAssignmentPageProps) {
+export default function RouteAssignmentPage({ selectedParcelIds, onReturn, onSubmit, onTruckClick, submittedAssignments = [], routeStopOrderMap = new Map() }: RouteAssignmentPageProps) {
   const [assignments, setAssignments] = useState<RouteAssignment[]>([]);
   const [availableDrivers, setAvailableDrivers] = useState<DriverResponse[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -163,13 +164,24 @@ export default function RouteAssignmentPage({ selectedParcelIds, onReturn, onSub
         return;
       }
 
-      const assignmentPromises = assignmentsToSubmit.map(assignment =>
-        plannerService.assignDriverToRoute({
+      const assignmentPromises = assignmentsToSubmit.map(assignment => {
+        // Get stop order if available (from modal), otherwise backend uses default order
+        const stops = routeStopOrderMap.get(assignment.routeId || 0);
+        
+        return plannerService.assignDriverToRoute({
           routId: assignment.routeId!,
           truckId: assignment.truckId!,
-          driverId: parseInt(assignment.driverId!, 10)
-        })
-      );
+          driverId: parseInt(assignment.driverId!, 10),
+          // Include stops if available (backend accepts this as optional)
+          stops: stops?.map(stop => ({
+            stopId: stop.stopId!,
+            priority: stop.priority,
+            stopType: stop.stopType,
+            parcelsToDeliver: stop.parcelsToDeliver,
+            location: stop.location,
+          })) || undefined,
+        });
+      });
 
       await Promise.all(assignmentPromises);
       console.log('All assignments submitted successfully');

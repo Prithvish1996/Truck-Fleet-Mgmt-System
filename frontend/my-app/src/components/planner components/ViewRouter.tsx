@@ -6,7 +6,7 @@ import RouteMapModal from '../../pages/Planner/RouteMapModal/RouteMapModal';
 import SchedulePage from './SchedulePage';
 import DashboardView from './DashboardView';
 import { RouteAssignment } from '../../types';
-import { DriverResponse } from '../../services/plannerService';
+import { DriverResponse, StopDto } from '../../services/plannerService';
 
 type ScheduleParcel = {
   id: string;
@@ -83,6 +83,7 @@ interface ViewRouterProps {
   onReturnFromTruckDetail: () => void;
   onParcelClick: (parcelId: string) => void;
   onReturnFromRouteMap: () => void;
+  routeStopOrderMap?: Map<number, StopDto[]>;
 }
 
 export default function ViewRouter({
@@ -122,7 +123,8 @@ export default function ViewRouter({
   onTrackRoute,
   onReturnFromTruckDetail,
   onParcelClick,
-  onReturnFromRouteMap
+  onReturnFromRouteMap,
+  routeStopOrderMap
 }: ViewRouterProps) {
   return (
     <>
@@ -164,6 +166,7 @@ export default function ViewRouter({
           onSubmit={onSubmitAssignments}
           onTruckClick={onTruckClick}
           submittedAssignments={submittedAssignments}
+          routeStopOrderMap={routeStopOrderMap}
         />
       ) : activeView === 'route-tracking' ? (
         <RouteTrackingPage

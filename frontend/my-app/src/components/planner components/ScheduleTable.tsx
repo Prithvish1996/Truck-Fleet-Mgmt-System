@@ -76,7 +76,6 @@ export default function ScheduleTable({ parcels, selectedParcels, onParcelToggle
             <th>Status</th>
             <th>Weight</th>
             <th>Volume</th>
-            <th>Phone</th>
           </tr>
         </thead>
         <tbody>
@@ -102,7 +101,6 @@ export default function ScheduleTable({ parcels, selectedParcels, onParcelToggle
                 </td>
                 <td>{parcel.weight ? `${parcel.weight} kg` : 'N/A'}</td>
                 <td>{parcel.volume ? `${parcel.volume} m³` : 'N/A'}</td>
-                <td>{parcel.phone || 'N/A'}</td>
               </tr>
             );
           })}

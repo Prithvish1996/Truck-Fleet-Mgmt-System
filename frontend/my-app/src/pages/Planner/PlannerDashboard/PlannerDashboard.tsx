@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authService } from '../../../services/authService';
-import { plannerService, ParcelResponse, DriverResponse, DepotResponse } from '../../../services/plannerService';
+import { plannerService, ParcelResponse, DriverResponse, DepotResponse, RouteResponse, StopDto } from '../../../services/plannerService';
 import { formatDate, formatParcelId, getFullDeliveryAddress } from '../../../utils/dataTransformers';
 import { requestCache } from '../../../utils/requestCache';
 import ParcelDetailPage from '../ParcelDetailPage/ParcelDetailPage';
@@ -9,6 +9,7 @@ import { RouteAssignment } from '../../../types';
 import DashboardHeader from '../../../components/planner components/DashboardHeader';
 import DashboardSidebar from '../../../components/planner components/DashboardSidebar';
 import ViewRouter from '../../../components/planner components/ViewRouter';
+import RouteStopsEditModal from '../RouteStopsEditModal/RouteStopsEditModal';
 import './PlannerDashboard.css';
 
 type ScheduleParcel = {
@@ -68,6 +69,9 @@ export default function PlannerDashboard() {
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
   const [searchText, setSearchText] = useState('');
   const [isOptimizing, setIsOptimizing] = useState(false);
+  const [showRouteStopsModal, setShowRouteStopsModal] = useState(false);
+  const [generatedRoutes, setGeneratedRoutes] = useState<RouteResponse[]>([]);
+  const [routeStopOrderMap, setRouteStopOrderMap] = useState<Map<number, StopDto[]>>(new Map());
   
   const availableDriversCacheRef = useRef<{ data: DriverResponse[]; timestamp: number } | null>(null);
   const CACHE_DURATION = 3000;
@@ -782,21 +786,53 @@ export default function PlannerDashboard() {
       });
       
       if (processedRequests.length > 0 && allParcelIds.length > 0) {
-        console.log('Jumping to route-assignment page');
+        console.log('Routes generated successfully, opening stops edit modal');
         
         requestCache.invalidate('getUnassignedRoutes');
-        
         setSelectedParcelIds(allParcelIds.map(id => id.toString()));
-        setActiveView('route-assignment');
         
-        if (errors.length > 0) {
-          if (has429Error) {
-            setScheduleError(`Some routes generated successfully, but rate limit reached. Please wait before trying again. Failed: ${errors.join('; ')}`);
+        // Fetch generated routes from backend to show in modal
+        try {
+          // Small delay to ensure backend has processed the routes
+          await new Promise(resolve => setTimeout(resolve, 500));
+          
+          const routeData = await plannerService.getUnassignedRoutes();
+          const routesToShow = routeData.unAssignedRoute || routeData.assignRoutes || [];
+          
+          if (routesToShow.length > 0) {
+            // Show modal with real backend data
+            setGeneratedRoutes(routesToShow);
+            setShowRouteStopsModal(true);
           } else {
-            setScheduleError(`Some routes generated successfully, but some failed: ${errors.join('; ')}`);
+            // Fallback: if no routes found, proceed directly to route assignment
+            console.log('No routes found, proceeding directly to route assignment');
+            setActiveView('route-assignment');
           }
-        } else {
-          setScheduleError('');
+          
+          // Preserve all existing error handling
+          if (errors.length > 0) {
+            if (has429Error) {
+              setScheduleError(`Some routes generated successfully, but rate limit reached. Please wait before trying again. Failed: ${errors.join('; ')}`);
+            } else {
+              setScheduleError(`Some routes generated successfully, but some failed: ${errors.join('; ')}`);
+            }
+          } else {
+            setScheduleError('');
+          }
+        } catch (error: any) {
+          console.error('Error fetching generated routes for modal:', error);
+          // Fallback: proceed directly to route assignment if modal fails
+          console.log('Fallback: proceeding directly to route assignment');
+          setActiveView('route-assignment');
+          
+          // Still show errors if any
+          if (errors.length > 0) {
+            if (has429Error) {
+              setScheduleError(`Some routes generated successfully, but rate limit reached. Please wait before trying again. Failed: ${errors.join('; ')}`);
+            } else {
+              setScheduleError(`Some routes generated successfully, but some failed: ${errors.join('; ')}`);
+            }
+          }
         }
       } else {
         console.log('All requests failed - staying on dashboard');
@@ -841,6 +877,26 @@ export default function PlannerDashboard() {
       setScheduleError(errorMessage);
       setIsOptimizing(false);
     }
+  };
+
+  const handleSaveRouteStops = (updatedRoutes: RouteResponse[]) => {
+    // Store stop order in state (frontend only)
+    const stopOrderMap = new Map<number, StopDto[]>();
+    updatedRoutes.forEach((route) => {
+      if (route.routeStops && route.routeStops.length > 0) {
+        stopOrderMap.set(route.routeId, route.routeStops);
+      }
+    });
+    setRouteStopOrderMap(stopOrderMap);
+    setShowRouteStopsModal(false);
+    // Navigate to route assignment (preserves existing flow)
+    setActiveView('route-assignment');
+  };
+
+  const handleCloseRouteStopsModal = () => {
+    // If user clicks Back, just proceed to route assignment anyway
+    setShowRouteStopsModal(false);
+    setActiveView('route-assignment');
   };
 
   const handleSubmitAssignments = async (assignments: RouteAssignment[]) => {
@@ -1280,10 +1336,18 @@ return;
             onReturnFromTruckDetail={handleReturnFromTruckDetail}
             onParcelClick={handleParcelClick}
             onReturnFromRouteMap={handleReturnFromRouteMap}
+            routeStopOrderMap={routeStopOrderMap}
           />
         </main>
       </div>
 
+      {showRouteStopsModal && (
+        <RouteStopsEditModal
+          routes={generatedRoutes}
+          onClose={handleCloseRouteStopsModal}
+          onSave={handleSaveRouteStops}
+        />
+      )}
     </div>
   );
 }
