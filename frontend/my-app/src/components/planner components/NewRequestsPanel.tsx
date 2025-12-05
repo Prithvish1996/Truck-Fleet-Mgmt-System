@@ -67,84 +67,106 @@ export default function NewRequestsPanel({ requests, onGenerateRouteClick, isGen
     }
   };
 
+  const isEmpty = requests.length === 0;
+
   return (
     <div className="panel new-requests">
       <div className="panel-header">
         <h2>New Requests</h2>
+        {!isEmpty && <span className="panel-badge">{requests.length}</span>}
       </div>
-      <div className="table-wrapper">
-        <table className="new-requests-table">
-          <thead>
-            <tr>
-              <th>Truck Plate ID</th>
-              <th>Delivery Date</th>
-              <th>No. of Parcels</th>
-              <th>Warehouse</th>
-            </tr>
-          </thead>
-          <tbody>
-            {currentPageRequests.map((request, index) => (
-              <tr key={`${request.truckPlateId}-${request.deliveryDate}-${index}`}>
-                <td>{request.truckPlateId}</td>
-                <td>{request.deliveryDate}</td>
-                <td>{request.parcels}</td>
-                <td>{request.warehouse}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <div className="panel-footer">
-        <div className="pagination">
-          <button 
-            type="button" 
-            className="pagination-btn" 
-            aria-label="Previous page"
-            onClick={() => handlePageChange(currentPage - 1)}
-            disabled={currentPage === 1}
-          >
-            ‹
-          </button>
-          {pageNumbers.map((page, index) => {
-            if (page === '...') {
-              return (
-                <span key={`ellipsis-${index}`} className="pagination-ellipsis">
-                  ...
-                </span>
-              );
-            }
-            
-            const pageNum = page as number;
-            return (
-              <button
-                key={pageNum}
-                type="button"
-                className={`pagination-btn ${currentPage === pageNum ? 'active' : ''}`}
-                onClick={() => handlePageChange(pageNum)}
-              >
-                {pageNum}
-              </button>
-            );
-          })}
-          <button 
-            type="button" 
-            className="pagination-btn" 
-            aria-label="Next page"
-            onClick={() => handlePageChange(currentPage + 1)}
-            disabled={currentPage === totalPages}
-          >
-            ›
-          </button>
+      
+      {isEmpty ? (
+        <div className="panel-empty-state">
+          <div className="empty-state-icon">📦</div>
+          <h3 className="empty-state-title">No New Requests</h3>
+          <p className="empty-state-description">
+            Scheduled parcels will appear here. To get started:
+          </p>
+          <ol className="empty-state-steps">
+            <li>Go to <strong>Schedule</strong> in the sidebar</li>
+            <li>Select parcels from a warehouse</li>
+            <li>Click <strong>"Schedule Parcels"</strong></li>
+            <li>They will appear here as new requests</li>
+          </ol>
         </div>
-        <button
-          className="primary-action"
-          type="button"
-          onClick={onGenerateRouteClick}
-          disabled={isGenerating || requests.length === 0}
-        >
-          {isGenerating ? 'Generating...' : 'Generate Route'}
-        </button>
-      </div>
+      ) : (
+        <>
+          <div className="table-wrapper">
+            <table className="new-requests-table">
+              <thead>
+                <tr>
+                  <th>Truck Plate ID</th>
+                  <th>Delivery Date</th>
+                  <th>No. of Parcels</th>
+                  <th>Warehouse</th>
+                </tr>
+              </thead>
+              <tbody>
+                {currentPageRequests.map((request, index) => (
+                  <tr key={`${request.truckPlateId}-${request.deliveryDate}-${index}`}>
+                    <td>{request.truckPlateId}</td>
+                    <td>{request.deliveryDate}</td>
+                    <td>{request.parcels}</td>
+                    <td>{request.warehouse}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className="panel-footer">
+            <div className="pagination">
+              <button 
+                type="button" 
+                className="pagination-btn" 
+                aria-label="Previous page"
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+              >
+                ‹
+              </button>
+              {pageNumbers.map((page, index) => {
+                if (page === '...') {
+                  return (
+                    <span key={`ellipsis-${index}`} className="pagination-ellipsis">
+                      ...
+                    </span>
+                  );
+                }
+                
+                const pageNum = page as number;
+                return (
+                  <button
+                    key={pageNum}
+                    type="button"
+                    className={`pagination-btn ${currentPage === pageNum ? 'active' : ''}`}
+                    onClick={() => handlePageChange(pageNum)}
+                  >
+                    {pageNum}
+                  </button>
+                );
+              })}
+              <button 
+                type="button" 
+                className="pagination-btn" 
+                aria-label="Next page"
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+              >
+                ›
+              </button>
+            </div>
+            <button
+              className="primary-action"
+              type="button"
+              onClick={onGenerateRouteClick}
+              disabled={isGenerating || requests.length === 0}
+            >
+              {isGenerating ? 'Generating...' : 'Generate Route'}
+            </button>
+          </div>
+        </>
+      )}
     </div>
   );
 }

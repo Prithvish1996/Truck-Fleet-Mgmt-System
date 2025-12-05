@@ -1,0 +1,163 @@
+.onboarding-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9998;
+  pointer-events: all;
+}
+
+.onboarding-highlight {
+  position: absolute;
+  border: 3px solid #82c885;
+  border-radius: 8px;
+  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5), 0 0 20px rgba(130, 200, 133, 0.5);
+  z-index: 9999;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+.onboarding-tooltip {
+  position: fixed;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  padding: 24px;
+  max-width: 400px;
+  z-index: 10000;
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tooltip-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.tooltip-step-indicator {
+  font-size: 12px;
+  font-weight: 600;
+  color: #82c885;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.tooltip-close {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #999;
+  cursor: pointer;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.tooltip-close:hover {
+  color: #333;
+}
+
+.tooltip-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #233434;
+  margin: 0 0 12px 0;
+}
+
+.tooltip-content {
+  font-size: 14px;
+  color: #61716d;
+  line-height: 1.6;
+  margin: 0 0 20px 0;
+}
+
+.tooltip-action-btn {
+  background: #82c885;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 16px;
+  width: 100%;
+}
+
+.tooltip-action-btn:hover {
+  background: #6fb372;
+}
+
+.tooltip-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding-top: 16px;
+  border-top: 1px solid #e5ebe6;
+}
+
+.tooltip-nav {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.tooltip-btn-primary {
+  background: #2f8b56;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.tooltip-btn-primary:hover {
+  background: #256d42;
+}
+
+.tooltip-btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.tooltip-btn-secondary {
+  background: transparent;
+  color: #61716d;
+  border: 1px solid #d8e1dc;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.tooltip-btn-secondary:hover {
+  background: #f7faf8;
+}
+
+.tooltip-btn-secondary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
