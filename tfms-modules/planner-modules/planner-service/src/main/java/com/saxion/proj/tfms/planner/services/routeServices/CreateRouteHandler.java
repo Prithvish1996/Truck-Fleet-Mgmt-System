@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.time.DayOfWeek;
 import java.util.List;
 import java.time.ZonedDateTime;
 import java.util.*;
@@ -151,6 +152,8 @@ public class CreateRouteHandler implements ICreateRoute {
 
     private Long updateRoute(TruckRouteInfo tri, TruckDao truck, DepotDao depotEntity, WareHouseDao warehouseEntity, String duration, Set<Long> assignedParcelIds) {
 
+        ZonedDateTime startTime = getNextWorkdayStartTime();
+
         RouteDao route = new RouteDao();
         route.setTruck(truck);
         route.setDepot(depotEntity);
@@ -159,7 +162,7 @@ public class CreateRouteHandler implements ICreateRoute {
         route.setTotalTransportTime(Optional.ofNullable(tri.getTotalTransportTime()).orElse(0L));
         route.setNote("");
         route.setStatus(StatusEnum.PLANNED);
-        route.setStartTime(ZonedDateTime.now());
+        route.setStartTime(startTime);
         route.setScheduleDate(ZonedDateTime.now());
         route.setDuration(duration);
         route = routeRepository.save(route); // persist first
@@ -334,5 +337,17 @@ public class CreateRouteHandler implements ICreateRoute {
         dto.setLongitude(d.getLocation().getLongitude());
         dto.setLatitude(d.getLocation().getLatitude());
         return dto;
+    }
+
+    private ZonedDateTime getNextWorkdayStartTime() {
+        ZonedDateTime now = ZonedDateTime.now();
+        ZonedDateTime nextDay = now.plusDays(1).withHour(8).withMinute(0).withSecond(0).withNano(0);
+
+        // If next day is Sunday -> skip to Monday
+        if (nextDay.getDayOfWeek() == DayOfWeek.SUNDAY) {
+            nextDay = nextDay.plusDays(1); // Move to Monday
+        }
+
+        return nextDay;
     }
 }
