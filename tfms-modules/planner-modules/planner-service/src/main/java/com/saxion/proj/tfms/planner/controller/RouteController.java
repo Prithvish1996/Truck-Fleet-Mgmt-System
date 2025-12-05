@@ -44,6 +44,9 @@ public class RouteController {
     @Qualifier("updateRouteStatus")
     private IUpdateRouteStatus updateRouteStatus;
 
+    @Autowired
+    @Qualifier("deleteStopHandler")
+    private IDeleteStop deleteStop;
 
     // -------------------- Assign Driver to Route --------------------
     @PostMapping("/planner/routes/assign")
@@ -158,5 +161,23 @@ public class RouteController {
         }
 
         return ResponseEntity.ok(updateRouteStatus.handle(dto));
+    }
+
+    // -------------------- Delete Route Stop --------------------
+    @DeleteMapping("/planner/stop/delete/{stopId}")
+    public ResponseEntity<ApiResponse<Void>> deleteStop(
+            @CurrentUser UserContext user,
+            @PathVariable("stopId") Long stopId
+    ) {
+        if (!user.isValid()) {
+            return ResponseEntity.status(401).body(ApiResponse.error("Invalid token"));
+        }
+
+        String role = user.getRole();
+        if (!Objects.equals(role, "PLANNER") && !Objects.equals(role, "ADMIN")) {
+            return ResponseEntity.status(403).body(ApiResponse.error("Not Authorized"));
+        }
+
+        return ResponseEntity.ok(deleteStop.handle(stopId));
     }
 }
