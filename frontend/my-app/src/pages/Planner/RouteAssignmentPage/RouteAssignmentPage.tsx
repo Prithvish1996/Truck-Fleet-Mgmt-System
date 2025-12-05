@@ -165,14 +165,12 @@ export default function RouteAssignmentPage({ selectedParcelIds, onReturn, onSub
       }
 
       const assignmentPromises = assignmentsToSubmit.map(assignment => {
-        // Get stop order if available (from modal), otherwise backend uses default order
         const stops = routeStopOrderMap.get(assignment.routeId || 0);
         
         return plannerService.assignDriverToRoute({
           routId: assignment.routeId!,
           truckId: assignment.truckId!,
           driverId: parseInt(assignment.driverId!, 10),
-          // Include stops if available (backend accepts this as optional)
           stops: stops?.map(stop => ({
             stopId: stop.stopId!,
             priority: stop.priority,

@@ -63,7 +63,6 @@ function SortableStopItem({ stop, routeId, index }: SortableStopItemProps) {
           <span className="drag-icon">⋮⋮</span>
         </div>
         <div className="stop-number">Stop {index + 1}</div>
-        <div className="stop-priority">Priority: {stop.priority}</div>
       </div>
       <div className="stop-address">{address}</div>
       <div className="stop-parcels">
@@ -83,7 +82,7 @@ function SortableStopItem({ stop, routeId, index }: SortableStopItemProps) {
     </div>
   );
 }
-
+// maps to be discussed with Duncan
 export default function RouteStopsEditModal({
   routes,
   onClose,

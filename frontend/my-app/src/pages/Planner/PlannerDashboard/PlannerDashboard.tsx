@@ -791,25 +791,20 @@ export default function PlannerDashboard() {
         requestCache.invalidate('getUnassignedRoutes');
         setSelectedParcelIds(allParcelIds.map(id => id.toString()));
         
-        // Fetch generated routes from backend to show in modal
         try {
-          // Small delay to ensure backend has processed the routes
           await new Promise(resolve => setTimeout(resolve, 500));
           
           const routeData = await plannerService.getUnassignedRoutes();
           const routesToShow = routeData.unAssignedRoute || routeData.assignRoutes || [];
           
           if (routesToShow.length > 0) {
-            // Show modal with real backend data
             setGeneratedRoutes(routesToShow);
             setShowRouteStopsModal(true);
           } else {
-            // Fallback: if no routes found, proceed directly to route assignment
             console.log('No routes found, proceeding directly to route assignment');
             setActiveView('route-assignment');
           }
           
-          // Preserve all existing error handling
           if (errors.length > 0) {
             if (has429Error) {
               setScheduleError(`Some routes generated successfully, but rate limit reached. Please wait before trying again. Failed: ${errors.join('; ')}`);
@@ -821,11 +816,9 @@ export default function PlannerDashboard() {
           }
         } catch (error: any) {
           console.error('Error fetching generated routes for modal:', error);
-          // Fallback: proceed directly to route assignment if modal fails
           console.log('Fallback: proceeding directly to route assignment');
           setActiveView('route-assignment');
           
-          // Still show errors if any
           if (errors.length > 0) {
             if (has429Error) {
               setScheduleError(`Some routes generated successfully, but rate limit reached. Please wait before trying again. Failed: ${errors.join('; ')}`);
@@ -880,7 +873,6 @@ export default function PlannerDashboard() {
   };
 
   const handleSaveRouteStops = (updatedRoutes: RouteResponse[]) => {
-    // Store stop order in state (frontend only)
     const stopOrderMap = new Map<number, StopDto[]>();
     updatedRoutes.forEach((route) => {
       if (route.routeStops && route.routeStops.length > 0) {
@@ -889,12 +881,10 @@ export default function PlannerDashboard() {
     });
     setRouteStopOrderMap(stopOrderMap);
     setShowRouteStopsModal(false);
-    // Navigate to route assignment (preserves existing flow)
     setActiveView('route-assignment');
   };
 
   const handleCloseRouteStopsModal = () => {
-    // If user clicks Back, just proceed to route assignment anyway
     setShowRouteStopsModal(false);
     setActiveView('route-assignment');
   };
@@ -1156,7 +1146,6 @@ return;
     }
   }, [navigate]);
 
-  // Debug: Monitor availableDrivers changes
   useEffect(() => {
     console.log('Available drivers state updated:', availableDrivers.length, 'drivers:', availableDrivers.map(d => d.id));
   }, [availableDrivers]);
