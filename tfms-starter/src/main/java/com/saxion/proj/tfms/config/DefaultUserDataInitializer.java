@@ -81,6 +81,9 @@ public class DefaultUserDataInitializer {
         // Create default warehouse
         createDepotIfNotExists("Main Depot", 500.0);
 
+        // Create first 10 parcels with valid coordinates and 50km radius
+        createFirst10Parcels();
+
         // Create 200 parcels from 10 different warehouses (20 parcels per warehouse)
         create200ParcelsFrom10Warehouses();
 
@@ -468,6 +471,100 @@ public class DefaultUserDataInitializer {
     /**
      * Create 200 parcels from 10 different warehouses (20 parcels per warehouse)
      */
+    private void createFirst10Parcels() {
+        System.out.println("Creating first 10 parcels with valid coordinates within 50km radius...");
+
+        // Center point: Amsterdam (52.3676, 4.9041)
+        // Approximately 50km radius around Amsterdam
+        // Format: {parcelName, city, postalCode, latitude, longitude, recipientName, warehouseName, warehousePostalCode}
+        String[][] parcelData = {
+            {"Parcel-01", "Amsterdam", "1000AA", "52.3676", "4.9041", "John Smith", "Warehouse-01", "1000WA"},
+            {"Parcel-02", "Utrecht", "3500AA", "52.0907", "5.1214", "Jane Doe", "Warehouse-02", "3500WA"},
+            {"Parcel-03", "Hilversum", "1211AB", "52.2285", "5.1712", "Peter Johnson", "Warehouse-03", "1211WA"},
+            {"Parcel-04", "Arnhem", "6800AA", "51.9851", "5.8987", "Maria Garcia", "Warehouse-04", "6800WA"},
+            {"Parcel-05", "Apeldoorn", "7300AA", "52.2112", "5.9699", "Ahmed Hassan", "Warehouse-05", "7300WA"},
+            {"Parcel-06", "Amersfoort", "3800DA", "52.1601", "5.3878", "Lisa Mueller", "Warehouse-06", "3800WA"},
+            {"Parcel-07", "Almere", "1300AA", "52.3508", "5.2647", "Robert Chen", "Warehouse-07", "1300WA"},
+            {"Parcel-08", "Zaandam", "1544BG", "52.4381", "4.8142", "Emma Wilson", "Warehouse-08", "1544WA"},
+            {"Parcel-09", "Waalwijk", "5144NA", "51.6148", "5.0711", "Carlos Rodriguez", "Warehouse-09", "5144WA"},
+            {"Parcel-10", "Houten", "3994GA", "52.0364", "5.1844", "Sophie Laurent", "Warehouse-10", "3994WA"}
+        };
+
+        // Create 10 parcels
+        for (String[] parcel : parcelData) {
+            String parcelName = parcel[0];
+            String city = parcel[1];
+            String postalCode = parcel[2];
+            double latitude = Double.parseDouble(parcel[3]);
+            double longitude = Double.parseDouble(parcel[4]);
+            String recipientName = parcel[5];
+            String warehouseName = parcel[6];
+            String warehousePostalCode = parcel[7];
+
+            final String finalPostalCode = postalCode;
+            final double finalLatitude = latitude;
+            final double finalLongitude = longitude;
+            final String finalCity = city;
+            final String finalWarehousePostalCode = warehousePostalCode;
+            final String finalWarehouseName = warehouseName;
+
+            // Create warehouse location (unique for each warehouse)
+            LocationDao warehouseLocation = locationRepository
+                    .findByPostalCode(finalWarehousePostalCode)
+                    .orElseGet(() -> {
+                        LocationDao loc = new LocationDao();
+                        loc.setPostalCode(finalWarehousePostalCode);
+                        loc.setCity(finalCity);
+                        loc.setAddress("Warehouse Street 1");
+                        loc.setLatitude(finalLatitude);
+                        loc.setLongitude(finalLongitude);
+                        return locationRepository.save(loc);
+                    });
+
+            // Create warehouse (unique for each location)
+            WareHouseDao warehouse = wareHouseRepository
+                    .findByName(finalWarehouseName)
+                    .orElseGet(() -> {
+                        WareHouseDao w = new WareHouseDao();
+                        w.setName(finalWarehouseName);
+                        w.setLocation(warehouseLocation);
+                        return wareHouseRepository.save(w);
+                    });
+
+            // Create delivery location
+            LocationDao deliveryLocation = locationRepository
+                    .findByPostalCode(finalPostalCode)
+                    .orElseGet(() -> {
+                        LocationDao loc = new LocationDao();
+                        loc.setPostalCode(finalPostalCode);
+                        loc.setCity(finalCity);
+                        loc.setAddress("Delivery Street 1");
+                        loc.setLatitude(finalLatitude);
+                        loc.setLongitude(finalLongitude);
+                        return locationRepository.save(loc);
+                    });
+
+            // Create parcel if it doesn't exist
+            if (!parcelRepository.existsByName(parcelName)) {
+                ParcelDao parcelDao = new ParcelDao();
+                parcelDao.setName(parcelName);
+                parcelDao.setWarehouse(warehouse);
+                parcelDao.setDeliveryLocation(deliveryLocation);
+                parcelDao.setWeight(2.5);
+                parcelDao.setVolume(0.2);
+                parcelDao.setStatus(StatusEnum.PENDING);
+                parcelDao.setDeliveryInstructions("Standard delivery within 50km radius");
+                parcelDao.setRecipientName(recipientName);
+                parcelDao.setRecipientPhone("+316" + String.format("%07d", (int) (Math.random() * 10000000)));
+                parcelDao.setPlannedDeliveryDate(ZonedDateTime.now().plusDays(1));
+
+                parcelRepository.save(parcelDao);
+            }
+        }
+
+        System.out.println("✅ Successfully created first 10 parcels within 50km radius!");
+    }
+
     private void create200ParcelsFrom10Warehouses() {
         System.out.println("Creating 200 parcels from 10 warehouses...");
 
