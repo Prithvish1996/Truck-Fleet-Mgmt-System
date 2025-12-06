@@ -23,7 +23,7 @@ public class ProdCorsConfiguration {
         
         // Production domains only
         configuration.setAllowedOriginPatterns(Arrays.asList(
-            "https://yourdomain.com",
+            "http://localhost:3000",
             "https://www.yourdomain.com",
             "https://api.yourdomain.com"
         ));
