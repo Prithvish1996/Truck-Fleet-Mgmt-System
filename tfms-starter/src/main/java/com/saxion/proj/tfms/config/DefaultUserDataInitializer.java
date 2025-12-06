@@ -74,7 +74,9 @@ public class DefaultUserDataInitializer {
 
         // Create default planner user
         createUserIfNotExists("planner@tfms.com", "planner", "planner123", UserType.PLANNER);
-        
+        createUserIfNotExists("planner2@tfms.com", "planner2", "planner123", UserType.PLANNER);
+        createUserIfNotExists("planner3@tfms.com", "planner3", "planner123", UserType.PLANNER);
+
         // Create default test user
         createUserIfNotExists("test@example.com", "testuser", "password123", UserType.DRIVER);
 
