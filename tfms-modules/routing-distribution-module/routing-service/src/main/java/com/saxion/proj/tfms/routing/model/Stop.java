@@ -23,7 +23,8 @@ public class Stop {
     public static void addOrUpdateStop(List<Stop> stops, Stop newStop) {
         synchronized (stops) {  // synchronize on the shared list
             for (Stop existing : stops) {
-                if (existing.hasSameCoordinates(newStop)) {
+                // Only merge if BOTH coordinates AND stop type match
+                if (existing.hasSameCoordinates(newStop) && existing.getStopType() == newStop.getStopType()) {
                     existing.getParcelsToDeliver().addAll(newStop.getParcelsToDeliver());
                     return;
                 }

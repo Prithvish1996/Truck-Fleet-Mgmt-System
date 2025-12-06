@@ -4,7 +4,6 @@ import com.saxion.proj.tfms.commons.logging.ServiceLogger;
 import com.saxion.proj.tfms.commons.logging.ServiceName;
 import com.saxion.proj.tfms.routing.model.*;
 import com.saxion.proj.tfms.routing.request.VRPRequest;
-import com.saxion.proj.tfms.routing.model.WarehouseRoutingResult;
 import com.saxion.proj.tfms.routing.service.assignment.helper.truckassignment.model.TruckAssignment;
 import com.saxion.proj.tfms.routing.service.assignment.helper.truckassignment.response.AssignmentResponse;
 import com.saxion.proj.tfms.routing.service.computation.factory.TruckRouteFactory;
@@ -24,49 +23,60 @@ public class TruckRouteBuilderImpl implements TruckRouteBuilder {
 
     @Override
     public WarehouseRoutingResult buildFullRouteForTrucks(VRPRequest vrpRequest, AssignmentResponse assignmentResponse, Long warehouseId) {
-        logger.infoOp(ServiceName.ROUTING_SERVICE, "BUILD_ROUTE",
-                "Starting route building for warehouse ID: {} with {} truck assignments",
+        logger.infoOp(ServiceName.ROUTING_SERVICE, "BUILD_ROUTES",
+                "Building routes for warehouse: {} with {} assignments",
                 warehouseId, assignmentResponse.getTruckAssignments().size());
 
         try {
-            List<TruckRouteInfo> truckRoutes = new ArrayList<>();
-            for (TruckAssignment truck : assignmentResponse.getTruckAssignments()) {
-                try {
-                    logger.debugOp(ServiceName.ROUTING_SERVICE, "BUILD_ROUTE",
-                            "Building route for truck ID: {} in warehouse: {}",
-                            truck.getTruckPlateNumber(), warehouseId);
-                    TruckRouteInfo route = truckRouteFactory.createRouteForTruck(vrpRequest, truck, warehouseId);
-                    route.getTotalDistance();
-                    if (route != null) {
-                        truckRoutes.add(route);
-                    } else {
-                        logger.debugOp(ServiceName.ROUTING_SERVICE, "BUILD_ROUTE",
-                                "Skipped adding route for truck ID: {} - no customer deliveries",
-                                truck.getTruckPlateNumber());
-                    }
-                } catch (Exception e) {
-                    logger.errorOp(ServiceName.ROUTING_SERVICE, "BUILD_ROUTE",
-                            "Failed to create route for truck ID: {} in warehouse: {} - Error: {}",
-                            truck.getTruckPlateNumber(), warehouseId, e.getMessage());
-                    throw new RuntimeException("Failed to create route for truck " + truck.getTruckPlateNumber(), e);
-                }
-            }
+            List<TruckRouteInfo> truckRoutes = buildRoutesForAllTrucks(vrpRequest, assignmentResponse, warehouseId);
 
-            logger.infoOp(ServiceName.ROUTING_SERVICE, "BUILD_ROUTE",
-                    "Successfully built {} routes for warehouse ID: {}",
+            logger.infoOp(ServiceName.ROUTING_SERVICE, "BUILD_ROUTES",
+                    "Successfully built {} routes for warehouse: {}",
                     truckRoutes.size(), warehouseId);
-
 
             return WarehouseRoutingResult.builder()
                     .generatedForWarehouse(warehouseId)
                     .truckRoutes(truckRoutes)
                     .build();
         } catch (Exception e) {
-            logger.errorOp(ServiceName.ROUTING_SERVICE, "BUILD_ROUTE",
-                    "Failed to build routes for warehouse ID: {} - Error: {}",
+            logger.errorOp(ServiceName.ROUTING_SERVICE, "BUILD_ROUTES",
+                    "Failed to build routes for warehouse: {}: {}",
                     warehouseId, e.getMessage());
             throw e;
         }
+    }
+
+    private List<TruckRouteInfo> buildRoutesForAllTrucks(VRPRequest vrpRequest, AssignmentResponse assignmentResponse, Long warehouseId) {
+        List<TruckRouteInfo> truckRoutes = new ArrayList<>();
+
+        for (TruckAssignment truck : assignmentResponse.getTruckAssignments()) {
+            try {
+                TruckRouteInfo route = buildRouteForSingleTruck(vrpRequest, truck, warehouseId);
+                
+                if (route != null) {
+                    truckRoutes.add(route);
+                } else {
+                    logger.debugOp(ServiceName.ROUTING_SERVICE, "BUILD_ROUTES",
+                            "Skipped route for truck: {} - no customer deliveries",
+                            truck.getTruckPlateNumber());
+                }
+            } catch (Exception e) {
+                logger.errorOp(ServiceName.ROUTING_SERVICE, "BUILD_ROUTES",
+                        "Failed for truck: {}: {}",
+                        truck.getTruckPlateNumber(), e.getMessage());
+                throw new RuntimeException("Failed to create route for truck " + truck.getTruckPlateNumber(), e);
+            }
+        }
+
+        return truckRoutes;
+    }
+
+    private TruckRouteInfo buildRouteForSingleTruck(VRPRequest vrpRequest, TruckAssignment truck, Long warehouseId) {
+        logger.debugOp(ServiceName.ROUTING_SERVICE, "BUILD_ROUTES",
+                "Processing truck: {} in warehouse: {}",
+                truck.getTruckPlateNumber(), warehouseId);
+        
+        return truckRouteFactory.createRouteForTruck(vrpRequest, truck, warehouseId);
     }
 }
 
