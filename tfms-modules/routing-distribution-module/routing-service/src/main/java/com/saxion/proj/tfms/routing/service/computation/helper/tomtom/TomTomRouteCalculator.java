@@ -23,8 +23,8 @@ public class TomTomRouteCalculator {
     private static final Logger log = LoggerFactory.getLogger(TomTomRouteCalculator.class);
     private static final String TOMTOM_API_BASE_URL = "https://api.tomtom.com/routing/1/calculateRoute";
     
-    @Value("${tomtom.api.key:GkSRasdpaBrnBwHN5aO5uhj2hFsR6YHy}")
-    private String apiKey = "GkSRasdpaBrnBwHN5aO5uhj2hFsR6YHy";
+    @Value("${tomtom.api.key:}")
+    private String apiKey;
 
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
