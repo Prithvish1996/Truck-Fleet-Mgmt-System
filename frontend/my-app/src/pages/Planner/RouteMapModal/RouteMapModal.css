@@ -108,9 +108,73 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 16px;
+  padding: 16px 20px;
   border-bottom: 1px solid #ddd;
   background: #f5f5f5;
+}
+
+.route-map-header-content {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.route-map-header-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.route-map-icon {
+  font-size: 24px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.route-map-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.route-map-header-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.route-map-label {
+  font-size: 12px;
+  color: #666;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.route-map-value {
+  font-size: 16px;
+  color: #333;
+  font-weight: 600;
+}
+
+.route-map-truck-plate {
+  display: none;
 }
 
 .route-map-content {
@@ -311,4 +375,77 @@
   margin-left: 12px;
   color: #007bff;
   font-weight: 600;
+}
+
+.route-stops-main-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: #333;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 8px;
+}
+
+.route-stop-item.stop-delivered {
+  background: #e8e8e8;
+  opacity: 0.7;
+  border-color: #bdbdbd;
+}
+
+.route-stop-item.stop-delivered .stop-number,
+.route-stop-item.stop-delivered .stop-address,
+.route-stop-item.stop-delivered .parcel-info {
+  color: #757575;
+}
+
+.route-stop-item.stop-delivered .parcel-item {
+  background: #f5f5f5;
+  border-color: #e0e0e0;
+}
+
+.route-stop-item.stop-last-delivered {
+  background: #fff3cd;
+  border: 2px solid #ffc107;
+  opacity: 1;
+  box-shadow: 0 2px 8px rgba(255, 193, 7, 0.3);
+}
+
+.route-stop-item.stop-last-delivered .stop-number {
+  color: #856404;
+  font-weight: 700;
+}
+
+.route-stop-item.stop-last-delivered .stop-address {
+  color: #856404;
+}
+
+.delivered-indicator {
+  color: #4caf50;
+  font-weight: 600;
+  margin-left: 8px;
+}
+
+.stop-delivery-summary {
+  padding: 8px 12px;
+  background-color: #4caf50;
+  color: white;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  display: inline-block;
+}
+
+.last-delivered-indicator {
+  padding: 12px 16px;
+  background-color: #fff3cd;
+  border: 2px solid #ffc107;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+.last-delivered-badge {
+  color: #856404;
+  font-weight: 600;
+  font-size: 14px;
 }

@@ -16,8 +16,10 @@ export default function RouteMapModal({ assignment, onReturn }: RouteMapModalPro
   const [parcelStatuses, setParcelStatuses] = useState<Map<number, string>>(new Map());
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [drivingDuration, setDrivingDuration] = useState<string>('');
   const has429ErrorRef = useRef(false);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const durationIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     if (assignment?.routeId) {
@@ -59,6 +61,44 @@ export default function RouteMapModal({ assignment, onReturn }: RouteMapModalPro
       };
     }
   }, [routeDetails]);
+
+  useEffect(() => {
+    if (routeDetails?.startTime) {
+      const calculateDuration = () => {
+        try {
+          const start = new Date(routeDetails.startTime);
+          const now = new Date();
+          const diffMs = now.getTime() - start.getTime();
+          
+          if (diffMs < 0) {
+            setDrivingDuration('Not started');
+            return;
+          }
+
+          const hours = Math.floor(diffMs / (1000 * 60 * 60));
+          const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+          
+          if (hours > 0) {
+            setDrivingDuration(`${hours}h ${minutes}m`);
+          } else {
+            setDrivingDuration(`${minutes}m`);
+          }
+        } catch (error) {
+          setDrivingDuration('N/A');
+        }
+      };
+
+      calculateDuration();
+      durationIntervalRef.current = setInterval(calculateDuration, 60000);
+
+      return () => {
+        if (durationIntervalRef.current) {
+          clearInterval(durationIntervalRef.current);
+          durationIntervalRef.current = null;
+        }
+      };
+    }
+  }, [routeDetails?.startTime]);
 
   const loadRouteDetails = async () => {
     if (!assignment?.routeId) return;
@@ -167,7 +207,37 @@ export default function RouteMapModal({ assignment, onReturn }: RouteMapModalPro
     <div className="route-map-page">
       <div className="route-map-container-page">
         <div className="route-map-header-page">
-          <div className="route-map-truck-plate">{assignment.truckPlateNo}</div>
+          <div className="route-map-header-content">
+            <div className="route-map-header-item">
+              <span className="route-map-icon">🚚</span>
+              <div className="route-map-header-text">
+                <span className="route-map-label">Truck</span>
+                <span className="route-map-value">{assignment.truckPlateNo || 'N/A'}</span>
+              </div>
+            </div>
+            
+            {routeDetails && routeDetails.driverUserName && (
+              <div className="route-map-header-item">
+                <div className="route-map-avatar">
+                  {routeDetails.driverUserName.charAt(0).toUpperCase()}
+                </div>
+                <div className="route-map-header-text">
+                  <span className="route-map-label">Driver</span>
+                  <span className="route-map-value">{routeDetails.driverUserName}</span>
+                </div>
+              </div>
+            )}
+
+            {routeDetails && routeDetails.startTime && (
+              <div className="route-map-header-item">
+                <span className="route-map-icon">⏱️</span>
+                <div className="route-map-header-text">
+                  <span className="route-map-label">Driving Time</span>
+                  <span className="route-map-value">{drivingDuration || 'Calculating...'}</span>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
         <div className="route-map-content">
           {loading && (
