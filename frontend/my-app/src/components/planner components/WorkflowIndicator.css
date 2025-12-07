@@ -1,9 +1,9 @@
 .workflow-indicator {
   background: white;
-  border-radius: 12px;
-  padding: 20px 24px;
-  margin-bottom: 24px;
-  box-shadow: 0 2px 8px rgba(36, 64, 70, 0.08);
+  border-radius: 14px;
+  padding: 24px 28px;
+  margin-bottom: 28px;
+  box-shadow: 0 2px 8px rgba(36, 64, 70, 0.06), 0 4px 16px rgba(36, 64, 70, 0.04);
   border: 1px solid #e3eae5;
 }
 
@@ -11,72 +11,81 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
+  gap: 12px;
 }
 
 .workflow-step {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   flex: 1;
   position: relative;
 }
 
 .step-icon {
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
-  background: #f7faf8;
+  background: linear-gradient(135deg, #f7faf8 0%, #f0f5f2 100%);
   border: 2px solid #d8e1dc;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 18px;
-  font-weight: 600;
+  font-weight: 700;
   color: #61716d;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
 .workflow-step.active .step-icon {
-  background: #82c885;
+  background: linear-gradient(135deg, #82c885 0%, #2f8b56 100%);
   border-color: #82c885;
   color: white;
-  box-shadow: 0 0 0 4px rgba(130, 200, 133, 0.2);
+  box-shadow: 0 0 0 4px rgba(130, 200, 133, 0.2), 0 4px 12px rgba(130, 200, 133, 0.3);
+  transform: scale(1.05);
 }
 
 .workflow-step.completed .step-icon {
-  background: #2f8b56;
+  background: linear-gradient(135deg, #2f8b56 0%, #2e7d32 100%);
   border-color: #2f8b56;
   color: white;
+  box-shadow: 0 2px 8px rgba(47, 139, 86, 0.25);
 }
 
 .step-label {
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
   color: #61716d;
   text-align: center;
   white-space: nowrap;
+  transition: color 0.3s ease;
 }
 
 .workflow-step.active .step-label {
   color: #233434;
+  font-weight: 700;
 }
 
 .workflow-step.completed .step-label {
   color: #2f8b56;
+  font-weight: 600;
 }
 
 .workflow-connector {
   flex: 1;
-  height: 2px;
-  background: #d8e1dc;
-  margin: 0 8px;
+  height: 3px;
+  background: linear-gradient(90deg, #d8e1dc 0%, #e5ebe6 100%);
+  margin: 0 12px;
   position: relative;
-  top: -20px;
+  top: -22px;
+  border-radius: 2px;
+  transition: all 0.3s ease;
 }
 
 .workflow-connector.completed {
-  background: #2f8b56;
+  background: linear-gradient(90deg, #2f8b56 0%, #82c885 100%);
+  box-shadow: 0 1px 3px rgba(47, 139, 86, 0.3);
 }
 

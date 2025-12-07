@@ -89,6 +89,69 @@ export default function RouteMapView({ routeDetails, parcelStatuses }: RouteMapV
     return anyInProgress ? 'in_progress' : 'pending';
   };
 
+  const getTruckLocation = (): { coords: [number, number] | null; stopIndex: number } => {
+    const sortedStops = [...stopsWithCoords].sort((a, b) => a.stop.priority - b.stop.priority);
+    
+    let lastDeliveredIndex = -1;
+    for (let i = 0; i < sortedStops.length; i++) {
+      const status = getStopStatus(sortedStops[i].stop);
+      if (status === 'delivered') {
+        lastDeliveredIndex = i;
+      } else {
+        break;
+      }
+    }
+
+    if (lastDeliveredIndex === sortedStops.length - 1) {
+      return {
+        coords: sortedStops[lastDeliveredIndex].coords,
+        stopIndex: lastDeliveredIndex
+      };
+    }
+
+    if (lastDeliveredIndex === -1) {
+      return {
+        coords: sortedStops.length > 0 ? sortedStops[0].coords : null,
+        stopIndex: 0
+      };
+    }
+
+    const nextStopIndex = lastDeliveredIndex + 1;
+    if (nextStopIndex < sortedStops.length) {
+      return {
+        coords: sortedStops[nextStopIndex].coords,
+        stopIndex: nextStopIndex
+      };
+    }
+
+    return { coords: null, stopIndex: -1 };
+  };
+
+  const getCompletedRoutePath = (): [number, number][] => {
+    const sortedStops = [...stopsWithCoords].sort((a, b) => a.stop.priority - b.stop.priority);
+    const completedPath: [number, number][] = [];
+    
+    for (const { stop, coords } of sortedStops) {
+      const status = getStopStatus(stop);
+      if (status === 'delivered') {
+        completedPath.push(coords);
+      } else {
+        break;
+      }
+    }
+    
+    return completedPath;
+  };
+
+  const getFullRoutePath = (): [number, number][] => {
+    const sortedStops = [...stopsWithCoords].sort((a, b) => a.stop.priority - b.stop.priority);
+    return sortedStops.map(({ coords }) => coords);
+  };
+
+  const truckLocation = getTruckLocation();
+  const completedPath = getCompletedRoutePath();
+  const fullPath = getFullRoutePath();
+
   const getMarkerIcon = (status: 'delivered' | 'pending' | 'in_progress', stopNumber: number) => {
     let color = '#2196F3';
     if (status === 'delivered') {
@@ -106,6 +169,29 @@ export default function RouteMapView({ routeDetails, parcelStatuses }: RouteMapV
       `,
       iconSize: [32, 32],
       iconAnchor: [16, 32],
+    });
+  };
+
+  const getTruckIcon = () => {
+    return L.divIcon({
+      className: 'truck-location-marker',
+      html: `
+        <div class="truck-icon" style="
+          background-color: #FF5722;
+          border: 3px solid white;
+          border-radius: 50%;
+          width: 40px;
+          height: 40px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        ">
+          <span style="color: white; font-size: 20px; font-weight: bold;">🚚</span>
+        </div>
+      `,
+      iconSize: [40, 40],
+      iconAnchor: [20, 20],
     });
   };
 
@@ -138,7 +224,37 @@ export default function RouteMapView({ routeDetails, parcelStatuses }: RouteMapV
         />
         <MapBoundsController coordinates={stopCoordinates} />
 
-        {stopsWithCoords.map(({ stop, coords }, index) => {
+        {truckLocation.coords && (
+          <Marker
+            position={truckLocation.coords}
+            icon={getTruckIcon()}
+            zIndexOffset={1000}
+          >
+            <Popup>
+              <div className="route-map-popup">
+                <div className="route-map-popup-header">
+                  <strong>🚚 Truck Location</strong>
+                </div>
+                <div className="route-map-popup-address">
+                  {truckLocation.stopIndex >= 0 && stopsWithCoords.length > 0 ? (
+                    <>
+                      <div>
+                        <strong>Current Stop:</strong> {truckLocation.stopIndex + 1} of {stopsWithCoords.length}
+                      </div>
+                      <div>
+                        <strong>Progress:</strong> {completedPath.length} of {fullPath.length} stops completed
+                      </div>
+                    </>
+                  ) : (
+                    <div>Tracking truck location...</div>
+                  )}
+                </div>
+              </div>
+            </Popup>
+          </Marker>
+        )}
+
+        {[...stopsWithCoords].sort((a, b) => a.stop.priority - b.stop.priority).map(({ stop, coords }, index) => {
           const status = getStopStatus(stop);
           const firstParcel = stop.parcelsToDeliver![0];
           const stopAddress = getStopAddress(stop, firstParcel);

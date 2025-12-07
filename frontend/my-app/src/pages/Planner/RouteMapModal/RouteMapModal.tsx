@@ -44,6 +44,13 @@ export default function RouteMapModal({ assignment, onReturn }: RouteMapModalPro
         intervalRef.current = null;
       }
       
+      const routeStatus = routeDetails.status?.toUpperCase();
+      if (routeStatus === 'ASSIGNED' || routeStatus === 'PLANNED') {
+        intervalRef.current = setInterval(() => {
+          refreshParcelStatuses();
+        }, 10000);
+      }
+      
       return () => {
         if (intervalRef.current) {
           clearInterval(intervalRef.current);

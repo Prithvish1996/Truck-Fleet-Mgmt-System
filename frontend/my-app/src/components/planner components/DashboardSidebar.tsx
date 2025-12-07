@@ -19,15 +19,19 @@ export default function DashboardSidebar({ activeView, onViewChange, hasValidRou
           className={`nav-item ${activeView === 'dashboard' ? 'active' : ''}`}
           onClick={() => onViewChange('dashboard')}
         >
-          <img src={homeIcon} alt="" aria-hidden className="nav-icon" />
+          <span className="nav-icon-wrapper">
+            <img src={homeIcon} alt="" aria-hidden className="nav-icon" />
+          </span>
           <span className="nav-label">Planner Dashboard</span>
         </button>
         <button
           type="button"
-          className={`nav-item schedule ${activeView === 'schedule' ? 'active' : ''}`}
+          className={`nav-item ${activeView === 'schedule' ? 'active' : ''}`}
           onClick={() => onViewChange('schedule')}
         >
-          <img src={scheduleIcon} alt="" aria-hidden className="nav-icon" />
+          <span className="nav-icon-wrapper">
+            <img src={scheduleIcon} alt="" aria-hidden className="nav-icon" />
+          </span>
           <span className="nav-label">Schedule</span>
         </button>
         <button
@@ -37,7 +41,9 @@ export default function DashboardSidebar({ activeView, onViewChange, hasValidRou
           disabled={!hasValidRoutes}
           title={!hasValidRoutes ? 'No routes available for assignment. Please generate routes first.' : ''}
         >
-          <img src={taskIcon} alt="" aria-hidden className="nav-icon" />
+          <span className="nav-icon-wrapper">
+            <img src={taskIcon} alt="" aria-hidden className="nav-icon" />
+          </span>
           <span className="nav-label">Assignment</span>
         </button>
         <button
@@ -45,7 +51,9 @@ export default function DashboardSidebar({ activeView, onViewChange, hasValidRou
           className={`nav-item ${activeView === 'route-tracking' ? 'active' : ''}`}
           onClick={() => onViewChange('route-tracking')}
         >
-          <img src={routeIcon} alt="" aria-hidden className="nav-icon" />
+          <span className="nav-icon-wrapper">
+            <img src={routeIcon} alt="" aria-hidden className="nav-icon" />
+          </span>
           <span className="nav-label">Tracking</span>
         </button>
       </nav>

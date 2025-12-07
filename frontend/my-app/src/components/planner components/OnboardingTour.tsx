@@ -21,7 +21,10 @@ interface OnboardingTourProps {
 export default function OnboardingTour({ steps, onComplete, onSkip }: OnboardingTourProps) {
   const [currentStep, setCurrentStep] = useState(0);
   const [overlayStyle, setOverlayStyle] = useState<React.CSSProperties>({});
+  const [tooltipStyle, setTooltipStyle] = useState<React.CSSProperties>({});
+  const [arrowPath, setArrowPath] = useState<string>('');
   const overlayRef = useRef<HTMLDivElement>(null);
+  const tooltipRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (currentStep >= steps.length) {
@@ -45,6 +48,67 @@ export default function OnboardingTour({ steps, onComplete, onSkip }: Onboarding
       });
 
       element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+      const tooltipWidth = 400;
+      const tooltipHeight = 300;
+      const spacing = 30;
+      let tooltipTop = 0;
+      let tooltipLeft = 0;
+      let arrowStartX = 0;
+      let arrowStartY = 0;
+
+      const elementCenterX = rect.left + rect.width / 2;
+      const elementCenterY = rect.top + rect.height / 2;
+
+      switch (step.position) {
+        case 'top':
+          tooltipTop = rect.top - tooltipHeight - spacing;
+          tooltipLeft = elementCenterX - tooltipWidth / 2;
+          arrowStartX = tooltipWidth / 2;
+          arrowStartY = tooltipHeight;
+          break;
+        case 'bottom':
+          tooltipTop = rect.bottom + spacing;
+          tooltipLeft = elementCenterX - tooltipWidth / 2;
+          arrowStartX = tooltipWidth / 2;
+          arrowStartY = 0;
+          break;
+        case 'left':
+          tooltipTop = elementCenterY - tooltipHeight / 2;
+          tooltipLeft = rect.left - tooltipWidth - spacing;
+          arrowStartX = tooltipWidth;
+          arrowStartY = tooltipHeight / 2;
+          break;
+        case 'right':
+          tooltipTop = elementCenterY - tooltipHeight / 2;
+          tooltipLeft = rect.right + spacing;
+          arrowStartX = 0;
+          arrowStartY = tooltipHeight / 2;
+          break;
+      }
+
+      tooltipLeft = Math.max(20, Math.min(tooltipLeft, window.innerWidth - tooltipWidth - 20));
+      tooltipTop = Math.max(20, Math.min(tooltipTop, window.innerHeight - tooltipHeight - 20));
+
+      setTooltipStyle({
+        top: `${tooltipTop + scrollY}px`,
+        left: `${tooltipLeft + scrollX}px`,
+      });
+
+      const startX = tooltipLeft + arrowStartX;
+      const startY = tooltipTop + arrowStartY + scrollY;
+      const endX = rect.left + rect.width / 2;
+      const endY = rect.top + rect.height / 2 + scrollY;
+
+      const midX = (startX + endX) / 2;
+      const midY = (startY + endY) / 2;
+      const controlX1 = startX + (endX - startX) * 0.3;
+      const controlY1 = startY;
+      const controlX2 = endX - (endX - startX) * 0.3;
+      const controlY2 = endY;
+
+      const path = `M ${startX} ${startY} C ${controlX1} ${controlY1}, ${controlX2} ${controlY2}, ${endX} ${endY}`;
+      setArrowPath(path);
     }
   }, [currentStep, steps, onComplete]);
 
@@ -76,7 +140,43 @@ export default function OnboardingTour({ steps, onComplete, onSkip }: Onboarding
         style={overlayStyle}
       />
 
-      <div className="onboarding-tooltip">
+      {arrowPath && (
+        <svg 
+          className="onboarding-arrow"
+          style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 9999 }}
+        >
+          <defs>
+            <marker
+              id="arrowhead"
+              markerWidth="10"
+              markerHeight="10"
+              refX="9"
+              refY="3"
+              orient="auto"
+            >
+              <polygon points="0 0, 10 3, 0 6" fill="#82c885" />
+            </marker>
+            <linearGradient id="arrowGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#82c885" stopOpacity="0.8" />
+              <stop offset="100%" stopColor="#2f8b56" stopOpacity="0.8" />
+            </linearGradient>
+          </defs>
+          <path
+            d={arrowPath}
+            stroke="url(#arrowGradient)"
+            strokeWidth="3"
+            fill="none"
+            markerEnd="url(#arrowhead)"
+            className="arrow-path"
+          />
+        </svg>
+      )}
+
+      <div 
+        ref={tooltipRef}
+        className="onboarding-tooltip"
+        style={tooltipStyle}
+      >
         <div className="tooltip-header">
           <div className="tooltip-step-indicator">
             Step {currentStep + 1} of {steps.length}
@@ -123,4 +223,3 @@ export default function OnboardingTour({ steps, onComplete, onSkip }: Onboarding
     </>
   );
 }
-
