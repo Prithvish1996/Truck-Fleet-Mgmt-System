@@ -1,22 +1,12 @@
 import React, { useState, useCallback } from 'react';
-import DriverHeader from '../components/driverHeader';
-import MapComponent from '../components/navigation/MapComponent';
-import LocationPermission from '../components/navigation/LocationPermission';
-import LoadingSpinner from '../components/ui/LoadingSpinner';
-import ErrorMessage from '../components/ui/ErrorMessage';
-import DeliveryConfirmation from '../components/navigation/DeliveryConfirmation';
-import PackageInfo from '../components/navigation/PackageInfo';
-import WarehouseInfo from '../components/navigation/WarehouseInfo';
-import WarehousePackageOverview from '../components/navigation/WarehousePackageOverview';
-import WarehouseCollectionConfirmation from '../components/navigation/WarehouseCollectionConfirmation';
-import DepotInfo from '../components/navigation/DepotInfo';
-import DepotArrivalConfirmation from '../components/navigation/DepotArrivalConfirmation';
-import DeliveryNavigationControls from '../components/navigation/DeliveryNavigationControls';
-import CompletedState from '../components/navigation/CompletedState';
-import RouteOverviewButton from '../components/navigation/RouteOverviewButton';
-import { deliveryService } from '../../../services/deliveryService';
 import { routeService } from '../../../services/routeService';
-import { useDeliveryPackages, useDestination } from '../hooks';
+import { useDeliveryPackages, useDestination, useDeliveryNavigationHandlers } from '../hooks';
+import LoadingView from './views/LoadingView';
+import ErrorView from './views/ErrorView';
+import CompletedView from './views/CompletedView';
+import WarehouseOverviewView from './views/WarehouseOverviewView';
+import LocationPermissionView from './views/LocationPermissionView';
+import NavigationView from './views/NavigationView';
 import './PackageDeliveryNavigation.css';
 
 interface PackageDeliveryNavigationProps {
@@ -55,299 +45,127 @@ const PackageDeliveryNavigation: React.FC<PackageDeliveryNavigationProps> = ({
     currentRoute
   );
 
+  const {
+    handleLocationGranted: handleLocationGrantedBase,
+    handleOpenNavigation,
+    handleWarehouseCollection,
+    handleDeliveryResult,
+    handleDepotArrival: handleDepotArrivalBase,
+    handleCompleteRoute: handleCompleteRouteBase,
+    handleRetry,
+  } = useDeliveryNavigationHandlers({
+    routeId,
+    packages,
+    currentRoute,
+    currentPackage,
+    currentDestination,
+    isCollectingWarehouse,
+    isNavigatingToDepot,
+    userLocation,
+    deliveryState,
+    setPackages,
+    setCurrentPackageIndex,
+    setWarehouseCollected,
+    setIsCollectingWarehouse,
+    setIsNavigatingToDepot,
+    setDeliveryState,
+    setError,
+    setShowWarehouseOverview,
+  });
+
   const handleLocationGranted = useCallback((location: [number, number]) => {
     setUserLocation(location);
-    setError(null);
-    
-    if (deliveryState === 'waiting_location') {
-      setDeliveryState('showing_navigation');
+    handleLocationGrantedBase(location);
+  }, [handleLocationGrantedBase]);
+
+  const handleDepotArrival = useCallback(async (confirmed: boolean) => {
+    await handleDepotArrivalBase(confirmed);
+    if (confirmed) {
+      navigate('/driver/dashboard', { state: { refresh: true } });
     }
-  }, [deliveryState, setError, setDeliveryState]);
+  }, [handleDepotArrivalBase, navigate]);
 
-  const handleOpenNavigation = useCallback(() => {
-    if (!currentDestination) return;
-
-    let address: string | undefined;
-    
-    if (isCollectingWarehouse && currentRoute?.warehouse) {
-      address = `${currentRoute.warehouse.address}, ${currentRoute.warehouse.city} ${currentRoute.warehouse.postalCode}`;
-    } else if (isNavigatingToDepot && currentRoute?.depot) {
-      address = `${currentRoute.depot.address}, ${currentRoute.depot.city} ${currentRoute.depot.postalCode}`;
-    } else if (currentPackage) {
-      address = currentPackage.address 
-        ? `${currentPackage.address}, ${currentPackage.city} ${currentPackage.postalCode}`
-        : undefined;
-    }
-
-    deliveryService.openNavigation(currentDestination, address);
-    
-    if (isCollectingWarehouse && currentRoute?.warehouse) {
-      setShowWarehouseOverview(true);
-    } else {
-      setDeliveryState('waiting_confirmation');
-    }
-  }, [currentPackage, currentDestination, isCollectingWarehouse, isNavigatingToDepot, currentRoute]);
-
-  const handleStartWarehouseNavigation = useCallback(() => {
-    setShowWarehouseOverview(false);
-    setDeliveryState('waiting_confirmation');
-  }, []);
-
-  const handleWarehouseCollection = async (confirmed: boolean) => {
-    if (!routeId || !currentRoute?.warehouse) return;
-
-    try {
-      if (confirmed) {
-        const pendingPackageIds = packages
-          .filter(pkg => pkg.status === 'pending')
-          .map(pkg => pkg.id);
-        
-        if (pendingPackageIds.length > 0 && currentRoute.routeId) {
-          await deliveryService.markPackagesAsPickedUp(pendingPackageIds, routeId);
-          
-          const updatedPackages = packages.map(pkg => 
-            pkg.status === 'pending' ? { ...pkg, status: 'picked_up' as const } : pkg
-          );
-          setPackages(updatedPackages);
-          setWarehouseCollected(true);
-        }
-        
-        setIsCollectingWarehouse(false);
-        setShowWarehouseOverview(false);
-        setDeliveryState('waiting_location');
-        
-        if (userLocation) {
-          setDeliveryState('showing_navigation');
-        }
-      } else {
-        setDeliveryState('showing_navigation');
-      }
-    } catch (err) {
-      console.error('Error marking packages as picked up:', err);
-      setError(err instanceof Error ? err.message : 'Failed to mark packages as picked up');
-    }
-  };
-
-  const handleDeliveryResult = async (confirmed: boolean) => {
-    if (!currentPackage || !routeId) return;
-
-    try {
-      await deliveryService.handleDeliveryResult(currentPackage.id, confirmed, routeId);
-
-      if (confirmed) {
-        const updatedPackages = packages.map(pkg => 
-          pkg.id === currentPackage.id ? { ...pkg, status: 'delivered' as const } : pkg
-        );
-        setPackages(updatedPackages);
-        
-        const remainingUndelivered = updatedPackages.filter(pkg => pkg.status !== 'delivered');
-        
-        if (remainingUndelivered.length > 0) {
-          setCurrentPackageIndex(0);
-          setDeliveryState('waiting_location');
-          
-          if (userLocation) {
-            setDeliveryState('showing_navigation');
-          }
-        } else {
-          if (currentRoute?.depot) {
-            setIsNavigatingToDepot(true);
-            setDeliveryState('waiting_location');
-            
-            if (userLocation) {
-              setDeliveryState('showing_navigation');
-            }
-          } else {
-            setDeliveryState('completed');
-          }
-        }
-      } else {
-        setDeliveryState('showing_navigation');
-      }
-    } catch (err) {
-      console.error('Error updating package status:', err);
-      setError(err instanceof Error ? err.message : 'Failed to update package status');
-    }
-  };
-
-  const handleDepotArrival = async (confirmed: boolean) => {
-    if (!routeId) return;
-
-    try {
-      if (confirmed) {
-        await routeService.completeRoute(routeId);
-        await routeService.getDriverRoutes(true);
-        navigate('/driver/dashboard', { state: { refresh: true } });
-      } else {
-        setDeliveryState('showing_navigation');
-      }
-    } catch (err) {
-      console.error('Error completing route:', err);
-      setError(err instanceof Error ? err.message : 'Failed to complete route');
-    }
-  };
+  const handleCompleteRoute = useCallback(async () => {
+    await handleCompleteRouteBase();
+    navigate('/driver/dashboard', { state: { refresh: true } });
+  }, [handleCompleteRouteBase, navigate]);
 
   const handleBackToDashboard = useCallback(() => {
     navigate('/driver/dashboard');
   }, [navigate]);
 
-  const handleRetry = () => {
-    setError(null);
-    if (userLocation && currentPackage) {
-      setDeliveryState('showing_navigation');
-    } else {
-      setDeliveryState('waiting_location');
+  const handleNavigateToRouteOverview = useCallback(() => {
+    if (routeId) {
+      sessionStorage.setItem('currentRouteId', routeId);
     }
-  };
+    navigate('/driver/route-overview');
+  }, [routeId, navigate]);
+
+  const handleWarehouseOverviewBack = useCallback(() => {
+    setShowWarehouseOverview(false);
+    setDeliveryState('showing_navigation');
+  }, [setDeliveryState]);
+
+  const handleLocationError = useCallback((error: string) => {
+    setError(error);
+    setDeliveryState('error');
+  }, [setError, setDeliveryState]);
 
   if (deliveryState === 'loading') {
-    return (
-      <div className="package-delivery-navigation">
-        <DriverHeader navigate={handleBackToDashboard} />
-        <div className="package-delivery-navigation__content">
-          <LoadingSpinner size="large" message="Loading packages..." />
-        </div>
-      </div>
-    );
+    return <LoadingView onBack={handleBackToDashboard} />;
   }
 
   if (deliveryState === 'error' && error) {
-    return (
-      <div className="package-delivery-navigation">
-        <DriverHeader navigate={handleBackToDashboard} />
-        <div className="package-delivery-navigation__content">
-          <ErrorMessage message={error} onRetry={handleRetry} />
-        </div>
-      </div>
-    );
+    return <ErrorView error={error} onBack={handleBackToDashboard} onRetry={handleRetry} />;
   }
 
-  const handleCompleteRoute = async () => {
-    if (!routeId) return;
-    
-    try {
-      await routeService.completeRoute(routeId);
-      await routeService.getDriverRoutes(true);
-      navigate('/driver/dashboard', { state: { refresh: true } });
-    } catch (err) {
-      console.error('Error completing route:', err);
-      setError(err instanceof Error ? err.message : 'Failed to complete route');
-    }
-  };
-
   if (deliveryState === 'completed') {
-    return (
-      <div className="package-delivery-navigation">
-        <DriverHeader navigate={handleBackToDashboard} />
-        <div className="package-delivery-navigation__content">
-          <CompletedState onComplete={handleCompleteRoute} />
-        </div>
-      </div>
-    );
+    return <CompletedView onBack={handleBackToDashboard} onComplete={handleCompleteRoute} />;
   }
 
   if (showWarehouseOverview && currentRoute?.warehouse) {
     return (
-      <div className="package-delivery-navigation">
-        <DriverHeader navigate={handleBackToDashboard} />
-        <div className="package-delivery-navigation__content">
-          <WarehousePackageOverview
-            warehouse={currentRoute.warehouse}
-            packages={packages}
-            onConfirmCollection={() => handleWarehouseCollection(true)}
-            onBack={() => {
-              setShowWarehouseOverview(false);
-              setDeliveryState('showing_navigation');
-            }}
-          />
-        </div>
-      </div>
+      <WarehouseOverviewView
+        warehouse={currentRoute.warehouse}
+        packages={packages}
+        onBack={handleWarehouseOverviewBack}
+        onConfirmCollection={() => handleWarehouseCollection(true)}
+      />
     );
   }
 
   if (!userLocation && deliveryState === 'waiting_location') {
     return (
-      <div className="package-delivery-navigation">
-        <DriverHeader navigate={handleBackToDashboard} />
-        <div className="package-delivery-navigation__content">
-          <LocationPermission
-            onLocationGranted={handleLocationGranted}
-            onError={(error) => { setError(error); setDeliveryState('error'); }}
-          />
-        </div>
-      </div>
+      <LocationPermissionView
+        onBack={handleBackToDashboard}
+        onLocationGranted={handleLocationGranted}
+        onError={handleLocationError}
+      />
     );
   }
 
+  if (!userLocation || !currentDestination) {
+    return null;
+  }
+
   return (
-    <div className="package-delivery-navigation">
-      <DriverHeader navigate={handleBackToDashboard} />
-      <div className="package-delivery-navigation__content">
-        <RouteOverviewButton 
-          onNavigate={() => {
-            if (routeId) {
-              sessionStorage.setItem('currentRouteId', routeId);
-            }
-            navigate('/driver/route-overview');
-          }} 
-        />
-        
-        {isCollectingWarehouse && currentRoute?.warehouse ? (
-          <WarehouseInfo
-            warehouse={currentRoute.warehouse}
-            packageCount={packages.filter(pkg => pkg.status === 'pending').length}
-          />
-        ) : isNavigatingToDepot && currentRoute?.depot ? (
-          <DepotInfo
-            depot={currentRoute.depot}
-          />
-        ) : currentPackage && (
-          <PackageInfo
-            package={currentPackage}
-            packageNumber={packages.findIndex(p => p.id === currentPackage.id) + 1}
-            totalPackages={packages.length}
-            estimatedTime={currentPackage.estimatedTravelTime}
-          />
-        )}
-
-        <div className="package-delivery-navigation__map">
-          {userLocation && currentDestination ? (
-            <MapComponent
-              userLocation={userLocation}
-              destination={currentDestination}
-              onLocationUpdate={setUserLocation}
-              onRouteUpdate={() => {}}
-              navigationMode={false}
-            />
-          ) : (
-            <div className="package-delivery-navigation__map-placeholder">
-              <p>Loading map...</p>
-            </div>
-          )}
-        </div>
-
-        {deliveryState === 'showing_navigation' && (
-          <DeliveryNavigationControls
-            state={deliveryState}
-            onOpenNavigation={handleOpenNavigation}
-          />
-        )}
-
-        {deliveryState === 'waiting_confirmation' && isNavigatingToDepot && currentRoute?.depot && (
-          <DepotArrivalConfirmation
-            depot={currentRoute.depot}
-            onConfirm={handleDepotArrival}
-          />
-        )}
-
-        {deliveryState === 'waiting_confirmation' && !isCollectingWarehouse && !isNavigatingToDepot && currentPackage && (
-          <DeliveryConfirmation
-            package={currentPackage}
-            onConfirm={handleDeliveryResult}
-          />
-        )}
-      </div>
-    </div>
+    <NavigationView
+      userLocation={userLocation}
+      currentDestination={currentDestination}
+      deliveryState={deliveryState}
+      currentPackage={currentPackage}
+      packages={packages}
+      currentRoute={currentRoute}
+      isCollectingWarehouse={isCollectingWarehouse}
+      isNavigatingToDepot={isNavigatingToDepot}
+      routeId={routeId}
+      onBack={handleBackToDashboard}
+      onLocationUpdate={setUserLocation}
+      onOpenNavigation={handleOpenNavigation}
+      onNavigateToRouteOverview={handleNavigateToRouteOverview}
+      onDeliveryResult={handleDeliveryResult}
+      onDepotArrival={handleDepotArrival}
+    />
   );
 };
 

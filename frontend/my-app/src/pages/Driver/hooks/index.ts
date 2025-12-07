@@ -8,4 +8,5 @@ export { useDeliveryPackages } from './useDeliveryPackages';
 export { useDestination } from './useDestination';
 export { useAvailability } from './useAvailability';
 export { useMapControl } from './useMapControl';
+export { useDeliveryNavigationHandlers } from './useDeliveryNavigationHandlers';
 
