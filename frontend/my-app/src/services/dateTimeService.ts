@@ -5,9 +5,7 @@ class DateTimeService {
     }
 
     try {
-      // Check if the string is in "yyyy-MM-dd HH:mm:ss" format (from backend)
       if (/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/.test(timeString)) {
-        // Replace space with 'T' to make it ISO-like format
         const isoString = timeString.replace(' ', 'T');
         const parsedDate = new Date(isoString);
         
@@ -19,7 +17,6 @@ class DateTimeService {
         }
       }
 
-      // Handle old format: time-only string (e.g., "07:30.000")
       const timeParts = timeString.split('.');
       const timeOnly = timeParts[0];
 
@@ -54,17 +51,14 @@ class DateTimeService {
     }
 
     try {
-      // Handle ISO format (with 'T')
       if (dateTimeString.includes('T')) {
         return dateTimeString.split('T')[0];
       }
       
-      // Handle "yyyy-MM-dd HH:mm:ss" format (with space)
       if (dateTimeString.includes(' ')) {
         return dateTimeString.split(' ')[0];
       }
       
-      // If it's already just a date string (yyyy-MM-dd), return it
       if (/^\d{4}-\d{2}-\d{2}$/.test(dateTimeString)) {
         return dateTimeString;
       }
@@ -93,16 +87,12 @@ class DateTimeService {
     }
 
     try {
-      // Check if the string is in "yyyy-MM-dd HH:mm:ss" format (from backend)
       if (/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/.test(timeString)) {
-        // Extract time part (HH:mm:ss) and take only hours and minutes
         const timePart = timeString.split(' ')[1];
         const [hours, minutes] = timePart.split(':');
-        // Ensure proper formatting: pad hours and minutes to 2 digits
         return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
       }
 
-      // Handle old format: time-only string (e.g., "07:30.000" or "07:30")
       const timeParts = timeString.split(':');
       if (timeParts.length >= 2) {
         const hours = String(timeParts[0]).padStart(2, '0');
