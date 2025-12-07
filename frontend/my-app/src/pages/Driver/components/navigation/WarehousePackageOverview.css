@@ -1,0 +1,145 @@
+.warehouse-package-overview {
+  padding: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.warehouse-package-overview__header {
+  margin-bottom: 20px;
+}
+
+.warehouse-package-overview__header h2 {
+  margin: 0 0 8px 0;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.warehouse-package-overview__subtitle {
+  margin: 0;
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.warehouse-package-overview__warehouse-info {
+  background: #f5f5f5;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.warehouse-package-overview__warehouse-details p {
+  margin: 8px 0;
+  color: #333;
+  font-size: 0.95rem;
+}
+
+.warehouse-package-overview__warehouse-details strong {
+  color: #333;
+  font-weight: 600;
+}
+
+.warehouse-package-overview__packages-section {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 20px;
+}
+
+.warehouse-package-overview__packages-title {
+  margin: 0 0 15px 0;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.warehouse-package-overview__packages-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.warehouse-package-overview__package-item {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 15px;
+  display: flex;
+  gap: 15px;
+  align-items: flex-start;
+}
+
+.warehouse-package-overview__package-number {
+  background: #4caf50;
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.warehouse-package-overview__package-details {
+  flex: 1;
+}
+
+.warehouse-package-overview__package-name {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px;
+  font-size: 1rem;
+}
+
+.warehouse-package-overview__package-info {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 6px;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.warehouse-package-overview__package-address {
+  font-size: 0.85rem;
+  color: #999;
+  font-style: italic;
+}
+
+.warehouse-package-overview__actions {
+  display: flex;
+  gap: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.warehouse-package-overview__button {
+  flex: 1;
+  padding: 15px 20px;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.warehouse-package-overview__button--back {
+  background: #f5f5f5;
+  color: #333;
+}
+
+.warehouse-package-overview__button--back:hover {
+  background: #e0e0e0;
+}
+
+.warehouse-package-overview__button--start {
+  background: #4caf50;
+  color: white;
+}
+
+.warehouse-package-overview__button--start:hover {
+  background: #45a049;
+}
+

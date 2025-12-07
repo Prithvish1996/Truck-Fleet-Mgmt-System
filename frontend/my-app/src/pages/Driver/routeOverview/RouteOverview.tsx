@@ -1,12 +1,8 @@
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import DriverHeader from "../components/driverHeader";
-import { useState, useEffect, useMemo } from "react";
-import { routeService } from "../../../services/routeService";
-import { Route, Package, RouteBreak } from "../../../types";
 import { formatTravelTime } from "../../../utils/timeFormatter";
+import { useRouteById, useRouteItems } from "../hooks";
 import "./RouteOverview.css";
-
-type RouteItem = { type: 'package'; data: Package } | { type: 'break'; data: RouteBreak };
 
 interface RouteOverviewProps {
     routeId?: string;
@@ -14,80 +10,22 @@ interface RouteOverviewProps {
 
 function RouteOverview({ routeId: propRouteId }: RouteOverviewProps = {} as RouteOverviewProps) {
     const navigate = useNavigate();
-    const location = useLocation();
-    const [currentRoute, setCurrentRoute] = useState<Route | null>(null);
-    const [packages, setPackages] = useState<Package[]>([]);
-    const [loading, setLoading] = useState(true);
+    const { route: currentRoute, packages, loading, routeId } = useRouteById(propRouteId);
+    const routeItems = useRouteItems(currentRoute, packages);
     
     const storedRouteId = sessionStorage.getItem('currentRouteId');
-    const routeId = propRouteId || 
-                    (location.state as any)?.routeId || 
-                    storedRouteId ||
-                    null;
-
-    useEffect(() => {
-        loadRoute();
-    }, [routeId]);
-
-    const loadRoute = async () => {
-        try {
-            setLoading(true);
-            
-            if (routeId) {
-                const route = await routeService.getRouteById(routeId);
-                if (route) {
-                    setCurrentRoute(route);
-                    setPackages(route.packages);
-                }
-            } else {
-                const routes = await routeService.getDriverRoutes();
-                const inProgressRoute = routes.find(route => route.status === 'in_progress');
-                if (inProgressRoute) {
-                    setCurrentRoute(inProgressRoute);
-                    setPackages(inProgressRoute.packages);
-                }
-            }
-        } catch (error) {
-            console.error('Error loading route:', error);
-        } finally {
-            setLoading(false);
-        }
-    };
-
     const isFromNavigation = !!storedRouteId;
     
     const handleStartRoute = () => {
-        sessionStorage.removeItem('currentRouteId');
-        navigate('/driver/navigation');
+        if (routeId) {
+            sessionStorage.setItem('currentRouteId', routeId);
+        }
+        navigate('/driver/navigation', { state: { routeId } });
     };
 
     const handleBackToNavigation = () => {
         navigate('/driver/navigation');
     };
-
-    const routeItems = useMemo(() => {
-        if (!currentRoute) return [];
-        
-        const items: RouteItem[] = [];
-        const breaks = currentRoute.breaks || [];
-        const usedBreaks = new Set<string>();
-        
-        packages.forEach((pkg, index) => {
-            items.push({ type: 'package', data: pkg });
-            
-            const breakAfterPackage = breaks.find(breakItem => 
-                !usedBreaks.has(breakItem.id) &&
-                breakItem.packagesBetween?.beforePackage === pkg.id
-            );
-            
-            if (breakAfterPackage) {
-                items.push({ type: 'break', data: breakAfterPackage });
-                usedBreaks.add(breakAfterPackage.id);
-            }
-        });
-        
-        return items;
-    }, [currentRoute, packages]);
 
     return (
         <div className="route-overview">
@@ -99,7 +37,41 @@ function RouteOverview({ routeId: propRouteId }: RouteOverviewProps = {} as Rout
                 ) : packages.length > 0 ? (
                     <div className="route-stops-container">
                         {routeItems.map((item, index) => {
-                            if (item.type === 'package') {
+                            if (item.type === 'warehouse') {
+                                const warehouse = item.data;
+                                if (!warehouse) return null;
+                                return (
+                                    <div key={`warehouse-${warehouse.id}`} className="route-stop-card warehouse">
+                                        <div className="stop-icon">
+                                            <div className="warehouse-icon">📦</div>
+                                        </div>
+                                        <div className="stop-content">
+                                            <div className="stop-type">Warehouse</div>
+                                            <div className="stop-name">Package Collection</div>
+                                            <div className="stop-address">{warehouse.address}</div>
+                                            <div className="stop-location">{warehouse.city} {warehouse.postalCode}</div>
+                                        </div>
+                                        <div className="stop-arrow">›</div>
+                                    </div>
+                                );
+                            } else if (item.type === 'depot') {
+                                const depot = item.data;
+                                if (!depot) return null;
+                                return (
+                                    <div key={`depot-${depot.id}`} className="route-stop-card depot">
+                                        <div className="stop-icon">
+                                            <div className="depot-icon">🏢</div>
+                                        </div>
+                                        <div className="stop-content">
+                                            <div className="stop-type">Depot</div>
+                                            <div className="stop-name">{depot.name || 'Return to Depot'}</div>
+                                            <div className="stop-address">{depot.address}</div>
+                                            <div className="stop-location">{depot.city} {depot.postalCode}</div>
+                                        </div>
+                                        <div className="stop-arrow">›</div>
+                                    </div>
+                                );
+                            } else if (item.type === 'package') {
                                 const pkg = item.data;
                                 return (
                                     <div key={pkg.id} className="route-stop-card shipping">

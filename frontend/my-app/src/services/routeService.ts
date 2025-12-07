@@ -1,11 +1,69 @@
 import axios from 'axios';
 import { mockDataService } from './mockDataService';
-import { Route, RouteResponse, RouteByDriverResponse, RouteData, Parcel, RouteStop } from '../types';
+import { Route, RouteResponse, RouteByDriverResponse, RouteData, Parcel, RouteStop, Warehouse, Depot, Package } from '../types';
 import { authService } from './authService';
 import { apiConfig } from '../config/apiConfig';
 import { dateTimeService } from './dateTimeService';
+import axiosInstance from '../config/axiosConfig';
 
 class RouteService {
+  private extractWarehouseFromRoute(routeData: RouteData): Warehouse | undefined {
+    const sortedStops = [...routeData.routeStops].sort((a, b) => a.priority - b.priority);
+    
+    const warehouseStop = sortedStops.find(stop => stop.stopType === 'WAREHOUSE');
+    
+    if (warehouseStop && warehouseStop.location) {
+      return {
+        id: warehouseStop.stopId,
+        latitude: warehouseStop.location.latitude,
+        longitude: warehouseStop.location.longitude,
+        address: warehouseStop.location.address,
+        city: warehouseStop.location.city,
+        postalCode: warehouseStop.location.postcode,
+      };
+    }
+    
+    for (const stop of sortedStops) {
+      if (stop.parcelsToDeliver.length > 0) {
+        const firstParcel = stop.parcelsToDeliver[0];
+        return {
+          id: firstParcel.warehouseId,
+          latitude: firstParcel.warehouseLatitude,
+          longitude: firstParcel.warehouseLongitude,
+          address: firstParcel.warehouseAddress,
+          city: firstParcel.warehouseCity,
+          postalCode: firstParcel.warehousePostalCode,
+        };
+      }
+    }
+    
+    return undefined;
+  }
+
+  private extractDepotFromRoute(routeData: RouteData): Depot | undefined {
+    const sortedStops = [...routeData.routeStops].sort((a, b) => a.priority - b.priority);
+    
+    const depotStops = sortedStops.filter(stop => stop.stopType === 'DEPOT');
+    
+    if (depotStops.length > 0) {
+      const lastDepotStop = depotStops[depotStops.length - 1];
+      
+      if (lastDepotStop && lastDepotStop.location) {
+        return {
+          id: lastDepotStop.stopId,
+          latitude: lastDepotStop.location.latitude,
+          longitude: lastDepotStop.location.longitude,
+          address: lastDepotStop.location.address,
+          city: lastDepotStop.location.city,
+          postalCode: lastDepotStop.location.postcode,
+          name: routeData.depotName || undefined,
+        };
+      }
+    }
+    
+    return undefined;
+  }
+
   private mapRouteDataToRoute(routeData: RouteData, index: number): Route {
     const packages: Route['packages'] = [];
     
@@ -34,6 +92,9 @@ class RouteService {
       dateTimeService.convertTimeStringToDateTimeAndDate(routeData.startTime);
     const startTime = dateTimeService.formatTimeString(routeData.startTime);
 
+    const warehouse = this.extractWarehouseFromRoute(routeData);
+    const depot = this.extractDepotFromRoute(routeData);
+
     return {
       id: `route-${routeData.driverId}-${index}`,
       routeId: routeData.routeId,
@@ -48,6 +109,8 @@ class RouteService {
       totalDistance: routeData.totalDistance,
       estimatedFuelCost: routeData.estimatedFuelCost,
       priority: 'medium' as const,
+      warehouse,
+      depot,
     };
   }
 
@@ -78,48 +141,49 @@ class RouteService {
     return 'pending';
   }
 
-  private mapApiStatusToRouteStatus(apiStatus: string): 'scheduled' | 'in_progress' | 'completed' | 'cancelled' {
+  private mapApiStatusToRouteStatus(apiStatus: string): 'scheduled' | 'in_progress' | 'completed' | 'cancelled' | 'parcels_retrieved' {
     const statusLower = apiStatus.toLowerCase();
     if (statusLower === 'completed') return 'completed';
+    if (statusLower === 'parcels_retrieved') return 'parcels_retrieved';
     if (statusLower === 'in_progress' || statusLower === 'assigned') return 'in_progress';
     if (statusLower === 'cancelled') return 'cancelled';
     return 'scheduled';
   }
 
   async getDriverRoutes(forceRefresh: boolean = false): Promise<Route[]> {
-    try {
-      const driverId = authService.getDriverId();
-      if (!driverId) {
-        throw new Error('Driver ID not found in token. Please log out and log back in to get a new token with your user ID.');
-      }
+    const driverId = authService.getDriverId();
+    if (!driverId) {
+      throw new Error('Driver ID not found in token. Please log out and log back in to get a new token with your user ID.');
+    }
 
-      const cacheKey = `driver_routes_${driverId}`;
-      
-      if (!forceRefresh) {
-        const cached = localStorage.getItem(cacheKey);
-        if (cached) {
-          try {
-            const cachedRoutes = JSON.parse(cached) as Route[];
-            const cacheTime = localStorage.getItem(`${cacheKey}_time`);
-            if (cacheTime) {
-              const age = Date.now() - parseInt(cacheTime, 10);
-              if (age < 60000) {
-                return cachedRoutes;
-              }
+    const cacheKey = `driver_routes_${driverId}`;
+    
+    if (!forceRefresh) {
+      const cached = localStorage.getItem(cacheKey);
+      if (cached) {
+        try {
+          const cachedRoutes = JSON.parse(cached) as Route[];
+          const cacheTime = localStorage.getItem(`${cacheKey}_time`);
+          if (cacheTime) {
+            const age = Date.now() - parseInt(cacheTime, 10);
+            if (age < 60000) {
+              return cachedRoutes;
             }
-          } catch (e) {
-            console.warn('Failed to parse cached routes', e);
           }
+        } catch (e) {
+          console.warn('Failed to parse cached routes', e);
         }
       }
+    }
 
-      let token = authService.getToken();
-      if (!token) {
-        throw new Error('Authentication token not found');
-      }
+    let token = authService.getToken();
+    if (!token) {
+      throw new Error('Authentication token not found');
+    }
 
-      token = token.trim();
+    token = token.trim();
 
+    try {
       const response = await axios.get<RouteByDriverResponse>(
         `${apiConfig.baseURL}/routes/driver/${driverId}`,
         {
@@ -184,23 +248,23 @@ class RouteService {
   }
 
   async completeRoute(routeId: string): Promise<boolean> {
+    const routes = await this.getDriverRoutes(false);
+    const route = routes.find(r => r.id === routeId);
+    
+    if (!route) {
+      throw new Error(`Route ${routeId} not found`);
+    }
+
+    if (!route.routeId) {
+      throw new Error('Route ID not found. Backend needs to include routeId in RouteResponseDto');
+    }
+
+    const token = authService.getToken();
+    if (!token) {
+      throw new Error('Authentication token not found');
+    }
+
     try {
-      const routes = await this.getDriverRoutes(false);
-      const route = routes.find(r => r.id === routeId);
-      
-      if (!route) {
-        throw new Error(`Route ${routeId} not found`);
-      }
-
-      if (!route.routeId) {
-        throw new Error('Route ID not found. Backend needs to include routeId in RouteResponseDto');
-      }
-
-      const token = authService.getToken();
-      if (!token) {
-        throw new Error('Authentication token not found');
-      }
-
       const backendRouteId = route.routeId;
       
       const response = await axios.put(
@@ -254,7 +318,7 @@ class RouteService {
     }
   }
 
-  async getRoutePackages(routeId: string, forceRefresh: boolean = false) {
+  async getRoutePackages(routeId: string, forceRefresh: boolean = false): Promise<Package[]> {
     try {
       const route = await this.getRouteById(routeId, forceRefresh);
       return route ? route.packages : [];

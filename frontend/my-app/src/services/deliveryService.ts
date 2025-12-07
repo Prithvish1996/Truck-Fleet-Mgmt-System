@@ -4,6 +4,7 @@ import { googleMapsService } from './googleMapsService';
 import { Package } from '../types';
 import { apiConfig } from '../config/apiConfig';
 import { authService } from './authService';
+import axiosInstance from '../config/axiosConfig';
 
 export type DeliveryState = 
   | 'loading'
@@ -109,6 +110,57 @@ class DeliveryService {
     }
     
     return { newStatus };
+  }
+
+  async markPackagesAsPickedUp(packageIds: string[], routeId?: string): Promise<boolean> {
+    try {
+      for (const packageId of packageIds) {
+        await routeService.updatePackageStatus(packageId, 'picked_up');
+      }
+      
+      if (routeId) {
+        const route = await routeService.getRouteById(routeId, true);
+        if (route && route.routeId && route.status !== 'parcels_retrieved') {
+          const token = authService.getToken();
+          if (token) {
+            try {
+              const response = await axiosInstance.put(
+                `${apiConfig.baseURL}/routes/status`,
+                {
+                  routeId: route.routeId,
+                  status: 'PARCELS_RETRIEVED'
+                },
+                {
+                  headers: {
+                    'Authorization': `Bearer ${token.trim()}`,
+                  },
+                }
+              );
+
+              const apiResponse = response.data;
+              if (apiResponse.success) {
+                const driverId = authService.getDriverId();
+                if (driverId) {
+                  const cacheKey = `driver_routes_${driverId}`;
+                  localStorage.removeItem(cacheKey);
+                  localStorage.removeItem(`${cacheKey}_time`);
+                }
+              }
+            } catch (error: any) {
+              console.warn('Error updating route status to PARCELS_RETRIEVED:', error.response?.data?.message || error.message);
+            }
+          }
+        }
+        
+        const cacheKey = `route_packages_${routeId}`;
+        localStorage.removeItem(cacheKey);
+      }
+      
+      return true;
+    } catch (error) {
+      console.error('Error marking packages as picked up:', error);
+      throw error;
+    }
   }
 }
 

@@ -183,8 +183,8 @@ class GoogleMapsService {
       );
 
       console.log('Time estimate sent to backend successfully');
-    } catch (error) {
-      console.error('Error sending time estimate to backend:', error);
+    } catch (error: any) {
+      console.error('Error sending time estimate to backend:', error.response?.data || error.message);
     }
   }
 

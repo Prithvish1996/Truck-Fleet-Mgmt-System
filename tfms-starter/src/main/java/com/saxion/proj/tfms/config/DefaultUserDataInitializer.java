@@ -98,7 +98,7 @@ public class DefaultUserDataInitializer {
         create10Trucks();
 
         // Create default routes for driver ID 2
-        //createDefaultRoutesForDriver(2L);
+        createDefaultRoutesForDriver(2L);
 
         System.out.println("Default users initialization completed.");
     }

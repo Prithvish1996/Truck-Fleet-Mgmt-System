@@ -68,7 +68,6 @@ public class AssignDriverToRouteHandler implements IAssignDriverToRoute {
         TruckDao truck = truckOpt.get();
         DriverDao driver = driverOpt.get();
 
-        // Update route if truck/driver changed
         boolean updated = false;
         if (route.getTruck() == null || !route.getTruck().getId().equals(truck.getId())) {
             route.setTruck(truck);
@@ -85,14 +84,12 @@ public class AssignDriverToRouteHandler implements IAssignDriverToRoute {
             routeRepository.save(route);
         }
 
-        // Update stops priority
         if (dto.getStops() != null && !dto.getStops().isEmpty()) {
             dto.getStops().forEach(stopDto -> {
                 routeStopRepository.findById(stopDto.getStopId()).ifPresent(stop -> {
                     stop.setPriority(stopDto.getPriority());
                     routeStopRepository.save(stop);
 
-                    // Update each parcel on this stop to ASSIGNED
                     if (stop.getParcels() != null && !stop.getParcels().isEmpty()) {
                         stop.getParcels().forEach(parcel -> {
                             parcel.setStatus(StatusEnum.ASSIGNED);
@@ -103,7 +100,6 @@ public class AssignDriverToRouteHandler implements IAssignDriverToRoute {
             });
         }
 
-        // Send notification to driver (via reusable component)
         notificationService.sendDriverAssignmentNotification(driver, route);
 
         return ApiResponse.success("Driver and truck successfully assigned to route.");
