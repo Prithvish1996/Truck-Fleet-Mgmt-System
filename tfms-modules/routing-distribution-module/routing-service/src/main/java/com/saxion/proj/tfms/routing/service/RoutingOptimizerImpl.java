@@ -9,6 +9,7 @@ import com.saxion.proj.tfms.routing.service.assignment.TruckAssignmentService;
 import com.saxion.proj.tfms.routing.service.assignment.helper.truckassignment.response.AssignmentResponse;
 import com.saxion.proj.tfms.routing.service.computation.TruckRouteBuilder;
 import com.saxion.proj.tfms.routing.service.output.VrpResponseBuilderService;
+import com.saxion.proj.tfms.routing.validation.RoutingValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -24,50 +25,67 @@ public class RoutingOptimizerImpl implements OptimizeRouting {
     private final TruckAssignmentService truckAssignmentService;
     private final TruckRouteBuilder truckRouteBuilder;
     private final VrpResponseBuilderService vrpResponseBuilderService;
+    private final RoutingValidator validator;
 
     @Autowired
     public RoutingOptimizerImpl(
             @Qualifier("TruckAssignment") TruckAssignmentService truckAssignmentService,
             TruckRouteBuilder truckRouteBuilder,
-            VrpResponseBuilderService vrpResponseBuilderService) {
+            VrpResponseBuilderService vrpResponseBuilderService,
+            RoutingValidator validator) {
         this.truckAssignmentService = truckAssignmentService;
         this.truckRouteBuilder = truckRouteBuilder;
         this.vrpResponseBuilderService = vrpResponseBuilderService;
+        this.validator = validator;
     }
 
     @Override
     public VRPResponse optimize(VRPRequest request) {
         try {
+            validator.validateRequest(request);
+            
             List<WarehouseRoutingResult> warehouseRoutingResults = new ArrayList<>();
             Map<Long, AssignmentResponse> assignments =
                     truckAssignmentService.assignTrucksPerWarehouse(request);
+            
             if (assignments == null || assignments.isEmpty()) {
-                logger.warnOp(ServiceName.ROUTING_SERVICE, "Request For Optimization", "No truck assignments could be made for the given request.");
+                logger.warnOp(ServiceName.ROUTING_SERVICE, "OPTIMIZE",
+                        "No truck assignments could be made for the given request.");
                 return vrpResponseBuilderService.buildResponse(warehouseRoutingResults);
             }
-
 
             for (Map.Entry<Long, AssignmentResponse> entry : assignments.entrySet()) {
                 Long warehouseId = entry.getKey();
                 AssignmentResponse assignmentResponse = entry.getValue();
+                
                 if (assignmentResponse == null || !assignmentResponse.isSuccess()) {
-                    logger.warnOp(ServiceName.ROUTING_SERVICE, "Request For Optimization", "No successful truck assignment for warehouse ID: {}", warehouseId);
+                    logger.warnOp(ServiceName.ROUTING_SERVICE, "OPTIMIZE",
+                            "No successful truck assignment for warehouse ID: {}", warehouseId);
                     continue;
                 }
+                
                 try {
+                    validator.validateAssignment(assignmentResponse);
+                    
                     WarehouseRoutingResult warehouseRoutingResult =
                             truckRouteBuilder.buildFullRouteForTrucks(request, assignmentResponse, warehouseId);
                     warehouseRoutingResults.add(warehouseRoutingResult);
-                    logger.infoOp(ServiceName.ROUTING_SERVICE, "Request For Optimization", "Routes for warehouse ID: {} successfully built.", warehouseId);
+                    
+                    logger.infoOp(ServiceName.ROUTING_SERVICE, "OPTIMIZE",
+                            "Routes for warehouse ID: {} successfully built.", warehouseId);
                 } catch (Exception e) {
-                    logger.errorOp(ServiceName.ROUTING_SERVICE, "Request For Optimization", "Failed to build routes for warehouse ID: {} due to: {}", warehouseId, e.getMessage());
+                    logger.errorOp(ServiceName.ROUTING_SERVICE, "OPTIMIZE",
+                            "Failed to build routes for warehouse ID: {}: {}", warehouseId, e.getMessage());
                     throw new RuntimeException("Failed to build routes for warehouse " + warehouseId, e);
                 }
             }
-            logger.infoOp(ServiceName.ROUTING_SERVICE, "Request For Optimization", "Route optimization successful for the given request.");
+            
+            logger.infoOp(ServiceName.ROUTING_SERVICE, "OPTIMIZE",
+                    "Route optimization successful for the given request.");
             return vrpResponseBuilderService.buildResponse(warehouseRoutingResults);
         } catch (Exception e) {
-            logger.errorOp(ServiceName.ROUTING_SERVICE, "Request For Optimization", "Route optimization failed due to: {}", e.getMessage());
+            logger.errorOp(ServiceName.ROUTING_SERVICE, "OPTIMIZE",
+                    "Route optimization failed: {}", e.getMessage());
             throw new RuntimeException("Route optimization failed", e);
         }
     }

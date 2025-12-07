@@ -8,6 +8,7 @@ import com.saxion.proj.tfms.routing.model.TruckRouteInfo;
 import com.saxion.proj.tfms.routing.request.VRPRequest;
 import com.saxion.proj.tfms.routing.service.assignment.helper.truckassignment.model.TruckAssignment;
 import com.saxion.proj.tfms.routing.service.computation.helper.RoutingProvider;
+import com.saxion.proj.tfms.routing.validation.RoutingValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -25,6 +26,9 @@ public class TruckRouteFactory {
     @Autowired
     @Qualifier("RoutingProblemSolver")
     private RoutingProvider routingProvider;
+    
+    @Autowired
+    private RoutingValidator validator;
 
     public TruckRouteInfo createRouteForTruck(VRPRequest vrpRequest, TruckAssignment assignment, Long warehouseId) {
         logger.infoOp(ServiceName.ROUTING_SERVICE, "CREATE_TRUCK_ROUTE",
@@ -33,32 +37,21 @@ public class TruckRouteFactory {
 
         try {
             RouteCoordinatesGroup coords = dataPreparer.prepareCoordinates(vrpRequest, assignment);
+            validator.validateCoordinates(coords);
+            
             logger.debugOp(ServiceName.ROUTING_SERVICE, "CREATE_TRUCK_ROUTE",
                     "Coordinates prepared for truck: {}", assignment.getTruckPlateNumber());
 
-
-
             List<Stop> stops = routingProvider.calculateRoute(coords);
 
-            // Check if the route contains only depot and warehouse stops, don't create route info for such routes
-            boolean hasCustomerDeliveries = stops.stream()
-                    .anyMatch(stop -> stop.getStopType() == com.saxion.proj.tfms.commons.constants.StopType.CUSTOMER);
-
-            if (!hasCustomerDeliveries) {
+            if (!validator.hasCustomerDeliveries(stops)) {
                 logger.warnOp(ServiceName.ROUTING_SERVICE, "CREATE_TRUCK_ROUTE",
-                        "Skipping route creation for truck: {} - no customer deliveries found, only depot/warehouse stops",
+                        "Skipping route creation for truck: {} - no customer deliveries",
                         assignment.getTruckPlateNumber());
-                return null; // Don't create route info for empty routes
+                return null;
             }
 
-            TruckRouteInfo routeInfo = TruckRouteInfo.builder()
-                    .truckPlateNumber(assignment.getTruckPlateNumber())
-                    .depotId(vrpRequest.getDepot().getDepotId())
-                    .depotName(vrpRequest.getDepot().getDepotName())
-                    .routeStops(stops)
-                    .totalDistance(0)
-                    .totalTransportTime(0L)
-                    .build();
+            TruckRouteInfo routeInfo = buildTruckRoute(vrpRequest, assignment, stops);
 
             logger.infoOp(ServiceName.ROUTING_SERVICE, "CREATE_TRUCK_ROUTE",
                     "Successfully created route for truck: {} with {} stops",
@@ -67,10 +60,21 @@ public class TruckRouteFactory {
             return routeInfo;
         } catch (Exception e) {
             logger.errorOp(ServiceName.ROUTING_SERVICE, "CREATE_TRUCK_ROUTE",
-                    "Failed to create route for truck: {} in warehouse: {} - Error: {}",
-                    assignment.getTruckPlateNumber(), warehouseId, e.getMessage());
+                    "Failed to create route for truck: {} - Error: {}",
+                    assignment.getTruckPlateNumber(), e.getMessage());
             throw new RuntimeException("Failed to create route for truck " + assignment.getTruckPlateNumber(), e);
         }
+    }
+
+    private TruckRouteInfo buildTruckRoute(VRPRequest vrpRequest, TruckAssignment assignment, List<Stop> stops) {
+        return TruckRouteInfo.builder()
+                .truckPlateNumber(assignment.getTruckPlateNumber())
+                .depotId(vrpRequest.getDepot().getDepotId())
+                .depotName(vrpRequest.getDepot().getDepotName())
+                .routeStops(stops)
+                .totalDistance(0)
+                .totalTransportTime(0L)
+                .build();
     }
 }
 
