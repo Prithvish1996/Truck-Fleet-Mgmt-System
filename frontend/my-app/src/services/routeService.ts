@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { mockDataService } from './mockDataService';
-import { Route, RouteResponse, RouteByDriverResponse, RouteData, Parcel, RouteStop, Warehouse, Depot } from '../types';
+import { Route, RouteResponse, RouteByDriverResponse, RouteData, Parcel, RouteStop, Warehouse, Depot, Package } from '../types';
 import { authService } from './authService';
 import { apiConfig } from '../config/apiConfig';
 import { dateTimeService } from './dateTimeService';
@@ -183,6 +183,7 @@ class RouteService {
 
     token = token.trim();
 
+    try {
       const response = await axios.get<RouteByDriverResponse>(
         `${apiConfig.baseURL}/routes/driver/${driverId}`,
         {
@@ -263,6 +264,7 @@ class RouteService {
       throw new Error('Authentication token not found');
     }
 
+    try {
       const backendRouteId = route.routeId;
       
       const response = await axios.put(
@@ -316,7 +318,7 @@ class RouteService {
     }
   }
 
-  async getRoutePackages(routeId: string, forceRefresh: boolean = false) {
+  async getRoutePackages(routeId: string, forceRefresh: boolean = false): Promise<Package[]> {
     try {
       const route = await this.getRouteById(routeId, forceRefresh);
       return route ? route.packages : [];

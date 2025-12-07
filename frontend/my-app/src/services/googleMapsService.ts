@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { apiConfig } from '../config/apiConfig';
-import axios from 'axios';
 
 const GOOGLE_MAPS_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY || '';
 const USE_GOOGLE_MAPS_API = false;
