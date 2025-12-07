@@ -638,6 +638,36 @@ class PlannerService {
       throw error;
     }
   }
+
+  async deleteStop(stopId: number): Promise<string> {
+    try {
+      const headers = await this.getAuthHeaders();
+      const response = await fetch(`${apiConfig.baseURL}/planner/stop/delete/${stopId}`, {
+        method: 'DELETE',
+        headers,
+        credentials: 'include',
+      });
+
+      if (response.status === 429) {
+        throw new Error('Too many requests. Please wait a moment and try again.');
+      }
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ message: 'Failed to delete stop' }));
+        throw new Error(errorData.message || `Failed to delete stop (Status: ${response.status})`);
+      }
+
+      const apiResponse = await response.json();
+      if (!apiResponse.success) {
+        throw new Error(apiResponse.message || 'Failed to delete stop');
+      }
+
+      return apiResponse.message || 'Stop deleted successfully';
+    } catch (error) {
+      console.error('Error deleting stop:', error);
+      throw error;
+    }
+  }
 }
 
 export const plannerService = new PlannerService();

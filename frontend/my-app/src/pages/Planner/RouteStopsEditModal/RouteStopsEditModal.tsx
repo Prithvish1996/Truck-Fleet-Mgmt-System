@@ -18,6 +18,7 @@ import {
 import { CSS } from '@dnd-kit/utilities';
 import { RouteResponse, StopDto } from '../../../services/plannerService';
 import { getStopAddress, formatParcelId } from '../../../utils/dataTransformers';
+import EditableRouteMapView from './EditableRouteMapView';
 import './RouteStopsEditModal.css';
 
 interface RouteStopsEditModalProps {
@@ -102,21 +103,43 @@ export default function RouteStopsEditModal({
     })
   );
 
-  const handleDragEnd = (event: DragEndEvent) => {
-    const { active, over } = event;
+  const handleDragEnd = (event: DragEndEvent | { routeId: number; oldIndex: number; newIndex: number }) => {
+    let activeRouteId: number;
+    let activeStopId: number;
+    let overRouteId: number;
+    let overStopId: number;
 
-    if (!over || active.id === over.id) {
-      return;
-    }
+    if ('active' in event && 'over' in event) {
+      if (!event.over || event.active.id === event.over.id) {
+        return;
+      }
 
-    const activeId = active.id.toString();
-    const overId = over.id.toString();
+      const activeId = event.active.id.toString();
+      const overId = event.over.id.toString();
 
-    const [activeRouteId, activeStopId] = activeId.split('-').map(Number);
-    const [overRouteId, overStopId] = overId.split('-').map(Number);
+      [activeRouteId, activeStopId] = activeId.split('-').map(Number);
+      [overRouteId, overStopId] = overId.split('-').map(Number);
 
-    if (activeRouteId !== overRouteId) {
-      return;
+      if (activeRouteId !== overRouteId) {
+        return;
+      }
+    } else {
+      activeRouteId = event.routeId;
+      overRouteId = event.routeId;
+      const route = localRoutes.find(r => r.routeId === event.routeId);
+      if (!route) return;
+      
+      const editableStops = (route.routeStops || []).filter(
+        stop => stop.parcelsToDeliver && stop.parcelsToDeliver.length > 0
+      );
+      
+      if (event.oldIndex < 0 || event.oldIndex >= editableStops.length ||
+          event.newIndex < 0 || event.newIndex >= editableStops.length) {
+        return;
+      }
+      
+      activeStopId = editableStops[event.oldIndex].stopId;
+      overStopId = editableStops[event.newIndex].stopId;
     }
 
     setLocalRoutes((prevRoutes) => {
@@ -194,29 +217,38 @@ export default function RouteStopsEditModal({
                     {editableStops.length} stops • Distance: {route.totalDistance?.toFixed(2) || 0} km
                   </p>
 
-                  <DndContext
-                    sensors={sensors}
-                    collisionDetection={closestCenter}
-                    onDragEnd={handleDragEnd}
-                  >
-                    <SortableContext
-                      items={editableStops.map(
-                        (stop) => `${route.routeId}-${stop.stopId}`
-                      )}
-                      strategy={verticalListSortingStrategy}
-                    >
-                      <div className="stops-list">
-                        {editableStops.map((stop, index) => (
-                          <SortableStopItem
-                            key={`${route.routeId}-${stop.stopId}`}
-                            stop={stop}
-                            routeId={route.routeId}
-                            index={index}
-                          />
-                        ))}
-                      </div>
-                    </SortableContext>
-                  </DndContext>
+                  <div className="route-edit-split-layout">
+                    <div className="route-edit-left-panel">
+                      <DndContext
+                        sensors={sensors}
+                        collisionDetection={closestCenter}
+                        onDragEnd={handleDragEnd}
+                      >
+                        <SortableContext
+                          items={editableStops.map(
+                            (stop) => `${route.routeId}-${stop.stopId}`
+                          )}
+                          strategy={verticalListSortingStrategy}
+                        >
+                          <div className="stops-list">
+                            {editableStops.map((stop, index) => (
+                              <SortableStopItem
+                                key={`${route.routeId}-${stop.stopId}`}
+                                stop={stop}
+                                routeId={route.routeId}
+                                index={index}
+                              />
+                            ))}
+                          </div>
+                        </SortableContext>
+                      </DndContext>
+                    </div>
+                    <div className="route-edit-right-panel">
+                      <EditableRouteMapView
+                        route={route}
+                      />
+                    </div>
+                  </div>
                 </div>
               );
             })

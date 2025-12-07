@@ -43,16 +43,14 @@ export default function RouteStopsList({
         {stopsWithParcels.map((stop, stopIndex) => {
           const firstParcel = stop.parcelsToDeliver![0];
           const stopAddress = getStopAddress(stop, firstParcel);
-          const displayPriority = stopIndex + 1;
           const estimatedTime = routeStartTime && routeTotalTransportTime
-            ? calculateStopArrivalTime(routeStartTime, routeTotalTransportTime, displayPriority, stopsWithParcels.length)
+            ? calculateStopArrivalTime(routeStartTime, routeTotalTransportTime, stopIndex + 1, stopsWithParcels.length)
             : 'N/A';
 
           return (
             <div key={stop.stopId} className="route-stop-item">
               <div className="route-stop-header">
                 <span className="stop-number">Stop {stopIndex + 1}</span>
-                <span className="stop-priority">Priority: {displayPriority}</span>
                 {estimatedTime !== 'N/A' && (
                   <span className="stop-time">⏰ {estimatedTime}</span>
                 )}

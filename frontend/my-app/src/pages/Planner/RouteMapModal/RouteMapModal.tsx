@@ -3,6 +3,7 @@ import { RouteAssignment } from '../../../types';
 import { plannerService, RouteResponse, ParcelResponse } from '../../../services/plannerService';
 import RouteStopsList from './RouteStopsList';
 import RouteInfo from './RouteInfo';
+import RouteMapView from './RouteMapView';
 import './RouteMapModal.css';
 
 interface RouteMapModalProps {
@@ -169,12 +170,22 @@ export default function RouteMapModal({ assignment, onReturn }: RouteMapModalPro
             <div style={{ padding: '40px', color: 'red', textAlign: 'center' }}>{error}</div>
           )}
           {!loading && !error && routeDetails && (
-            <RouteStopsList 
-              routeStops={routeDetails.routeStops} 
-              parcelStatuses={parcelStatuses}
-              routeStartTime={routeDetails.startTime}
-              routeTotalTransportTime={routeDetails.totalTransportTime}
-            />
+            <div className="route-map-split-layout">
+              <div className="route-map-left-panel">
+                <RouteStopsList 
+                  routeStops={routeDetails.routeStops} 
+                  parcelStatuses={parcelStatuses}
+                  routeStartTime={routeDetails.startTime}
+                  routeTotalTransportTime={routeDetails.totalTransportTime}
+                />
+              </div>
+              <div className="route-map-right-panel">
+                <RouteMapView 
+                  routeDetails={routeDetails}
+                  parcelStatuses={parcelStatuses}
+                />
+              </div>
+            </div>
           )}
           {!loading && !error && !routeDetails && (
             <div style={{ padding: '40px', textAlign: 'center' }}>No route details available</div>

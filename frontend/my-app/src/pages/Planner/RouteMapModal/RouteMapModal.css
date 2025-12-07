@@ -115,10 +115,30 @@
 
 .route-map-content {
   flex: 1;
-  overflow-y: auto;
-  padding: 16px;
+  overflow: hidden;
+  padding: 0;
   display: flex;
   flex-direction: column;
+}
+
+.route-map-split-layout {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  overflow: hidden;
+}
+
+.route-map-left-panel {
+  flex: 1;
+  overflow-y: auto;
+  border-right: 1px solid #ddd;
+  min-width: 400px;
+}
+
+.route-map-right-panel {
+  flex: 1;
+  min-width: 400px;
+  height: 100%;
 }
 
 .route-map-content .route-map-container {
@@ -150,6 +170,8 @@
 .route-stops-list {
   width: 100%;
   padding: 20px;
+  height: 100%;
+  box-sizing: border-box;
 }
 
 .route-stops-title {

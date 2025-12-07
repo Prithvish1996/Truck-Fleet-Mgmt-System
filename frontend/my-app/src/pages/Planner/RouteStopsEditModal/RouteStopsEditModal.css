@@ -75,6 +75,28 @@
   margin-bottom: 0;
 }
 
+.route-edit-split-layout {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  min-height: 500px;
+}
+
+.route-edit-left-panel {
+  flex: 1;
+  min-width: 350px;
+  max-width: 50%;
+}
+
+.route-edit-right-panel {
+  flex: 1;
+  min-width: 350px;
+  height: 500px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
 .route-title {
   margin: 0 0 8px 0;
   font-size: 18px;
@@ -122,6 +144,47 @@
   align-items: center;
   gap: 12px;
   margin-bottom: 12px;
+  justify-content: space-between;
+}
+
+.delete-stop-button {
+  background: #f44336;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  padding: 0;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.delete-stop-button:hover:not(.disabled) {
+  background: #d32f2f;
+  transform: scale(1.1);
+}
+
+.delete-stop-button.disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.delete-error-message {
+  background: #ffebee;
+  color: #c62828;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 12px;
+  font-size: 14px;
+  border: 1px solid #ef5350;
 }
 
 .drag-handle {
@@ -145,6 +208,7 @@
   font-weight: 600;
   color: #333;
   font-size: 16px;
+  flex: 1;
 }
 
 .stop-address {
