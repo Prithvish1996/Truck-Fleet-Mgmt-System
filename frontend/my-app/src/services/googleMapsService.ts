@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { apiConfig } from '../config/apiConfig';
 import axios from 'axios';
 
@@ -159,21 +160,28 @@ class GoogleMapsService {
     try {
       const url = `${apiConfig.baseURL}/packages/${packageId}/delivery-estimate`;
       
-      await axios.post(url, {
-        userLocation: {
-          latitude: userLocation[0],
-          longitude: userLocation[1]
+      await axios.post(
+        url,
+        {
+          userLocation: {
+            latitude: userLocation[0],
+            longitude: userLocation[1]
+          },
+          packageLocation: {
+            latitude: packageLocation[0],
+            longitude: packageLocation[1]
+          },
+          estimatedDurationSeconds,
+          estimatedDistanceMeters,
+          timestamp: new Date().toISOString()
         },
-        packageLocation: {
-          latitude: packageLocation[0],
-          longitude: packageLocation[1]
-        },
-        estimatedDurationSeconds,
-        estimatedDistanceMeters,
-        timestamp: new Date().toISOString()
-      }, {
-        withCredentials: true
-      });
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          withCredentials: true,
+        }
+      );
 
       console.log('Time estimate sent to backend successfully');
     } catch (error: any) {

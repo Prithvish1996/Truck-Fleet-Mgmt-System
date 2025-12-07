@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { mockDataService } from './mockDataService';
 import { Route, RouteResponse, RouteByDriverResponse, RouteData, Parcel, RouteStop, Warehouse, Depot } from '../types';
 import { authService } from './authService';
@@ -182,16 +183,17 @@ class RouteService {
 
     token = token.trim();
 
-    try {
-      const response = await axiosInstance.get<RouteByDriverResponse>(
+      const response = await axios.get<RouteByDriverResponse>(
         `${apiConfig.baseURL}/routes/driver/${driverId}`,
         {
           headers: {
             'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
           },
+          withCredentials: true,
         }
       );
-      
+
       const apiResponse = response.data;
       
       if (!apiResponse.success) {
@@ -208,13 +210,17 @@ class RouteService {
       return routes;
     } catch (error: any) {
       console.error('Error fetching driver routes:', error);
-      if (error.response?.status === 401) {
-        const errorMessage = error.response?.data?.message || 'Failed to fetch routes';
-        throw new Error(`${errorMessage}. Please log out and log back in to refresh your token.`);
+      
+      if (axios.isAxiosError(error)) {
+        const errorMessage = error.response?.data?.message || `Failed to fetch routes (Status: ${error.response?.status})`;
+        
+        if (error.response?.status === 401) {
+          throw new Error(`${errorMessage}. Please log out and log back in to refresh your token.`);
+        }
+        
+        throw new Error(errorMessage);
       }
-      if (error.response?.data?.message) {
-        throw new Error(error.response.data.message);
-      }
+      
       throw error;
     }
   }
@@ -257,10 +263,9 @@ class RouteService {
       throw new Error('Authentication token not found');
     }
 
-    const backendRouteId = route.routeId;
-    
-    try {
-      const response = await axiosInstance.put(
+      const backendRouteId = route.routeId;
+      
+      const response = await axios.put(
         `${apiConfig.baseURL}/routes/status`,
         {
           routeId: backendRouteId,
@@ -269,7 +274,9 @@ class RouteService {
         {
           headers: {
             'Authorization': `Bearer ${token.trim()}`,
+            'Content-Type': 'application/json',
           },
+          withCredentials: true,
         }
       );
 
@@ -286,9 +293,12 @@ class RouteService {
       return true;
     } catch (error: any) {
       console.error('Error completing route:', error);
-      if (error.response?.data?.message) {
-        throw new Error(error.response.data.message);
+      
+      if (axios.isAxiosError(error)) {
+        const errorMessage = error.response?.data?.message || `Failed to update route status (Status: ${error.response?.status})`;
+        throw new Error(errorMessage);
       }
+      
       throw error;
     }
   }
@@ -347,7 +357,16 @@ class RouteService {
   async saveDeliveryProgress(routeId: string, currentPackageIndex: number): Promise<boolean> {
     try {
       const url = `${this.getBaseUrl()}/routes/${routeId}/delivery-progress`;
-      await axiosInstance.put(url, { currentPackageIndex });
+      await axios.put(
+        url,
+        { currentPackageIndex },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          withCredentials: true,
+        }
+      );
       return true;
     } catch (error) {
       console.warn('Error saving delivery progress to backend:', error);
@@ -358,7 +377,10 @@ class RouteService {
   async getDeliveryProgress(routeId: string): Promise<number | null> {
     try {
       const url = `${this.getBaseUrl()}/routes/${routeId}/delivery-progress`;
-      const response = await axiosInstance.get(url);
+      const response = await axios.get(url, {
+        withCredentials: true,
+      });
+
       return response.data.currentPackageIndex ?? null;
     } catch (error) {
       console.warn('Error loading delivery progress from backend:', error);

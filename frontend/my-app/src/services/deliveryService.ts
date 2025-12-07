@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { routeService } from './routeService';
 import { googleMapsService } from './googleMapsService';
 import { Package } from '../types';
@@ -68,7 +69,7 @@ class DeliveryService {
       }
 
       try {
-        const response = await axiosInstance.put(
+        const response = await axios.put(
           `${apiConfig.baseURL}/planner/parcel/status`,
           {
             parcelId: parseInt(packageId, 10),
@@ -77,7 +78,9 @@ class DeliveryService {
           {
             headers: {
               'Authorization': `Bearer ${token.trim()}`,
+              'Content-Type': 'application/json',
             },
+            withCredentials: true,
           }
         );
 
@@ -87,9 +90,12 @@ class DeliveryService {
         }
       } catch (error: any) {
         console.error('Error updating parcel status on backend:', error);
-        if (error.response?.data?.message) {
-          throw new Error(error.response.data.message);
+        
+        if (axios.isAxiosError(error)) {
+          const errorMessage = error.response?.data?.message || `Failed to update parcel status (Status: ${error.response?.status})`;
+          throw new Error(errorMessage);
         }
+        
         throw error;
       }
     }
