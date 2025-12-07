@@ -27,6 +27,13 @@ type StatusMonitoringItem = {
   driver: string;
   status: string;
   route: string;
+  routeId?: number;
+  driverId?: number;
+  truckPlateNumber?: string;
+  totalDistance?: number;
+  totalTransportTime?: number;
+  numberOfStops?: number;
+  startTime?: string;
 };
 
 interface DashboardViewProps {
@@ -36,6 +43,9 @@ interface DashboardViewProps {
   statusMonitoring: StatusMonitoringItem[];
   onGenerateRouteClick: () => void;
   isGenerating: boolean;
+  onRouteClick?: (routeId: number, item: StatusMonitoringItem) => void;
+  onDriverClick?: (driverId: number, item: StatusMonitoringItem) => void;
+  onStatusFilter?: (status: string | null) => void;
 }
 
 export default function DashboardView({
@@ -44,7 +54,10 @@ export default function DashboardView({
   availableDrivers,
   statusMonitoring,
   onGenerateRouteClick,
-  isGenerating
+  isGenerating,
+  onRouteClick,
+  onDriverClick,
+  onStatusFilter
 }: DashboardViewProps) {
   const [showOnboarding, setShowOnboarding] = useState(false);
 
@@ -139,7 +152,12 @@ export default function DashboardView({
       </section>
 
       <section className="status-monitoring-section">
-        <StatusMonitoringPanel statusData={statusMonitoring} />
+        <StatusMonitoringPanel 
+          statusData={statusMonitoring}
+          onRouteClick={onRouteClick}
+          onDriverClick={onDriverClick}
+          onStatusFilter={onStatusFilter}
+        />
       </section>
     </>
   );

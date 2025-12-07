@@ -61,7 +61,19 @@ export default function PlannerDashboard() {
   const [isLoadingDepots, setIsLoadingDepots] = useState(true);
   const [availableTrucks, setAvailableTrucks] = useState<string[]>([]);
   const [availableDrivers, setAvailableDrivers] = useState<DriverResponse[]>([]);
-  const [statusMonitoring, setStatusMonitoring] = useState<Array<{ driver: string; status: string; route: string }>>([]);
+  type StatusMonitoringItem = {
+    driver: string;
+    status: string;
+    route: string;
+    routeId?: number;
+    driverId?: number;
+    truckPlateNumber?: string;
+    totalDistance?: number;
+    totalTransportTime?: number;
+    numberOfStops?: number;
+    startTime?: string;
+  };
+  const [statusMonitoring, setStatusMonitoring] = useState<StatusMonitoringItem[]>([]);
   const [requestTrucks, setRequestTrucks] = useState<Map<string, string>>(new Map());
 
   const [filterStatus, setFilterStatus] = useState<'All' | 'Pending' | 'Scheduled'>('All');
@@ -346,7 +358,7 @@ export default function PlannerDashboard() {
             }
           }
 
-          const statusData: Array<{ driver: string; status: string; route: string }> = [];
+          const statusData: StatusMonitoringItem[] = [];
           let has429Error = false;
           
           for (const driver of drivers) {
@@ -364,7 +376,14 @@ export default function PlannerDashboard() {
                   statusData.push({
                     driver: driverName,
                     status: route.status || 'ASSIGNED',
-                    route: `Route ${route.routeId || 'N/A'} - ${route.truckPlateNumber || 'N/A'}`
+                    route: `Route ${route.routeId || 'N/A'} - ${route.truckPlateNumber || 'N/A'}`,
+                    routeId: route.routeId,
+                    driverId: route.driverId || driver.id,
+                    truckPlateNumber: route.truckPlateNumber,
+                    totalDistance: route.totalDistance,
+                    totalTransportTime: route.totalTransportTime,
+                    numberOfStops: route.routeStops?.length || 0,
+                    startTime: route.startTime
                   });
                 });
               }
@@ -387,7 +406,18 @@ export default function PlannerDashboard() {
         }
       }
     };
+    
     loadStatusMonitoring();
+    
+    const refreshInterval = setInterval(() => {
+      if (activeView === 'dashboard') {
+        loadStatusMonitoring();
+      }
+    }, 60000); // 60 seconds
+
+    return () => {
+      clearInterval(refreshInterval);
+    };
   }, [activeView]);
 
   const loadScheduledDeliveries = async (): Promise<void> => {
@@ -1235,6 +1265,32 @@ return;
     setSelectedRouteAssignment(null);
   };
 
+  const handleRouteClick = async (routeId: number, item: StatusMonitoringItem) => {
+    try {
+      const assignment: RouteAssignment = {
+        id: `route-${routeId}`,
+        truckPlateNo: item.truckPlateNumber || '',
+        date: item.startTime || new Date().toISOString(),
+        numberOfParcels: item.numberOfStops || 0,
+        driverId: item.driverId ? item.driverId.toString() : null,
+        routeId: routeId
+      };
+      setSelectedRouteAssignment(assignment);
+      setActiveView('route-map');
+    } catch (error) {
+      console.error('Error opening route details:', error);
+    }
+  };
+
+  const handleDriverClick = (driverId: number, item: StatusMonitoringItem) => {
+    console.log('Driver clicked:', driverId, item);
+    alert(`Driver: ${item.driver}\nDriver ID: ${driverId}\nStatus: ${item.status}`);
+  };
+
+  const handleStatusFilter = (status: string | null) => {
+    console.log('Status filter changed:', status);
+  };
+
   return (
     <div className="planner-dashboard">
       <DashboardHeader isLoggingOut={isLoggingOut} onLogout={handleLogout} />
@@ -1326,6 +1382,9 @@ return;
             onParcelClick={handleParcelClick}
             onReturnFromRouteMap={handleReturnFromRouteMap}
             routeStopOrderMap={routeStopOrderMap}
+            onRouteClick={handleRouteClick}
+            onDriverClick={handleDriverClick}
+            onStatusFilter={handleStatusFilter}
           />
         </main>
       </div>

@@ -43,6 +43,13 @@ type StatusMonitoringItem = {
   driver: string;
   status: string;
   route: string;
+  routeId?: number;
+  driverId?: number;
+  truckPlateNumber?: string;
+  totalDistance?: number;
+  totalTransportTime?: number;
+  numberOfStops?: number;
+  startTime?: string;
 };
 
 interface ViewRouterProps {
@@ -84,6 +91,9 @@ interface ViewRouterProps {
   onParcelClick: (parcelId: string) => void;
   onReturnFromRouteMap: () => void;
   routeStopOrderMap?: Map<number, StopDto[]>;
+  onRouteClick?: (routeId: number, item: StatusMonitoringItem) => void;
+  onDriverClick?: (driverId: number, item: StatusMonitoringItem) => void;
+  onStatusFilter?: (status: string | null) => void;
 }
 
 export default function ViewRouter({
@@ -124,7 +134,10 @@ export default function ViewRouter({
   onReturnFromTruckDetail,
   onParcelClick,
   onReturnFromRouteMap,
-  routeStopOrderMap
+  routeStopOrderMap,
+  onRouteClick,
+  onDriverClick,
+  onStatusFilter
 }: ViewRouterProps) {
   return (
     <>
@@ -136,6 +149,9 @@ export default function ViewRouter({
           statusMonitoring={statusMonitoring}
           onGenerateRouteClick={onGenerateRouteClick}
           isGenerating={isOptimizing}
+          onRouteClick={onRouteClick}
+          onDriverClick={onDriverClick}
+          onStatusFilter={onStatusFilter}
         />
       ) : activeView === 'schedule' ? (
         <SchedulePage

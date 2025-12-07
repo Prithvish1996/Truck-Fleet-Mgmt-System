@@ -83,7 +83,7 @@ function SortableStopItem({ stop, routeId, index }: SortableStopItemProps) {
     </div>
   );
 }
-// maps to be discussed with Duncan
+
 export default function RouteStopsEditModal({
   routes,
   onClose,
