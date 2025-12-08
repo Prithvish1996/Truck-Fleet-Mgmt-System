@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { useAvailability } from '../hooks';
 import './AgendaPlanner.css';
 
 interface AvailabilitySlot {
@@ -9,41 +10,25 @@ interface AvailabilitySlot {
   isAvailable: boolean;
 }
 
-interface WeeklyAvailability {
-  [date: string]: AvailabilitySlot[];
-}
-
 export default function AgendaPlanner() {
-  const [currentWeek, setCurrentWeek] = useState(new Date());
-  const [availability, setAvailability] = useState<WeeklyAvailability>({});
-  const [loading, setLoading] = useState(false);
   const [showAddForm, setShowAddForm] = useState(false);
   const [newSlot, setNewSlot] = useState({
     date: new Date().toISOString().split('T')[0],
     startTime: '09:00',
     endTime: '17:00'
   });
-  const [viewMode, setViewMode] = useState<'weekly' | 'daily'>('weekly');
 
-  useEffect(() => {
-    loadAvailability();
-  }, [currentWeek]);
-
-  const loadAvailability = async () => {
-    setLoading(true);
-    const weekDates = getWeekDates(currentWeek);
-    const mockAvailability: WeeklyAvailability = {};
-    
-    weekDates.forEach(date => {
-      mockAvailability[date] = [
-        { id: `${date}-1`, date, startTime: '08:00', endTime: '12:00', isAvailable: true },
-        { id: `${date}-2`, date, startTime: '13:00', endTime: '17:00', isAvailable: true },
-      ];
-    });
-    
-    setAvailability(mockAvailability);
-    setLoading(false);
-  };
+  const {
+    availability,
+    loading,
+    currentWeek,
+    setCurrentWeek,
+    toggleAvailability,
+    addTimeSlot,
+    removeTimeSlot,
+    getTotalAvailableSlots,
+    getAvailableSlotsForDate,
+  } = useAvailability();
 
   const getWeekDates = (date: Date): string[] => {
     const startOfWeek = new Date(date);
@@ -90,18 +75,7 @@ export default function AgendaPlanner() {
     });
   };
 
-  const toggleAvailability = (slotId: string, date: string) => {
-    setAvailability(prev => ({
-      ...prev,
-      [date]: prev[date]?.map(slot => 
-        slot.id === slotId 
-          ? { ...slot, isAvailable: !slot.isAvailable }
-          : slot
-      ) || []
-    }));
-  };
-
-  const addTimeSlot = (date?: string) => {
+  const openAddTimeSlotForm = (date?: string) => {
     setNewSlot(prev => ({ 
       ...prev, 
       date: date || new Date().toISOString().split('T')[0] 
@@ -127,10 +101,7 @@ export default function AgendaPlanner() {
       isAvailable: true
     };
     
-    setAvailability(prev => ({
-      ...prev,
-      [newSlot.date]: [...(prev[newSlot.date] || []), slot]
-    }));
+    addTimeSlot(slot);
     setShowAddForm(false);
     setNewSlot({ 
       date: new Date().toISOString().split('T')[0],
@@ -148,32 +119,15 @@ export default function AgendaPlanner() {
     });
   };
 
-  const removeTimeSlot = (slotId: string, date: string) => {
-    setAvailability(prev => ({
-      ...prev,
-      [date]: prev[date]?.filter(slot => slot.id !== slotId) || []
-    }));
-  };
-
   const navigateWeek = (direction: 'prev' | 'next') => {
     const newWeek = new Date(currentWeek);
     newWeek.setDate(currentWeek.getDate() + (direction === 'next' ? 7 : -7));
     setCurrentWeek(newWeek);
   };
 
-  const getTotalAvailableSlots = () => {
-    return Object.values(availability).flat().filter(slot => slot.isAvailable).length;
-  };
-
-  const getAvailableSlotsForDate = (date: string) => {
-    return availability[date]?.filter(slot => slot.isAvailable) || [];
-  };
-
   const saveAvailability = async () => {
-    setLoading(true);
     console.log('Saving availability:', availability);
     setTimeout(() => {
-      setLoading(false);
       alert('Availability saved successfully!');
     }, 1000);
   };
@@ -212,7 +166,7 @@ export default function AgendaPlanner() {
           </div>
           <button 
             className="add-availability-btn"
-            onClick={() => addTimeSlot()}
+            onClick={() => openAddTimeSlotForm()}
           >
             <span>+</span> Add Availability
           </button>
@@ -305,7 +259,7 @@ export default function AgendaPlanner() {
                       <p>No availability</p>
                       <button 
                         className="add-slot-btn-small"
-                        onClick={() => addTimeSlot(dayInfo.date)}
+                        onClick={() => openAddTimeSlotForm(dayInfo.date)}
                       >
                         + Add
                       </button>
@@ -337,7 +291,7 @@ export default function AgendaPlanner() {
                       ))}
                       <button 
                         className="add-slot-btn-small"
-                        onClick={() => addTimeSlot(dayInfo.date)}
+                        onClick={() => openAddTimeSlotForm(dayInfo.date)}
                       >
                         + Add More
                       </button>

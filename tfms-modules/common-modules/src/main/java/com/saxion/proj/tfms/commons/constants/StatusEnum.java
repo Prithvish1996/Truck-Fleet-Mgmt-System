@@ -8,5 +8,6 @@ public enum StatusEnum {
     RETURNED, // When a parcel is returned
     PLANNED, // When a route is generated
     ASSIGNED, // When a route or truck is assigned to driver
-    COMPLETED // When a drive complete his assignment
+    COMPLETED, // When a drive complete his assignment
+    PARCELS_RETRIEVED
 }

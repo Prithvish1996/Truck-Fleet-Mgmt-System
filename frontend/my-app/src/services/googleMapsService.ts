@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { apiConfig } from '../config/apiConfig';
 
 const GOOGLE_MAPS_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY || '';
@@ -81,13 +82,8 @@ class GoogleMapsService {
 
     const url = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${originStr}&destinations=${destStr}&mode=${mode}&key=${this.apiKey}`;
 
-    const response = await fetch(url);
-    
-    if (!response.ok) {
-      throw new Error(`Google Maps API error: ${response.status} ${response.statusText}`);
-    }
-
-    const data: GoogleMapsDistanceMatrixResponse = await response.json();
+    const response = await axios.get<GoogleMapsDistanceMatrixResponse>(url);
+    const data = response.data;
 
     if (data.status !== 'OK' || !data.rows || data.rows.length === 0) {
       throw new Error(`Google Maps API returned status: ${data.status}`);
@@ -163,12 +159,9 @@ class GoogleMapsService {
     try {
       const url = `${apiConfig.baseURL}/packages/${packageId}/delivery-estimate`;
       
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
+      await axios.post(
+        url,
+        {
           userLocation: {
             latitude: userLocation[0],
             longitude: userLocation[1]
@@ -180,19 +173,18 @@ class GoogleMapsService {
           estimatedDurationSeconds,
           estimatedDistanceMeters,
           timestamp: new Date().toISOString()
-        }),
-        ...apiConfig.useHTTPS ? {} : {},
-        credentials: 'include'
-      });
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`Failed to send time estimate to backend: ${response.status} ${errorText}`);
-      }
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          withCredentials: true,
+        }
+      );
 
       console.log('Time estimate sent to backend successfully');
-    } catch (error) {
-      console.error('Error sending time estimate to backend:', error);
+    } catch (error: any) {
+      console.error('Error sending time estimate to backend:', error.response?.data || error.message);
     }
   }
 

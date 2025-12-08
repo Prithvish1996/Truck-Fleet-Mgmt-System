@@ -45,8 +45,10 @@ public class GetRouteByDriverIdHandler implements IGetRouteByDriverId {
         }
         DriverDao driver = driverOpt.get();
 
-        // Retrieve all routes assigned to driver with status = ASSIGNED
-        List<RouteDao> driverRoutes = routeRepository.findAllByDriverIdAndStatus(driverId, StatusEnum.ASSIGNED);
+        List<RouteDao> driverRoutes = routeRepository.findAllByDriverIdAndStatusIn(
+            driverId, 
+            List.of(StatusEnum.ASSIGNED, StatusEnum.PARCELS_RETRIEVED)
+        );
         if (driverRoutes.isEmpty()) {
             return ApiResponse.error("No assigned routes found for this driver.");
         }

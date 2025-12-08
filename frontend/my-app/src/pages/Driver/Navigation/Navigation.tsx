@@ -1,32 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import PackageDeliveryNavigation from './PackageDeliveryNavigation';
-import { routeService } from '../../../services/routeService';
+import { useActiveRoute } from '../hooks';
 
 interface NavigationProps {
   navigate: (path: string) => void;
 }
 
 const Navigation: React.FC<NavigationProps> = ({ navigate }) => {
-  const [routeId, setRouteId] = useState<string | undefined>(undefined);
+  const { routeId, error } = useActiveRoute();
 
   useEffect(() => {
-    const loadCurrentRoute = async () => {
-      try {
-        const routes = await routeService.getDriverRoutes(false);
-        const inProgressRoute = routes.find(route => route.status === 'in_progress');
-        if (inProgressRoute) {
-          setRouteId(inProgressRoute.id);
-        } else {
-          navigate('/driver/dashboard');
-        }
-      } catch (error) {
-        console.error('Error loading current route:', error);
-        navigate('/driver/dashboard');
-      }
-    };
-
-    loadCurrentRoute();
-  }, [navigate]);
+    if (error && !routeId) {
+      navigate('/driver/dashboard');
+    }
+  }, [error, routeId, navigate]);
 
   if (!routeId) {
     return null;

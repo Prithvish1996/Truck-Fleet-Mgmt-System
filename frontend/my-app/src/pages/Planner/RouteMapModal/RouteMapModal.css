@@ -1,0 +1,451 @@
+.route-map-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.route-map-modal-content {
+  background: white;
+  border: 1px solid #000;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 800px;
+  height: 70vh;
+  max-height: 600px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.route-map-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  z-index: 10;
+  background: transparent;
+}
+
+.route-map-truck-plate {
+  font-size: 14px;
+  font-weight: 600;
+  color: #000;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+}
+
+.route-map-close-button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  font-weight: 300;
+  color: #000;
+  cursor: pointer;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transition: opacity 0.2s;
+}
+
+.route-map-close-button:hover {
+  opacity: 0.6;
+}
+
+.route-map-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #000;
+  margin: 40px 16px 16px 16px;
+  border-radius: 4px;
+  background-color: #fafafa;
+}
+
+.route-map-placeholder {
+  font-size: 48px;
+  font-weight: bold;
+  color: #000;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  letter-spacing: 2px;
+}
+
+.route-map-page {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.route-map-container-page {
+  background: white;
+  border: 1px solid #000;
+  border-radius: 8px;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.route-map-header-page {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid #ddd;
+  background: #f5f5f5;
+}
+
+.route-map-header-content {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.route-map-header-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.route-map-icon {
+  font-size: 24px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.route-map-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.route-map-header-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.route-map-label {
+  font-size: 12px;
+  color: #666;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.route-map-value {
+  font-size: 16px;
+  color: #333;
+  font-weight: 600;
+}
+
+.route-map-truck-plate {
+  display: none;
+}
+
+.route-map-content {
+  flex: 1;
+  overflow: hidden;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.route-map-split-layout {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  overflow: hidden;
+}
+
+.route-map-left-panel {
+  flex: 1;
+  overflow-y: auto;
+  border-right: 1px solid #ddd;
+  min-width: 400px;
+}
+
+.route-map-right-panel {
+  flex: 1;
+  min-width: 400px;
+  height: 100%;
+}
+
+.route-map-content .route-map-container {
+  margin: 0;
+  flex: 1;
+}
+
+.return-button-container {
+  padding: 16px;
+  border-top: 1px solid #ddd;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.return-button {
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.return-button:hover {
+  background-color: #0056b3;
+}
+
+.route-stops-list {
+  width: 100%;
+  padding: 20px;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.route-stops-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.route-stops-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.route-stop-item {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  background: #f9f9f9;
+}
+
+.route-stop-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.stop-number {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+.stop-priority {
+  font-size: 14px;
+  color: #666;
+}
+
+.parcels-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.parcel-item {
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  padding: 12px;
+  background: white;
+  transition: all 0.3s ease;
+}
+
+.parcel-item.parcel-delivered {
+  background: #e8f5e9;
+  border-color: #4caf50;
+}
+
+.parcel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.parcel-id {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+
+.delivered-badge {
+  background: #4caf50;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.parcel-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.parcel-recipient,
+.parcel-address,
+.parcel-phone,
+.parcel-instructions,
+.parcel-status {
+  color: #555;
+}
+
+.parcel-info strong {
+  color: #333;
+  margin-right: 6px;
+}
+
+.status-delivered {
+  color: #4caf50;
+  font-weight: 600;
+}
+
+.status-scheduleed,
+.status-scheduled {
+  color: #2196f3;
+  font-weight: 600;
+}
+
+.status-pending {
+  color: #ff9800;
+  font-weight: 600;
+}
+
+.no-parcels {
+  padding: 12px;
+  text-align: center;
+  color: #999;
+  font-style: italic;
+}
+
+.stop-address {
+  padding: 12px 16px;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+  font-size: 14px;
+  color: #495057;
+  margin-bottom: 8px;
+}
+
+.stop-time {
+  margin-left: 12px;
+  color: #007bff;
+  font-weight: 600;
+}
+
+.route-stops-main-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: #333;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 8px;
+}
+
+.route-stop-item.stop-delivered {
+  background: #e8e8e8;
+  opacity: 0.7;
+  border-color: #bdbdbd;
+}
+
+.route-stop-item.stop-delivered .stop-number,
+.route-stop-item.stop-delivered .stop-address,
+.route-stop-item.stop-delivered .parcel-info {
+  color: #757575;
+}
+
+.route-stop-item.stop-delivered .parcel-item {
+  background: #f5f5f5;
+  border-color: #e0e0e0;
+}
+
+.route-stop-item.stop-last-delivered {
+  background: #fff3cd;
+  border: 2px solid #ffc107;
+  opacity: 1;
+  box-shadow: 0 2px 8px rgba(255, 193, 7, 0.3);
+}
+
+.route-stop-item.stop-last-delivered .stop-number {
+  color: #856404;
+  font-weight: 700;
+}
+
+.route-stop-item.stop-last-delivered .stop-address {
+  color: #856404;
+}
+
+.delivered-indicator {
+  color: #4caf50;
+  font-weight: 600;
+  margin-left: 8px;
+}
+
+.stop-delivery-summary {
+  padding: 8px 12px;
+  background-color: #4caf50;
+  color: white;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  display: inline-block;
+}
+
+.last-delivered-indicator {
+  padding: 12px 16px;
+  background-color: #fff3cd;
+  border: 2px solid #ffc107;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+.last-delivered-badge {
+  color: #856404;
+  font-weight: 600;
+  font-size: 14px;
+}

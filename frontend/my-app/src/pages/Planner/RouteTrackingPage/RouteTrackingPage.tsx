@@ -1,0 +1,83 @@
+import React, { useState, useEffect } from 'react';
+import { RouteAssignment } from '../../../types';
+import { plannerService, DriverResponse } from '../../../services/plannerService';
+import { requestCache } from '../../../utils/requestCache';
+import TrackingTable from './TrackingTable';
+import Pagination from '../../../components/common/Pagination';
+import './RouteTrackingPage.css';
+
+interface RouteTrackingPageProps {
+  assignments: RouteAssignment[];
+  onReturn: () => void;
+  onTrack: (assignment: RouteAssignment) => void;
+  onTruckClick?: (truckPlateNo: string) => void;
+}
+
+export default function RouteTrackingPage({ assignments, onReturn, onTrack, onTruckClick }: RouteTrackingPageProps) {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [drivers, setDrivers] = useState<DriverResponse[]>([]);
+  const itemsPerPage = 12;
+  const assignedRoutes = assignments.filter(a => a.driverId !== null);
+  const totalPages = Math.ceil(assignedRoutes.length / itemsPerPage);
+
+  useEffect(() => {
+    const loadDrivers = async () => {
+      try {
+        const driverList = await requestCache.get(
+          'availableDrivers',
+          () => plannerService.getAvailableDrivers()
+        );
+        setDrivers(driverList);
+      } catch (error) {
+        console.error('Error loading drivers:', error);
+      }
+    };
+    loadDrivers();
+  }, []);
+
+  const handlePageChange = (page: number) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
+
+  const getCurrentPageAssignments = () => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return assignedRoutes.slice(startIndex, endIndex);
+  };
+
+  const handleTrackClick = (assignment: RouteAssignment) => {
+    onTrack(assignment);
+  };
+
+  return (
+    <div className="route-tracking-page">
+      <div className="tracking-container">
+        <h2 className="tracking-title">Route Tracking</h2>
+        
+        <TrackingTable
+          assignments={getCurrentPageAssignments()}
+          currentPage={currentPage}
+          itemsPerPage={itemsPerPage}
+          drivers={drivers}
+          onTruckClick={onTruckClick}
+          onTrackClick={handleTrackClick}
+        />
+
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
+
+        <div className="return-button-container">
+          <button className="return-button" onClick={onReturn}>
+            Return
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+

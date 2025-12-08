@@ -71,6 +71,15 @@ public class DefaultUserDataInitializer {
         createUserIfNotExists("driver@tfms.com", "driver", "driver123", UserType.DRIVER);
         createUserIfNotExists("driver2@tfms.com", "driver2", "driver123", UserType.DRIVER);
         createUserIfNotExists("driver3@tfms.com", "driver3", "driver123", UserType.DRIVER);
+        createUserIfNotExists("driver4@tfms.com", "driver4", "driver123", UserType.DRIVER);
+        createUserIfNotExists("driver5@tfms.com", "driver5", "driver123", UserType.DRIVER);
+        createUserIfNotExists("driver6@tfms.com", "driver6", "driver123", UserType.DRIVER);
+        createUserIfNotExists("driver7@tfms.com", "driver7", "driver123", UserType.DRIVER);
+        createUserIfNotExists("driver8@tfms.com", "driver8", "driver123", UserType.DRIVER); createUserIfNotExists("driver@tfms.com", "driver", "driver123", UserType.DRIVER);
+        createUserIfNotExists("driver9@tfms.com", "driver9", "driver123", UserType.DRIVER);
+        createUserIfNotExists("driver10@tfms.com", "driver10", "driver123", UserType.DRIVER);
+        createUserIfNotExists("driver11@tfms.com", "driver11", "driver123", UserType.DRIVER);
+
 
         // Create default planner user
         createUserIfNotExists("planner@tfms.com", "planner", "planner123", UserType.PLANNER);
@@ -98,7 +107,7 @@ public class DefaultUserDataInitializer {
         create10Trucks();
 
         // Create default routes for driver ID 2
-        //createDefaultRoutesForDriver(2L);
+        createDefaultRoutesForDriver(2L);
 
         System.out.println("Default users initialization completed.");
     }

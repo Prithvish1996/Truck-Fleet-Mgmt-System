@@ -33,6 +33,25 @@ export interface RouteBreak {
   };
 }
 
+export interface Warehouse {
+  id: number;
+  latitude: number;
+  longitude: number;
+  address: string;
+  city: string;
+  postalCode: string;
+}
+
+export interface Depot {
+  id: number;
+  latitude: number;
+  longitude: number;
+  address: string;
+  city: string;
+  postalCode: string;
+  name?: string;
+}
+
 export interface Route {
   id: string;
   routeId?: number;
@@ -43,10 +62,12 @@ export interface Route {
   startTime: string;
   duration: string;
   date: string;
-  status: 'scheduled' | 'in_progress' | 'completed' | 'cancelled';
+  status: 'scheduled' | 'in_progress' | 'completed' | 'cancelled' | 'parcels_retrieved';
   totalDistance: number;
   estimatedFuelCost: number;
   priority: 'low' | 'medium' | 'high';
+  warehouse?: Warehouse;
+  depot?: Depot;
 }
 
 export interface Truck {
@@ -118,6 +139,13 @@ export interface RouteStop {
   parcelsToDeliver: Parcel[];
   priority: number;
   stopType: string;
+  location?: {
+    latitude: number;
+    longitude: number;
+    address: string;
+    city: string;
+    postcode: string;
+  };
 }
 
 export interface RouteData {
@@ -149,7 +177,6 @@ export interface RouteByDriverResponse {
   timestamp: string;
 }
 
-// Parcel Request interface for route planning
 export interface ParcelRequest {
   id: string; // Parcel ID
   customer: string; // Customer name
@@ -158,13 +185,14 @@ export interface ParcelRequest {
   priority: 'Low' | 'Medium' | 'High';
 }
 
-// Route Assignment interface for assigning trucks and drivers
 export interface RouteAssignment {
   id: string;
   truckPlateNo: string;
   date: string; // Date and time
   numberOfParcels: number;
   driverId: string | null; // null means "New" (unassigned)
+  routeId?: number;
+  truckId?: number;
 }
 
 export interface TruckParcel {

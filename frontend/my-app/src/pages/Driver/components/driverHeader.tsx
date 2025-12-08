@@ -1,9 +1,7 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useRef } from 'react';
 import logo from '../../../assets/logo.png';
 import { authService } from '../../../services/authService';
-
-
-
+import { useClickOutside } from '../hooks';
 
 export default function DriverHeader({ navigate }: { navigate: (path: string) => void }) {
     const [isLoggingOut, setIsLoggingOut] = useState(false);
@@ -34,21 +32,11 @@ export default function DriverHeader({ navigate }: { navigate: (path: string) =>
       setIsMenuOpen(!isMenuOpen);
     };
 
-    useEffect(() => {
-      const handleClickOutside = (event: MouseEvent) => {
-        if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-          setIsMenuOpen(false);
-        }
-      };
-
+    useClickOutside(menuRef, () => {
       if (isMenuOpen) {
-        document.addEventListener('mousedown', handleClickOutside);
+        setIsMenuOpen(false);
       }
-
-      return () => {
-        document.removeEventListener('mousedown', handleClickOutside);
-      };
-    }, [isMenuOpen]);
+    });
 
     const handleBackToDashboard = () => {
       navigate('/driver/dashboard');
