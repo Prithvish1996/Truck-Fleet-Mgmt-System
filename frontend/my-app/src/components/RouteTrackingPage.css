@@ -1,4 +1,4 @@
-.route-assignment-page {
+.route-tracking-page {
   min-height: 100vh;
   background: #f5f5f5;
   padding: 40px 20px;
@@ -7,7 +7,7 @@
   align-items: flex-start;
 }
 
-.assignment-container {
+.tracking-container {
   background: white;
   border-radius: 12px;
   padding: 30px;
@@ -16,7 +16,7 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.assignment-title {
+.tracking-title {
   font-size: 1.8rem;
   font-weight: 600;
   color: #333;
@@ -24,22 +24,22 @@
   text-align: center;
 }
 
-.assignment-table-container {
+.tracking-table-container {
   margin-bottom: 30px;
   overflow-x: auto;
 }
 
-.assignment-table {
+.tracking-table {
   width: 100%;
   border-collapse: collapse;
   font-size: 14px;
 }
 
-.assignment-table thead {
+.tracking-table thead {
   background-color: #f8f9fa;
 }
 
-.assignment-table th {
+.tracking-table th {
   padding: 14px 16px;
   text-align: left;
   font-weight: 600;
@@ -48,40 +48,35 @@
   white-space: nowrap;
 }
 
-.assignment-table td {
+.tracking-table td {
   padding: 14px 16px;
   border-bottom: 1px solid #f0f0f0;
   color: #555;
 }
 
-.assignment-table tbody tr:hover {
+.tracking-table tbody tr:hover {
   background-color: #f9f9f9;
 }
 
-.driver-select {
-  padding: 8px 12px;
-  border: 1px solid #ddd;
+.track-button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 8px 20px;
   border-radius: 4px;
   font-size: 14px;
-  background-color: white;
+  font-weight: 600;
   cursor: pointer;
-  min-width: 120px;
-  appearance: none;
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-  background-repeat: no-repeat;
-  background-position: right 8px center;
-  background-size: 16px;
-  padding-right: 32px;
+  transition: background-color 0.2s, box-shadow 0.2s;
 }
 
-.driver-select:hover {
-  border-color: #999;
+.track-button:hover {
+  background-color: #45a049;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
 
-.driver-select:focus {
-  outline: none;
-  border-color: #4CAF50;
-  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+.track-button:active {
+  transform: translateY(1px);
 }
 
 .truck-plate-link {
@@ -100,6 +95,7 @@
   color: #45a049;
 }
 
+/* Pagination */
 .pagination {
   display: flex;
   justify-content: center;
@@ -170,16 +166,17 @@
   color: #999;
 }
 
-.action-buttons {
+/* Return Button */
+.return-button-container {
   display: flex;
   justify-content: center;
-  gap: 20px;
 }
 
-.return-home-button,
-.submit-button {
-  padding: 14px 40px;
+.return-button {
+  background-color: #4CAF50;
+  color: white;
   border: none;
+  padding: 14px 60px;
   border-radius: 6px;
   font-size: 16px;
   font-weight: 600;
@@ -188,52 +185,42 @@
   min-width: 150px;
 }
 
-.return-home-button {
-  background-color: #20b2aa;
-  color: white;
-}
-
-.return-home-button:hover {
-  background-color: #1a9d96;
+.return-button:hover {
+  background-color: #45a049;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-.submit-button {
-  background-color: #20b2aa;
-  color: white;
-}
-
-.submit-button:hover {
-  background-color: #1a9d96;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-}
-
-.return-home-button:active,
-.submit-button:active {
+.return-button:active {
   transform: translateY(1px);
 }
 
+/* Responsive Design */
 @media (max-width: 768px) {
-  .route-assignment-page {
+  .route-tracking-page {
     padding: 20px 10px;
   }
 
-  .assignment-container {
+  .tracking-container {
     padding: 20px;
   }
 
-  .assignment-title {
+  .tracking-title {
     font-size: 1.5rem;
     margin-bottom: 20px;
   }
 
-  .assignment-table {
+  .tracking-table {
     font-size: 12px;
   }
 
-  .assignment-table th,
-  .assignment-table td {
+  .tracking-table th,
+  .tracking-table td {
     padding: 10px 8px;
+  }
+
+  .track-button {
+    padding: 6px 16px;
+    font-size: 12px;
   }
 
   .pagination {
@@ -246,13 +233,8 @@
     font-size: 12px;
   }
 
-  .action-buttons {
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .return-home-button,
-  .submit-button {
+  .return-button {
     width: 100%;
+    padding: 12px 40px;
   }
 }

@@ -22,7 +22,7 @@ public class ProdCorsConfiguration {
         CorsConfiguration configuration = new CorsConfiguration();
         
         configuration.setAllowedOriginPatterns(Arrays.asList(
-            "http://localhost:3000",
+            "https://yourdomain.com",
             "https://www.yourdomain.com",
             "https://api.yourdomain.com",
             "http://localhost:3000",

@@ -191,8 +191,6 @@ export interface RouteAssignment {
   date: string; // Date and time
   numberOfParcels: number;
   driverId: string | null; // null means "New" (unassigned)
-  routeId?: number;
-  truckId?: number;
 }
 
 export interface TruckParcel {
