@@ -55,7 +55,6 @@
   font-style: italic;
 }
 
-/* Return Button */
 .return-button-container {
   display: flex;
   justify-content: center;
@@ -84,7 +83,6 @@
   transform: translateY(1px);
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
   .parcel-detail-page {
     padding: 20px 10px;

@@ -1,4 +1,4 @@
-.truck-detail-page {
+.route-tracking-page {
   min-height: 100vh;
   background: #f5f5f5;
   padding: 40px 20px;
@@ -7,7 +7,7 @@
   align-items: flex-start;
 }
 
-.truck-detail-container {
+.tracking-container {
   background: white;
   border-radius: 12px;
   padding: 30px;
@@ -16,50 +16,70 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.truck-detail-title {
+.tracking-title {
   font-size: 1.8rem;
   font-weight: 600;
   color: #333;
   margin: 0 0 30px 0;
-  text-align: left;
+  text-align: center;
 }
 
-.truck-detail-table-container {
+.tracking-table-container {
   margin-bottom: 30px;
   overflow-x: auto;
 }
 
-.truck-detail-table {
+.tracking-table {
   width: 100%;
   border-collapse: collapse;
   font-size: 14px;
 }
 
-.truck-detail-table thead {
+.tracking-table thead {
   background-color: #f8f9fa;
 }
 
-.truck-detail-table th {
+.tracking-table th {
   padding: 14px 16px;
   text-align: left;
   font-weight: 600;
-  font-style: italic;
   color: #333;
   border-bottom: 2px solid #e0e0e0;
   white-space: nowrap;
 }
 
-.truck-detail-table td {
+.tracking-table td {
   padding: 14px 16px;
   border-bottom: 1px solid #f0f0f0;
   color: #555;
 }
 
-.truck-detail-table tbody tr:hover {
+.tracking-table tbody tr:hover {
   background-color: #f9f9f9;
 }
 
-.parcel-id-link {
+.track-button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+.track-button:hover {
+  background-color: #45a049;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.track-button:active {
+  transform: translateY(1px);
+}
+
+.truck-plate-link {
   background: none;
   border: none;
   color: #4CAF50;
@@ -71,11 +91,10 @@
   transition: color 0.2s;
 }
 
-.parcel-id-link:hover {
+.truck-plate-link:hover {
   color: #45a049;
 }
 
-/* Pagination */
 .pagination {
   display: flex;
   justify-content: center;
@@ -146,7 +165,6 @@
   color: #999;
 }
 
-/* Return Button */
 .return-button-container {
   display: flex;
   justify-content: center;
@@ -174,28 +192,32 @@
   transform: translateY(1px);
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
-  .truck-detail-page {
+  .route-tracking-page {
     padding: 20px 10px;
   }
 
-  .truck-detail-container {
+  .tracking-container {
     padding: 20px;
   }
 
-  .truck-detail-title {
+  .tracking-title {
     font-size: 1.5rem;
     margin-bottom: 20px;
   }
 
-  .truck-detail-table {
+  .tracking-table {
     font-size: 12px;
   }
 
-  .truck-detail-table th,
-  .truck-detail-table td {
+  .tracking-table th,
+  .tracking-table td {
     padding: 10px 8px;
+  }
+
+  .track-button {
+    padding: 6px 16px;
+    font-size: 12px;
   }
 
   .pagination {

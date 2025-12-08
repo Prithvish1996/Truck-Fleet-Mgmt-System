@@ -5,7 +5,7 @@ import AdminDashboard from '../pages/Admin/AdminDashboard';
 import DriverDashboard from '../pages/Driver/DriverDashboard/DriverDashboard';
 import RouteOverview from '../pages/Driver/routeOverview/RouteOverview';
 import Navigation from '../pages/Driver/Navigation/Navigation';
-import PlannerDashboard from '../pages/Planner/PlannerDashboard';
+import PlannerDashboard from '../pages/Planner/PlannerDashboard/PlannerDashboard';
 
 export const RoleBasedRouter: React.FC = () => {
   const userRole = authService.getUserRole();
