@@ -1,0 +1,66 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: tfms-postgres
+    environment:
+      POSTGRES_DB: tfmsdb
+      POSTGRES_USER: ${DB_USERNAME:-tfms_user}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-tfms_password}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-tfms_user} -d tfmsdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - tfms-network
+
+  tfms-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: tfms-app
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: jdbc:postgresql://postgres:5432/tfmsdb
+      DB_USERNAME: ${DB_USERNAME:-tfms_user}
+      DB_PASSWORD: ${DB_PASSWORD:-tfms_password}
+      
+      SSL_KEYSTORE_PATH: ${SSL_KEYSTORE_PATH:-/app/ssl/keystore.p12}
+      SSL_KEYSTORE_PASSWORD: ${SSL_KEYSTORE_PASSWORD:-changeit}
+      
+      SPRING_PROFILES_ACTIVE: prod
+      
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_PROPERTIES_HIBERNATE_DDL_AUTO: update
+      
+      LOG_PATH: /app/logs
+    ports:
+      - "${APP_PORT:-8443}:8443"
+    volumes:
+      - ./logs:/app/logs
+    networks:
+      - tfms-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider --no-check-certificate https://localhost:8443/actuator/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  tfms-network:
+    driver: bridge
+
